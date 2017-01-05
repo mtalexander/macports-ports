@@ -7,7 +7,7 @@ PortGroup       mpi 1.0
 
 name            boost
 version         1.59.0
-revision        2
+revision        3
 license         Boost-1
 categories      devel
 platforms       darwin
@@ -232,7 +232,7 @@ if {![variant_isset debug]} {
     default_variants +${selected_python}
 }
 
-default_variants +no_single +no_static
+default_variants +no_single +no_static +not_tagged
 
 variant debug description {Builds debug versions of the libraries as well} {
     build.args-delete   variant=release
@@ -247,6 +247,10 @@ variant no_static description {Disable building static libraries} {
 variant no_single description {Disable building single-threaded libraries} {
     build.args-delete   threading=single,multi
     build.args-append   threading=multi
+}
+
+variant not_tagged description {Don't tag the library names with a code indicating build options} {
+    build.args-delete   --layout=tagged
 }
 
 variant regex_match_extra description \
