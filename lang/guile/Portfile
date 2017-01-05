@@ -34,6 +34,8 @@ master_sites        gnu
 checksums           rmd160  754aaf1bf3c6bed9afdde49c5154b87047408a1e \
                     sha256  8aeb2f353881282fe01694cce76bb72f7ffdd296a12c7a1a39255c27b0dfe5f1
 
+depends_build       port:coreutils
+                
 depends_lib         port:readline \
                     port:gettext \
                     port:libiconv \
