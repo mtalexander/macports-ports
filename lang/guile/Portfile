@@ -6,7 +6,7 @@ PortGroup	muniversal 1.0
 
 name                guile
 version             2.0.13
-revision            1
+revision            2
 categories          lang
 maintainers         nomaintainer
 platforms           darwin
@@ -46,6 +46,8 @@ depends_lib         port:readline \
                     port:boehmgc \
                     port:libffi \
                     port:ncurses
+                    
+depends_run         port:bash
 
 # guile-config is a wrapper around pkg-config
 depends_lib-append  port:pkgconfig
@@ -110,6 +112,14 @@ platform darwin {
     }
 }
 
+
+platform darwin {
+	post-destroot {
+		system "cd ${destroot}${prefix}/lib/ && \
+		ln -s libguilereadline-v-18.18.dylib libguilereadline-v-18.so"
+        reinplace "s|#!/bin/sh|#!${prefix}/bin/sh|" ${destroot}${prefix}/bin/guild
+	}
+}
 
 livecheck.type  regex
 livecheck.url   "http://ftp.gnu.org/pub/gnu/guile/?C=N;O=D"
