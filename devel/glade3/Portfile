@@ -40,6 +40,8 @@ depends_lib         port:desktop-file-utils \
                     port:libxml2
 
 depends_run         port:devhelp
+                
+depends_skip_archcheck gnome-doc-utils
 
 # reconfigure using upstream autogen.sh for intltool 0.51 compatibility
 
