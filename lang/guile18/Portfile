@@ -132,12 +132,14 @@ post-destroot {
     foreach f [glob -tails -directory ${destroot}${prefix}/lib/${libsubdir} *] {
         ln -s ${libsubdir}/$f ${destroot}${prefix}/lib
     }
+}
 
 
-
+variant coexist {
+post-destroot {
     # Remove conflicting files and rename to make guile18 installable
     # with guile 2.0. Update internal paths and links.
-    file delete ${destroot}${prefix}/share/${name}/1.6/ice-9/and-let\*.scm
+    file delete ${destroot}${prefix}/share/${name}/1.8/ice-9/and-let\*.scm
     file delete ${destroot}${prefix}/share/info/goops.info
     file delete ${destroot}${prefix}/share/info/guile-tut.info
     file delete ${destroot}${prefix}/share/info/guile.info
@@ -196,6 +198,22 @@ post-destroot {
             reinplace "s|libguile/|libguile18/|g"       $src_file
         }
     }
+}
+}
+
+platform darwin {
+	post-destroot {
+		system "cd ${destroot}${prefix}/lib/ && \
+		ln -s libguilereadline-v-17.17.dylib libguilereadline-v-17.so && \
+		ln -s libguile-srfi-srfi-1-v-3.3.dylib libguile-srfi-srfi-1-v-3.so"
+	}
+}
+
+variant debug {
+        configure.cflags -O0 -g
+        configure.cxxflags -O0 -g
+        configure.f90flags -O0 -g
+        configure.fflags -O0 -g
 }
 
 livecheck.type  regex
