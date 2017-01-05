@@ -143,6 +143,14 @@ variant unicode_path	description {Installs a hack to workaround Mac OS X unicode
 variant disable_keychain	description {Disables support for the Mac OS X Keychain} {
 					configure.args-append --disable-keychain
 				}
+				
+variant debug           description {Include debug symbols in output} {
+                                configure.args-append --enable-debug
+                        }
+                        
+variant bad_cert_ok     description {Offer to save failing SSL certificates permanently} {
+                                patchfiles-append prompt.patch
+                        }
 
 # CarbonCore/MacTypes.h: No such file or directory
 platform puredarwin {		configure.args-append \
