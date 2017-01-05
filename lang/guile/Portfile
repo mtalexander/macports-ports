@@ -121,6 +121,13 @@ platform darwin {
 	}
 }
 
+variant debug {
+        configure.cflags -O0 -g
+        configure.cxxflags -O0 -g
+        configure.f90flags -O0 -g
+        configure.fflags -O0 -g
+}
+
 livecheck.type  regex
 livecheck.url   "http://ftp.gnu.org/pub/gnu/guile/?C=N;O=D"
 livecheck.regex "${name}-(\\d+(?:\\.\\d+)*)${extract.suffix}"
