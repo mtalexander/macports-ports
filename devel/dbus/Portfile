@@ -255,6 +255,14 @@ variant test description {enable tests (Only Works if dbus is Already Installed)
     configure.python        ${prefix}/bin/python2.7
 }
 
+variant verbose description {enable verbose mode using DBUS_VERBOSE environment variable} {
+    configure.args-append  --enable-verbose-mode
+}
+
+variant debug {
+        configure.cflags-append -O0 -g
+}
+
 if { [info exists startup_root] } {
     notes "############################################################################
 # Startup items have been generated that will aid in
