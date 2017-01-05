@@ -219,6 +219,10 @@ variant video description {Enable HTML5 video support using gstreamer} {
         configure.args-append   --enable-video
 }
 
+variant debug description {Enable debugging} {
+    configure.args-append   --enable-debug --disable-optimizations --enable-debug-symbols
+}
+
 default_variants    +video
 
 if {[string match *clang* ${configure.cxx}]} {
