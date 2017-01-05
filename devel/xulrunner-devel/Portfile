@@ -15,6 +15,7 @@ description     Mozilla.org's runtime package that can be used to bootstrap XUL+
 
 long_description ${description}
 
+# nss is not universal
 universal_variant no
 
 homepage        http://developer.mozilla.org/en/docs/XULRunner
@@ -188,6 +189,8 @@ variant internal_dependencies description {Use internal versions of nspr and nss
         port:lcms \
         port:nss \
         port:nspr
+    
+    universal_variant yes
 }
 
 # plugin-instance-nococoa.patch : https://bugzilla.mozilla.org/show_bug.cgi?id=587370
