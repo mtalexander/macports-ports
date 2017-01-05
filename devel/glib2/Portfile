@@ -9,6 +9,7 @@ name                        glib2
 conflicts                   glib2-devel
 set my_name                 glib
 version                     2.50.3
+revision                    1
 set branch                  [join [lrange [split ${version} .] 0 1] .]
 categories                  devel
 maintainers                 ryandesign openmaintainer
@@ -33,7 +34,7 @@ checksums                   rmd160  3bc3bf5ae5d9997520e970c5c5a269538d871889 \
 
 # ${prefix}/include/glib-2.0/glib/gi18n.h requires -I${prefix}/include to find libintl.h
 # See https://trac.macports.org/changeset/27148
-patchfiles                  patch-configure.diff \
+patchfiles                  patch-configure.ac.diff \
                             patch-glib-2.0.pc.in.diff \
                             patch-glib-gmain.c.diff \
                             patch-glib_gunicollate.c.diff \
@@ -58,6 +59,9 @@ depends_lib                 port:gettext \
                             port:libiconv \
                             port:pcre \
                             port:zlib
+                            
+use_autoreconf              yes
+autoreconf.args             -fvi
 
 # GLib-CRITICAL **: attempting to free a locked GVariant instance.  This should never happen.
 compiler.blacklist-append   {clang < 318}
@@ -116,6 +120,11 @@ post-destroot {
     xinstall -d ${destroot}${docdir}
     xinstall -m 644 -W ${worksrcpath} AUTHORS COPYING ChangeLog HACKING NEWS \
         README ${destroot}${docdir}
+}
+
+variant debug {
+        configure.cflags-delete -funroll-loops
+        configure.cflags-append -O0 -g
 }
 
 platform darwin {
