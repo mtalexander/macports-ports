@@ -218,6 +218,11 @@ variant quartz conflicts x11 {
     configure.args-append   --with-gdktarget=quartz
 }
 
+variant debug { 
+    configure.args-append --enable-debug
+    configure.cflags-append -O0 -g
+    }
+
 variant x11 conflicts quartz {
     require_active_variants path:lib/pkgconfig/cairo.pc:cairo x11
     require_active_variants path:lib/pkgconfig/pango.pc:pango x11
