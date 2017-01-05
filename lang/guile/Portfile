@@ -50,6 +50,9 @@ depends_lib         port:readline \
 # guile-config is a wrapper around pkg-config
 depends_lib-append  port:pkgconfig
 
+# llvm-gcc miscompiles guile
+compiler.blacklist *llvm-gcc-4.2
+
 configure.args      CPPFLAGS="-I${prefix}/include" \
                     LDFLAGS="-L${prefix}/lib" \
                     --infodir="${prefix}/share/info" \
