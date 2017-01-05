@@ -4,7 +4,7 @@ PortSystem 1.0
 
 name		slib-guile
 version		1.0
-revision	4
+revision	5
 categories	devel
 maintainers	nomaintainer
 platforms	darwin
@@ -13,10 +13,13 @@ supported_archs	noarch
 description	Wrapper port to properly set up slib and guile together
 long_description	Create a symbolic link and a catalog file \
 			so that guile can find the slib library files.
-depends_lib	port:slib port:guile
+depends_lib	port:slib bin:guile:guile
 distfiles
 
 use_configure	no
+
+# Prevent precompiled binaries.
+archive_sites
 
 build {}
 
@@ -27,5 +30,7 @@ destroot {
 }
 
 post-activate {
+    set guileversion [exec ${prefix}/bin/guile-config info guileversion | cut -d . -f 1-2]
+    xinstall -m 755 -d ${prefix}/share/guile/site/${guileversion}
 	system "${prefix}/bin/guile -c \"(use-modules (ice-9 slib)) (require 'new-catalog)\""
 }
