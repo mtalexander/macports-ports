@@ -37,6 +37,10 @@ depends_lib \
     port:libiconv \
     port:gettext
 
+variant debug {
+        configure.cflags-append -O0 -g
+}
+
 patchfiles      patch-libgnome-Makefile.am.diff
 
 # reconfigure using upstream autogen.sh for intltool 0.51 compatibility
