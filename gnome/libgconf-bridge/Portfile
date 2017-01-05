@@ -1,0 +1,30 @@
+# $Id:#
+
+# This is a portfile I put together myself.  As of November 2012, this library
+# won't compile without patches since it uses some deprecated functions and
+# treats the resulting warnings as errors.  Since the library is no longer used
+# by my version of Gnucash, this isn't worth fixing.
+
+PortSystem      1.0
+name            libgconf-bridge
+version         v9594dbaad
+revision        1
+
+description     Library to synchronize glib properties with gconf keys
+long_description ${description}
+maintainers     mta@umich.edu
+categories      gnome
+
+homepage        http://www.gnome.org
+fetch.type      git
+git.url         git://git.gnome.org/libgconf-bridge
+
+depends_lib     port:glib2 \
+                port:gtk2 \
+                port:gconf
+                
+configure.cmd   ./autogen.sh
+
+variant debug {
+        configure.cflags-append -O0 -g
+}
