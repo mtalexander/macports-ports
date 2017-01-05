@@ -142,6 +142,11 @@ configure.cppflags-append   "-L${prefix}/lib"
 configure.cflags-append     -std=c99 -funroll-loops -fstrict-aliasing
 configure.env-append        "HAVE_CXX=yes"
 
+# don't run gst-plugin-scanner, it hangs.  See
+# https://lists.freedesktop.org/archives/gstreamer-devel/2011-November/033898.html
+# Is this still a problem???
+#build.env-append            "GST_REGISTRY_FORK=no"
+
 variant faac description {Enable faac AAC plugin} {
     depends_lib-append      port:faac
     configure.args-delete   --disable-faac
