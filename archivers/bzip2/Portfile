@@ -50,6 +50,8 @@ platform darwin {
         ln -s libbz2.${version}.dylib ${destroot}${prefix}/lib/libbz2.[join [lrange [split ${version} .] 0 0] .].dylib
         ln -s libbz2.${version}.dylib ${destroot}${prefix}/lib/libbz2.dylib
     }
+    
+    build.env       DYLD_LIBRARY_PATH="${worksrcpath}"
 }
 
 livecheck.type          regex
