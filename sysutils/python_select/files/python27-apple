@@ -5,6 +5,8 @@
 /usr/bin/pydoc2.7
 /usr/bin/smtpd2.7.py
 /usr/bin/2to3-2.7
+/usr/include/python2.7
+/usr/lib/python2.7
 -
 /usr/share/man/man1/python2.7.1.gz
 -
