@@ -33,11 +33,13 @@ if {${name} ne ${subport}} {
     depends_build-append    port:py${python.version}-setuptools
 
     # Deactivate hack
+    pre-activate {
     if {![catch {set installed [lindex [registry_active py${python.version}-py] 0]}]} {
         set py_version [lindex $installed 1]
         if {[vercmp $py_version 1.4] < 0} {
             registry_deactivate_composite py${python.version}-py "" [list ports_nodepcheck 1]
         }
+    }
     }
 
     livecheck.type      none
