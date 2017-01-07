@@ -4,6 +4,7 @@ name                bash
 set bash_version    4.4
 set bash_patchlevel 12
 version             ${bash_version}.${bash_patchlevel}
+revision            1
 distname            ${name}-${bash_version}
 categories          shells
 platforms           darwin freebsd
@@ -85,6 +86,13 @@ configure.args          --mandir=${prefix}/share/man \
 
 # Always source .bashrc when connecting remotely with ssh, #40603
 configure.cflags-append -DSSH_SOURCE_BASHRC
+
+platform darwin {
+	post-destroot {
+		system "cd ${destroot}${prefix}/bin/ && \
+		ln bash sh"
+	}
+}
 
 livecheck.type          regex
 livecheck.url           http://ftp.gnu.org/gnu/${name}/${name}-${bash_version}-patches/?C=M&O=D
