@@ -4,6 +4,7 @@ PortSystem          1.0
 
 name                port_cutleaves
 version             0.1.4
+revision            1
 categories          sysutils macports
 maintainers         perry openmaintainer
 platforms           darwin
@@ -19,6 +20,8 @@ homepage            http://svn.macports.org/repository/macports/contrib/port_cut
 livecheck.type      none
 
 master_sites        macports
+
+patchfiles          depends_lib.patch
 
 checksums           rmd160  56724b9c532330b1ef8783445880282d9a40510b \
                     sha256  a7f1b8e217f0222e9298fba60821f14bb8f7bb622f448188e70f0f8fc1614344
