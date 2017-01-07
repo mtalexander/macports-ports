@@ -7,7 +7,7 @@ PortGroup select 1.0
 name                    python26
 # Remember to keep py26-tkinter and py26-gdbm's versions sync'd with this
 version                 2.6.9
-revision                4
+revision                5
 set major               [lindex [split $version .] 0]
 set branch              [join [lrange [split ${version} .] 0 1] .]
 categories              lang
@@ -128,6 +128,9 @@ post-destroot {
    ln -s ${framewdir}/share/man/man1/python.1 ${destroot}${prefix}/share/man/man1/python${branch}.1
    ln -s ${framewdir}/Python ${destroot}${prefix}/lib/libpython${branch}.dylib
    ln -s ${framewdir}/bin/2to3 ${destroot}${prefix}/bin/2to3-${branch}
+   
+   ln -s ${framewdir}/include/python${branch} ${destroot}${prefix}/include/python${branch}
+   ln -s ${framewdir}/lib/python${branch} ${destroot}${prefix}/lib/python${branch}
 
    # Without this, LINKFORSHARED is set to 
    # ... $(PYTHONFRAMEWORKDIR)/Versions/$(VERSION)/$(PYTHONFRAMEWORK)
