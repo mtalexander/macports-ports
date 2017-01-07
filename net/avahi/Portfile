@@ -7,7 +7,7 @@ PortGroup           gobject_introspection 1.0
 
 name                avahi
 version             0.6.31
-revision            13
+revision            14
 categories          net devel
 maintainers         nomaintainer
 license             LGPL-2.1+
@@ -88,7 +88,7 @@ post-destroot {
         set startupitem.install yes
     }
     if { ${startupitem.install} != "no" } {
-        xinstall -d -m 0755 ${destroot}/LaunchDaemons
+        xinstall -d -m 0755 ${destroot}/Library/LaunchDaemons
         ln -s ${prefix}/etc/LaunchDaemons/org.freedesktop.avahi-daemon.plist \
             ${destroot}/Library/LaunchDaemons/
         ln -s ${prefix}/etc/LaunchDaemons/org.freedesktop.avahi-dnsconfd.plist \
