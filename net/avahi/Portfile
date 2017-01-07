@@ -6,6 +6,7 @@ PortGroup           github 1.0
 PortGroup           gobject_introspection 1.0
 
 github.setup        lathiat avahi 0.6.32 v
+revision            1
 categories          net devel
 maintainers         nomaintainer
 license             LGPL-2.1+
@@ -86,7 +87,7 @@ post-destroot {
         set startupitem.install yes
     }
     if { ${startupitem.install} != "no" } {
-        xinstall -d -m 0755 ${destroot}/LaunchDaemons
+        xinstall -d -m 0755 ${destroot}/Library/LaunchDaemons
         ln -s ${prefix}/etc/LaunchDaemons/org.freedesktop.avahi-daemon.plist \
             ${destroot}/Library/LaunchDaemons/
         ln -s ${prefix}/etc/LaunchDaemons/org.freedesktop.avahi-dnsconfd.plist \
