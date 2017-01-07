@@ -20,8 +20,12 @@ checksums           rmd160  7742c4a5e97c55cb3518a70cca21f5e9f78472f5 \
                     sha256  a95427729e069095aab4cb7bcfa4072739417faa7c0a6d0eb1bd6de28f58187e
 
 if {${perl5.major} != ""} {
+    # None of the changes in my GIT repository are necessary for normal use so don't
+    # patch them into this version.
+    
     depends_lib-append  \
                     port:p${perl5.major}-cgi \
+                    port:p${perl5.major}-lwp-protocol-https \
                     port:p${perl5.major}-datetime \
                     port:p${perl5.major}-encode \
                     port:p${perl5.major}-html-parser \
