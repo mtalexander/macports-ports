@@ -1,0 +1,11 @@
+--- port_cutleaves.in	2010-01-03 03:52:19.000000000 -0500
++++ port_cutleaves/port_cutleaves.in	2010-01-03 16:43:11.000000000 -0500
+@@ -167,7 +167,7 @@
+             array unset portinfo
+             array set portinfo [lindex $res 1]
+         }
+-        foreach type {depends_fetch depends_extract depends_build} {
++        foreach type {depends_fetch depends_extract depends_build depends_lib} {
+             if {[info exists portinfo($type)]} {
+                 foreach d $portinfo($type) {
+                     set build_deps([lindex [split $d :] end]) 1
