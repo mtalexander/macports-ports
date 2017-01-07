@@ -116,6 +116,9 @@ post-destroot {
 
     ln -s ${framewdir}/share/man/man1/python${branch}.1 ${destroot}${prefix}/share/man/man1/
 
+   ln -s ${framewdir}/include/python${branch} ${destroot}${prefix}/include/python${branch}
+   ln -s ${framewdir}/lib/python${branch} ${destroot}${prefix}/lib/python${branch}
+
     # Without this, LINKFORSHARED is set to
     # ... $(PYTHONFRAMEWORKDIR)/Versions/$(VERSION)/$(PYTHONFRAMEWORK)
     # (this becomes Python.framework/Versions/3.2/Python) which doesn't

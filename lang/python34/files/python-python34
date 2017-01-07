@@ -5,6 +5,8 @@ bin/idle3.4
 bin/pydoc3.4
 -
 bin/2to3-3.4
+include/python3.4
+lib/python3.4
 share/man/man1/python3.4.1
 -
 ${frameworks_dir}/Python.framework/Versions/3.4

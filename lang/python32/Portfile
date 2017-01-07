@@ -7,7 +7,7 @@ name                    python32
 epoch                   20120412
 # Remember to keep py32-tkinter and py32-gdbm's versions sync'd with this
 version                 3.2.6
-revision                5
+revision                6
 
 set major               [lindex [split $version .] 0]
 set branch              [join [lrange [split ${version} .] 0 1] .]
@@ -104,6 +104,9 @@ post-destroot {
    }
 
    ln -s ${framewdir}/share/man/man1/python${branch}.1 ${destroot}${prefix}/share/man/man1/
+
+   ln -s ${framewdir}/include/python${branch} ${destroot}${prefix}/include/python${branch}
+   ln -s ${framewdir}/lib/python${branch} ${destroot}${prefix}/lib/python${branch}
 
    # Without this, LINKFORSHARED is set to
    # ... $(PYTHONFRAMEWORKDIR)/Versions/$(VERSION)/$(PYTHONFRAMEWORK)
