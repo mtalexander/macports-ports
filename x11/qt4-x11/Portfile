@@ -13,7 +13,7 @@ select.file         ${filespath}/${select_name}
 
 name                ${select_name}
 version             4.4.3
-revision            16
+revision            17
 categories	        x11
 license             {GPL-2 GPL-3 OpenSSLException}
 maintainers         nomaintainer
@@ -46,7 +46,7 @@ depends_lib                                \
     path:bin/dbus-daemon:dbus                              \
     port:unixODBC                          \
     path:bin/mysql_config5:mysql5          \
-    port:postgresql83                      \
+    port:postgresql84                      \
     path:lib/libssl.dylib:openssl                           \
     port:fontconfig                        \
     port:gettext                           \
@@ -92,10 +92,10 @@ configure.args                                                 \
     -openssl-linked                                            \
     -dbus-linked                                               \
     -I${prefix}/include/mysql5/mysql                           \
-    -I${prefix}/include/postgresql83                           \
+    -I${prefix}/include/postgresql84                           \
     -L${prefix}/lib                                            \
     -L${prefix}/lib/mysql5/mysql                               \
-    -L${prefix}/lib/postgresql83                               \
+    -L${prefix}/lib/postgresql84                               \
     -liconv                                                    \
     -lresolv                                                   \
     -I${prefix}/include/gstreamer-0.10                         \
