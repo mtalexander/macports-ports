@@ -36,7 +36,8 @@ depends_run     port:coreutils \
                 port:libxslt \
                 port:docbook-xml \
                 port:docbook-xsl \
-                port:fop
+                port:fop \
+                port:w3m
 
 patchfiles      searchpath_local.patch \
                 xml-catalog.patch
