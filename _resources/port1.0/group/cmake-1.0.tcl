@@ -167,6 +167,7 @@ platform darwin {
             configure.args-append -DCMAKE_OSX_SYSROOT="${configure.sdkroot}"
         } else {
             configure.args-append -DCMAKE_OSX_SYSROOT="/"
+            # Or perhaps better, use "configure.args-append -UCMAKE_OSX_SYSROOT"
         }
     }
 
