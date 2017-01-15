@@ -108,6 +108,15 @@ platform darwin {
    }
 }
 
+if [variant_isset readline] {
+notes "
+To make this the default Python or Python 3 (i.e., the version run by\
+the 'python' or 'python3' commands), run one or both of:
+
+    sudo port select --set python $pythonNoDot
+    sudo port select --set python3 $pythonNoDot
+"
+} else {
 notes "
 To make this the default Python or Python 3 (i.e., the version run by\
 the 'python' or 'python3' commands), run one or both of:
@@ -122,6 +131,7 @@ the 'python' or 'python3' commands), run one or both of:
 # REF: https://trac.macports.org/ticket/48807
 ##############################################################
 "
+}
 
 post-destroot {
     set framewpath ${frameworks_dir}/Python.framework
