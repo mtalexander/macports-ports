@@ -7,7 +7,7 @@ name                python33
 
 # Remember to keep py33-tkinter and py33-gdbm's versions sync'd with this
 version             3.3.6
-revision            8
+revision            9
 
 epoch               20141012
 
@@ -116,6 +116,8 @@ post-destroot {
 
     ln -s ${framewdir}/share/man/man1/python${branch}.1 ${destroot}${prefix}/share/man/man1/
 
+   # The "m" suffix on include is because the default is --with-pymalloc
+   ln -s ${framewdir}/include/python${branch}m ${destroot}${framewdir}/include/python${branch}
    ln -s ${framewdir}/include/python${branch} ${destroot}${prefix}/include/python${branch}
    ln -s ${framewdir}/lib/python${branch} ${destroot}${prefix}/lib/python${branch}
 

@@ -7,7 +7,7 @@ name                    python32
 epoch                   20120412
 # Remember to keep py32-tkinter and py32-gdbm's versions sync'd with this
 version                 3.2.6
-revision                6
+revision                7
 
 set major               [lindex [split $version .] 0]
 set branch              [join [lrange [split ${version} .] 0 1] .]
@@ -105,6 +105,8 @@ post-destroot {
 
    ln -s ${framewdir}/share/man/man1/python${branch}.1 ${destroot}${prefix}/share/man/man1/
 
+   # The "m" suffix on include is because the default is --with-pymalloc
+   ln -s ${framewdir}/include/python${branch}m ${destroot}${framewdir}/include/python${branch}
    ln -s ${framewdir}/include/python${branch} ${destroot}${prefix}/include/python${branch}
    ln -s ${framewdir}/lib/python${branch} ${destroot}${prefix}/lib/python${branch}
 
