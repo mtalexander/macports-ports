@@ -9,7 +9,7 @@ epoch               1
 
 # Whenever this port is bumped for version/revision, please revbump dragonegg-3.[012] and dragonegg-*-gcc-4.6
 version             4.6.4
-revision            10
+revision            11
 platforms           darwin
 categories          lang
 maintainers         nomaintainer
@@ -63,7 +63,8 @@ depends_skip_archcheck-append gcc_select ld64 cctools
 license_noconflict  gmp mpfr ppl libmpc
 
 patchfiles          gcc-4.6-cloog_lang_c.patch \
-                    enable_libstdcxx_time_yes.patch
+                    enable_libstdcxx_time_yes.patch \
+                    gcc.texi.patch
 
 # Don't check Darwin kernel version (GCC PR target/61407
 # <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61407>).

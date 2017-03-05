@@ -9,7 +9,7 @@ epoch               1
 
 # Whenever this port is bumped for version/revision, please revbump dragonegg-*-gcc-4.7
 version             4.7.4
-revision            6
+revision            7
 platforms           darwin
 categories          lang
 maintainers         nomaintainer
@@ -61,7 +61,8 @@ depends_run         port:gcc_select
 depends_skip_archcheck-append gcc_select ld64 cctools
 license_noconflict  gmp mpfr ppl libmpc
 
-patchfiles          ppc_fde_encoding.diff
+patchfiles          ppc_fde_encoding.diff \
+                    gcc.texi.patch
 
 # Don't check Darwin kernel version (GCC PR target/61407
 # <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61407>).
