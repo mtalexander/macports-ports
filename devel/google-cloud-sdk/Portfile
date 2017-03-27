@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                google-cloud-sdk
-version             121.0.0
+version             147.0.0
 categories          devel python
 license             Apache-2
 maintainers         nomaintainer
@@ -20,8 +20,8 @@ master_sites        https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/
 distname            ${name}-${version}-${os.platform}-${configure.build_arch}
 worksrcdir          ${name}
 
-checksums           rmd160  3e8a0899f2dc41941d5867d76ad3b2c8426e314a \
-                    sha256  1c5d48a12c1d51e5d807939489acbe1ce23abc328836f7657c27d1723b8c6558
+checksums           rmd160  1d7fa73dd6684016686c09aac255505de3a466cd \
+                    sha256  1d10c05cf0d0fdc88888c6bfdf2a1177ba1ace0bc379453b28b5c9a79bf32e2f
 
 python.default_version 27
 
@@ -47,3 +47,5 @@ destroot {
 variant bash_completion {
     depends_run-append path:etc/bash_completion:bash-completion
 }
+
+livecheck.url       https://cloud.google.com/sdk/docs/quickstart-mac-os-x

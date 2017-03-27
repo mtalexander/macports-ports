@@ -9,7 +9,7 @@ revision            4
 categories          lang
 platforms           darwin
 license             {MPL-2 LGPL-2.1+}
-maintainers         juanrgar devans openmaintainer
+maintainers         juanrgar {devans @dbevans} openmaintainer
 description         JavaScript-C Engine
 long_description    SpiderMonkey is Mozilla's JavaScript engine written in C/C++. \
                     It is used in various Mozilla products, including Firefox, \
@@ -55,6 +55,7 @@ configure.ccache    no
 
 patchfiles          patch-js-src-configure.diff \
                     patch-js-src-jsinterp.cpp.diff \
+                    patch-js-src-jsopcode.cpp.diff \
                     patch-mfbt-double-conversion-utils.h.diff \
                     patch-js-src-config-milestone.pl.diff
 

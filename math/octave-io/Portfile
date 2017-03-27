@@ -3,13 +3,12 @@
 PortSystem          1.0
 PortGroup           octave 1.0
 
-octave.setup        io 2.4.5
-revision 1
+octave.setup        io 2.4.7
 platforms           darwin
 license             GPL-3+ BSD
 maintainers         {mps @Schamschula} openmaintainer
 description         Input/Output in external formats.
 long_description    ${description}
 
-checksums           rmd160 feea2c1c27f6a46b2ffddf39c7c870a7fd3906e8 \
-                    sha256 ff350de1f431588e44c146c64ea56bba16076095161161cea86ca75e1335456e
+checksums           rmd160 c119e6c91c203a8109828e3092026c3de72ab8a6 \
+                    sha256 9a926c5eb0ae6e101b1ab999ce9c09d1b4339e1dc578e5ad3f5d760e9787bf9a

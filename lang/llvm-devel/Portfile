@@ -209,7 +209,7 @@ configure.args-append \
     -DLLVM_INCLUDE_EXAMPLES=OFF \
     -DLLVM_ENABLE_FFI=ON \
     -DLLVM_BINDINGS_LIST=none \
-    -DFFI_INCLUDE_DIR=${prefix}/include \
+    -DFFI_INCLUDE_DIR=`pkg-config --cflags-only-I libffi | sed 's/-I//'` \
     -DFFI_LIBRARY_DIR=${prefix}/lib
 
 # I'm not sure the exact version of Xcode that has a good enough libtool, but 3.2.6 seems to get past this when 3.1.4 doesn't:
@@ -439,7 +439,7 @@ if {${subport} eq "lldb-${llvm_version}"} {
         xinstall -m 644 ${worksrcpath}/tools/lldb/docs/code-signing.txt ${destroot}${prefix}/share/doc/lldb-${llvm_version}/
     }
     post-activate {
-        ui_msg "Please follow the instructions in ${prefix}/lldb-${llvm_version}/code-signing.txt and then codesign the debugserver with:"
+        ui_msg "Please follow the instructions in ${prefix}/share/doc/lldb-${llvm_version}/code-signing.txt and then codesign the debugserver with:"
         if {${os.major} >= 13} {
             ui_msg "   sudo codesign --force --deep --preserve-metadata=identifier,entitlements,resource-rules,requirements,flags,team-identifier --sign <identity> ${sub_prefix}/bin/debugserver"
         } else {

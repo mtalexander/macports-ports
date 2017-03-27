@@ -3,7 +3,7 @@
 PortSystem      1.0
 PortGroup       github 1.0
 
-github.setup    peco peco 0.4.9 v
+github.setup    peco peco 0.5.1 v
 revision        0
 categories      sysutils
 homepage        http://peco.github.io
@@ -23,9 +23,9 @@ dist_subdir     go
 
 # peco
 checksums       peco-${version}.tar.gz \
-                    md5 16c2e00f3bf39c7725107cb0f6a57356 \
-                    sha1 5fefe30936bf55087e0d5594f238dfbc84f71987 \
-                    sha256 a37240118959a6867c099e3abdd07acf51156d285ee91769938171a53a6bd770
+                    md5 d5b573100ff28862ab7ead65f2c42533 \
+                    sha1 1adeb20d2ec1a312cf745733c3f5a4a1b0357490 \
+                    sha256 591bcf13c53580be5a2b6230afff6539e6a7410e8d2010edd6cb390f37a65330
 
 # utility for go-vendoring codes
 set go.vendors {}

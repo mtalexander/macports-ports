@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                harfbuzz
-version             1.4.3
+version             1.4.5
 categories          graphics
 platforms           darwin
 maintainers         ryandesign openmaintainer
@@ -17,8 +17,8 @@ homepage            https://www.freedesktop.org/wiki/Software/HarfBuzz/
 master_sites        https://www.freedesktop.org/software/harfbuzz/release/
 use_bzip2           yes
 
-checksums           rmd160  3bc37b790e3659c3780c94adf8e74db16472641f \
-                    sha256  838c17400a88a3a451eb401573ef94cdd50919730d98255547c459fef1d85321
+checksums           rmd160  827ce06aaa61edcc06972a173c5c4093cc6ac27e \
+                    sha256  d0e05438165884f21658154c709075feaf98c93ee5c694b951533ac425a9a711
 
 depends_build       port:pkgconfig
 

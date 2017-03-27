@@ -144,7 +144,7 @@ subport ld64-236 {
 subport ld64-latest {
     # XCode 8.2.1
     version             274.2
-    revision            0
+    revision            1
 
     # https://trac.macports.org/ticket/43737
     # https://trac.macports.org/ticket/50130
@@ -243,7 +243,7 @@ if {${subport} eq ${name}} {
         depends_build-append port:cctools
     }
 
-    set all_llvm_variants {llvm39 llvmdev}
+    set all_llvm_variants {llvm39 llvm40 llvmdev}
     if {${os.major} < 10} {
         lappend all_llvm_variants llvm33
     }
