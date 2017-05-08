@@ -8,10 +8,10 @@ PortGroup           xcodeversion 1.0
 
 name                mongodb
 epoch               1
-version             3.4.2
+version             3.4.4
 license             {AGPL-3 OpenSSLException}
 categories          databases
-maintainers         ryandesign
+maintainers         {ryandesign @ryandesign}
 
 description         High-performance, schema-free document-oriented database
 long_description    ${description}
@@ -22,8 +22,8 @@ homepage            https://www.mongodb.com/community
 master_sites        https://fastdl.mongodb.org/src
 distname            ${name}-src-r${version}
 
-checksums           rmd160  e8ab4b3bd759c42120a939dddefcbd1162793464 \
-                    sha256  29b60f6c5331fd2ff5242171a65c03e3b47c1ff957fa317bfaa2ddccd8d51b59
+checksums           rmd160  2a65f380204a92762ceea2be35dbe2c671e106f6 \
+                    sha256  09e962bf3428474b9790bbd464cb6176817f9da6121c30e096240dbb4d51c9f6
 
 depends_build       port:scons
 

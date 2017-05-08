@@ -4,7 +4,7 @@ PortSystem                  1.0
 PortGroup                   cxx11 1.0
 
 name                        cppcheck
-version                     1.72
+version                     1.78
 categories                  devel
 license                     GPL-3
 platforms                   darwin
@@ -21,8 +21,8 @@ long_description            Cppcheck is an analysis tool for C and C++ code. Unl
 homepage                    http://cppcheck.sourceforge.net/
 master_sites                sourceforge:project/cppcheck/cppcheck/${version}
 
-checksums                   rmd160  62444a704fc0f6a7301aad3c763c297a3d727788 \
-                            sha256  459108c81ea607c8bd3da842d83990d6555e0351d0fe4bb21c2c72110274f393
+checksums                   rmd160  b1921e39a91e6db177ce55655112135caa0f24f0 \
+                            sha256  9de5c0232f77f51f81f96757e110a81498e4fe321558282d230714043f3ae441
 
 depends_build               port:libxslt \
                             port:docbook-xsl

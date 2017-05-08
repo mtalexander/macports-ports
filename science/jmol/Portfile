@@ -1,9 +1,8 @@
 PortSystem          1.0
 
 name                jmol
-version             14.6.1_2016.08.11
-set release         [lindex [split ${version} _] 0 ]
-set branch          [join [lrange [split ${release} .] 0 1] .]
+version             14.13.1
+set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          science
 platforms           darwin
 maintainers         web.de:p.bro openmaintainer
@@ -20,12 +19,12 @@ long_description    Jmol is a free, open source molecule viewer for \
 
 license             LGPL-2.1+
 homepage            http://jmol.sourceforge.net/
-master_sites        sourceforge:project/jmol/Jmol/Version%20${branch}/Version%20${release}
+master_sites        sourceforge:project/jmol/Jmol/Version%20${branch}/Jmol%20${version}
 
 distname            Jmol-${version}-binary
 
-checksums           rmd160  fdd6741c381ae98ed28f4981e288fc7e6c583cd6 \
-                    sha256  53cc93949c0384d7a07127567e68b6503eb31b5224c742863f3007f3ee99bd85
+checksums           rmd160  be74fa376688551c7a9b5e7832be4da57d63be90 \
+                    sha256  76144ae492e6690321f0aa8dc17a3a13a61eea0588aea1910b543d600ff02849
 
 worksrcdir          ${name}-${version}
 

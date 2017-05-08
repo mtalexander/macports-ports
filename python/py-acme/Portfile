@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 set real_name       acme
 name                py-${real_name}
-version             0.12.0
+version             0.14.0
 worksrcdir          ${real_name}-${version}
 distfiles           ${real_name}-${version}${extract.suffix}
 categories-append   security
@@ -19,8 +19,8 @@ master_sites        pypi:a/acme
 
 python.versions     27
 
-checksums           rmd160  291d6a3c9128bd9666e40ef265c67e4f9d408650 \
-                    sha256  a05cba6b5b0fffdfa246b32492a44769011d45205f3ee8efde1f37ee9843fbdf
+checksums           rmd160  1f4058c82b75a064e0298faf56ffccadd8619dc0 \
+                    sha256  ce7d2bca31e85adac1030c944e0a9d96e8b0f85cdc616b78d40eb09c91803543
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -40,7 +40,6 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-six \
                     port:py${python.version}-tz \
                     port:py${python.version}-werkzeug
-
 } else {
     livecheck.type      regex
     livecheck.regex     ${real_name}-(\[0-9.\]+)${extract.suffix}

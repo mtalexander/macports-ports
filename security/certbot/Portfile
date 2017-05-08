@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        certbot certbot 0.12.0 v
+github.setup        certbot certbot 0.14.0 v
 categories          security
 license             Apache-2
 maintainers         {mps @Schamschula} openmaintainer
@@ -12,10 +12,10 @@ description         An ACME Let's Encrypt client that can obtain certs and exten
                     update server configurations. Replaces py-certbot.
 long_description    ${description}
 platforms           darwin
-homepage            https://letsencrypt.org/
+homepage            https://certbot.eff.org/
 
-checksums           rmd160  77518c162ea5cf39c69dd13078a3c1dfbbfa6e40 \
-                    sha256  4020af5765c8a5bb8a0b4cdf918196a32ae16dc518656b6748e9ae37daa7cd16
+checksums           rmd160  ef9a4538552835bd6725b38ffe41cd61263bdfd4 \
+                    sha256  9982016e69a8709cf1c139c93061fbcd1a6b0c66f78036d889e8426aa1ac18ce
 
 python.versions     27
 

@@ -3,9 +3,9 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        keybase client 1.0.18 v
+github.setup        keybase client 1.0.21 v
 name                keybase
-categories          devel
+categories          security
 platforms           darwin
 license             BSD
 maintainers         sean openmaintainer
@@ -15,15 +15,15 @@ long_description    $description
 depends_build       port:go
 depends_run         bin:gpg:gnupg
 
-checksums           rmd160  e397126c504ab4d920769bde4275b9a9173081b2 \
-                    sha256  aa59a6f79c7af9fdc0965ab3372820f007f736292e3aaf0f5b87ff43c4488872
+checksums           rmd160  522aab2a7c053e2893ba6aa6ed5cf236341f794a \
+                    sha256  e3380d8469ff0102ebde592ed00d1991be4391e9eca7ae8992f4067383aa19ea
 
 use_configure       no
 
 use_parallel_build  no
 build.cmd           go
 build.target        build -a -tags production github.com/keybase/client/go/keybase
-build.env           GOPATH=${workpath}/go GO15VENDOREXPERIMENT=1
+build.env           GOPATH=${workpath}/go
 
 # I still hate go
 post-extract {

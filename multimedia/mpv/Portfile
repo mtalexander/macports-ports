@@ -6,7 +6,7 @@ PortGroup               waf 1.0
 
 # Please revbump mpv whenever ffmpeg{,-devel} is updated!
 github.setup            mpv-player mpv 0.22.0 v
-revision                3
+revision                4
 categories              multimedia
 license                 GPL-2+
 maintainers             ionic
@@ -24,7 +24,7 @@ homepage                http://www.mpv.io/
 set waf_version         1.8.12
 set waf_distfile        waf-${waf_version}
 set mpv_distfile        ${distfiles}
-master_sites-append     http://ftp.waf.io/pub/release:waf
+master_sites-append     https://waf.io/:waf
 distfiles-append        ${waf_distfile}:waf
 
 extract.only-delete     ${waf_distfile}

@@ -3,7 +3,7 @@
 PortSystem              1.0
 PortGroup               github 1.0
 
-github.setup            git-lfs git-lfs 2.0.1 v
+github.setup            git-lfs git-lfs 2.1.0 v
 maintainers             raimue \
                         openmaintainer
 platforms               darwin
@@ -15,8 +15,8 @@ long_description        ${description} is an extension for versioning large file
 homepage                https://git-lfs.github.com/
 license                 MIT
 
-checksums               rmd160 bc72dd248f88bce2c17fa838455553a1cde38eb6 \
-                        sha256 e09fabbd6a2086eb8f407209588cb8874a86f4e6a3bbec1c794135fc771c6a3c
+checksums               rmd160 39beef4937cb06f7f36baec874d993a2d8d80c20 \
+                        sha256 b9949c76fe3a94420116df23e733a22e19630bee36ed774d862a202226547687
 
 patchfiles              patch-ronn.diff
 

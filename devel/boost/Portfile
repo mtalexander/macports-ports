@@ -10,7 +10,7 @@ revision        3
 license         Boost-1
 categories      devel
 platforms       darwin
-maintainers     ryandesign michaelld openmaintainer
+maintainers     {ryandesign @ryandesign} {michaelld @michaelld} openmaintainer
 
 description     Collection of portable C++ source libraries
 
