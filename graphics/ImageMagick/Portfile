@@ -70,6 +70,8 @@ depends_lib-append          port:pkgconfig
 
 depends_run                 port:urw-fonts
 
+depends_build               port:gawk
+
 # On case-insensitive filesystems, ImageMagick finds cryptlib's libcl and
 # tries to use it as if it were Apple's OpenCL, which fails; see #23354.
 if {[file exists ${prefix}/lib/libCL.dylib]} {
