@@ -5,7 +5,7 @@ PortGroup	muniversal 1.0
 
 name                guile
 version             2.2.2
-#revision           1
+revision            1
 categories          lang
 maintainers         nomaintainer
 platforms           darwin
