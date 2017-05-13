@@ -58,7 +58,7 @@ checksums       ${name}-${version}-src${extract.suffix} \
 		rmd160  ae539c873f16463a3c19fcaf69fd338a1eadd7ce
 
 depends_lib	port:freetype \
-		bin:guile:guile18		\
+		bin:guile:guile20       \
 		port:libiconv		\
 		port:libtool		\
 		port:texlive		\

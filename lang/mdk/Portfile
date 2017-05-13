@@ -43,7 +43,7 @@ depends_build       port:bison \
 depends_lib         path:lib/pkgconfig/glib-2.0.pc:glib2 \
                   port:gmp \
                   port:gettext \
-                    port:guile \
+                    port:guile20 \
                   port:libiconv \
                   port:readline \
                   port:ncurses \

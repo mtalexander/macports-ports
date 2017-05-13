@@ -28,7 +28,7 @@ checksums           rmd160  20100684c2987e563886d15bb608b7f464e30a69 \
 
 depends_build       port:pkgconfig
 depends_lib         port:gtk2 \
-                    port:guile \
+                    port:guile20 \
                     port:libffi
 
 configure.args-append   --disable-update-xdg-database

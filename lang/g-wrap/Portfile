@@ -19,7 +19,7 @@ checksums           rmd160  87d84720a89f87c16e061c0c697382654ac8ca30 \
 depends_build       port:pkgconfig
 
 depends_lib         path:lib/pkgconfig/glib-2.0.pc:glib2 \
-                    port:guile \
+                    port:guile20 \
                     port:libffi
 
 patchfiles          patch-configure.diff

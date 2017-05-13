@@ -125,7 +125,7 @@ variant lua description {Bindings for lua plugins} {
 variant scheme description {Bindings for Scheme (guile) plugins} {
     configure.args-delete   -DENABLE_GUILE=OFF
     configure.args-append   -DENABLE_GUILE=ON
-    depends_lib-append      port:guile
+    depends_lib-append      port:guile20
 }
 
 variant perl description {Bindings for perl plugins} {

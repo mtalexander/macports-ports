@@ -21,7 +21,7 @@ depends_build       port:pkgconfig
 depends_lib-append  port:libgeier \
                     port:libgtkhtml3 \
                     port:gtk2 \
-                    port:guile \
+                    port:guile20 \
                     port:gettext
 
 # libgeier is not universal

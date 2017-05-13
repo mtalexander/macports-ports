@@ -50,7 +50,7 @@ array set bindings {
     gcj         {port:gcc47             "gcj=${prefix}/bin/gcj-mp-4.7 --with-gcjh=${prefix}/bin/gcjh-mp-4.7"}
     d           {port:phobos            d}
     go          {port:go                go}
-    guile       {bin:guile:guile        guile}
+    guile       {bin:guile:guile20      guile}
     java        {bin:java:kaffe         java}
     lua         {port:lua               lua}
     mzscheme    {port:mzscheme          mzscheme}

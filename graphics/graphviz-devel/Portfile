@@ -124,7 +124,7 @@ platform macosx {
 }
 
 variant guile description {Include Guile language bindings} {
-    depends_lib-append          port:guile
+    depends_lib-append          port:guile20
     depends_build-append        port:swig-guile
 
     configure.args-replace      --disable-swig --enable-swig

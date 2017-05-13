@@ -40,7 +40,7 @@ post-destroot {
 }
 
 variant guile description "Enable GNU Guile extensions" {
-    depends_lib-append  port:guile
+    depends_lib-append  port:guile20
     configure.args-replace  --without-guile --with-guile
 }
 
