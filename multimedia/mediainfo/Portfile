@@ -3,10 +3,10 @@
 PortSystem          1.0
 
 name                mediainfo
-version             0.7.92.1
+version             0.7.97
 categories          multimedia
 platforms           darwin
-maintainers         nomaintainer
+maintainers         ctreleaven
 license             LGPL-3+
 
 description         Identifies audio and video codecs in a media file.
@@ -14,13 +14,12 @@ description         Identifies audio and video codecs in a media file.
 long_description    MediaInfo supplies technical and tag information about a \
                     video or audio file
 
-homepage            http://mediaarea.net
+homepage            https://mediaarea.net
 master_sites        ${homepage}/download/binary/mediainfo/${version}
 distname            MediaInfo_CLI_${version}_GNU_FromSource
 use_bzip2           yes
-
-checksums           rmd160  4bc8e8857fcad56205b8c525a64f4a315d71e08f \
-                    sha256  ff2c0ee44ae2e30e9c5fc271f973741a387b421cbcf3a808a13849282dccc30d
+checksums           rmd160  cb901dad10f8e167b19c3efd372cb927cf64d135 \
+                    sha256  ea1bea0ea23030128df2ca72aa94680662f37631dd087dc961eb076e73ef8125
 
 depends_lib         port:zlib port:curl
 

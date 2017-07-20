@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        mongodb mongo-tools 3.4.4 r
+github.setup        mongodb mongo-tools 3.4.6 r
 categories          devel
 platforms           darwin
 maintainers         {ryandesign @ryandesign} openmaintainer
@@ -27,8 +27,8 @@ long_description    mongo-tools is a collection of utilities for working with \
                     \n* mongotop: Monitor read/write activity on a mongo server \
                     \n* mongoreplay: Inspect and record commands sent to a MongoDB instance, and then replay the commands back onto another host at a later time
 
-checksums           rmd160  5e56c5f6cef6988dbdbb61a11420c569a98a0f61 \
-                    sha256  691a3366929b4b5f44ae9cc6f80502ca305ba65fca9f94630c9683a798775385
+checksums           rmd160  d5ffafcb450acc088cd17141112501ee8a9ef3eb \
+                    sha256  3dd91a69ae3592c9def9760af3e8d0eb871406ec3471fd7f87e8da1ad6fc1bdd
 
 depends_build       port:go
 

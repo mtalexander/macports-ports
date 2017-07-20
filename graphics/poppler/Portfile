@@ -2,12 +2,13 @@
 
 PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
+PortGroup           cxx11 1.1
 PortGroup           gobject_introspection 1.0
 PortGroup           muniversal 1.0
 
 name                poppler
 conflicts           pdf2json xpdf-tools
-version             0.52.0
+version             0.56.0
 license             GPL-2+
 maintainers         {devans @dbevans} openmaintainer
 categories          graphics
@@ -21,8 +22,8 @@ master_sites        ${homepage}
 
 use_xz              yes
 
-checksums           rmd160  41ac38d00644434485c58a89d4e1e755ed593f5b \
-                    sha256  528b661738839f9a25f6e580fcd2d5db007e0a1948580c6489f0062798ca1992
+checksums           rmd160  298751b35a90dfeac5bedf75add204d93a6e5f59 \
+                    sha256  869dbadf99ed882e776acbdbc06689d8a81872a2963440b1e8516cd7a2577173
 
 depends_build       port:pkgconfig
 
@@ -76,7 +77,6 @@ subport poppler-qt4-mac {
 
 subport poppler-qt5 {
     PortGroup qt5 1.0
-    PortGroup cxx11 1.1
 
     configure.env-append    MOCQT5=${qt_bins_dir}/moc
     configure.args-delete   --disable-poppler-qt5

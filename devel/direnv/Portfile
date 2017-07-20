@@ -16,17 +16,17 @@ long_description    \
     ${description} It knows how to hook into bash, zsh, tcsh and fish shell to load or unload environment variables depending on the current directory. This allows project-specific environment variables without cluttering the \"~/.profile\" file.
 
 if {${name} eq ${subport}} {
-    github.setup        direnv direnv 2.11.3 v
-    checksums           rmd160 406d2eec7c30de0f78174432ed7035153de0bc0e \
-                        sha256 0a720a043d113b02147d2e87b1801f811fb74f73a785f1350047b16eb806c9eb
+    github.setup        direnv direnv 2.12.2 v
+    checksums           rmd160 e04348c22a8f8026f6a53ffbdecfcc3e24d63db3 \
+                        sha256 f9e2e59afb4ec7d9ea8b99b7430b201999de28f88d18e139a60cb89bc68813d1
     conflicts           direnv-devel
 }
 
 subport direnv-devel {
-    github.setup        direnv direnv 75886a2644ab8b679f5253c129ef03453524ff70
-    version             20170423
-    checksums           rmd160 6cd5dca1e9d751b71c4664fc396c58eef982f35a \
-                        sha256 e39772525912733b8c514f6f361d47e5676f8b6712431147371f3bf70b8ce52e
+    github.setup        direnv direnv a49d542059b53dba71202d64a64f81e980868522
+    version             20170705
+    checksums           rmd160 e04348c22a8f8026f6a53ffbdecfcc3e24d63db3 \
+                        sha256 f9e2e59afb4ec7d9ea8b99b7430b201999de28f88d18e139a60cb89bc68813d1
     conflicts           direnv
 }
 
@@ -38,9 +38,20 @@ homepage                http://direnv.net/
 
 depends_lib-append      port:go
 
+# fix importing of dotenv
+patchfiles-append       patch-cmd_dotenv.go.diff
+
 # fix PREFIX and DESTDIR variables to match what 'port' needs
-patchfiles              patch-Makefile.diff
+patchfiles-append       patch-Makefile.diff
+
+post-patch {
+    # move 'dotenv' into 'src/dotenv' to make GOPATH happy
+    file mkdir ${worksrcpath}/src
+    move ${worksrcpath}/dotenv ${worksrcpath}/src
+}
 
 use_configure           no
+
+build.env-append        GOPATH=${worksrcpath}
 
 destroot.env-append     PREFIX=${prefix}

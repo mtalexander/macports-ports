@@ -4,13 +4,13 @@ PortSystem          1.0
 PortGroup           cmake 1.0
 
 name                wireshark2
-version             2.2.6
+version             2.2.8
 revision            0
 categories          net
 license             {GPL-2 GPL-3}
 maintainers         darkart.com:opendarwin.org
 description         Graphical network analyzer and capture tool
-homepage            https://wireshark.org/
+homepage            https://www.wireshark.org/
 platforms           darwin
 
 long_description    A network analyzer that lets you capture and \
@@ -27,9 +27,9 @@ distfiles           wireshark-${version}${extract.suffix}
 
 worksrcdir          wireshark-${version}
 
-checksums           sha256  f627d51eda85f5ae5f5c8c9fc1f6539ffc2a270dd7500dc7f67490a8534ca849 \
-                    rmd160  12574c3536c621164215a5a3c1840d87489cc189 \
-                    sha1    608c0ece0d7c0f9c82f031e69c87c0de57c3f0dd
+checksums           sha256  ecf02c148c9ab6e809026ad5743fe9be1739a9840ef6fece6837a7ddfbdf7edc \
+                    rmd160  58b46222b2a5cea2923c82f4eff95ad04b702f1a \
+                    sha1    605d4323e9ac0122eca47a5c17ec14daf34b1ea1
 
 conflicts           wireshark-devel wireshark
 

@@ -5,11 +5,11 @@ PortGroup                       cmake 1.0
 PortGroup                       compiler_blacklist_versions 1.0
 
 name                            armadillo
-version                         7.900.0
+version                         7.950.1
 categories                      science
 platforms                       darwin
 maintainers                     {mps @Schamschula} openmaintainer
-license                         MPL-2
+license                         Apache-2
 
 description                     Armadillo C++ linear algebra library
 
@@ -26,8 +26,8 @@ master_sites                    sourceforge:project/arma
 
 use_xz                          yes
 
-checksums                       rmd160  8c8a832c12f8e4a1934565551e6830df4a619b8e \
-                                sha256  5471cda748317c5871136be6434f688229715ae3b910f2be6ddc7d3559cf6946
+checksums                       rmd160  caa6003e1b8924423637ce4e9fc52cd0f02ed9b0 \
+                                sha256  a32da32a0ea420b8397a53e4b40ed279c1a5fc791dd492a2ced81ffb14ad0d1b
 
 depends_build-append            port:pkgconfig
 

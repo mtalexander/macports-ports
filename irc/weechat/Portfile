@@ -9,10 +9,10 @@ name                weechat
 
 if {${name} eq ${subport}} {
     conflicts       weechat-devel
-    github.setup    weechat weechat 1.7.1 v
+    github.setup    weechat weechat 1.9 v
 
-    checksums       rmd160  330c7b1995fa95eadcbdbcffb2c97be42e04999e \
-                    sha256  c1582a495d8e45a45f2c7eac6b69d17a6f13e03ffd842b85f50c352e3ed0ea1d
+    checksums       rmd160  b8b91c5c81e86d3aea431b1a24f66d95117c1135 \
+                    sha256  75c5cafac02f9f30fdfa4d4060efe3960669d4f85e0656a800f866f21078516f
 }
 
 subport weechat-devel {

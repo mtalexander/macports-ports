@@ -23,15 +23,15 @@ dist_subdir         cmake
 
 subport cmake-devel {}
 
-set branch          3.8
+set branch          3.9
 
 if {${subport} eq ${name}} {
 
     # release
 
-    version         ${branch}.1
-    checksums       rmd160 ef93de4f41d6b494d569f0d35e212eb5b5f8ba48 \
-                    sha256 ce5d9161396e06501b00e52933783150a87c33080d4bdcef461b5b7fd24ac228
+    version         ${branch}.0
+    checksums       rmd160 5ac047b24806642d999fd1a460935274a3238f95 \
+                    sha256 167701525183dbb722b9ffe69fb525aa2b81798cf12f5ce1c020c93394dfae0f
 
     master_sites    http://www.cmake.org/files/v${branch}/
     conflicts       cmake-devel
@@ -44,7 +44,8 @@ if {${subport} eq ${name}} {
         patch-Modules-FindQt4.cmake.release.diff \
         patch-Modules-FindFreetype.cmake.release.diff \
         patch-Modules-noArchCheck.release.diff \
-        patch-CMakeFindFrameworks.cmake.release.diff
+        patch-CMakeFindFrameworks.cmake.release.diff \
+        patch-Source_CMakeVersionCompute.cmake.release.diff
 
     livecheck.type  regex
     livecheck.regex ${name}-(\[0-9.\]+)${extract.suffix}
@@ -54,17 +55,19 @@ if {${subport} eq ${name}} {
 
     # devel
 
-    version         20170502
-    set dist_branch 3.8
-    set dist_date   20170502
-    set dist_hash   g2abb6
-    checksums       rmd160 40a5b11f6ee28946e2dc68bd718215d2146e6656 \
-                    sha256 a3b8e74022af3da513f757b81e12c687c8a76812299e95282a0a1e8ba8629d6c
+    version         20170718
+    set commit      b5a28eb9e7b997bf15c9b6fbaf7b61e053873c34
+    checksums       rmd160 4ae4c494c1e34ef4af9bfb2620d8a3bca698450b \
+                    sha256 f3e0f667a284cdc1d484fda8472a2ab9b0863300fe3f8812c3f1303471e716ee
 
-    master_sites    http://www.cmake.org/files/dev/
-    distname        ${name}-${dist_branch}.${dist_date}-${dist_hash}
+    master_sites    https://gitlab.kitware.com/cmake/cmake/repository/archive.tar.bz2?ref=${commit}&
+    distname        ${name}-${commit}
+
+    post-extract {
+        move ${workpath}/${name}-${commit}-${commit} ${workpath}/${name}-${commit}
+    }
+
     conflicts       cmake
-
     long_description ${base_long_description} \
         The ${subport} port is updated roughly every week.
 
@@ -77,9 +80,9 @@ if {${subport} eq ${name}} {
         patch-Source_CMakeVersionCompute.cmake.devel.diff
 
     livecheck.type  regex
-    livecheck.regex (${name}-\[0-9a-g.-\]+)${extract.suffix}
-    livecheck.version ${distname}
-    livecheck.url   http://www.cmake.org/files/dev/
+    livecheck.regex /cmake/cmake/commit/(\[0-9a-g\]+)
+    livecheck.version ${commit}
+    livecheck.url   https://gitlab.kitware.com/cmake/cmake/tree/master
 
 }
 
@@ -93,10 +96,6 @@ depends_lib-append  port:curl \
 # allow use of libuv or libuv-devel;
 # system libuv is the default as of 20160830 (g320f5)
 depends_lib-append  path:lib/pkgconfig/libuv.pc:libuv
-
-# CMake 3.2 changed dependency requirements to include jsoncpp.
-# jsoncpp 1.0+ requires CMake for building. catch 22. So, have CMake
-# use its internal jsoncpp until a better solution comes about.
 
 configure.env-append \
                     CMAKE_PREFIX_PATH=${prefix} \
@@ -122,6 +121,10 @@ platform darwin {
     }
 }
 
+# CMake 3.2 changed dependency requirements to include jsoncpp.
+# jsoncpp 1.0+ requires CMake for building. catch 22. So, have CMake
+# use its internal jsoncpp until a better solution comes about.
+
 configure.args-append --docdir=share/doc/cmake \
                     --parallel=${build.jobs} \
                     --init=${worksrcpath}/macports.cmake \
@@ -138,9 +141,16 @@ array set merger_host {i386 {} x86_64 {} ppc {} ppc64 {}}
 # Tiger has issues with system libraries;
 # just use the ones internal to cmake instead.
 platform darwin 8 {
-    configure.args-delete --system-libs \
-                          --no-system-jsoncpp
-    depends_lib-delete    path:lib/pkgconfig/libuv.pc:libuv
+    configure.args-delete --system-libs
+    configure.args-append --no-system-libs
+    depends_lib-delete \
+        path:lib/pkgconfig/libuv.pc:libuv \
+        port:curl \
+        port:expat \
+        port:zlib \
+        port:bzip2 \
+        port:libarchive \
+        port:ncurses
 }
 
 # Leopard's Rosetta has some difficulties configuring the ppc slice

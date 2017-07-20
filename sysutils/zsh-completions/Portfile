@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        zsh-users zsh-completions 0.24.0
+github.setup        zsh-users zsh-completions 0.26.0
 maintainers         g5pw openmaintainer
 categories          sysutils shells
 license             none
@@ -13,8 +13,8 @@ long_description    Additional completion definitions for Zsh. This package \
 platforms           darwin
 supported_archs     noarch
 
-checksums           rmd160  816a7ec5b1d7e31d31b8e237bb9297ee55c3a52c \
-                    sha256  ba6e2b222717638760dc4bdd40c426762b961a09b61ff45f0ae77ad21137e8c5
+checksums           rmd160  1252d1e9814a8c99cbaeae255283fa1876fb6708 \
+                    sha256  d6a5fd51bb11c16f8f1122a2ed23d62974e0023ea217ca5bc8ec1cc2472dbde5
 
 use_configure       no
 

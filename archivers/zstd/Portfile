@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        facebook zstd 1.1.3 v
+github.setup        facebook zstd 1.3.0 v
 categories          archivers devel
 platforms           darwin
 license             BSD
@@ -15,19 +15,23 @@ long_description    Zstd, short for Zstandard, is a fast lossless compression \
                     algorithm, targeting real-time compression scenarios at \
                     zlib-level and better compression ratios.
 
-checksums           rmd160  1a1fa8ae0ea76bf175cb2f543addd5db39f4d340 \
-                    sha256  69c8fe7234f0f8372572107fc2149591cbbc1dc8f37f8754210e4ebce6d9b083
+checksums           rmd160  7fa5acfb0fe7cce8ad5adfe355d5959a990085de \
+                    sha256  a8f57a1f69a76ae3480fda0655bfe2201127d373236a9e9f359b0db406ab7306
+
+post-patch {
+    reinplace -W ${worksrcpath} "s/-Wvla //g" lib/Makefile programs/Makefile tests/Makefile tests/fuzz/Makefile
+}
 
 use_configure       no
 
-post-patch {
-    reinplace -W ${worksrcpath}/lib "s,@cp -a,@cp -pPR," Makefile
-}
-
 build.env-append    CC="${configure.cc} [get_canonical_archflags cc]" \
+                    CXX="${configure.cxx} [get_canonical_archflags cxx]" \
                     CFLAGS="${configure.cflags}" \
                     PREFIX="${prefix}"
-    
+
+use_parallel_build  no
+
 destroot.env-append CC="${configure.cc} [get_canonical_archflags cc]" \
+                    CXX="${configure.cxx} [get_canonical_archflags cxx]" \
                     CFLAGS="${configure.cflags}" \
                     PREFIX="${prefix}"

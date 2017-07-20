@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        facebook rocksdb 5.2.1 rocksdb-
+github.setup        facebook rocksdb 5.5.5 rocksdb-
 
 revision            0
 categories          databases devel
@@ -17,12 +17,13 @@ long_description    ${description}
 
 homepage            http://rocksdb.org/
 
-checksums           rmd160  fa5496616389f197a7c8596049a04499d384d0a3 \
-                    sha256  5c6b39f61ab5cb6e07fa4770880ca173edd2f69d136c959d7d885d7963c3d48b
+checksums           rmd160  06a522fe4351ecf85f2795ce412d0690d95cfee0 \
+                    sha256  2022b8c588369c2359c16e527c5d7212f0a0f056a58a55c1e982ea20cadc0bf1
 
 depends_lib-append  port:gflags \
                     port:zlib \
                     port:bzip2 \
+                    port:zstd \
                     port:snappy
 
 patchfiles-append   patch-Makefile.diff

@@ -24,10 +24,10 @@ subport ${name}-devel {}
 
 if {${subport} eq ${name}} {
 
-    github.setup    pybombs pybombs 2.3.0 v
-    checksums       rmd160 1780d5174c630456e5bb9d3315a2f0f2746c6816 \
-                    sha256 f611de637dcbfe56852945568867fa4e3c25dfcedb269406b904463817bbab08
-    worksrcdir      gnuradio-pybombs-37e7afe
+    github.setup    pybombs pybombs 2.3.1 v
+    checksums       rmd160 7d6f4fd90eada4d75cc3615f8be1b48ee6353b90 \
+                    sha256 87c422350dd9c6937f1b91a57a7947ab823f70acecbd068d9d2b3a8c21898618
+    worksrcdir      gnuradio-pybombs-8d17565
 
     conflicts       ${name}-devel
 
@@ -38,10 +38,10 @@ if {${subport} eq ${name}} {
 
 } else {
 
-    github.setup    pybombs pybombs 36d2da72fc55c62019073c3b4c9fed02557d03e4
-    version         20170225
-    checksums       rmd160 6f44d323d5694ed939b01f95c5d87846d39bfd91 \
-                    sha256 3228fdfa7f5e8c22e181e8144d46c3813727fa4e8a1372ad9a8ba0803e79cbea
+    github.setup    pybombs pybombs 4004f8c0d0727e9c64d85cd2f88935301f634e60
+    version         20170709
+    checksums       rmd160 d6d567a0e22ced1fb23dfebe8c0767de262c87f3 \
+                    sha256 aff674a4164523a96eb8f5cdcb713f17ca5688477da059a478a732adbeb1e7ff
     worksrcdir      gnuradio-${github.project}-[string range ${github.version} 0 6]
 
     long_description    ${long_description} \
@@ -49,8 +49,9 @@ if {${subport} eq ${name}} {
     conflicts       ${name}
 
     # fix the version to be very explicit
+    patchfiles-append patch-pybombs__init__.py.diff
     post-patch {
-        reinplace "s@2.3.1a0@git-[string range ${github.version} 0 7](${version}) MacPorts@g" ${worksrcpath}/pybombs/__init__.py
+        reinplace "s|@VERSION@|git-[string range ${github.version} 0 7](${version}) MacPorts|g" ${worksrcpath}/pybombs/__init__.py
     }
 }
 
@@ -73,7 +74,7 @@ foreach this_py_version_no_dot ${pythons_suffixes} {
                     port:py${this_py_version_no_dot}-future \
                     port:py${this_py_version_no_dot}-requests \
                     port:py${this_py_version_no_dot}-six \
-                    port:py${this_py_version_no_dot}-yaml
+                    port:py${this_py_version_no_dot}-ruamel-yaml
             }
     }]
 }

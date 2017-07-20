@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-cryptography
-version             1.8.1
+version             2.0
 revision            0
 categories-append   devel
 platforms           darwin
@@ -22,14 +22,13 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  674dd4bcdddb501e6f6907d0d874dd475f032af8 \
-                    sha256  323524312bb467565ebca7e50c8ae5e9674e544951d28a2904a50012a8828190
+checksums           rmd160  8d1440e85e611c31e175e0546acd7d7eb4b16231 \
+                    sha256  d32453b54f99cfe3103f0cb79f6c0ea68c66483811dfe1527a4f06eb3bc580b0
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-setuptools \
                         port:py${python.version}-idna \
                         port:py${python.version}-asn1crypto \
-                        port:py${python.version}-packaging \
                         port:py${python.version}-six \
                         port:py${python.version}-cffi
 

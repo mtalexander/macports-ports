@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-hypothesis
+version             3.13.0
+categories-append   devel
+platforms           darwin
+license             MPL-2
+
+python.versions     27 34 35 36
+
+maintainers         {khindenburg @kurthindenburg} openmaintainer
+
+description         A library for property based testing
+
+long_description \
+   Hypothesis is an advanced testing library for Python. It lets you write\
+   tests which are parametrized by a source of examples, and then generates\
+   simple and comprehensible examples that make your tests fail.
+
+homepage            https://pypi.python.org/pypi/hypothesis
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  7686617db8bb76435fc3ef1065aaf811dd41defa \
+                    sha256  b6a7a7d3928ecd906f186605c486d233236e6724aead873c6f6c944cf7c20701
+
+if {${name} ne ${subport}} {
+    depends_build-append  port:py${python.version}-setuptools
+
+    livecheck.type      none
+} else {
+    livecheck.type      pypi
+}
