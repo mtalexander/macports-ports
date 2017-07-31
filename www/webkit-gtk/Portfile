@@ -220,7 +220,8 @@ variant video description {Enable HTML5 video support using gstreamer} {
 }
 
 variant debug description {Enable debugging} {
-    configure.args-append   --enable-debug --disable-optimizations --enable-debug-symbols
+# Enabling debug also enables developer-mode and it won't build.
+    configure.args-append   --enable-debug --disable-optimizations --enable-debug-symbols --disable-developer-mode
 }
 
 default_variants    +video
