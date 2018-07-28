@@ -1,0 +1,96 @@
+diff --git a/lib/Finance/Quote.pm b/lib/Finance/Quote.pm
+index 040cc44..2c56503 100644
+--- lib/Finance/Quote.pm
++++ lib/Finance/Quote.pm
+@@ -253,22 +253,31 @@ sub currency {
+   my $ALPHAVANTAGE_API_KEY = $ENV{'ALPHAVANTAGE_API_KEY'};
+   return undef unless ( defined $ALPHAVANTAGE_API_KEY );
+  
+-  my $reply = $ua->request(GET "${ALPHAVANTAGE_CURRENCY_URL}"
+-    . "&from_currency=" . ${from}
+-    . "&to_currency=" . ${to}
+-    . "&apikey=" . ${ALPHAVANTAGE_API_KEY} );
+-
+-  my $code = $reply->code;
+-  my $desc = HTTP::Status::status_message($code);
+-  return undef unless ($code == 200);
++  my $try_cnt = 0;
++  my $json_data;
++  do {
++    $try_cnt += 1;
++    my $reply = $ua->request(GET "${ALPHAVANTAGE_CURRENCY_URL}"
++      . "&from_currency=" . ${from}
++      . "&to_currency=" . ${to}
++      . "&apikey=" . ${ALPHAVANTAGE_API_KEY} );
++
++    my $code = $reply->code;
++    my $desc = HTTP::Status::status_message($code);
++    return undef unless ($code == 200);
++
++    my $body = $reply->content;
++
++    $json_data = JSON::decode_json $body;
++    if ( !$json_data || $json_data->{'Error Message'} ) {
++      return undef;
++    }
++#     print "Failed: " . $json_data->{'Information'} . "\n" if (($try_cnt < 5) && ($json_data->{'Information'}));
++    sleep (40) if (($try_cnt < 5) && ($json_data->{'Information'}));
++  } while (($try_cnt < 5) && ($json_data->{'Information'}));
+   
+-  my $body = $reply->content;
++  sleep(1);
+ 
+-  my $json_data = JSON::decode_json $body;
+-  if ( !$json_data || $json_data->{'Error Message'} ) {
+-    return undef;
+-  }
+-  
+   my $exchange_rate = $json_data->{'Realtime Currency Exchange Rate'}->{'5. Exchange Rate'};
+   
+   {
+diff --git a/lib/Finance/Quote/AlphaVantage.pm b/lib/Finance/Quote/AlphaVantage.pm
+index 36fed8f..7fc953a 100755
+--- lib/Finance/Quote/AlphaVantage.pm
++++ lib/Finance/Quote/AlphaVantage.pm
+@@ -154,6 +154,28 @@ sub alphavantage {
+             $info{ $stock, 'errormsg' } = $@;
+         }
+ 
++        my $try_cnt = 0;
++        while (($try_cnt < 5) && ($json_data->{'Information'})) {
++            #my $handle   = undef;
++            ##my $filename = $ENV{'HOME'} . "/AlphaVantage.txt";
++            #my $filename = $ENV{'HOMEDRIVE'} . $ENV{'HOMEPATH'} .
++            #	'\\Documents\\AlphaVantage.txt';
++            #my $encoding = ":encoding(UTF-8)";
++            #open($handle, ">> $encoding", $filename)
++            #    || die "$0: can't open $filename in append mode: $!";
++            #print $handle "[DEBUG] Information=\r\n" .
++            #	$json_data->{'Information'} . "\r\n";
++            #close $handle;
++
++            sleep (20);
++            $reply = $ua->request( GET $url);
++            $code = $reply->code;
++            $desc = HTTP::Status::status_message($code);
++            $body = $reply->content;
++            eval {$json_data = JSON::decode_json $body};
++            $try_cnt += 1;
++        }
++
+         if ( !$json_data || $json_data->{'Error Message'} ) {
+             $info{ $stock, 'success' } = 0;
+             $info{ $stock, 'errormsg' } =
+@@ -241,6 +263,12 @@ sub alphavantage {
+ 
+         $quantity--;
+         select(undef, undef, undef, .7) if ($quantity);
++        
++        # Alpha Vantage recommends that API call frequency does not extend far
++        # beyond ~1 call per second so that they can continue to deliver
++        # optimal server-side performance:
++        #   https://www.alphavantage.co/support/#api-key
++        sleep(1);
+     }
+ 
+     return wantarray() ? %info : \%info;
