@@ -2,38 +2,47 @@
 
 PortSystem          1.0
 PortGroup           muniversal 1.0
-PortGroup           compiler_blacklist_versions 1.0
+
+# devel requires C++11 as of 2017-08-21
+# https://gitlab.kitware.com/cmake/cmake/commit/c1f3eb9f2d628b2911aa17f65012fab0befc4b87
+# release requires C++11 as of 3.10.0
+if {!((${os.platform} eq "darwin" && ${os.major} < 10) || ${build_arch} eq "ppc" || ${build_arch} eq "ppc64")} {
+    depends_lib-append port:libcxx
+    configure.cxx_stdlib libc++
+}
+PortGroup cxx11 1.1
 
 name                cmake
 
 categories          devel
 license             BSD
 installs_libs       no
-maintainers         michaelld
+maintainers         {michaelld @michaelld}
 description         Cross-platform make
 set base_long_description \
     "An extensible, open-source system that manages the build \
     process in an operating system and compiler independent manner. \
     Unlike many cross-platform systems, CMake is designed to be \
     used in conjunction with the native build environment."
-homepage            http://www.cmake.org/
+homepage            https://cmake.org
 platforms           darwin freebsd
 
 dist_subdir         cmake
 
 subport cmake-devel {}
 
-set branch          3.9
+set branch          3.12
 
 if {${subport} eq ${name}} {
 
     # release
 
     version         ${branch}.0
-    checksums       rmd160 5ac047b24806642d999fd1a460935274a3238f95 \
-                    sha256 167701525183dbb722b9ffe69fb525aa2b81798cf12f5ce1c020c93394dfae0f
+    checksums       rmd160 e4165d2e2ff4ce76e9d5c023a9731f826da5be40 \
+                    sha256 d0781a90f6cdb9049d104ac16a150f9350b693498b9dea8a0331e799db6b9d69 \
+                    size   8089372
 
-    master_sites    http://www.cmake.org/files/v${branch}/
+    master_sites    ${homepage}/files/v${branch}/
     conflicts       cmake-devel
 
     long_description ${base_long_description} \
@@ -41,26 +50,28 @@ if {${subport} eq ${name}} {
 
     # release-only patches
     patchfiles-append \
-        patch-Modules-FindQt4.cmake.release.diff \
-        patch-Modules-FindFreetype.cmake.release.diff \
         patch-Modules-noArchCheck.release.diff \
         patch-CMakeFindFrameworks.cmake.release.diff \
-        patch-Source_CMakeVersionCompute.cmake.release.diff
+        patch-Source_CMakeVersionCompute.cmake.release.diff \
+        patch-Source_CMakeLists.txt.release.diff \
+        patch-Source_Modules_FindLibUV.cmake.release.diff
 
     livecheck.type  regex
     livecheck.regex ${name}-(\[0-9.\]+)${extract.suffix}
-    livecheck.url   [lindex $master_sites 0]
+    livecheck.url   https://cmake.org/files/LatestRelease/
 
 } else {
 
     # devel
 
-    version         20170718
-    set commit      b5a28eb9e7b997bf15c9b6fbaf7b61e053873c34
-    checksums       rmd160 4ae4c494c1e34ef4af9bfb2620d8a3bca698450b \
-                    sha256 f3e0f667a284cdc1d484fda8472a2ab9b0863300fe3f8812c3f1303471e716ee
+    version         20180720
+    set commit      01c04e429717fb7a6a157ce1baeb2114724ec055
+    checksums       rmd160 9e74c47905762dc3e14c6d280e190fb1f4dd85c4 \
+                    sha256 546b79d7507d33c5d8d03622435875a78ae1e75c538d7ba12bd729f2936f322c \
+                    size   6327801
 
-    master_sites    https://gitlab.kitware.com/cmake/cmake/repository/archive.tar.bz2?ref=${commit}&
+    use_bzip2       yes
+    master_sites    https://gitlab.kitware.com/cmake/cmake/repository/archive${extract.suffix}?ref=${commit}&
     distname        ${name}-${commit}
 
     post-extract {
@@ -73,11 +84,11 @@ if {${subport} eq ${name}} {
 
     # devel-only patches
     patchfiles-append \
-        patch-Modules-FindQt4.cmake.devel.diff \
-        patch-Modules-FindFreetype.cmake.devel.diff \
         patch-Modules-noArchCheck.devel.diff \
         patch-CMakeFindFrameworks.cmake.devel.diff \
-        patch-Source_CMakeVersionCompute.cmake.devel.diff
+        patch-Source_CMakeVersionCompute.cmake.devel.diff \
+        patch-Source_CMakeLists.txt.devel.diff \
+        patch-Source_Modules_FindLibUV.cmake.devel.diff
 
     livecheck.type  regex
     livecheck.regex /cmake/cmake/commit/(\[0-9a-g\]+)
@@ -102,13 +113,14 @@ configure.env-append \
                     CMAKE_INCLUDE_PATH=${prefix}/include/ncurses \
                     CMAKE_LIBRARY_PATH=${prefix}/lib
 
-# when using libc++, require Clang 3.4 or newer; Clang 3.3 produces
-# bad stream reading code. See also MP ticket #44129:
-# < https://trac.macports.org/ticket/44129 >
-
-if {${configure.cxx_stdlib} eq "libc++"} {
-    compiler.blacklist-append *gcc* {clang < 500} macports-clang-3.3
+# On Lion, Clang 3.3 produces bad stream reading code when using libc++.
+# See https://trac.macports.org/ticket/44129
+# Clang 3.4 works. But Clang 3.7 doesn't work.
+if {${os.platform} eq "darwin" && ${os.major} == 11 && ${configure.cxx_stdlib} eq "libc++"} {
+    compiler.whitelist macports-clang-3.4
 }
+# Clang 3.8 and later require cmake; avoid circular dependency.
+compiler.blacklist-append macports-clang-3.8 macports-clang-3.9 macports-clang-4.0 macports-clang-5.0
 
 platform darwin {
     configure.env-append \
@@ -119,11 +131,22 @@ platform darwin {
     } else {
         configure.env-append CMAKE_OSX_SYSROOT="/"
     }
+
+    if {${os.arch} eq "i386" && ${os.major} <= 9} {
+        # The old system headers do some bit shifting on Intel about which
+        # newer compilers throw errors:
+        # SecKeychain.h:102:46: error: shift expression '(1853123693 << 8)' overflows [-fpermissive]
+        configure.cflags-append -fpermissive
+        configure.cxxflags-append -fpermissive
+    }
 }
 
-# CMake 3.2 changed dependency requirements to include jsoncpp.
-# jsoncpp 1.0+ requires CMake for building. catch 22. So, have CMake
-# use its internal jsoncpp until a better solution comes about.
+# jsoncpp 1.0+ requires CMake for building; circular dependencies are
+# not possible in MacPorts. In addition, jsoncpp uses C++, so it would
+# not be possible for CMake, which uses libc++ on 10.6-10.8, to link
+# with a MacPorts copy of jsoncpp, which would usually use libstdc++
+# on those systems. Fortunately CMake comes bundled with its own
+# internal copy of jsoncpp, so we use that.
 
 configure.args-append --docdir=share/doc/cmake \
                     --parallel=${build.jobs} \
@@ -162,18 +185,6 @@ platform darwin 9 {
         supported_archs ppc ppc64
     }
     set universal_archs_supported ${supported_archs}
-}
-
-platform darwin {
-    # TODO: Figure out why using libc++ fails on Lion and fix the bootstrap
-    #       script to honor CMAKE_OSX_SYSROOT and CMAKE_OSX_DEPLOYMENT_TARGET.
-    #       Since nothing links against cmake and cmake is just using the STL,
-    #       we're safe to force libstdc++
-    #
-    #       https://www.cmake.org/Bug/view.php?id=15039&nbn=16
-    if {${os.major} < 12} {
-        configure.cxx_stdlib libstdc++
-    }
 }
 
 build.post_args VERBOSE=ON
@@ -225,36 +236,6 @@ post-destroot {
 
 variant gui description {Build Qt-based cmake-gui} {
     configure.args-append --qt-gui
-
-    # when building the GUI with Qt, CMake uses C++11. So, make sure
-    # the compiler used is c++11 compliant.
-
-    if {${configure.cxx_stdlib} eq "libstdc++"} {
-
-        # *clang* when using libstdc++ do not seem to support C++11;
-        # C++11 support seems to need GCC 4.7+ when using libstdc++;
-        # could use C++0x support on GCC4.[56], but just ignore it since
-        # there are newer compilers already in place as defaults.
-
-        # Blacklist GCC compilers not supporting C++11 and all CLANG.
-        # This is probably not necessary, but it's good practice.
-
-        compiler.blacklist-append *clang* {*gcc-3*} {*gcc-4.[0-6]}
-
-        # and whitelist those we do want to use. wish there were a better way.
-        # these will be used in the order provided.
-
-        compiler.whitelist macports-gcc-4.9 macports-gcc-4.8 macports-gcc-4.7
-
-    } else {
-
-        # using libc++;
-        # Blacklist Clang not supporting C++11 in some form and all GCC.
-        # Just use the cxx11 PortGroup for this specific case.
-
-        PortGroup cxx11 1.0
-
-    }
 }
 
 variant qt4 conflicts qt5 requires gui description {Build Qt GUI using Qt4} {

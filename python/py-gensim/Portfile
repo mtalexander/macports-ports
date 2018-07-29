@@ -4,14 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-gensim
-version             2.2.0
+version             3.4.0
 categories-append   textproc
 platforms           darwin
 license             LGPL
 
 python.versions     27 34 35 36
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Python framework for fast Vector Space Modelling
 
@@ -25,10 +25,12 @@ homepage            http://radimrehurek.com/gensim/
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  728c1826604a0ff63041cd2b0d632c96da17e86d \
-                    sha256  eb099de1e50447c42e168a1a99de4721923688afc71b12fe522f79687a4fbb13
+checksums           rmd160  848df5396415f4c1bc5421baeb2d0b42142314f9 \
+                    sha256  05844c82c7c176449218fd3fc31e55e5d8b3fae460f261b11231f4c8ef2ed5e0
 
 if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
     depends_lib-append  port:py${python.version}-numpy \
                         port:py${python.version}-scipy \
                         port:py${python.version}-six \

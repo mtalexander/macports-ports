@@ -4,14 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-jug
-version             1.5.0
+version             1.6.7
 revision            0
 platforms           darwin
 license             MIT
 
 python.versions     27 33 34 35 36
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         A Task Based Parallelization Framework
 long_description    ${description}
@@ -21,8 +21,8 @@ master_sites        pypi:J/Jug
 
 distname            Jug-${version}
 
-checksums           rmd160  b1a09364dc14da89073be353360c49d03600ab05 \
-                    sha256  b54ae63b37e72e9b78f248fd42314955c3b99b61b25146197d4d8a726bf88c81
+checksums           rmd160  12f04da489db58e2c3180a25b94afbd9b4b287af \
+                    sha256  a7faba838f3437163ae8459bff96e2c6ca1298312bdb9104c702685178d17269
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-setuptools \

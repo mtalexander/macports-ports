@@ -94,7 +94,7 @@ subport ${name}-lx {
 }
 
 if {${subport} eq ${name}} {
-    revision                1
+    revision                2
 }
 
 if { ${subport} ne "${name}-docs" } {
@@ -104,6 +104,7 @@ if { ${subport} ne "${name}-docs" } {
     
     patchfiles-append   patch-config-mh-darwin.diff
     patchfiles-append   CVE-2017-7867-CVE-2017-7868.patch
+    patchfiles-append   CVE-2017-14952.patch
     
     # ICU has three mechanisms to aid other projects in building properly
     #     1) .pc files for pkg-config
@@ -192,7 +193,7 @@ if { ${subport} ne "${name}-docs" } {
 
 if {${subport} eq ${name}} {
     livecheck.url       http://site.icu-project.org/download
-    livecheck.regex     {>ICU4C \((\d+(?:\.\d+)*)\)<}
+    livecheck.regex     "ICU4C-Download\">(\[0-9.\]+)"
 } else {
     livecheck.type      none
 }

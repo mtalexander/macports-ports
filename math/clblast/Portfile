@@ -4,27 +4,27 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           cmake 1.1
 
-github.setup        CNugteren CLBlast 0.11.0
+github.setup        CNugteren CLBlast 1.3.0
 
 name                clblast
 categories          math
 platforms           darwin
 license             Apache-2
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Tuned OpenCL BLAS
 long_description    ${description}
 
-checksums           rmd160  50005358a33b646b9158d2a3777b1414bd4541e3 \
-                    sha256  f7b9ae36d95f04007ea7a4ad9adcd2e97a81a28c40683cbb4805ad621331d4d5
+checksums           rmd160  ffa7089b36d355cb50c16dae3908bae05bfe8b33 \
+                    sha256  031cb45948ab8a65d445f4da51df0b0c55c96aaee46c246f405540cf966b1f18
 
 configure.args-append \
                     -DBUILD_SHARED_LIBS=ON \
                     -DSAMPLES=OFF \
-                    -DTUNERS=OFF \
+                    -DTUNERS=ON \
                     -DCLIENTS=OFF \
                     -DTESTS=OFF \
-                    -DNETLIB=OFF \
+                    -DNETLIB=ON \
                     -DCUBLAS=OFF \
                     -DVERBOSE=OFF

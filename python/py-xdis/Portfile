@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-xdis
-version             3.5.1
+version             3.8.6
 platforms           darwin
 license             GPL-2
 maintainers         {khindenburg @kurthindenburg} openmaintainer
@@ -20,14 +20,15 @@ long_description \
     (NYU) called ACOR that estimates the autocorrelation time \
     of time series data very quickly.
 
-homepage            http://pypi.python.org/pypi/${python.rootname}/
+homepage            https://pypi.python.org/pypi/${python.rootname}/
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  f71adc17b142e2bf22888bc5ae68e29a1b94d70a \
-                    sha256  6f81f258c049dcd372bd2076ada6b8678d94a6ab76f61804caae9b0a152a1c46
+checksums           rmd160  466cc55923f120691f3eedd411da02d15699d7ea \
+                    sha256  650c11a5a04355e759a9c74ed36a7d711fea78d053dd8861a8b4976d32da3cec \
+                    size    207260
 
-python.versions     27 34 35 36
+python.versions     27 34 35 36 37
 
 if {${name} ne ${subport}} {
     depends_build-append    port:py${python.version}-setuptools \

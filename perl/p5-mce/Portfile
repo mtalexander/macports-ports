@@ -3,8 +3,8 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.24 5.26
-perl5.setup         MCE 1.829 ../by-authors/id/M/MA/MARIOROY
+perl5.branches      5.26
+perl5.setup         MCE 1.836 ../../authors/id/M/MA/MARIOROY
 
 maintainers         {devans @dbevans} openmaintainer
 license             {Artistic-1 GPL}
@@ -14,8 +14,9 @@ long_description    ${description}
 
 platforms           darwin
 
-checksums           rmd160  ee18f85d5539c3eac50e3616d0fd53a7ff143dfb \
-                    sha256  cdf2420108b2a3b0b4ed6ddd53f9c5c283c1eaab04a9445d7accd67c4abe3489
+checksums           rmd160  05f00e62257b80bfcc60078d332e815b070f77fc \
+                    sha256  9ec7c2db7207f3e273a565777141d0218d1199833790c2c3c09cde23f462d312 \
+                    size    183084
 
 if {${perl5.major} != ""} {
 # Sereal is loaded automatically if available

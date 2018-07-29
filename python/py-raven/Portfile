@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-raven
-version             6.1.0
+version             6.9.0
 revision            0
 categories-append   devel
 platforms           darwin
@@ -13,18 +13,19 @@ supported_archs     noarch
 
 python.versions     27 34 35 36
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Raven is a client for Sentry
 long_description    ${description}
 
-homepage            http://github.com/getsentry/raven-python
+homepage            https://github.com/getsentry/raven-python
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  7ad7349bcbdbaa85f0ab40157f021a7fa38257f8 \
-                    sha256  02cabffb173b99d860a95d4908e8b1864aad1b8452146e13fd7e212aa576a884
+checksums           rmd160  b45adbf9cf30a4d770128a6a1f308b7bfd9cec3c \
+                    sha256  3fd787d19ebb49919268f06f19310e8112d619ef364f7989246fc8753d469888 \
+                    size    291860
 
 if {${name} ne ${subport}} {
     # raven depends on pkg_resources from setuptools

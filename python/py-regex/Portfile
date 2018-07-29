@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-regex
-version             2017.07.11
+version             2018.06.21
 revision            0
 categories-append   devel
 platforms           darwin
@@ -12,7 +12,7 @@ license             PSF
 
 python.versions     27 34 35 36
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Alternate regular expression module, to replace re.
 long_description    ${description}
@@ -22,8 +22,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  3eb8932b1911312e39e9483705c039d20cbf05a3 \
-                    sha256  dbda8bdc31a1c85445f1a1b29d04abda46e5c690f8f933a9cc3a85a358969616
+checksums           rmd160  0c5da921e3e9f1fe1d7b619541edc9827f510e9d \
+                    sha256  b172583f0c5f104e059a30dd6a1f9d20693031b156558590a745d6cc3192e283 \
+                    size    632429
 
 if {${name} ne ${subport}} {
     livecheck.type      none

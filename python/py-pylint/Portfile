@@ -5,16 +5,15 @@ PortGroup           python 1.0
 PortGroup           select 1.0
 
 name                py-pylint
-version             1.7.2
-revision            0
+version             1.9.2
 categories-append   devel
 platforms           darwin
 license             GPL-2+
 supported_archs     noarch
 
-python.versions     27 34 35 36
+python.versions     27 34 35 36 37
 
-maintainers         blair stromnov openmaintainer
+maintainers         {blair @blair} {stromnov @stromnov} openmaintainer
 
 description         Error (and style) checking for python
 
@@ -31,12 +30,14 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  1b9e9415eea8e0b76801c23351afbd45152f45ca \
-                    sha256  ea6afb93a9ed810cf52ff3838eb3a15e2bf6a81b80de0eaede1ce442caa5ca69
+checksums           rmd160  9b682e1380ad5eea89fa6ffbc3fc61548ac52f20 \
+                    sha256  fff220bcb996b4f7e2b0f6812fd81507b72ca4d8c4d05daf2655c333800cb9b3 \
+                    size    516869
 
 if {${name} ne ${subport}} {
     depends_build-append \
-                        port:py${python.version}-setuptools
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-pytest-runner
 
     depends_lib-append  port:py${python.version}-astroid \
                         port:py${python.version}-six \

@@ -5,14 +5,14 @@ PortGroup           app 1.0
 PortGroup           active_variants 1.1
 
 name                pspp-devel
-set buildstamp      20170717000501
-set buildhash       g1886a2
-version             0.10.5-pre2
-revision            7
+set buildstamp      20180713030502
+set buildhash       g53471a
+version             1.1.0
+revision            9
 # depends_test port:p${perl5.major}-text-diff
 categories          math
 license             GPL-3+
-maintainers         snc
+maintainers         {snc @nerdling}
 conflicts           pspp
 description         Statistical analysis of sampled data (free \
                     replacement for SPSS).
@@ -21,11 +21,11 @@ long_description    PSPP is a program for \
                     replacement for the proprietary program SPSS, and \
                     appears very similar to it with a few exceptions.
 
-homepage            http://www.gnu.org/software/pspp/
+homepage            https://www.gnu.org/software/pspp/
 platforms           darwin
 
 master_sites        http://pspp.benpfaff.org/~blp/pspp-master/${buildstamp}/source
-distname            pspp-${version}${buildhash}
+distname            pspp-${version}-${buildhash}
 
 depends_lib-append  path:lib/pkgconfig/cairo.pc:cairo \
                     port:fontconfig \
@@ -39,12 +39,13 @@ depends_lib-append  path:lib/pkgconfig/cairo.pc:cairo \
                     path:bin/perl:perl5 \
                     path:lib/pkgconfig/pango.pc:pango \
                     port:readline \
+                    port:spread-sheet-widget \
                     port:zlib
 
 depends_build-append    port:pkgconfig
 
-checksums           rmd160  e7bd16f8bc27f1ba7c2cb995ba2ed3bb33245082 \
-                    sha256  5fb70b72daf4903320382857788a6838200aca544c90f70c259883e8ee5a1292
+checksums           rmd160  1d2ef94953da512106c12aa12d0cc5fab84a4e52 \
+                    sha256  a9005f48790a9ccbbe9eda46eaaba44e627947311aa73e701f2074687f703ed0
 
 post-extract {
     if {[variant_isset gui]} {
@@ -66,7 +67,7 @@ configure.args-append   --disable-rpath \
                         --without-gui \
                         --with-packager=snc \
                         --with-packager-version=${version}-${buildstamp} \
-                        --with-packager-bug-reports=${maintainers}
+                        --with-packager-bug-reports=[lindex ${maintainers} 0 0]
 
 set nif_compilers {macports-llvm-gcc-4.2 llvm-gcc-4.2}
 if {[lsearch -exact ${nif_compilers} ${configure.compiler}] > -1} {
@@ -93,6 +94,7 @@ variant postgres description {Enables reading of postgresql databases} {
 variant gui description {Build PSPPIRE, the graphical interface} {
     depends_lib-append      port:atk \
                             port:gdk-pixbuf2 \
+                            port:gtk3 \
                             port:gtksourceview3
 
     configure.args-delete   --without-gui

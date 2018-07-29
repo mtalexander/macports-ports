@@ -3,33 +3,36 @@
 PortSystem          1.0
 
 name                parallel
-version             20170622
+version             20180622
 categories          sysutils
 platforms           darwin
 license             GPL-3+
-maintainers         ciserlohn
+maintainers         {ciserlohn @ci42}
 supported_archs     noarch
 
 description         GNU parallel: Shell command parallelization utility
 
 long_description    Build and execute shell command lines from standard input in parallel
 
-homepage            http://www.gnu.org/software/parallel/
+homepage            https://www.gnu.org/software/parallel/
 master_sites        gnu
 use_bzip2           yes
 
 depends_lib         port:perl5
 
-checksums           rmd160  de340e1b85be584f8cf7b54a0ce6af02ec07846a \
-                    sha256  b3324ca1e7553b9903e0ab1fbb461334986eadfcd9b33e09013a6bac3c279645
+checksums           rmd160  4fa35ee431e1d1cd1584a807d4e5c9c9bf4b0718 \
+                    sha256  f2cc6ac37d0b68d90b81570c0e4be589dd8c131d204320acaa173544ad6d21d9 \
+                    size    1758233
 
 post-patch {
     set perl_bin ${prefix}/bin/perl
     set src_dir ${worksrcpath}/src/
-    foreach f [list ${src_dir}niceload ${src_dir}sql ${src_dir}sem \
-                   ${src_dir}parallel.pod ${src_dir}niceload.pod \
-                   ${src_dir}parallel ${src_dir}sem.pod ] {
+    foreach f [list ${src_dir}niceload ${src_dir}sql ${src_dir}parallel.pod \
+                   ${src_dir}niceload.pod ${src_dir}sem.pod ] {
         reinplace "s|/usr/bin/perl|${perl_bin}|" ${f}
+    }
+    foreach f [list ${src_dir}sem ${src_dir}parallel] {
+        reinplace "s|/usr/bin/env perl|${perl_bin}|" ${f}
     }
     foreach f [list ${src_dir}parallel ${src_dir}parallel.1 \
                    ${src_dir}parallel.pod ${src_dir}parallel.html \

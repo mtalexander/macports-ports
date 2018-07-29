@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-ipyparallel
-version             6.0.2
+version             6.2.1
 revision            0
 categories-append   devel science
 platforms           darwin
@@ -13,7 +13,7 @@ supported_archs     noarch
 
 python.versions     27 34 35 36
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Interactive Parallel Computing with IPython.
 long_description    ${description}
@@ -23,8 +23,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  c441a0dcb1fa3c3b948b97ecf23c2dd0a91f5e74 \
-                    sha256  7eea4780266252fcc987b220a302d589fbb4d6b0569bd131115a20b31891103d
+checksums           rmd160  7294f0608b1545b449c1888aac7e0d4da126a536 \
+                    sha256  9afb0001d6fa2eca9340e9daab5da021db05211987868f47ab5b305d701cb12d \
+                    size    2372444
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-setuptools \

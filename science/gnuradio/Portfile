@@ -12,7 +12,7 @@ PortGroup           wxWidgets 1.0
 wxWidgets.use       wxPython-3.0
 
 name                gnuradio
-maintainers         michaelld
+maintainers         {michaelld @michaelld}
 
 description         GNU Radio is Software Defined Radio (SDR)
 
@@ -24,11 +24,11 @@ dist_subdir         gnuradio
 
 if {${subport} eq ${name}} {
 
-    github.setup    gnuradio gnuradio 3.7.11 v
-    revision        3
+    github.setup    gnuradio gnuradio 3.7.13.4 v
     checksums \
-        rmd160 7c361e19ccacd78f8a1e947b3307f8665d0bc0d2 \
-        sha256 6f796788606eda4a6b947c627a22f00575c6026464b95e05f897bdafd9a1a4fa
+        rmd160 150f8ccb6f724e2bdced377f56d36c3810649992 \
+        sha256 44c987c941b69fcf77d4e9fa7f8039eb8bf82591e8184c431f44351abe6bba3e \
+        size   4431335
 
     long_description    ${description}: \
         This port is kept up with the GNU Radio release, currently ${version}, which is typically updated every few months.
@@ -42,7 +42,7 @@ if {${subport} eq ${name}} {
     # overload the github livecheck regex to look for versions that
     # are just numbers and '.', no letters (e.g., "3.7.3git").
 
-    livecheck.regex archive/[join ${github.tag_prefix} ""](\[0-9\.\]+)${extract.suffix}
+    github.livecheck.regex  {([0-9.]+)}
 
 }
 
@@ -54,11 +54,12 @@ subport gnuradio-devel {
     name                gnuradio-devel
     conflicts           gnuradio gnuradio-next
 
-    github.setup        gnuradio gnuradio 54e89c6431c249bbe560568d76800fef6a245506
-    version             20170622
+    github.setup        gnuradio gnuradio b9b126c3a97196b5837f8520feb8bb986b62c015
+    version             20180717
     checksums \
-        rmd160 25ad2adc5f76405127344a96033720f74af2b06b \
-        sha256 8771e47453209d287f655cb3fc99a76c6d7fa1df3c3306365c80dfaaa3cfa9b5
+        rmd160 e106bbf9df841df68987311ee6a61b45f8d920cf \
+        sha256 a5dbf7aca7007db3af91cd64a54ddbbbd601fcc15943201cdef830157a486b59 \
+        size   4422214
 
     # set the version override string
 
@@ -74,87 +75,81 @@ subport gnuradio-next {
     name                gnuradio-next
     conflicts           gnuradio gnuradio-devel
 
-    github.setup        gnuradio gnuradio 99ee660ce3701a33efa1737ae341e5360661f900
-    version             20170622
+    github.setup        gnuradio gnuradio 201afd9a330adda44fcde41a36efce20f5a0b46d
+    version             20180726
     checksums \
-        rmd160 6f48be6e86e202a5767e507b0f65b8da100bee78 \
-        sha256 1c974631dfd32ac67346631122ae2452ed84a43f1b9327ed6676753d12641036
+        rmd160 36d1d48ce7ace01b4d37832dbbf16cb71d68dc2c \
+        sha256 c16ef811011d8b4ba1c478e731b4ce8a57b680224b5d4b332bd46b6eb39cb812 \
+        size   3628977
 
     # set the version override string
 
     set GR_VERSION_INFO "next-git-[string range ${github.version} 0 7](${version})"
 
-    # overload the github livecheck URL with the correct branch
+    # overload the github livecheck branch
 
-    livecheck.url       ${github.homepage}/commits/next.atom
+    github.livecheck.branch next
 
 }
-
-# temporary patch to fix header creation to be before dependencies
-# are determined, such that local (to the build) headers are found
-# before already-installed ones.
 
 if {${subport} eq "gnuradio"} {
 
     # patches for release only
+
+    # force expansion of CMake-based template files
     patchfiles-append \
         patch-cmake-expand.release.diff
 
-    # temporary patch to fix debug printout in gr-audio/osx
-    # delete at next release update
-    patchfiles-append patch-gr-audio_lib_osx_osx_impl.cc.diff
+    # temporary patch to fix CTRLPORT testing
+    patchfiles-append \
+        patch-fix_ctrlport_test.release.diff
 
-    # Fix setting of the C++ standard internal to GR, with internal
-    # checking depending on version of CppUnit & allowing MacPorts to
-    # decide the setting.
-
-    patchfiles-append patch-CMakeLists.txt.release.diff
-
-    # temporary patch to fix gr-fec to switch code from 'constexpr' to
-    # just 'const'; this patch is already integrated upstream, so
-    # remove with the next release.
+    # temporary patch to fix and allow external setting for
+    # CMAKE_C/CXX_STANDARD
 
     patchfiles-append \
-        patch-gr-fec_include_gnuradio_fec_polar_decoder_common.h.diff
-
-    # temporary patch to fix logging macros to work more robustly with
-    # out-of-tree modules.
-    # integrated into devel and next, so remove at next release
-
-    patchfiles-append patch-logging_macros.diff
-
-    # temporary patch to fix gr OSX audio for debugging
-    # integrated into devel and next, so remove at next release
-
-    patchfiles-append patch-gr-audio_fix_debug.diff
+        patch-C_CXX_STANDARD.release.diff
 
 } elseif {${subport} eq "gnuradio-devel"} {
 
     # patches for devel
+
+    # force expansion of CMake-based template files
     patchfiles-append \
         patch-cmake-expand.devel.diff
 
-    # Fix setting of the C++ standard internal to GR, with internal
-    # checking depending on version of CppUnit & allowing MacPorts to
-    # decide the setting.
+    # temporary patch to fix CTRLPORT testing
+    patchfiles-append \
+        patch-fix_ctrlport_test.devel.diff
 
-    patchfiles-append patch-CMakeLists.txt.devel.diff
+    # temporary patch to fix and allow external setting for
+    # CMAKE_C/CXX_STANDARD
+
+    patchfiles-append \
+        patch-C_CXX_STANDARD.devel.diff
 
 } else {
 
     # patches for next
+
+    # force expansion of CMake-based template files
     patchfiles-append \
         patch-cmake-expand.next.diff
 
-    # Fix setting of the C++ standard internal to GR, with internal
-    # checking depending on version of CppUnit & allowing MacPorts to
-    # decide the setting.
+    # temporary patch to allow COMPILER_ID match
+    # with Clang and AppleClang
+    patchfiles-append \
+        patch-fix_clang.next.diff
 
-    patchfiles-append patch-CMakeLists.txt.next.diff
+    # temporary patch to fix CTRLPORT testing
+    patchfiles-append \
+        patch-fix_ctrlport_test.next.diff
 
-    # temporary patch to fix include order
+    # temporary patch to fix and allow external setting for
+    # CMAKE_C/CXX_STANDARD
 
-    patchfiles-append patch-fix_includes.next.diff
+    patchfiles-append \
+        patch-C_CXX_STANDARD.next.diff
 
 }
 
@@ -165,27 +160,85 @@ platform darwin 10 {
         patch-gr-blocks_lib_float_array_to_int.cc.diff
 }
 
-# temporary patch to fix FindCppUnit.cmake to return version found
-# to calling script.
-
-patchfiles-append patch-cmake_Modules_FindCppUnit.cmake.diff
-
 # override githib PortGroup homepage setting
 
-homepage            http://gnuradio.org/
+homepage            https://www.gnuradio.org/
 
 use_parallel_build  yes
 
+# set Python version and variants
+set PythonVersionNoDot ""
+if {${subport} eq "gnuradio-next"} {
+
+    # select Python to use; default to 2.7
+
+    variant python27 conflicts python34 python35 python36 description {Build using Python 2.7} {}
+    variant python34 conflicts python27 python35 python36 description {Build using Python 3.4} {}
+    variant python35 conflicts python27 python34 python36 description {Build using Python 3.5} {}
+    variant python36 conflicts python27 python34 python35 description {Build using Python 3.6} {}
+
+    if {![variant_isset python27] &&
+        ![variant_isset python34] &&
+        ![variant_isset python35] &&
+        ![variant_isset python36]} {
+        default_variants +python27
+    }
+
+    if {![variant_isset python27] &&
+        ![variant_isset python34] &&
+        ![variant_isset python35] &&
+        ![variant_isset python36]} {
+        ui_error "\n\nYou must select one of the variants +python27 , +python34 , +python35, or +python36. .\n"
+        return -code error "Invalid variant selection"
+    }
+
+    if {[variant_isset python27]} {
+        set PythonVersionNoDot "27"
+    } elseif {[variant_isset python34]} {
+        set PythonVersionNoDot "34"
+    } elseif {[variant_isset python35]} {
+        set PythonVersionNoDot "35"
+    } else {
+        set PythonVersionNoDot "36"
+    }
+} else {
+    # for now: release and devel require Python 2.7
+    set PythonVersionNoDot "27"
+}
+set PythonVersionWithDot [join [split ${PythonVersionNoDot} ""] "."]
+
+depends_build-append \
+    port:pkgconfig \
+    port:swig-python
+
 depends_lib-append  \
     port:boost \
-    port:cppunit \
-    port:fftw-3-single \
-    port:log4cpp
+    port:fftw-3-single
+
+# some dependencies change by subport
+
+if {${subport} eq "gnuradio"} {
+
+    # release
+    # still require cppunit for testing
+    depends_test-append port:cppunit
+
+} elseif {${subport} eq "gnuradio-devel"} {
+
+    # devel
+    # nothing new at this time
+
+} else {
+
+    # next
+    depends_run-append port:adwaita-icon-theme
+
+}
 
 # need matplotlib for polar encoder/decoder, runtime
 # only. This is not checked for at configure.
 
-depends_run-append port:py27-matplotlib
+depends_run-append port:py${PythonVersionNoDot}-matplotlib
 
 # do VPATH (out of source tree) build
 
@@ -216,44 +269,79 @@ depends_lib-append path:lib/libvolk.dylib:volk
 configure.args-append \
     -DENABLE_INTERNAL_VOLK=OFF
 
-# require Python 2.7
+# require Python
 
 depends_lib-append \
-    port:python27
+    port:python${PythonVersionNoDot}
 
 # these are checked for at configure, then required for
 # runtime; so use depends_lib to get both.
 
 depends_lib-append \
-    port:py27-numpy \
-    port:py27-cheetah
+    port:py${PythonVersionNoDot}-numpy \
+    port:py${PythonVersionNoDot}-cheetah
 
 # these are not checked for at configure, but are required
 # for runtime; so use depends_run.
 
 depends_run-append \
-    port:py27-opengl \
-    port:py27-scipy
+    port:py${PythonVersionNoDot}-opengl \
+    port:py${PythonVersionNoDot}-scipy
 
 # specify the Python version to use
 
 configure.args-append \
-    -DPYTHON_EXECUTABLE=${frameworks_dir}/Python.framework/Versions/2.7/bin/python2.7 \
-    -DPYTHON_INCLUDE_DIR=${frameworks_dir}/Python.framework/Versions/2.7/Headers \
-    -DPYTHON_LIBRARY=${frameworks_dir}/Python.framework/Versions/2.7/Python \
-    -DGR_PYTHON_DIR=${frameworks_dir}/Python.framework/Versions/2.7/lib/python2.7/site-packages
+    -DPYTHON_EXECUTABLE=${frameworks_dir}/Python.framework/Versions/${PythonVersionWithDot}/bin/python${PythonVersionWithDot} \
+    -DPYTHON_INCLUDE_DIR=${frameworks_dir}/Python.framework/Versions/${PythonVersionWithDot}/Headers \
+    -DPYTHON_LIBRARY=${frameworks_dir}/Python.framework/Versions/${PythonVersionWithDot}/Python \
+    -DGR_PYTHON_DIR=${frameworks_dir}/Python.framework/Versions/${PythonVersionWithDot}/lib/python${PythonVersionWithDot}/site-packages
 
-# enable logging
-configure.args-append \
-    -DENABLE_GR_LOG=ON
+# Enable C/C++11 for all GNU Radio builds, even though it's not
+# technically required yet (it will be once 3.8 is out). GNU Radio is
+# compatible with C/C++11 and this setting allows for building on
+# older OSX using GCC along with newer OSX using Clang.
 
-# try to enable C++11 for older compilers too.  for some reason cmake
-# doesn't recognize libstdc++ compilers as being c++11 capable, even
-# though some are. set this and hope for the best ...
+configure.args-append -DCMAKE_CXX_STANDARD=11
+configure.args-append -DCMAKE_C_STANDARD=11
+
+# on much older installs ...
 
 if {${configure.cxx_stdlib} eq "macports-libstdc++" ||
     ${configure.cxx_stdlib} eq "libstdc++"} {
+
+    # for some reason cmake doesn't recognize libstdc++ compilers as
+    # being c++11 capable, even though some are. set this and hope for
+    # the best.
+
     configure.cxxflags-append -std=gnu++11
+
+    # when using GCC on older OSX, certain math functions will not be
+    # part of std:: without this macro defined. This macro required
+    # c++11 to be enabled, which is addressed in the next item.
+
+    configure.cxxflags-append -D_GLIBCXX_USE_C99_MATH_TR1
+
+    # enable C/CXX standard extensions (e.g., "gnu++11" and "gnu11"
+    # instead of than "c++11" and "c11"). GNU Radio itself does not
+    # require these extensions, but when compiling with GCC on older
+    # OSX they allow for various various math functions to be in std::
+    # ... so, enable them.
+
+    configure.args-append \
+        -DCMAKE_CXX_EXTENSIONS=ON \
+        -DCMAKE_C_EXTENSIONS=ON
+
+} else {
+
+    # disable C/CXX standard extensions (e.g., "gnu++11" and "gnu11"
+    # rather than "c++11" and "c11"). GNU Radio itself does not
+    # require these extensions, and when compiling with Clang they
+    # don't really do anything anyway; so, just disable them.
+
+    configure.args-append \
+        -DCMAKE_CXX_EXTENSIONS=OFF \
+        -DCMAKE_C_EXTENSIONS=OFF
+
 }
 
 post-destroot {
@@ -275,11 +363,16 @@ post-destroot {
     }
 }
 
-# per user concensus: enable all variants except +debug and +universal
-# (and, for devel and next: except +ctrlport, +performance_counters, and +zeromq);
+# per user concensus: enable all variants except +ctrlport,
+# +performance_counters, +debug, and +universal.
 
-default_variants +docs +grc +qtgui +wxgui +uhd +wavelet \
-    +jack +portaudio +swig +sdl
+default_variants +docs +grc +qtgui +uhd +wavelet \
+    +jack +portaudio +swig +sdl +zeromq
+
+if {${subport} eq "gnuradio" ||
+    ${subport} eq "gnuradio-devel"} {
+    default_variants +logging +log4cpp
+}
 
 # variants follow
 
@@ -291,13 +384,13 @@ variant docs description "Install GNU Radio documentation" {
         port:xmlto
 
     depends_build-append \
-        port:py27-sphinx \
+        port:py${PythonVersionNoDot}-sphinx \
         port:texlive-latex
 
     configure.args-append \
         -DENABLE_DOXYGEN=ON \
         -DENABLE_SPHINX=ON \
-        -DSPHINX_EXECUTABLE=${frameworks_dir}/Python.framework/Versions/2.7/bin/sphinx-build
+        -DSPHINX_EXECUTABLE=${frameworks_dir}/Python.framework/Versions/${PythonVersionWithDot}/bin/sphinx-build
 
 }
 
@@ -317,10 +410,22 @@ variant grc requires swig description "Install GNU Radio Companion" {
     # these are checked for at configure, then required
     # for runtime; so use depends_lib to get both.
 
-    depends_lib-append \
-        port:py27-lxml \
-        port:py27-pygtk
+    if {${subport} eq "gnuradio-next"} {
+        depends_lib-append \
+            port:py${PythonVersionNoDot}-gobject3 \
+            port:py${PythonVersionNoDot}-mako \
+            port:py${PythonVersionNoDot}-lxml \
+            port:py${PythonVersionNoDot}-yaml \
+            port:gtk3 \
+            port:cairo \
+            port:pango
 
+    } else {
+        depends_lib-append \
+            port:py${PythonVersionNoDot}-pygtk \
+            port:py${PythonVersionNoDot}-lxml
+
+    }
 }
 
 if {![variant_isset grc]} {
@@ -332,12 +437,11 @@ if {![variant_isset grc]} {
 
 variant qtgui description "Install GNU Radio with support for Qt GUI" {
 
-    PortGroup active_variants 1.1
-
     if {${subport} eq "gnuradio" ||
         ${subport} eq "gnuradio-devel"} {
 
         PortGroup qt4 1.0
+        PortGroup active_variants 1.1
 
         depends_lib-append \
             port:qwtplot3d
@@ -346,7 +450,7 @@ variant qtgui description "Install GNU Radio with support for Qt GUI" {
         # runtime; so use depends_lib to get both.
 
         depends_lib-append \
-            port:py27-pyqt4
+            port:py${PythonVersionNoDot}-pyqt4
 
         # Requires qwt >= 5.2, so not the "qwt" port.  Also requires
         # py*-pyqwt which does not compile with qwt >= 6.0; so -have- to
@@ -359,7 +463,7 @@ variant qtgui description "Install GNU Radio with support for Qt GUI" {
         # required for runtime; so use depends_run.
 
         depends_run-append \
-            port:py27-pyqwt
+            port:py${PythonVersionNoDot}-pyqwt
 
         configure.args-append \
             -DQWT_INCLUDE_DIRS=${prefix}/include/qwt \
@@ -375,16 +479,16 @@ variant qtgui description "Install GNU Radio with support for Qt GUI" {
         # either py*-pyqt5 or py*-pyqt5-devel.
 
         depends_lib-append \
-            path:share/py27-sip/PyQt5:py27-pyqt5
+            path:share/py${PythonVersionNoDot}-sip/PyQt5:py${PythonVersionNoDot}-pyqt5
 
-        # Requires qwt >= 6.0, installed with +qt5.
+        # Requires qwt >= 6.0, installed for qt5.
+        # just use the new port that does this.
 
-        depends_lib-append port:qwt61
-        require_active_variants qwt61 qt5
+        depends_lib-append port:qwt-qt5
 
         configure.args-append \
-            -DQWT_INCLUDE_DIRS=${qt_dir}/include/qwt \
-            -DQWT_LIBRARIES=${qt_dir}/lib/libqwt.dylib
+            -DQWT_INCLUDE_DIRS=${qt_dir}/lib/qwt.framework/Versions/6/Headers \
+            -DQWT_LIBRARIES=${qt_dir}/lib/qwt.framework/qwt
 
     }
 
@@ -396,38 +500,38 @@ variant qtgui description "Install GNU Radio with support for Qt GUI" {
 
 if {![variant_isset qtgui]} {
 
-    # qt4 portgroup provides pkgconfig, so if not using Qt need that here.
-
-    depends_build-append \
-        port:pkgconfig
-
     configure.args-append \
         -DENABLE_GR_QTGUI=OFF \
         -DQT_QMAKE_EXECUTABLE=
 
 }
 
-variant wxgui description "Install GNU Radio with support for Wx GUI" {
+if {${subport} eq "gnuradio-next"} {
+    # no wxgui in next!
+} else {
 
-    depends_lib-append \
-        port:${wxWidgets.port}
+    variant wxgui description "Install GNU Radio with support for Wx GUI" {
 
-    # wxpython is checked for at configure, then required
-    # for runtime; so use depends_lib to get both.
+        depends_lib-append \
+            port:${wxWidgets.port}
 
-    depends_lib-append \
-        port:py27-wxpython-3.0
+        # wxpython is checked for at configure, then required
+        # for runtime; so use depends_lib to get both.
 
-    configure.args-append \
-        -DENABLE_GR_WXGUI=ON
+        depends_lib-append \
+            port:py${PythonVersionNoDot}-wxpython-3.0
 
-}
+        configure.args-append \
+            -DENABLE_GR_WXGUI=ON
 
-if {![variant_isset wxgui]} {
+    }
 
-    configure.args-append \
-        -DENABLE_GR_WXGUI=OFF
+    if {![variant_isset wxgui]} {
 
+        configure.args-append \
+            -DENABLE_GR_WXGUI=OFF
+
+    }
 }
 
 variant uhd description "Install GNU Radio with support for UHD" {
@@ -551,7 +655,7 @@ variant ctrlport description {Enable control port enhancements (EXPERIMENTAL)} {
     # require Thrift and Python Thrift
 
     depends_lib-append \
-        port:py27-thrift \
+        port:py${PythonVersionNoDot}-thrift \
         port:thrift
 
     # enable configuration arguments for ctrlport and thrift
@@ -576,8 +680,8 @@ variant performance_counters description {Enable support for performance counter
     # required for runtime; so use depends_run.
 
     depends_run-append \
-        port:py27-pygraphviz \
-        port:py27-networkx
+        port:py${PythonVersionNoDot}-pygraphviz \
+        port:py${PythonVersionNoDot}-networkx
 
     configure.args-append \
         -DENABLE_PERFORMANCE_COUNTERS=ON
@@ -593,14 +697,15 @@ if {![variant_isset performance_counters]} {
 
 variant zeromq description {Install GNU Radio with support for the ZeroMQ lightweight messaging kernel (EXPERIMENTAL)} {
 
+    # can use cppzmq or cppzmq-devel
     depends_lib-append \
-        port:cppzmq
+        path:include/zmq.hpp:cppzmq
 
     # pyzmq is not checked for at configure, but is
     # required for runtime; so use depends_run.
 
     depends_run-append \
-        port:py27-zmq
+        port:py${PythonVersionNoDot}-zmq
 
     configure.args-append \
         -DENABLE_GR_ZEROMQ=ON
@@ -612,4 +717,56 @@ if {![variant_isset zeromq]} {
     configure.args-append \
         -DENABLE_GR_ZEROMQ=OFF
 
+}
+
+if {${subport} eq "gnuradio-next"} {
+
+    # logging using log4cpp is always enabled on GR next (3.8*).
+
+    depends_lib-append  \
+        port:log4cpp
+
+    configure.args-append \
+        -DLOG4CPP_FOUND=ON \
+        -DLOG4CPP_INCLUDE_DIRS=${prefix}/include \
+        -DLOG4CPP_LIBRARIES=${prefix}/lib/liblog4cpp.dylib
+
+} else {
+
+    # logging is an option on GR release and devel (3.7*).
+
+    variant logging description {Install GNU Radio with support for logging} {
+
+        configure.args-append \
+            -DENABLE_GR_LOG=ON
+
+    }
+
+    if {![variant_isset logging]} {
+
+        configure.args-append \
+            -DENABLE_GR_LOG=OFF
+
+    }
+
+    variant log4cpp requires logging description {Install GNU Radio with support for logging via log4cpp} {}
+
+    if {[variant_isset log4cpp]} {
+
+        depends_lib-append  \
+            port:log4cpp
+
+        configure.args-append \
+            -DLOG4CPP_FOUND=ON \
+            -DLOG4CPP_INCLUDE_DIRS=${prefix}/include \
+            -DLOG4CPP_LIBRARIES=${prefix}/lib/liblog4cpp.dylib
+
+    } else {
+
+        configure.args-append \
+            -DLOG4CPP_FOUND=OFF \
+            -DLOG4CPP_INCLUDE_DIRS= \
+            -DLOG4CPP_LIBRARIES=
+
+    }
 }

@@ -4,7 +4,8 @@ PortSystem          1.0
 
 name                sqlite3
 # don't forget to update the checksums for sqlite3-tools when updating sqlite3
-version             3.19.3
+version             3.24.0
+revision            1
 categories          databases
 platforms           darwin
 license             public-domain
@@ -22,16 +23,18 @@ long_description    SQLite3 is an SQL database engine in a C library. \
                     an example of how to use the SQLite3 library.
 
 homepage            http://www.sqlite.org/
-master_sites        ${homepage}2017
+master_sites        ${homepage}2018
 
 set padded_ver      [string range [subst [regsub -all {\.([0-9]+)} "${version}.0.0" {[format %02d \1]}]] 0 6]
 distname            sqlite-autoconf-${padded_ver}
 
-checksums           rmd160  5e94df91f1c53ad9e8076a2fccf755a2cd7add0a \
-                    sha256  06129c03dced9f87733a8cba408871bd60673b8f93b920ba8d815efab0a06301
+checksums           rmd160  e1d3566adf3c61065420bc02956e37fe8b3e546e \
+                    sha256  d9d14e88c6fb6d68de9ca0d1f9797477d82fc3aed613558f87ffbdbbc5ceb74a \
+                    size    2699252
 
 depends_lib         port:libedit \
-                    port:ncurses
+                    port:ncurses \
+                    port:zlib
 
 configure.args      --enable-threadsafe \
                     --enable-dynamic-extensions \
@@ -39,8 +42,10 @@ configure.args      --enable-threadsafe \
                     --enable-editline \
                     AWK=/usr/bin/awk
 
-post-patch {
-    reinplace "s|-ltinfo||" ${worksrcpath}/configure
+if {${subport} eq ${name}} {
+    post-patch {
+        reinplace "s|-ltinfo||" ${worksrcpath}/configure
+    }
 }
 
 # search in worksrcpath for sqlite3.h first -- dont pick up an installed one!
@@ -49,6 +54,7 @@ configure.cppflags-prepend  -DSQLITE_DISABLE_INTRINSIC \
                             -DSQLITE_ENABLE_FTS3_PARENTHESIS \
                             -DSQLITE_ENABLE_FTS4 \
                             -DSQLITE_ENABLE_FTS5 \
+                            -DSQLITE_ENABLE_JSON1 \
                             -DSQLITE_ENABLE_RTREE \
                             -DSQLITE_SECURE_DELETE \
                             -DSQLITE_ENABLE_STAT4 \
@@ -81,10 +87,14 @@ subport ${name}-tools {
                               database files, including the sqldiff program and the \
                               sqlite3_analyzer program.
 
-    checksums       rmd160  9461230d8029ed202f544062e6af06c24da5f30c \
-                    sha256  5595bbf59e7bb6bb43a6e816b9dd2ee74369c6ae3cd60284e24d5f7957286120
+    checksums       rmd160  be4281044f05b6ebfe87cc7304d47fd854ad29c4 \
+                    sha256  72a302f5ac624079a0aaf98316dddda00063a52053f5ab7651cfc4119e1693a5 \
+                    size    10980065
+
     use_zip                   yes
-    depends_lib               port:tcl
+    depends_lib               port:tcl \
+                              port:zlib
+
     configure.args            --with-tcl=${prefix}/lib
     build.target              sqldiff sqlite3_analyzer
     destroot {

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        Theano libgpuarray 0.6.8 v
+github.setup        Theano libgpuarray 0.7.6 v
 
 name                py-pygpu
 categories-append   devel math
@@ -14,13 +14,16 @@ supported_archs     x86_64
 
 python.versions     27 35 36
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Python wrapper for libgpuarray library
 long_description    ${description}
 
-checksums           rmd160  24d441a384ab9dec86b297888d477415e8ab6237 \
-                    sha256  26b8782f2afb742f78a4f0e2cc836ab8c76c381d04a30394c216ebabb74941a9
+dist_subdir         libgpuarray
+
+checksums           rmd160  0b1b4a4be3e22fdf3cf38f325c090c6bddeb5109 \
+                    sha256  fa96c5d2baf5c6ee4521104409bfab5a3319fcc055f89b8c75d4a45983354c5e \
+                    size    293866
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -28,7 +31,8 @@ if {${name} ne ${subport}} {
                         port:py${python.version}-cython
 
     depends_lib-append  port:libgpuarray \
-                        port:py${python.version}-mako
+                        port:py${python.version}-mako \
+                        port:py${python.version}-numpy
 
     livecheck.type      none
 } else {

@@ -5,15 +5,15 @@ PortGroup           python 1.0
 PortGroup           select 1.0
 
 name                py-cython
-version             0.26
+version             0.28.3
 revision            0
 categories-append   devel
 platforms           darwin
 license             Apache-2
 
-python.versions     26 27 33 34 35 36
+python.versions     26 27 33 34 35 36 37
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         A language for writing C extension modules for Python.
 
@@ -27,10 +27,14 @@ master_sites        pypi:C/Cython
 
 distname            Cython-${version}
 
-checksums           rmd160  68953645c0ca07a4ed8114d3babceeba499c99d9 \
-                    sha256  4c24e2c22ddaed624d35229dc5db25049e9e225c6f64f3364326836cad8f2c66
+checksums           rmd160  5b3de1c00bd88c9745404d1d5807ea37853eca03 \
+                    sha256  1aae6d6e9858888144cea147eb5e677830f45faaff3d305d77378c3cba55f526 \
+                    size    1880324
 
 if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
+
     depends_run         port:cython_select
     test.run            no
 

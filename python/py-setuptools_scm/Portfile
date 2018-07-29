@@ -4,16 +4,16 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-setuptools_scm
-version             1.15.6
+version             2.1.0
 revision            0
 categories-append   devel
 platforms           darwin
 license             MIT
 supported_archs     noarch
 
-python.versions     27 34 35 36
+python.versions     27 34 35 36 37
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Package to manage versions by scm tags.
 long_description    ${description}
@@ -23,8 +23,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  6db2ec8144cbbc2b0c2e7e294ae52d5f4403edd2 \
-                    sha256  49ab4685589986a42da85706b3311a2f74f1af567d39fee6cb1e088d7a75fb5f
+checksums           rmd160  d8d469c02c126d0a0c72c1b18203eae4124577c3 \
+                    sha256  a767141fecdab1c0b3c8e4c788ac912d7c94a0d6c452d40777ba84f918316379 \
+                    size    32776
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-setuptools

@@ -1,21 +1,51 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-
 PortGroup           github 1.0
 
-github.setup        zeromq cppzmq 749522d5bbd3cdb0f539f2b15573750cc22f3bd7
-version             20170717
-checksums           rmd160 a7547d8747a6e42cf57186c40669cefffc2dba80 \
-                    sha256 8ff953bd560aed75463d1601a3ccdcdc198eb77d7f7c61d2526ba7292236fbba
-
-maintainers         michaelld openmaintainer
+name                cppzmq
+maintainers         {michaelld @michaelld} openmaintainer
 platforms           darwin
 categories          devel sysutils net
 license             Permissive
 
 description         High-level C++ Binding for 0MQ
 long_description    ${description}
+
+subport cppzmq-devel {}
+
+if {${subport} eq ${name}} {
+
+    # release
+
+    github.setup    zeromq cppzmq 4.2.3 v
+    checksums       rmd160 2018c5ef1e282cdd8f271c7435b4f60c497291f5 \
+                    sha256 8986a12bf838ba952a0048264a5a3dbc160d140ebdc476db979b3d2407e412f1 \
+                    size   10907
+
+    # bump the epoch because I moved the version from 20170720 to 4.2.2
+
+    epoch           1
+
+    conflicts       ${name}-devel
+    long_description ${description}: \
+        This port follows the release version of ${name}, which is typically updated every 6 months. If for some reason this port does not build or function as desired, try the ${name}-devel port.
+
+} else {
+
+    # devel
+
+    github.setup    zeromq cppzmq 213da0b04ae3b4d846c9abc46bab87f86bfb9cf4
+    version         20180715
+    checksums       rmd160 2841b8395b290cd895885881864b34e399be7d10 \
+                    sha256 5634462ee21a9dad3baf0db68812a8ac1262353d2039e2af402ff2d356b26ca2 \
+                    size   22897
+
+    conflicts       ${name}
+    long_description ${description}: \
+        This port follows the GIT master version of ${name}, which is typically updated every few days to weeks.
+
+}
 
 depends_lib-append  path:lib/libzmq.dylib:zmq
 

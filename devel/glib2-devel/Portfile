@@ -8,7 +8,7 @@ PortGroup                   compiler_blacklist_versions 1.0
 name                        glib2-devel
 conflicts                   glib2
 set my_name                 glib
-version                     2.53.4
+version                     2.57.1
 set branch                  [join [lrange [split ${version} .] 0 1] .]
 categories                  devel
 maintainers                 {ryandesign @ryandesign} openmaintainer
@@ -28,29 +28,31 @@ long_description            Glib is a library which includes support routines \
 
 master_sites                gnome:sources/${my_name}/${branch}/
 
-checksums                   rmd160  e5fbb4461eddd12a4bdf6f660d5b68c6e15cd9e7 \
-                            sha256  f26b5565f9c1deba2d76dd5f819f9ed248dd75fcd19aa9fa6f51c5f554790679
+checksums                   rmd160  1f60b8a19634a65b6e81275797d9fe4b50d82b13 \
+                            sha256  d029e7c4536835f1f103472f7510332c28d58b9b7d6cd0e9f45c2653e670d9b4 \
+                            size    6976232
 
-# ${prefix}/include/glib-2.0/glib/gi18n.h requires -I${prefix}/include to find libintl.h
-# See https://trac.macports.org/changeset/27148
-patchfiles                  patch-configure.diff \
-                            patch-glib-2.0.pc.in.diff \
+patchfiles                  libintl.patch \
                             patch-glib-gmain.c.diff \
                             patch-glib_gunicollate.c.diff \
-                            patch-gi18n.h.diff \
                             patch-gio_xdgmime_xdgmime.c.diff \
                             patch-gio_gdbusprivate.c.diff \
                             patch-get-launchd-dbus-session-address.diff \
                             patch-gmodule-gmodule-dl.c.diff \
-                            patch-configure-switch-for-gappinfo-impl-mp.diff
+                            patch-configure-switch-for-gappinfo-impl.diff \
+                            universal.patch
 
-depends_build               bin:xmllint:libxml2
+depends_build               bin:xmllint:libxml2 \
+                            port:pkgconfig
 
 depends_lib                 port:gettext \
                             port:libffi \
                             port:libiconv \
                             port:pcre \
                             port:zlib
+
+use_autoreconf              yes
+autoreconf.args             -fvi
 
 if {[vercmp ${macosx_deployment_target} 10.9] < 0} {
     # GLib-CRITICAL **: attempting to free a locked GVariant instance.  This should never happen.
@@ -71,35 +73,24 @@ configure.cflags-append     -fstrict-aliasing
 
 configure.args              --enable-static --disable-libelf \
                             --disable-compile-warnings \
+                            --disable-gtk-doc \
                             --with-pcre=system \
-                            ac_cv_prog_AWK=/usr/bin/awk
+                            ac_cv_prog_AWK=/usr/bin/awk \
+                            ac_cv_prog_GTKDOC_CHECK= \
+                            ac_cv_path_GTKDOC_CHECK_PATH= \
+                            ac_cv_path_GTKDOC_MKPDF= \
+                            ac_cv_path_GTKDOC_REBASE=
 
 configure.perl              /usr/bin/perl
 configure.python            /usr/bin/python
-configure.env-append        PCRE_CFLAGS="-I${prefix}/include" \
-                            PCRE_LIBS="-L${prefix}/lib -lpcre" \
-                            PERL_PATH=${configure.perl} \
-                            PKG_CONFIG=false \
-                            ZLIB_CFLAGS="-I${prefix}/include" \
-                            ZLIB_LIBS="-L${prefix}/lib -lz"
+configure.env-append        PERL_PATH=${configure.perl}
 
 post-patch {
+    reinplace -W ${worksrcpath} "s|@PREFIX@|${prefix}|g" gio/gdbusprivate.c gio/xdgmime/xdgmime.c glib/gi18n-lib.h glib/gi18n.h
     reinplace "s|data_dirs = \"/usr|data_dirs = \"${prefix}/share:/usr|g" ${worksrcpath}/glib/gutils.c
     reinplace "s|path = \"/bin|path = \"${prefix}/bin:/bin|g" ${worksrcpath}/glib/gutils.c ${worksrcpath}/glib/gspawn.c
-    reinplace "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/gio/xdgmime/xdgmime.c
-    reinplace "s|@@PREFIX@@|${prefix}|g" ${worksrcpath}/gio/gdbusprivate.c
     reinplace "s|#! */usr/bin/env python|#!${configure.python}|g" ${worksrcpath}/glib/gtester-report
     reinplace "s|-Werror=missing-prototypes||" ${worksrcpath}/configure
-}
-
-pre-configure {
-    if {![variant_isset quartz] && ![variant_isset x11]} {
-        error "Either +x11 or +quartz is required"
-    }
-
-    set libffi_version      [exec sed -n {s/Version: //p} ${prefix}/lib/pkgconfig/libffi.pc]
-    configure.env-append    LIBFFI_CFLAGS="-I${prefix}/lib/libffi-${libffi_version}/include" \
-                            LIBFFI_LIBS="-L${prefix}/lib -lffi"
 }
 
 post-configure {
@@ -124,7 +115,9 @@ platform darwin {
     configure.args-append   --disable-dtrace
 }
 
-platform darwin 8 {
+if {${os.platform} eq "darwin" && ${os.major} <= 10} {
+    # Requires python 2.7 as of 2.53.4
+    # See https://bugzilla.gnome.org/show_bug.cgi?id=785193
     depends_lib-append      port:python27
     configure.python        ${prefix}/bin/python2.7
 }
@@ -139,6 +132,14 @@ variant x11 conflicts quartz {
 
 if {![variant_isset quartz]} {
     default_variants +x11
+}
+if {![variant_isset x11]} {
+    default_variants +quartz
+}
+if {![variant_isset quartz] && ![variant_isset x11]} {
+    pre-configure {
+        return -code error "Either +x11 or +quartz is required"
+    }
 }
 
 livecheck.type              gnome-with-unstable

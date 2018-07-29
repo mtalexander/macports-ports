@@ -1,10 +1,10 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-PortGroup           cxx11 1.0
+PortGroup           cxx11 1.1
 
 name                highlight
-version             3.38
+version             3.44
 categories          textproc devel
 platforms           darwin
 license             GPL-3
@@ -16,8 +16,9 @@ homepage            http://www.andre-simon.de
 master_sites        ${homepage}/zip/
 use_bzip2           yes
 
-checksums           rmd160  026d5752f5d5c7815717939f639196425e7bb262 \
-                    sha256  c017d817e397d2d98c9264f63af2613a011bcbdcac53a92d3d540ae0978807fb
+checksums           rmd160  d7997c545d98c21c2fd09f68989e3cb8cf3713da \
+                    sha256  53a1191f1b21130d9690e4c9a82947af11777d8e9569446b997c5a824e601fa4 \
+                    size    1335764
 
 depends_build       port:boost \
                     port:cctools \
@@ -30,9 +31,14 @@ use_configure       no
 
 build.target        cli lib
 
+if {[string match *clang* ${configure.cxx}]} {
+    configure.cxxflags-append -stdlib=${configure.cxx_stdlib}
+}
+configure.cxxflags-append -std=c++11
+
 # Yes, this project's makefile uses CFLAGS to compile its C++ code.
 build.args          CXX="${configure.cxx}" \
-                    CFLAGS="-std=c++11 ${configure.cxxflags} [get_canonical_archflags cxx]" \
+                    CFLAGS="${configure.cxxflags} [get_canonical_archflags cxx]" \
                     LDFLAGS="${configure.ldflags} [get_canonical_archflags ld]" \
                     PREFIX="${prefix}"
 

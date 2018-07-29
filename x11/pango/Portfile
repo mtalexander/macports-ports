@@ -10,7 +10,7 @@ name                    pango
 conflicts               pango-devel
 set my_name             pango
 epoch                   1
-version                 1.40.7
+version                 1.42.2
 set branch              [join [lrange [split ${version} .] 0 1] .]
 categories              x11
 maintainers             {ryandesign @ryandesign} openmaintainer
@@ -31,8 +31,9 @@ long_description \
     open-source framework for the layout and rendering \
     of internationalized text.
 
-checksums               rmd160  53f5b051d0ba3d89cccf46c02e340e4737c14230 \
-                        sha256  517645c00c4554e82c0631e836659504d3fd3699c564c633fccfdfd37574e278
+checksums               rmd160  833d387a6da77c06f7798e96b45208cc45fef150 \
+                        sha256  b1e416b4d40416ef6c8224cf146492b86848703264ba88f792290992cf3ca1e2 \
+                        size    827364
 
 depends_build \
     port:pkgconfig
@@ -40,16 +41,18 @@ depends_build \
 depends_lib \
     path:lib/pkgconfig/glib-2.0.pc:glib2 \
     path:lib/pkgconfig/cairo.pc:cairo \
+    port:fribidi \
     port:harfbuzz
 
-patchfiles              patch-ltmain.sh.diff \
-                        patch-pango-pangocoretext-shape.c.diff
+patchfiles              patch-pango-pangocoretext-shape.c.diff
 
 configure.args          --enable-static \
                         --disable-silent-rules \
                         --without-x
 
 gobject_introspection   yes
+
+license_noconflict      gobject-introspection
 
 platform macosx {
     variant quartz {

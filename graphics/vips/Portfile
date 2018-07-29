@@ -4,21 +4,22 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           gobject_introspection 1.0
 
-github.setup        jcupitt libvips 8.5.6 v
+github.setup        jcupitt libvips 8.6.4 v
+revision            1
 name                vips
 distname            vips-${version}
 description         VIPS is an image processing library.
 long_description    VIPS is an image processing library. It is good for \
                     large images and for colour.
-maintainers         bgilbert gmail.com:jcupitt
+maintainers         {bgilbert @bgilbert} {gmail.com:jcupitt @jcupitt}
 categories          graphics
 platforms           darwin
 license             LGPL-2.1+
 homepage            https://jcupitt.github.io/libvips/
 github.tarball_from releases
 
-checksums           rmd160  093f6804bc94819bb76f00eeaf6940c7e798bc17 \
-                    sha256  19a77ab200eb0ddfcd8babab130fe43c7730880d1f1fdfbdd8def519af32c4b8
+checksums           rmd160  80770fe6e1a52c9d334736597b749fea60e043f0 \
+                    sha256  4631a080c92b2b371379252e451818604858942b754c924b09843a7f528a8af4
 
 depends_build       port:gtk-doc \
                     port:pkgconfig
@@ -48,9 +49,7 @@ depends_lib         path:lib/pkgconfig/glib-2.0.pc:glib2 \
 
 gobject_introspection   yes
 
-configure.args      --enable-gtk-doc \
-                    --disable-pyvips8 \
-                    --without-python
+configure.args      --enable-gtk-doc
 
 proc install_pygi {pyver} {
     global destroot frameworks_dir prefix worksrcpath
@@ -65,8 +64,8 @@ variant python27 description {Install Python 2.7 interface} {
         install_pygi        2.7
     }
     # Include vips7 legacy API
-    configure.args-delete   --without-python
-    configure.args-append   am_cv_python_pyexecdir='${frameworks_dir}/Python.framework/Versions/2.7/lib/python2.7/site-packages'
+    configure.args-append   --enable-pyvips7 \
+                            am_cv_python_pyexecdir='${frameworks_dir}/Python.framework/Versions/2.7/lib/python2.7/site-packages'
     configure.env-append    PYTHON='${prefix}/bin/python2.7'
 }
 variant python34 description {Install Python 3.4 interface} {

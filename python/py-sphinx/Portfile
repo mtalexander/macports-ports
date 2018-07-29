@@ -5,10 +5,10 @@ PortGroup           python 1.0
 PortGroup           select 1.0
 
 name                py-sphinx
-version             1.6.3
+version             1.7.6
 categories-append   textproc devel
 license             BSD
-maintainers         {jmr @jmroot} gmail.com:michel.sylvan openmaintainer
+maintainers         {jmr @jmroot} openmaintainer
 description         Python documentation generator
 long_description \
     Sphinx is a tool that makes it easy to create intelligent and beautiful \
@@ -24,9 +24,8 @@ homepage            http://sphinx-doc.org/
 master_sites        pypi:S/Sphinx/
 distname            Sphinx-${version}
 
-checksums           md5 c5ad61f4e0974375ca2c2b58ef8d5411 \
-                    rmd160 acd28eac169f8b20177348ff6b8586bd22a2166a \
-                    sha256 af8bdb8c714552b77d01d4536e3d6d2879d6cb9d25423d29163d5788e27046e6
+checksums           rmd160 ec3c0ca4039f124214ec733532adda9254fe95d9 \
+                    sha256 217ad9ece2156ed9f8af12b5d2c82a499ddf2c70a33c5f81864a08d8c67b9efc
 
 python.versions     27 34 35 36
 
@@ -37,13 +36,14 @@ if {$subport ne $name} {
                     port:py${python.version}-babel \
                     port:py${python.version}-imagesize \
                     port:py${python.version}-jinja2 \
+                    port:py${python.version}-packaging \
                     port:py${python.version}-pygments \
                     port:py${python.version}-requests \
                     port:py${python.version}-six \
                     port:py${python.version}-snowballstemmer \
                     port:py${python.version}-sphinxcontrib-websupport \
                     port:sphinx_select
-    if {${python.version} < 36} {
+    if {${python.version} < 35} {
         depends_run-append  port:py${python.version}-typing
     }
 
@@ -58,6 +58,4 @@ port select --set ${select.group} [file tail ${select.file}]
 "
 
     livecheck.type  none
-} else {
-    livecheck.type  pypi
 }

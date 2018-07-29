@@ -1,24 +1,27 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-PortGroup           cmake 1.0
+PortGroup           cmake   1.1
+PortGroup           cxx11   1.1
 PortGroup           github  1.0
 
-license             LGPL
+github.setup        LASzip LASzip 3.2.2
+name                laszip
 categories          gis
-maintainers         nomaintainer
+maintainers         {vince @Veence}
+description         LASzip is a library to handle compressed point cloud data
+long_description    $description
+
 platforms           darwin
-description         Library to handle compressed laser data
+license             GPL-2+
 
-long_description \
-    Developed by Rapidlasso Gmbh., LASzip is a laser data lossless compressor \
-    that significantly reduce the size of millions+ point clouds.
-
-homepage            http://www.laszip.org
-github.setup        LASzip LASzip v2.2.0 
-
-checksums           rmd160  214c8b05b0fa92d9fab63c725652896a180c6abf \
-                    sha256  147c1064a147473e268241c971abc1d83789ab470b3c64ad7fc899d610427249
-
+homepage            https://www.laszip.org
+github.tarball_from releases
 distname            laszip-src-${version}
+use_bzip2           yes
 
+checksums           rmd160  68213e4397082af113f319333d3441875f705991 \
+                    sha256  815b682ac4470cd4b546a3af105702f5fe161dd3926ea8c6df7dd9f13715153a \
+                    size    151927
+
+patchfiles          install_name.patch

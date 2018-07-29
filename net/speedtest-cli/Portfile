@@ -4,10 +4,10 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        sivel speedtest-cli 1.0.6 v
+github.setup        sivel speedtest-cli 2.0.2 v
 
 python.versions     27 34 35 36
-python.default_version 27
+python.default_version 36
 
 categories          net
 platforms           darwin
@@ -17,8 +17,9 @@ maintainers         {khindenburg @kurthindenburg} openmaintainer
 description         cli for speedtest.net
 long_description    command line interface for testing internet bandwidth using speedtest.net
 
-checksums           rmd160  d07de294b308af69e0aef07d276985c056862bda \
-                    sha256  71951a6be408a54c593a69f7b826a508f936649610c6b35c9e8b7082c7590841
+checksums           rmd160  481c30da2511b0e921fe7cc38c01d8da91bf69ff \
+                    sha256  1a5d47406b12fe6bb3635ba6954d331a02dcd4b721278a3489193bbf86d692d9 \
+                    size    23929
 
 depends_build-append \
                     port:py${python.version}-setuptools

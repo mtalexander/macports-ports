@@ -5,12 +5,12 @@ PortGroup           python 1.0
 PortGroup           app 1.0
 PortGroup           bitbucket 1.0
 
-bitbucket.setup     tortoisehg thg 4.2.1
+bitbucket.setup     tortoisehg thg 4.6.1
 name                tortoisehg
 categories          devel python
 platforms           darwin
 license             GPL-2+
-maintainers         sean openmaintainer
+maintainers         {sean @seanfarley} openmaintainer
 supported_archs     noarch
 
 description         A set of graphical tools for Mercurial
@@ -18,15 +18,16 @@ description         A set of graphical tools for Mercurial
 long_description    A set of graphical tools for the Mercurial distributed \
                     source control management system.
 
-checksums           rmd160  de67543847e01372b485e671c1bffac0bbb565f7 \
-                    sha256  315f0947895a42980f9a1fc32c0dad4a9ab44e838b1d044c59771fb0499b4156
+checksums           rmd160  c7f20cfcb008f5a3f8df79f48c37b96e338e1076 \
+                    sha256  fd61125dec64c5d50c7afcf9672fc4cb01a39329880a31b67826821833410d54 \
+                    size    8210934
 
 python.default_version 27
 
 # Can use either mercurial or mercurial-devel.
 depends_lib         path:bin/hg:mercurial \
                     port:py${python.version}-pyqt4 \
-                    port:py${python.version}-qscintilla \
+                    port:py${python.version}-qscintilla-qt4 \
                     port:py${python.version}-iniparse
 
 depends_build       port:py${python.version}-sphinx

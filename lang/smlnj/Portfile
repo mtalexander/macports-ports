@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                smlnj
-version             110.80
+version             110.83
 categories          lang ml
 license             BSD
 maintainers         toby openmaintainer
@@ -24,43 +24,40 @@ checksums
 
 # Files needed for basic distribution.
 set srcs [list \
-    ckit.tgz ad6ee5f6f2c9dd6719cc43840f8d4b49b1bb964f \
-    cml.tgz 2777c3dc0ed84dfae6ea40f7bbe3670fcd65bdcf \
-    cm.tgz 289c39d1c149dca43aa8d8096e826f2c86b141a4 \
-    compiler.tgz 4dbc2d75abd2f9d6ae36993a570372e8075d3dae \
-    config.tgz 918df9e648bf19619e89c54114818e1d18a44bda \
-    doc.tgz 9b3a070506c3810213293837c8ef531c3a20400f \
-    eXene.tgz e7306683fa706a84a4fc5c05cbe1df12bb0984e1 \
-    heap2asm.tgz 72cacbaa4d335e0742bb9dc872e37db21a0e29f4 \
-    ml-burg.tgz b3978428c9d2147a3e4527cf1a8fdbb54da24d2f \
-    ml-lex.tgz b762e312b8c2a11d92f60269a3e65f99f2728061 \
-    ml-lpt.tgz 82c2a13c6e4c833c17335ebb48e4e89b15bdf580 \
-    MLRISC.tgz ca958d7f14ca7a103921e0c1bdde1a7097e74bed \
-    ml-yacc.tgz 9b90c774c951eb747b249a610467f86af7b9e64b \
-    nlffi.tgz 80e9854839232036b71786943170c58067a6a04d \
-    old-basis.tgz d05adf45d75d954763ce178b448f5d2d5aa9685c \
-    pgraph.tgz 90da4ce310f3c2d89d6d411110f53027fb985616 \
-    runtime.tgz 7a7cc05dcba481b47f50c7d87c4abcc85e51cce4 \
-    smlnj-c.tgz a69ff7cbe6821bb8d50f2d729992be80ab69e12f \
-    smlnj-lib.tgz b3fa8ac6531f737c6b96b2250a3f827ffa17408d \
-    system.tgz f4bd70f6cc5369def248f5632075290e881a9aac \
-    trace-debug-profile.tgz f0fdd25f38a311e67a29628f7a8bc5dad2256e87 \
+    doc.tgz                 8234667aefe7e53f2116d9fc9b8703edf5d5f1d54426ced008772005f3b81e82 de2d56c46da920a5ef6a112c4cc9cfab292fb5fc 243185  \
+    config.tgz              997d74d1a3e7e6b22c3002bf69a6003173c856d59baba79e93073f9c7f3eacaa 5a195960f2e4b927e3272882088e3f46e69f0203 511849  \
+    cm.tgz                  89ccb520252097d83b8bdd70acc6f8bfbb662880f71bd0e516518c390454b2ca 089c2a57513c8008635c56f69649844370f96be3 217853  \
+    compiler.tgz            4887d767566a2dc5276315ae51c84ae4d2317523c0683f91c7df7e8a4300b463 b4e794d9af410c9c5789030cd3dac1eeae542151 845361  \
+    runtime.tgz             0254a24e4438a4b19e4d97a44306d0aa3063dfc5ab2606c7efaa664778c47173 efa57b53b119b2321c4661064fafea031f400eec 343694  \
+    system.tgz              1d30c9e7ff386b7f09b98863c3778e2a008c9404a50d20f105f3d3dfb950f091 a9284b3e44a09d6e48067618310bbcc1c72946df 244885  \
+    MLRISC.tgz              1842f9c6db8aa3e685af5b3fa73ab1162b3ce4aefb28a9d1b46f070564152455 b760b2d6f2431fbaed099677b595557796f07435 1435349 \
+    smlnj-lib.tgz           eabb1eee5a4ca09bc5d244625c1a58ad51199df682c572a322b296921d3b2364 1232ba3f759461e0f9027a7ad25249f8278a8d57 449332  \
+    old-basis.tgz           068b8a89e34011b63ee0de00b7550343573909c873904440f6c13a3b933ff4df f7782d4cfc5a1ab5ae382055c7205ccb93ca06ac 968     \
+    ckit.tgz                6ab5db28b154c925e538b6cde886d7e0eee0bff24a3e01b950a2bfbdc8866921 baadbd408a770006a12acdd7f64872098d1e3b25 194543  \
+    nlffi.tgz               eabcb899e9d16720ce2f44dda074236691aa5dacac05af8741a288e0d2c2dd5b 09eb45a85b7ea921a8f02a529daf973b828a244d 74501   \
+    cml.tgz                 28e9bff3598dfa0bc58b7aa4d9031509109fbb3b2bb17fc389f4f7c669d531d9 58522b25f7c620275ac07e13282b96a57321dfca 106150  \
+    eXene.tgz               569f39e2468c1fd699092272cfe5f56e5d6d7a010f17881061d242d443f0d508 c308a0c43ef2503b9b04c01334efdf37e4283088 703161  \
+    ml-lpt.tgz              ec9f407659fca997fb0714edafd4079e8d356463f9e6b7cdf787b6bf8b35fdec 7679c724e63daf2d630a89d3770b66a75938a3b0 264851  \
+    ml-lex.tgz              beb1ef366db2034966eb9832bf6f8168513f58f18f34b38a6b7ab92f960b2e7e 814246325ee06e92044a55f9221dce4b17484f24 33173   \
+    ml-yacc.tgz             2789f4f7b1e1b6ac0874d2232ea4d7aa44adccb655934227058b3153f9be2607 b96bdb99263bbc7d04003adb646ebf072486705d 100045  \
+    ml-burg.tgz             11e079d7ac5dde5e67457480053cd0e37dac343cb35fb0a7135df2bbb48426c5 7d798044173d2a659b1594dc9fe94d8bb9f308d5 36351   \
+    pgraph.tgz              a81a664aef82ad1f336cd9b320d1cd5351abb9bfd915f0179a62054508df6c0b 7890e38ed0795f47ef433bb22065ce0d49ef08d0 5452    \
+    trace-debug-profile.tgz 1cb5559445805017f16f56df348e7e5c75352e060a8a43ea600e4300cab59a14 21e078929bf356051c23689bb83c9f0b189ef23c 3910    \
+    heap2asm.tgz            bf8a2fee9b1b345418b5252b05f059133afd3849b949b0249a7e9635fca43813 075ed73269aa4f9065e13e5a9d76ea77c804bf4e 1321    \
+    smlnj-c.tgz             5974c86a9fda680247ad69b8afc8d3bd32831b8256ce64a231a5dcdefcb793fb ee99319191ae2f2983d1e381a6c289d1ba4cad88 10547   \
 ]
-
-foreach {tarball checksum} $srcs {
-    distfiles-append $tarball
-    checksums-append $tarball sha1 $checksum
-}
-
 
 # Platform-specific boot code (omitted: sparc-unix, x86-win32)
 platform powerpc {
-    distfiles-append boot.ppc-unix.tgz
-    checksums-append boot.ppc-unix.tgz sha1 ee32acfd97f7bcb4ec337565805f3d358ab299ba
+    lappend srcs boot.ppc-unix.tgz 5582e057f3b23a6dcfaf3354bc35f0880680d0fc611b44295233d3eb1a29ad1a 80a9c895eea9141a1619d72e63b3ae46c724d517 5693890
 }
 platform i386 {
-    distfiles-append boot.x86-unix.tgz
-    checksums-append boot.x86-unix.tgz sha1 df24a467d68dd9259a7a3d00c5d37c51dbc7ed2a
+    lappend srcs boot.x86-unix.tgz 5830522e5981ba9fb6d01201db53f26285e6a251bedaf9dd87db0b9edf540b09 6efc9cf061670ba918e1463d2370f2a739b62b7e 5758104
+}
+
+foreach {tarball sha256 rmd160 size} $srcs {
+    distfiles-append $tarball
+    checksums-append $tarball sha256 $sha256 rmd160 $rmd160 size $size
 }
 
 ### extract ###
@@ -68,7 +65,7 @@ extract.mkdir       yes
 extract.only        config.tgz
 
 ### patch ###
-patchfiles          patch-config__install.sh-correct-compiler.diff
+patchfiles          patch-config__install.sh-correct-compiler.diff patch-config-_arch-n-opsys.diff
 
 post-patch {
     reinplace "s|@CC@|${configure.cc}|" ${worksrcpath}/config/install.sh
@@ -104,7 +101,7 @@ destroot {
     file copy ${worksrcpath}/bin ${destroot}${smlnj_home}
     file copy ${worksrcpath}/lib ${destroot}${smlnj_home}
 
-    xinstall -m 555 ${filespath}/sml.sh ${destroot}${prefix}/bin/sml
+    xinstall -m 755 ${filespath}/sml.sh ${destroot}${prefix}/bin/sml
     reinplace "s|__SMLNJ_HOME__|${smlnj_home}|g" \
         ${destroot}${prefix}/bin/sml
 

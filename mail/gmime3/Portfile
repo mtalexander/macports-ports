@@ -5,7 +5,8 @@ PortGroup           gobject_introspection 1.0
 
 name                gmime3
 set gname           gmime
-version             3.0.1
+version             3.2.0
+revision            1
 set branch          [join [lrange [split ${version} .] 0 1] .]
 
 description         GMime is a C/C++ library for parsing and creating messages using \
@@ -18,14 +19,14 @@ maintainers         {devans @dbevans} openmaintainer
 categories          mail
 license             LGPL-2.1+
 platforms           darwin
-homepage            http://spruce.sourceforge.net/${gname}/
+homepage            https://github.com/jstedfast/${gname}
 master_sites        gnome:sources/${gname}/${branch}
 
 distname            ${gname}-${version}
 use_xz              yes
 
-checksums           rmd160  18d89f5353f3940490e5db94d3a75d43289dfcc9 \
-                    sha256  c28459ea86107e3a04ad06081f0b2b96b57f0774db44bae7a72ae18ad6483e00
+checksums           rmd160  e7fd87739a4abaf06cf8212b9ef363e553a118dd \
+                    sha256  75ec6033f9192488ff37745792c107b3d0ab0a36c2d3e4f732901a771755d7e0
 
 depends_build       port:pkgconfig
 

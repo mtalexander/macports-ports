@@ -4,7 +4,8 @@ PortSystem          1.0
 PortGroup           active_variants 1.1
 
 name                gnome-settings-daemon
-version             3.24.2
+version             3.26.2
+revision            1
 license             GPL-2 LGPL-2.1
 set branch          [join [lrange [split ${version} .] 0 1] .]
 description         Gnome 3 settings daemon.
@@ -12,20 +13,20 @@ long_description    ${description}
 maintainers         {devans @dbevans} openmaintainer
 categories          gnome
 platforms           darwin
-homepage            http://www.gnome.org/
+homepage            https://www.gnome.org/
 master_sites        gnome:sources/${name}/${branch}/
 
 use_xz              yes
 
-checksums           rmd160  476acaf26f2bbcf9e04f31cb9cf81217e82eeacd \
-                    sha256  4aa9d72644e3ee8a30096a38986b0e9543fca92f586c561f6c8a11fb8148dcca
+checksums           rmd160  013f9ff67a09cfb88804b56291e0a97469f9f3d3 \
+                    sha256  5a3d156b35e03fa3c28fddd0321f6726082a711973dee2af686370faae2e75e4
 
 depends_build       port:pkgconfig \
                     port:intltool \
                     port:autoconf \
                     port:automake \
                     port:libtool \
-                    port:docbook-xsl \
+                    port:docbook-xsl-nons \
                     port:docbook-xml
 
 depends_lib         port:gtk3 \

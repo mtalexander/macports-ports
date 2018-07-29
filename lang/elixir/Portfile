@@ -3,13 +3,13 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        elixir-lang elixir 1.4.4 v
+github.setup        elixir-lang elixir 1.6.6 v
 epoch               1
 categories          lang
 platforms           darwin
 supported_archs     noarch
 license             Apache-2
-maintainers         milmazz.uno:me
+maintainers         {@milmazz milmazz.uno:me} {ciserlohn @ci42}
 
 description         The Elixir Programming language
 
@@ -23,10 +23,9 @@ homepage            http://elixir-lang.org/
 
 depends_lib         port:erlang
 
-patchfiles          patch-test-failures.diff
-
-checksums           rmd160  225a643fa8fd25ef41316311d4691e354d8f03eb \
-                    sha256  c9854e7e69af362655fc3ef89ad5508e2c59379a6ae38ac44ea562c418d4d6fd
+checksums           rmd160  503c90c140f49b183c7a3dce0580c3013f9a2d53 \
+                    sha256  e4a93df10a6c1e287cb03e22258188261e08182086e1bbd99b65b50dad1578e7 \
+                    size    2078884
 
 # bin/mix
 conflicts           arb

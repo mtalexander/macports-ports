@@ -3,8 +3,8 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.24 5.26
-perl5.setup         Log-Any 1.049
+perl5.branches      5.26
+perl5.setup         Log-Any 1.706
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
 description         Bringing loggers and listeners together
@@ -13,5 +13,6 @@ long_description    ${description}
 platforms           darwin
 supported_archs     noarch
 
-checksums           rmd160  c20785cae25ae86d07193987aaae9032dee67907 \
-                    sha256  0db8f84eaefea734d31fdb3e285188523fe9ce0e8ba0870757231437c6d4f8bf
+checksums           rmd160  bfeff4f5bf51a5be412db52b2be505e276b5c296 \
+                    sha256  3ed0e5a4b7d490ab00624b7f905421239261f1dc976192aad2c0d1509bec08be \
+                    size    49482

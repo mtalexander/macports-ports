@@ -4,7 +4,7 @@ PortSystem    1.0
 PortGroup     python 1.0
 
 name          ligo-gracedb
-version       1.24
+version       1.28
 categories    science
 platforms     darwin
 supported_archs noarch
@@ -27,12 +27,13 @@ long_description \
 homepage      https://www.lsc-group.phys.uwm.edu/daswg/projects/gracedb.html
 master_sites  http://software.ligo.org/lscsoft/source/
 
-checksums     rmd160 6abba2c3cf42ec1d4e04148696535f2607e59e14 \
-              sha256 9d8805d40df758dd32e6ef9016fa42be53aa25a183facb14cbe5fc2ba4d148a8
+checksums     rmd160  3d0d34fb23a47fccb219521615c4bb6a0cb4a5ed \
+              sha256  57cac6843dd67fa45924eb899046407f6129db6439caaf673bc01058a1feabdd \
+              size    2189424
 
 python.default_version  27
 
-depends_lib-append port:ligo-common \
+depends_lib-append port:py${python.version}-ligo-common \
                    port:py${python.version}-m2crypto \
                    port:py${python.version}-cjson \
                    port:py${python.version}-setuptools

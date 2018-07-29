@@ -5,7 +5,7 @@ PortGroup                       cmake 1.0
 PortGroup                       compiler_blacklist_versions 1.0
 
 name                            armadillo
-version                         7.950.1
+version                         8.600.0
 categories                      science
 platforms                       darwin
 maintainers                     {mps @Schamschula} openmaintainer
@@ -26,8 +26,9 @@ master_sites                    sourceforge:project/arma
 
 use_xz                          yes
 
-checksums                       rmd160  caa6003e1b8924423637ce4e9fc52cd0f02ed9b0 \
-                                sha256  a32da32a0ea420b8397a53e4b40ed279c1a5fc791dd492a2ced81ffb14ad0d1b
+checksums                       rmd160  d1eed0d2b7ad0a5cc2ddb2e92820cbab9e7000bd \
+                                sha256  5f00c735e97fc23c910a225d1b6db9541af76022cc74f9b8b327dfa347926b40 \
+                                size    4779804
 
 depends_build-append            port:pkgconfig
 

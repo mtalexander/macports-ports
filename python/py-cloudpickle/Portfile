@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-cloudpickle
-version             0.3.1
+version             0.5.3
 revision            0
 categories-append   science
 platforms           darwin
@@ -13,7 +13,7 @@ supported_archs     noarch
 
 python.versions     27 34 35 36
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Extended pickling support for Python objects.
 long_description    ${description}
@@ -23,8 +23,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  79551047893f3020add5e5e0e6517ecd7b59b953 \
-                    sha256  c93a2684080011bb72fb59210c48b7259da8241bdcc6fa3f425ecca090e8c17e
+checksums           rmd160  3899368f0abb327e01b3fcf5c1e67ad66efd1c34 \
+                    sha256  54858c7b7dc763ed894ff91059c1d0b017d593fe23850d3d8d75f47d98398197 \
+                    size    24452
 
 if {${name} ne ${subport}} {
     livecheck.type      none

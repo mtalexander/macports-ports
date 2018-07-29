@@ -8,10 +8,10 @@ PortGroup           linear_algebra 1.0
 
 name                scalapack
 version             2.0.2
-revision            1
+revision            2
 categories          math
 platforms           darwin
-maintainers         sean openmaintainer
+maintainers         {sean @seanfarley} openmaintainer
 supported_archs     noarch
 license             BSD
 description         A package for solving linear equations

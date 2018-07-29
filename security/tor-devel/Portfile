@@ -4,10 +4,10 @@ PortSystem          1.0
 
 name                tor-devel
 conflicts           tor
-version             0.3.1.4-alpha
+version             0.3.4.5-rc
 categories          security
 platforms           darwin
-maintainers         maclemon.at:macports.org openmaintainer
+maintainers         nomaintainer
 license             BSD
 
 description         anonymizing overlay network for TCP
@@ -23,14 +23,21 @@ homepage            https://www.torproject.org/
 master_sites        https://dist.torproject.org/
 distname            tor-${version}
 
-checksums           rmd160  30e089527f929d197825553204ce6d2ec5448353 \
-                    sha256  36ba88bd62f6f630bdba02c6bc348e8176224cec44281f6dacd86c46426c79d1
+checksums           rmd160  dd51cb2386739f576852f04699fa81f9390e6db9 \
+                    sha256  4aedbb9ce536618d8d6ba0a4d8607db5b46409f3c0cc8375ff049d1b2326cd92 \
+                    size    6643534
 
 depends_lib         port:libevent \
                     path:lib/libssl.dylib:openssl \
                     port:zlib
 
 configure.args      --disable-silent-rules
+
+# https://gitweb.torproject.org/torspec.git/tree/proposals/278-directory-compression-scheme-negotiation.txt
+# All clients should aim at supporting the same set of supported compression schemes to avoid fingerprinting.
+configure.args-append \
+                    --disable-lzma \
+                    --disable-zstd
 
 test.run            yes
 test.target         check

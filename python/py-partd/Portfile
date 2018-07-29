@@ -13,12 +13,12 @@ supported_archs     noarch
 
 python.versions     27 34 35 36
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Appendable key-value storage.
 long_description    ${description}
 
-homepage            http://github.com/mrocklin/partd/
+homepage            https://github.com/mrocklin/partd/
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}

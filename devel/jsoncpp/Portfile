@@ -3,11 +3,12 @@
 PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           cmake 1.0
+PortGroup           cxx11 1.1
 
 name                jsoncpp
 categories          devel
 platforms           darwin
-maintainers         michaelld openmaintainer
+maintainers         {michaelld @michaelld} openmaintainer
 license             MIT
 
 description         JSON C++ library
@@ -19,9 +20,9 @@ subport jsoncpp-devel {}
 if {${subport} eq ${name}} {
 
     # release
-    github.setup    open-source-parsers jsoncpp 1.8.1
-    checksums       rmd160 b38bb51219a91203b6a268571e1fc1547aedd527 \
-                    sha256 5fb025030e1b85b7326a223e60ea95c5164c0e1e19e8e21b27438581002fd6fc
+    github.setup    open-source-parsers jsoncpp 1.8.4
+    checksums       rmd160 46ddb792a25c1ac62967adef604d760e68c084f9 \
+                    sha256 9c2370371a76337e4afe3128cceec943620f97d12c720c3046f39eae6f85f4cd
 
     conflicts       jsoncpp-devel
 
@@ -29,10 +30,11 @@ if {${subport} eq ${name}} {
 
     # devel
 
-    github.setup    open-source-parsers jsoncpp f26edb05e53d137fa5608d3f7d5dd50ab8d97235
-    version         20170716
-    checksums       rmd160 caa95506d5967e478cb62fb876fdbecf0546ad36 \
-                    sha256 8a4768aac0210733a9625c9fe030f025dfcb84e73147c38356a34667a3409330
+    github.setup    open-source-parsers jsoncpp 2baad4923e6d9a7e09982cfa4b1c5fd0b67ebd87
+    version         20180714
+    checksums       rmd160 e37d56184f4c186aa62c70f46e65fd4be073543a \
+                    sha256 d628d88cb5fb3be2fff62ac78d16fabc11609a4cb1c88f8db5e873beb1e5133c \
+                    size   202228
 
     conflicts       jsoncpp
     long_description ${description}: \
@@ -47,32 +49,3 @@ cmake.out_of_source yes
 configure.args-append \
                     -DBUILD_SHARED_LIBS=ON \
                     -DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF
-
-# require c++11
-
-if {${configure.cxx_stdlib} eq "libstdc++"} {
-
-    # *clang* when using libstdc++ do not seem to support C++11;
-    # C++11 support seems to need GCC 4.7+ when using libstdc++;
-    # could use C++0x support on GCC4.[56], but just ignore it since
-    # there are newer compilers already in place as defaults.
-
-    # Blacklist GCC compilers not supporting C++11 and all CLANG.
-    # This is probably not necessary, but it's good practice.
-
-    compiler.blacklist-append *clang* {*gcc-3*} {*gcc-4.[0-6]}
-
-    # and whitelist those we do want to use. wish there were a better way.
-    # these will be used in the order provided.
-
-    compiler.whitelist macports-gcc-4.9 macports-gcc-4.8 macports-gcc-4.7
-
-} else {
-
-    # using libc++;
-    # Blacklist Clang not supporting C++11 in some form and all GCC.
-    # Just use the cxx11 PortGroup for this specific case.
-
-    PortGroup cxx11 1.0
-
-}

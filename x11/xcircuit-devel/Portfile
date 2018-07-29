@@ -3,11 +3,11 @@
 PortSystem          1.0
 
 name                xcircuit-devel
-version             3.9.66
+version             3.10.9
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          x11 cad
 platforms           darwin
-maintainers         nomaintainer
+maintainers         {khindenburg @kurthindenburg} openmaintainer
 # asg subdir licensed for noncommercial use only, linked to GPL code, conflicts.
 license             GPL-2+ Noncommercial Restrictive
 
@@ -30,12 +30,14 @@ dist_subdir         xcircuit
 distname            xcircuit-${version}
 extract.suffix      .tgz
 
-checksums           rmd160  5486b227cfdac1a5834543d1a9b87f650c3316cf \
-                    sha256  4a1979300f79ed3e54740151c85555deeaef1aec307948019ddca3a96edef3e5
+checksums           rmd160  7b3a3a956249aa7006549f24f46dded2b17fa656 \
+                    sha256  57b9a324e8365c3dc2f160e2879aec1fdb63d5fc247cb01d8a09a9c5ac87473d \
+                    size    1612065
 
-depends_build       path:bin/pkg-config:pkgconfig \
-                    port:autoconf \
-                    port:automake
+depends_build       port:autoconf \
+                    port:automake \
+                    port:pkgconfig
+
 depends_lib         path:lib/pkgconfig/cairo.pc:cairo \
                     port:ghostscript \
                     port:tk \

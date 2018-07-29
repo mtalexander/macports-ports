@@ -10,7 +10,7 @@ categories	x11 devel
 license		X11
 maintainers	{jeremyhu @jeremyhu} openmaintainer
 description	The X.org / Xquartz X server.
-homepage	http://www.x.org
+homepage	https://www.x.org
 platforms	darwin macosx
 long_description The X.org X server allows you to run X11 applications on your computer.
 
@@ -70,6 +70,14 @@ depends_lib \
 # https://llvm.org/bugs/show_bug.cgi?id=30346
 # https://trac.macports.org/ticket/53910
 compiler.blacklist gcc-4.0 macports-clang-3.8 macports-clang-3.9 macports-clang-devel {clang >= 802 < 900}
+
+platform darwin {
+    if {${os.major} >= 16} {
+        # Remove this once a version of base is released that contains macports-clang-4.0 in the default fallback list
+        compiler.blacklist-append   macports-clang-3.7
+        compiler.fallback-append    macports-clang-4.0
+    }
+}
 
 configure.args --with-apple-applications-dir=${applications_dir} \
 	--with-bundle-id-prefix=org.macports \

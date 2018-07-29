@@ -3,8 +3,8 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.24 5.26
-perl5.setup         Module-Build-FFI 0.46
+perl5.branches      5.26
+perl5.setup         Module-Build-FFI 0.48
 license             {Artistic-1 GPL}
 maintainers         {devans @dbevans} openmaintainer
 description         Module::Build::FFI - Build Perl extensions in C with FFI
@@ -12,8 +12,9 @@ long_description    ${description}
 
 platforms           darwin
 
-checksums           rmd160  30dfc406e8277a30e59eab1cb009f02a3c34cb00 \
-                    sha256  9eb83f8c3ae7f9f887a779bf2903eef479d9ef99706695579d020837d56a800a
+checksums           rmd160  0fe9613a1e2ef804306c4d70866e209e10511502 \
+                    sha256  470e9cad281b7a729bc5d0a8ffc13383cbd1a25d7a1c01f3ffe06d3e5403c0f8 \
+                    size    18750
 
 if {${perl5.major} != ""} {
     depends_build-append \
@@ -21,7 +22,7 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-test2-suite
 
     depends_lib-append \
-                    port:p${perl5.major}-file-sharedir \
+                    port:p${perl5.major}-file-sharedir-dist \
                     port:p${perl5.major}-module-build
 
    # p5-module-build-ffi was previously part of p5-ffi-platypus

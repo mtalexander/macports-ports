@@ -4,7 +4,7 @@ PortSystem          1.0
 
 name                phpmyadmin
 set my_name         phpMyAdmin
-version             4.7.2
+version             4.8.2
 categories          www php databases
 platforms           darwin freebsd
 maintainers         {ryandesign @ryandesign} openmaintainer
@@ -25,25 +25,24 @@ master_sites        https://files.phpmyadmin.net/phpMyAdmin/${version}/
 distname            ${my_name}-${version}-all-languages
 use_xz              yes
 
-checksums           rmd160  d3f0f627d20de29f7193a66ffb49a5fd949b0e30 \
-                    sha256  4f5e474d826ae2fcb704aaade9422592595a2b41046b13e625aa3d00d4d00eee
+checksums           rmd160  879c10b9e9e9f47890acf3230a8d18ae232ce922 \
+                    sha256  2b42e75274ab078a0c2ca3aff767f45d1d81849f9f762a2ed0674819f061ba1d \
+                    size    5914400
 
 # The php variants deliberately do not conflict
 
-foreach php {php55 php56 php70 php71} {
-    eval [subst {
-        variant ${php} description "Use ${php}" {
-            depends_run-append  port:${php}-gd \
-                                port:${php}-mbstring \
-                                port:${php}-mcrypt \
-                                port:${php}-mysql \
-                                port:${php}-zip
-        }
-    }]
+foreach php {php55 php56 php70 php71 php72} {
+    variant ${php} description "Use ${php}" "
+        depends_run-append  port:${php}-gd \
+                            port:${php}-mbstring \
+                            port:${php}-mcrypt \
+                            port:${php}-mysql \
+                            port:${php}-zip
+    "
 }
 
-if {![variant_isset php55] && ![variant_isset php56] && ![variant_isset php70] && ![variant_isset php71]} {
-    default_variants +php71
+if {![variant_isset php55] && ![variant_isset php56] && ![variant_isset php70] && ![variant_isset php71] && ![variant_isset php72]} {
+    default_variants +php72
 }
 
 set docroot         ${destroot}${prefix}/www/${name}
@@ -60,7 +59,7 @@ destroot {
 
 notes "
 phpMyAdmin must be configured before it can be used.\
-Consult the documentation at file://${prefix}/www/phpmyadmin/Documentation.html#config
+Consult the documentation at file://${prefix}/www/phpmyadmin/doc/html/config.html
 
 A sample configuration file is installed at ${configsample}, but you mustn’t edit this file.\
 The file to edit is the real configuration file at ${configfile}.

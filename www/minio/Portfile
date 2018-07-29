@@ -4,15 +4,18 @@ PortSystem          1.0
 PortGroup           github 1.0
 
 # UPDATE THESE IN SYNC!
-set relversion      2017-06-13T19:01:01Z
-set commit          b9f622824ac17d3e0577d8a9b81a707666cc8cf1
+set version         2018-06-09T03-43-35Z
+set commit          371349787f0e324f072b03ed5a7842229d6b3174
 
-github.setup        minio minio [string map {: -} ${relversion}] RELEASE.
+set relversion      [regsub {(T..)-(..)-(..Z)} $version {\1:\2:\3}]
+# This is not used for fetching, but is compiled into the executable
+
+github.setup        minio minio $version RELEASE.
 revision            0
 
 homepage            https://minio.io
 categories          www
-maintainers         eborisch openmaintainer
+maintainers         {eborisch @eborisch} openmaintainer
 description         Open source Amazon S3-compatible object storage server.
 long_description \
     ${description} It is best suited for storing unstructured data such as \
@@ -22,8 +25,9 @@ long_description \
 license             Apache-2
 
 checksums \
-    rmd160  644cdf9f1b7fc4419e1fa9f600cd233d629aad0e \
-    sha256  02fa484516cf04233c8dd3d8b4e8730e5fa45d961ccdb4d6a425b18828760090
+    rmd160  8e8e40d5b0bf24c6ba65b20f47152c04dee9a5f6 \
+    sha256  93c4398967325a6da19789606e17c5e9cca2b2f8ca2a3792bb3fee1a0a0aa7e7 \
+    size    8164676
 
 set goproj          github.com/${github.author}/${github.project}
 

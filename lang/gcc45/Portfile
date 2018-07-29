@@ -2,13 +2,12 @@ PortSystem 1.0
 PortGroup select 1.0
 PortGroup compiler_blacklist_versions 1.0
 
-# Whenever this port is bumped for version/revision, please revbump dragonegg-3.[34]-gcc-4.5
 name                gcc45
-subport             libgcc45 {}
-
+# Whenever this port is bumped for version/revision, please revbump dragonegg-3.4-gcc-4.5
 epoch               1
 version             4.5.4
-revision            12
+revision            14
+subport             libgcc45 { revision 14 }
 platforms           darwin
 categories          lang
 maintainers         nomaintainer
@@ -18,7 +17,7 @@ description         The GNU compiler collection
 long_description    The GNU compiler collection, including front ends for \
                     C, C++, Objective-C, Objective-C++, Fortran, and Java.
 
-homepage            http://gcc.gnu.org/
+homepage            https://gcc.gnu.org/
 master_sites        ftp://ftp.funet.fi/pub/mirrors/sources.redhat.com/pub/gcc/releases/gcc-${version}/:gcc \
                     ftp://ftp.gwdg.de/pub/linux/gcc/releases/gcc-${version}/:gcc \
                     ftp://gcc.ftp.nluug.nl/mirror/languages/gcc/releases/gcc-${version}/:gcc \
@@ -26,7 +25,7 @@ master_sites        ftp://ftp.funet.fi/pub/mirrors/sources.redhat.com/pub/gcc/re
                     gnu:gcc/gcc-${version}:gcc \
                     ftp://sourceware.org/pub/java/:ecj \
                     http://mirrors.kernel.org/sources.redhat.com/java/:ecj \
-                    http://www.mirrorservice.org/sites/sources.redhat.com/pub/java/:ecj \
+                    https://www.mirrorservice.org/sites/sources.redhat.com/pub/java/:ecj \
                     http://ftp-stud.fht-esslingen.de/pub/Mirrors/sourceware.org/java/:ecj
 
 use_bzip2           yes
@@ -70,13 +69,15 @@ depends_lib         port:cctools \
                     port:libmpc \
                     port:mpfr
 depends_run         port:gcc_select \
-                    port:libgcc45
+                    port:libgcc45 \
+                    port:libgcc6
 
 depends_skip_archcheck-append texinfo gcc_select ld64 cctools
 license_noconflict  gmp mpfr ppl libmpc
 
 patchfiles          ppc_fde_encoding.diff \
-                    texinfo5.patch
+                    texinfo5.patch \
+                    patch-gcc-texi.diff
 
 # Handle OS X deployment targets correctly (GCC PR target/63810
 # <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63810>).
@@ -124,6 +125,12 @@ configure.args      --enable-languages=c,c++,objc,obj-c++,fortran,java \
                     --with-ar=${prefix}/bin/ar \
                     --with-bugurl=https://trac.macports.org/newticket
 
+# see https://lists.macports.org/pipermail/macports-dev/2017-August/036209.html
+# --disable-tls does not limit functionality
+# it only determines how std::call_once works
+configure.args-append \
+                    --disable-tls
+
 configure.env-append \
                     AR_FOR_TARGET=${prefix}/bin/ar \
                     AS_FOR_TARGET=${prefix}/bin/as \
@@ -134,6 +141,16 @@ configure.env-append \
                     STRIP_FOR_TARGET=${prefix}/bin/strip \
                     OTOOL=${prefix}/bin/otool \
                     OTOOL64=${prefix}/bin/otool
+
+if {${os.platform} eq "darwin" && ${os.major} > 16} {
+    depends_lib
+    depends_run
+    archive_sites
+    pre-fetch {
+        ui_error "${name} is not supported on macOS High Sierra and newer"
+        return -code error {unsupported platform}
+    }
+}
 
 pre-configure {
     configure.args-append --with-pkgversion="MacPorts ${name} ${version}_${revision}${portvariants}"
@@ -193,9 +210,11 @@ if {${subport} == "libgcc45"} {
     # versions.
 
     depends_run-delete port:libgcc45
+    depends_run-delete port:libgcc6
 
-    configure.args-delete --libdir=${prefix}/lib/${name}
-    configure.args-append --libdir=${prefix}/lib/libgcc
+    configure.args-replace \
+        --libdir=${prefix}/lib/${name} \
+        --libdir=${prefix}/lib/libgcc
 
     configure.args-delete --enable-languages=c,c++,objc,obj-c++,fortran,java
     configure.args-append --enable-languages=c,c++,objc,obj-c++
@@ -294,7 +313,7 @@ select.file         ${filespath}/mp-${name}
 
 platform darwin {
     if {${os.major} == 8} {
-        # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=45248
+        # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=45248
         configure.args-append --with-dwarf2
     }
 }
@@ -329,5 +348,5 @@ configure.universal_ldflags
 configure.universal_args
 
 livecheck.type      regex
-livecheck.url       http://ftp.gnu.org/gnu/gcc/
+livecheck.url       https://ftp.gnu.org/gnu/gcc/
 livecheck.regex     gcc-(${major}\\.\[0-9.\]+)/

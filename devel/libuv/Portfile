@@ -2,12 +2,12 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
+PortGroup           snowleopard_fixes 1.0
 
 name                libuv
 categories          devel
 platforms           darwin
-maintainers         {raimue @raimue} \
-                    michaelld \
+maintainers         {michaelld @michaelld} \
                     openmaintainer
 license             {MIT BSD}
 
@@ -18,9 +18,10 @@ long_description \
 
 if {${subport} eq ${name}} {
 
-    github.setup    libuv libuv 1.13.1 v
-    checksums       rmd160 7e278950228c4c84d7c8f45d76142706c770eb0f \
-                    sha256 5038787b4f65b7e9c6d7ba9fbad156ff8459c12cfd5ec73c90286dc729a3f513
+    github.setup    libuv libuv 1.22.0 v
+    checksums       rmd160 baa5a0ffc34c99244fcdb8a9e911baec4f3321e0 \
+                    sha256 7153f0477c360d60b751a968fa2968f3ec6c688190e4fe9197e0ba013b2da80d \
+                    size   1186190
 
     conflicts       libuv-devel
 
@@ -28,16 +29,17 @@ if {${subport} eq ${name}} {
 
 subport libuv-devel {
 
-    github.setup    libuv libuv f1e0fc43d17d9f2d16b6c4f9da570a4f3f6063ed
-    version         20170717
-    checksums       rmd160 a027affb77a4516c00bb094c302eaeccf9e13a80 \
-                    sha256 1eabc9b97540970961ab548225a1fa2eaffcbb705d81ca91f1d4750b8e96f5e7
+    github.setup    libuv libuv 31a06f25e119f09ef2694ffb748ea4fa5dc368e4
+    version         20180709
+    checksums       rmd160 a2f1961828f6cc87df195170db3670fd3fd1959c \
+                    sha256 59254deec4699adf735640c6e3e3dbd8f952f137d1891dfeaca2fa3ca62f9188 \
+                    size   1186199
 
     long_description    ${long_description} \
         This port is kept up with the libuv GIT 'master' branch, is typically updated weekly to monthly.
     conflicts       libuv
 
-    livecheck.url   ${github.homepage}/commits/v1.x.atom
+    github.livecheck.branch v1.x
 
 }
 

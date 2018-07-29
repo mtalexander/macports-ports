@@ -1,7 +1,7 @@
 PortSystem 1.0
 
 name			bind9
-version			9.11.1-P3
+version			9.12.2
 categories		net
 maintainers		{geeklair.net:dluke @danielluke}
 platforms		darwin freebsd sunos
@@ -18,15 +18,16 @@ long_description	The BIND DNS Server is used on the vast majority of name \
 				and Internet addresses and is intended to be linked with applications \
 				requiring name service.
 
-homepage		http://www.isc.org
+homepage		https://www.isc.org/
 
 distname		bind-${version}
 master_sites		isc:${name}/${version}
 
-checksums	md5	86536512f247750255c4fd63ffa6e96f \
-		sha1	1648a20cf65d96ba11cb6225bc7823790e682727 \
-		rmd160	84102cf6c49e1e767ab1e0721f565246a7b9d092 \
-		sha256	52426e75432e46996dc90f24fca027805a341c38fbbb022b60dc9acd2677ccf4
+checksums	md5	37c0e31138976cfddd48fe6e2fa3e329 \
+		sha1	ba170e93f87a8dc49c157aec8c9557f81a3f67c5 \
+		rmd160	38b647b76dd6b295b6b0befd89b76e6b9e7bcd0e \
+		sha256	9f6a4c8b39a7064d447d8414a09ed667ff21adc69f17461916d8f5a45f348452 \
+		size	9424960
 
 depends_lib		path:lib/libssl.dylib:openssl port:libxml2
 
@@ -105,6 +106,19 @@ notes "******************************************************
 * logging into a directory where this new user can write files.
 ******************************************************"
 
+variant python27 description {Build python27 module} {
+	depends_lib-append port:python27 \
+			port:py27-configargparse \
+			port:py27-ply
+	configure.args-append --with-python=${prefix}/bin/python2.7
+}
+
+variant python36 description {Build python36 module} {
+	depends_lib-append port:python36 \
+			port:py36-configargparse \
+			port:py36-ply
+	configure.args-append --with-python=${prefix}/bin/python3.6
+}
 livecheck.type	regex
-livecheck.url	${homepage}/downloads/
-livecheck.regex	"target=\"_blank\">BIND (\\d+\.\\d+\.\\d+(?:-P\\d+)?) - tar.gz</a>"
+livecheck.url	${homepage}downloads/
+livecheck.regex	"bind-(\\d+\.\\d+\.\\d+(?:-P\\d+)?).tar.gz - tar.gz\\s*</a>"

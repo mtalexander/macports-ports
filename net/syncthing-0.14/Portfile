@@ -3,12 +3,12 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        syncthing syncthing 0.14.32 v
+github.setup        syncthing syncthing 0.14.48 v
 name                syncthing-0.14
 categories          net
 platforms           darwin
 license             MPL-2
-maintainers         schenkel.net:leonardo openmaintainer
+maintainers         {lbschenkel @lbschenkel} openmaintainer
 
 description         Open Source Continuous File Synchronization
 long_description    Syncthing replaces proprietary sync and cloud services \
@@ -18,8 +18,12 @@ long_description    Syncthing replaces proprietary sync and cloud services \
                     and how it's transmitted over the Internet.
 homepage            https://syncthing.net
 
-checksums           rmd160  331995380b2ddd54cec18b59b96c999c392cc259 \
-                    sha256  4b2acdbb53435082a1e5206ef912006f1faf9b0d13b174f9ee5ec3ef6d236e76
+github.tarball_from releases
+distname            syncthing-source-v${version}
+
+checksums           rmd160  ae90a274a8b0c99c50a7679e5845f360e8a5081f \
+                    sha256  b4922518b012aa9bc46b39404a71ca00e5bcc2f0e0ad21a27a841a4965a9b32f \
+                    size    10566623
 
 worksrcdir          src/github.com/syncthing/syncthing
 extract.mkdir       yes
@@ -40,10 +44,10 @@ destroot {
     xinstall -W ${worksrcpath}/bin syncthing ${destroot}${prefix}/bin
     xinstall -W ${worksrcpath}/man syncthing.1 ${destroot}${prefix}/share/man/man1
     xinstall -d ${destroot}${prefix}/share/doc/${name}
-    xinstall -W ${worksrcpath} AUTHORS LICENSE NICKS ${destroot}${prefix}/share/doc/${name}
+    xinstall -W ${worksrcpath} AUTHORS LICENSE ${destroot}${prefix}/share/doc/${name}
     xinstall {*}[glob ${worksrcpath}/*.md] ${destroot}${prefix}/share/doc/${name}
     xinstall -d ${destroot}${prefix}/share/examples/${name}
-    xinstall -W ${worksrcpath}/etc/macosx-launchd syncthing.plist ${destroot}${prefix}/share/examples/${name}
+    xinstall -W ${worksrcpath}/etc/macos-launchd syncthing.plist ${destroot}${prefix}/share/examples/${name}
     reinplace "s|/Users/USERNAME/bin/|${prefix}/bin/|g" ${destroot}${prefix}/share/examples/${name}/syncthing.plist
 }
 
@@ -53,3 +57,4 @@ notes-append        \
     "2. Edit syncthing.plist by replacing USERNAME with your actual username" \
     "3. Log out and in again, or run: launchctl load ~/Library/LaunchAgents/syncthing.plist"
 
+livecheck.url       ${github.homepage}/releases/latest

@@ -6,12 +6,12 @@ PortGroup           perl5 1.0
 # Keep relevant lines in sync between ImageMagick and p5-perlmagick.
 
 epoch               1
-perl5.branches      5.24 5.26
-perl5.setup         PerlMagick 6.9.8-10
+perl5.branches      5.26
+perl5.setup         PerlMagick 6.9.9-40
 set reasonable_version \
                     [lindex [split ${version} -] 0]
 set my_name         ImageMagick
-maintainers         futurelab.ch:astricker {ryandesign @ryandesign}
+maintainers         {ryandesign @ryandesign}
 description         Perl extension for calling ImageMagick's libMagick methods
 long_description    ${description}
 license             Apache-2
@@ -30,8 +30,9 @@ master_sites        http://www.imagemagick.org/download/ \
 dist_subdir         ImageMagick
 distname            ${my_name}-${version}
 
-checksums           rmd160  2c1e238b34f8c6365173c7cb6d812fab9d365b81 \
-                    sha256  8fc268f6e1bc514b41620e0f3f6c5dd33bfc5169db679e9a5c0455c6edd11810
+checksums           rmd160  d01d39b0da259c1296acaa37867f1a428928b72e \
+                    sha256  62f25d46bfbcffe00b84e167994d593868a9a47d4defc489a429cae1d6aab9f7 \
+                    size    8919136
 
 if {${perl5.major} != ""} {
 depends_lib-append  port:ImageMagick

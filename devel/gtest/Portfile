@@ -5,13 +5,12 @@ PortGroup       cmake 1.0
 PortGroup       github 1.0
 
 github.setup    google googletest 1.8.0 release-
+revision        1
 name            gtest
 categories      devel
-maintainers     blair
+maintainers     {blair @blair}
 license         BSD
 description     Google's framework for writing C++ tests
-
-checksums       md5 d2edffbe844902d942c31db70c7cfec2
 
 long_description \
                 Google's framework for writing C++ tests on a variety \
@@ -22,40 +21,20 @@ long_description \
                 fatal and non-fatal failures, various options for \
                 running the tests, and XML test report generation.
 
-homepage        https://code.google.com/p/googletest/
-
 platforms       darwin
+
+checksums       rmd160  fd6ff05f0b287e23dae59d30e6b7f1a27377c049 \
+                sha256  d8c33605d23d303b08a912eaee7f84c4e091d6e3d90e9a8ec8aaf7450dfe2568
 
 cmake.out_of_source     yes
 configure.optflags      -g
 configure.args-append   -Dgtest_build_tests=ON
 
-destroot { 
-    file copy ${cmake.build_dir}/googlemock/gtest/libgtest.a ${destroot}${prefix}/lib 
-    file copy ${cmake.build_dir}/googlemock/gtest/libgtest_main.a ${destroot}${prefix}/lib 
-    file copy ${cmake.build_dir}/googlemock/libgmock.a ${destroot}${prefix}/lib 
-    file copy ${cmake.build_dir}/googlemock/libgmock_main.a ${destroot}${prefix}/lib 
-    file copy ${worksrcpath}/googletest/include/gtest ${destroot}${prefix}/include 
-    file copy ${worksrcpath}/googlemock/include/gmock ${destroot}${prefix}/include 
-    file mkdir ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googletest/src/gtest-all.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googletest/src/gtest-death-test.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googletest/src/gtest-filepath.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googletest/src/gtest-internal-inl.h   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googletest/src/gtest-port.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googletest/src/gtest-printers.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googletest/src/gtest-test-part.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googletest/src/gtest-typed-test.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googletest/src/gtest.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googletest/src/gtest_main.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googlemock/src/gmock-all.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googlemock/src/gmock-cardinalities.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googlemock/src/gmock-internal-utils.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googlemock/src/gmock-matchers.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googlemock/src/gmock-spec-builders.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googlemock/src/gmock.cc   ${destroot}${prefix}/src
-    file copy ${worksrcpath}/googlemock/src/gmock_main.cc   ${destroot}${prefix}/src
-} 
+post-destroot {
+    xinstall -d ${destroot}${prefix}/src/
+    file copy ${worksrcpath}/googlemock ${destroot}${prefix}/src/
+    file copy ${worksrcpath}/googletest ${destroot}${prefix}/src/
+}
 
 test.run    yes
 test.cmd    "ulimit -c 0; make"

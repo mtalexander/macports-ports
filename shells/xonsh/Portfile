@@ -4,13 +4,12 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        xonsh xonsh 0.5.9
+github.setup        xonsh xonsh 0.6.7
 github.tarball_from tags
 categories          shells
 platforms           darwin
 maintainers         nomaintainer
 license             Permissive
-conflicts           xonsh-devel
 
 description         Xonsh is a Python-ish, BASHwards-looking shell language \
                     and command prompt.
@@ -22,8 +21,9 @@ long_description    ${description} \
                     macOS, and Windows. Xonsh is meant for the daily use of \
                     experts and novices alike.
 
-checksums           rmd160  a852bc115f230972493561cb81d591abedbc4a60 \
-                    sha256  8286f7aa668b95164c99f5ca2026c6b7d5024a16288393dd71f467b9b97377aa
+checksums           rmd160  b100745701df0223bc58b8fe802ceaa2b9c46d1c \
+                    sha256  69145be48d3dd1776cc3c06843547060b57e111efc169433484a2604bac12659 \
+                    size    1874438
 
 python.versions     34 35 36
 
@@ -32,12 +32,11 @@ depends_lib-append  port:py${python.version}-prompt_toolkit \
                     port:py${python.version}-gnureadline
 
 subport             xonsh-devel {
-    github.setup        xonsh xonsh 213f7d0
-    version             0.5.0-2016-12-21
-    conflicts           xonsh
-
-    description         Development version of Xonsh, a Python-ish, \
-                        BASHwards-looking shell language and command prompt.
+    # Remove after April 2019
+    replaced_by     xonsh
+    PortGroup       obsolete 1.0
+    version         0.5.0-2016-12-21
+    revision        1
 }
 
 

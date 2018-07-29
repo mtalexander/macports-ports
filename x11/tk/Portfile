@@ -3,7 +3,8 @@
 PortSystem          1.0
 
 name                tk
-version             8.6.6
+version             8.6.8
+revision            1
 categories          x11
 license             Tcl/Tk
 maintainers         nomaintainer
@@ -23,11 +24,11 @@ distname            ${name}${version}-src
 distfiles-append    tcl${version}-src${extract.suffix}
 
 checksums           tk${version}-src.tar.gz \
-                    rmd160  619c250050bf8216855ea1c646207d1d147a95b8 \
-                    sha256  d62c371a71b4744ed830e3c21d27968c31dba74dd2c45f36b9b071e6d88eb19d \
+                    rmd160  8a900988a01aa267e8c23681dfab926e36c1caa9 \
+                    sha256  49e7bca08dde95195a27f594f7c850b088be357a7c7096e44e1158c7a5fd7b33 \
                     tcl${version}-src.tar.gz \
-                    rmd160  2386a69eb841f8af51c1b124f68e0b812a225cca \
-                    sha256  a265409781e4b3edcc4ef822533071b34c3dc6790b893963809b9fe221befe07
+                    rmd160  53723adf560606dc0403af568b6fc0d27a4fd93d \
+                    sha256  c43cb0c1518ce42b00e7c8f6eaddd5195c53a98f94adc717234a65cbcfd3f96a
 
 depends_build       port:pkgconfig
 
@@ -40,8 +41,8 @@ depends_lib         port:fontconfig \
 worksrcdir          ${name}${version}/unix
 
 patch.dir           ${workpath}/${name}${version}
-patchfiles          patch-unix-Makefile.in.diff \
-                    patch-macosx-tkMacOSXXStubs.c.diff
+patchfiles          patch-macosx-tkMacOSXXStubs.c.diff \
+                    patch-unix-Makefile.in.diff
 
 post-patch {
     reinplace s|@TCL_SRC_DIR@|${workpath}/tcl${version}/|g ${worksrcpath}/Makefile.in

@@ -4,35 +4,37 @@ PortSystem              1.0
 PortGroup               python 1.0
 PortGroup               bitbucket 1.0
 
-bitbucket.setup         marmoute mutable-history 6.3.1
+bitbucket.setup         marmoute mutable-history 8.0.1
 name                    py-hgevolve
 
 categories-append       devel
 platforms               darwin
 license                 GPL-2+
-maintainers             sean openmaintainer
+maintainers             {sean @seanfarley} openmaintainer
 supported_archs         noarch
 
 description             Mutable history for mercurial
 long_description        This extension provides several commands to mutate history \
                         and deal with issues it may raise.
 
-checksums               rmd160  52f225a852c09e2eb8e4f50ecb58373187bcbfd7 \
-                        sha256  2eae86f7fe1b79f82e4f86dfa3d51e7785f75ed8d3b3e42800d85ed97f39e630
+checksums               rmd160  10993de9d59d7328f2ac740951071ca8f5457233 \
+                        sha256  204acd838e4e74587971e4dff07937ce63b3872fe7111ca6aae3d3ca34d35415 \
+                        size    697570
 
 # can't set python.versions before adding custom subports
-subport py27-hgevolve-devel {
-}
+subport py-hgevolve-devel {}
+subport py27-hgevolve-devel {}
 
 if {[string match "*-devel" $subport]} {
-    bitbucket.setup     marmoute mutable-history 3e62042a6bb7
+    bitbucket.setup     marmoute mutable-history 1fa3bf6e9e93
     bitbucket.livecheck default
     name                py-hgevolve-devel
-    version             6.3.99
-    revision            1
+    version             8.0.99
+    revision            0
 
-    checksums           rmd160  42e09768b425ba5cac0b204fe0f31857cc9511b8 \
-                        sha256  a5987b25d0222304b1b9b9fd4f68ca7e868d251deb9aa7c245be408a4c394b9f
+    checksums           rmd160  7a5bf35def6225460176a8f746e78e77bb2fb723 \
+                        sha256  5819c049bc0b1853aefb4d475c369795d2612528bc6d3e9ffd494e4e5fd4374c \
+                        size    715088
 }
 
 python.versions         27

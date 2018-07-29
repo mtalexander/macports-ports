@@ -4,7 +4,7 @@ name                port_cutleaves
 version             0.1.4
 revision            1
 categories          sysutils macports
-maintainers         perry openmaintainer
+maintainers         {perry @lperry} openmaintainer
 platforms           darwin
 supported_archs     noarch
 

@@ -3,12 +3,13 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        jgaeddert liquid-dsp b830067341eb92373632e15c8ab948f46c6bd284
-version             20170513
-checksums           rmd160 fab2e5d8a340ac40a7814f8e055c74f4f9921505 \
-                    sha256 87c2df4db68ddcd1ba16d65b757b70a7f292bdda509cfa3854e2c489ecdb96f7
+github.setup        jgaeddert liquid-dsp 9658d811f9194229304fec2d117f49c59b49a616
+version             20180522
+checksums           rmd160 efa7f2e3e8a9718553b8d25a480eb9d88f60f20d \
+                    sha256 7bb1ecb3ecd78569ff72b76b81a9d4fe02aa4867ef6ec6be08774bec8e7c7ae8 \
+                    size   1071165
 
-maintainers         michaelld openmaintainer
+maintainers         {michaelld @michaelld} openmaintainer
 
 description         liquid-dsp is an open-source signal processing library for software-defined radios written in C.
 long_description    ${description} Its purpose is to provide a set of extensible DSP modules that do no rely on external dependencies or cumbersome frameworks.
@@ -40,8 +41,8 @@ pre-configure {
 
 configure.env-append \
     SED=${prefix}/bin/gsed \
-    GREP=${prefix}/bin/grep \
-    EGREP="${prefix}/bin/grep -E"
+    GREP=${prefix}/bin/ggrep \
+    EGREP="${prefix}/bin/ggrep -E"
 
 # remove top-level include path, such that internal headers are used
 # instead of any already-installed ones.

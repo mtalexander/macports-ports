@@ -4,16 +4,16 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-astroid
-version             1.5.3
+version             1.6.5
 revision            0
 categories-append   devel
 platforms           darwin
 license             LGPL-2.1+
 supported_archs     noarch
 
-python.versions     27 34 35 36
+python.versions     27 34 35 36 37
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Rebuild a new abstract syntax tree from Python's ast.
 
@@ -28,15 +28,16 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  3f3491fe28e2c365fa86cacb265d24f7d0d6c9e7 \
-                    sha256  492c2a2044adbf6a84a671b7522e9295ad2f6a7c781b899014308db25312dd35
+checksums           rmd160  bba1d1e3582e557ecbe6a56ca83adef5b1d80506 \
+                    sha256  fc9b582dba0366e63540982c3944a9230cbc6f303641c51483fa547dcc22393a \
+                    size    255688
 
 if {${name} ne ${subport}} {
     depends_build-append \
                         port:py${python.version}-setuptools
 
-    depends_lib-append  port:py${python.version}-logilab-common \
-                        port:py${python.version}-lazy_object_proxy \
+    depends_lib-append  port:py${python.version}-lazy_object_proxy \
+                        port:py${python.version}-six \
                         port:py${python.version}-wrapt
 
     if {${python.version} == 27} {

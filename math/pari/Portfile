@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           muniversal 1.0
 
 name                pari
-version             2.9.3
+version             2.9.5
 categories          math
 platforms           darwin
 license             GPL-2+
@@ -19,8 +19,9 @@ long_description    PARI/GP is a widely used computer algebra system designed \
 homepage            http://pari.math.u-bordeaux.fr/
 master_sites        ${homepage}pub/pari/unix/
 
-checksums           rmd160  4b8b4851d5b0e5d8e9fb5f9c919924200ede7426 \
-                    sha256  e76a27779d2b1210ce1aba48363b98dd201a1bf876eb14f46ea6bd7769a00a63
+checksums           rmd160  3b058058a57ce63184d64ed09d4b675a2f947b10 \
+                    sha256  6b451825b41d2f8b29592c08d671999527bf936789c599d77b8dfdc663f1e617 \
+                    size    3854627
 
 depends_lib         port:gmp \
                     port:ncurses \

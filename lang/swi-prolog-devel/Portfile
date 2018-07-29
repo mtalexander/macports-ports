@@ -3,11 +3,11 @@ PortSystem	1.0
 name		swi-prolog-devel
 conflicts	swi-prolog swi-prolog-lite
 epoch		20051223
-version		7.5.11
+version		7.7.18
 
 categories	lang
 license		LGPL-2.1
-maintainers	uva.nl:J.Wielemaker logtalk.org:pmoura
+maintainers	{uva.nl:J.Wielemaker @JanWielemaker} {logtalk.org:pmoura @pmoura}
 platforms	darwin
 description	SWI-Prolog compiler plus extra packages (development version)
 
@@ -28,13 +28,13 @@ master_sites	http://www.swi-prolog.org/download/devel/src/
 dist_subdir	swi-prolog
 
 checksums       \
-    rmd160  1cf1240d2c1f2a6b41021d3ce5330bbec39f3106 \
-    sha256  ab8a21ef88e410fc8dfb421bcba7884687fdf08ed85c191e51d806aa831d95e9
+    rmd160  c77834bc4ee3cff0ec5eecb86753de13af07fc1a \
+    sha256  596f350eb01ae9b7ba1ab394f33ef24d7484d5239e537efee148daad7906b4bd \
+    size    17025839
 
 
 depends_build   \
 	port:gawk	\
-	port:junit	\
 	port:pkgconfig
 
 depends_lib		\

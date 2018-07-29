@@ -7,7 +7,8 @@ PortGroup           active_variants 1.1
 PortGroup           cxx11 1.1
 
 name                glibmm
-version             2.52.0
+version             2.56.0
+revision            1
 set branch          [join [lrange [split ${version} .] 0 1] .]
 description         C++ interface to glib
 long_description    ${description}
@@ -20,8 +21,9 @@ master_sites        gnome:sources/${name}/${branch}/
 
 use_xz              yes
 
-checksums           rmd160  c8ba6cb946a8012d0374826010bc43a29ca4d07c \
-                    sha256  81b8abf21c645868c06779abc5f34efc1a51d5e61589dab2a2ed67faa8d4811e
+checksums           rmd160  83d0d3fe5c468883449bc082f5561d99329f1c4f \
+                    sha256  6e74fcba0d245451c58fc8a196e9d103789bc510e1eee1a9b1e816c5209e79a9 \
+                    size    6859520
 
 depends_build       port:pkgconfig \
                     port:mm-common
@@ -29,11 +31,15 @@ depends_build       port:pkgconfig \
 depends_lib         path:lib/pkgconfig/glib-2.0.pc:glib2 \
                     port:libsigcxx2
 
+patchfiles          0001-ustring-Fix-wchar-conversion-on-macOS-with-libc.patch
+
 configure.perl      /usr/bin/perl
 
 # autoreconf because the glibtool in 2.44.0 does not honor -stdlib=...
 use_autoreconf      yes
 autoreconf.args     -fvi
+
+configure.args      --disable-silent-rules
 
 post-destroot {
     set mmdoctooldir ${prefix}/share/glibmm-2.4/doctool
@@ -44,11 +50,6 @@ post-destroot {
     xinstall -m 0644 -W ${worksrcpath}/docs/reference/html doxygen.css \
                                             ${destroot}${mmdoctooldir}
 }
-
-# see https://bugzilla.gnome.org/show_bug.cgi?id=781947
-patchfiles-append \
-    patch-add_cocoa_test.diff \
-    patch-use_cocoa_test.diff
 
 variant quartz conflicts x11 {
     require_active_variants path:lib/pkgconfig/glib-2.0.pc:glib2 quartz
