@@ -277,7 +277,7 @@ subport boost-numpy {
 }
 
 if {$subport eq $name} {
-    revision 4
+    revision 3
     patchfiles-append patch-disable-numpy-extension.diff
 
     variant not_tagged description {Don't tag the library names with a code indicating build options} {
