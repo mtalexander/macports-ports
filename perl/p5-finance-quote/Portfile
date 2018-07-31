@@ -5,7 +5,7 @@ PortGroup           perl5 1.0
 
 perl5.branches      5.26
 perl5.setup         Finance-Quote 1.47
-revision            1
+revision            2
 categories          perl
 maintainers         nomaintainer
 description         Perl module that allows for grabbing stock quotes.
@@ -19,7 +19,8 @@ license             GPL-2+
 checksums           rmd160  b063bb00b64172ab7f87c79664c18f6ff7e9b238 \
                     sha256  27af2df1f5eee570a8af577be3850468a869251dd212ae644ac2a1710ac2eb3f
 
-patchfiles          AlphaCurrency.patch
+# Include changes since V1.47
+patchfiles          AlphaVantage.patch
 
 if {${perl5.major} != ""} {
     depends_lib-append  \
