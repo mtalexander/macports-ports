@@ -24,7 +24,7 @@ checksums           rmd160  4928dbb7effc924da85b8df0da92f46412a6c9e7 \
                     sha256  3eed4e1139d296089dcf685d6b4e8a5abe43e0f9cbae6663694250ab889f1291
 
 depends_build       port:pkgconfig
-depends_lib         port:gmime port:xapian-core port:guile20
+depends_lib         port:gmime port:xapian-core port:guile
 
 use_autoreconf      yes
 configure.args      --disable-silent-rules --with-gui=none --disable-mu4e --disable-webkit --enable-guile

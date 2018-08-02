@@ -25,7 +25,7 @@ checksums           rmd160  6720a5689d36518e4f1abecc911bba2d0f6654e2 \
 
 depends_build       port:pkgconfig
 
-depends_lib         port:guile20 port:libiconv port:libxml2 port:zlib port:coreutils
+depends_lib         port:guile port:libiconv port:libxml2 port:zlib port:coreutils
 
 # guile is not universal
 universal_variant   no
