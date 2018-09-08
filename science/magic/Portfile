@@ -8,7 +8,11 @@ PortGroup           conflicts_build 1.0
 
 name                magic
 conflicts           magic-devel
-version             8.1.214
+version             8.1.216
+checksums           rmd160  463ee64559af05a104f42a1bfb1ea49945a546f1 \
+                    sha256  c3227cf10dcfececc51d18c826f6bd178004c28a27da49d67fd710194b4d4404 \
+                    size    3936443
+
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          science
 # mostly very permissively licensed, but includes a copy of GNU readline
@@ -36,10 +40,6 @@ depends_lib         port:blt \
                     port:tk
 
 require_active_variants tk x11
-
-checksums           rmd160  384147a0fe6f481221a4374bcbfddac97849bb84 \
-                    sha256  de65b3ab4aa1f4646c6f9a0582646af40e5ef03bcba616e77dfd3f501888f107 \
-                    size    3935836
 
 universal_variant   no
 

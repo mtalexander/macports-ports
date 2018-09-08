@@ -4,10 +4,10 @@ PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
 
 name                harfbuzz
-version             1.8.5
-checksums           rmd160  a9b3b2274da8dc3a80884910fec5571d40cf254e \
-                    sha256  8f6f40fc49dbaf15221807e2c2b9293cbaa73592ef4b3ab430252ca6571120ac \
-                    size    3859514
+version             1.8.8
+checksums           rmd160  3b4a94557770bc0aeb7a0a1d7fb3ac2c92830fc5 \
+                    sha256  a8e5c86e4d99e1cc9865ec1b8e9b05b98e413c2a885cd11f8e9bb9502dd3e3a9 \
+                    size    3862626
 
 categories          graphics
 platforms           darwin

@@ -4,12 +4,12 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-zmq
-version             17.1.0
+version             17.1.2
 categories-append   devel net
 platforms           darwin
 license             LGPL
 
-python.versions     26 27 33 34 35 36 37
+python.versions     27 34 35 36 37
 
 maintainers         {gmail.com:jrjsmrtn @jrjsmrtn} {michaelld @michaelld} openmaintainer
 
@@ -23,22 +23,11 @@ master_sites        pypi:p/pyzmq
 
 distname            pyzmq-${version}
 
-checksums           rmd160 02673d6b73bdbc6798ba89e0ef35bfdd47fb501e \
-                    sha256 2199f753a230e26aec5238b0518b036780708a4c887d4944519681a920b9dee4 \
-                    size   1082716
+checksums           rmd160 002010c96edeb55918e6b1ad86892f8cfc82ceef \
+                    sha256 a72b82ac1910f2cf61a49139f4974f994984475f771b0faa730839607eeedddf \
+                    size   1080194
 
 if {${name} ne ${subport}} {
-
-    if {[lsearch {26 33} ${python.version}] != -1} {
-        version             14.7.0
-        revision            1
-        distname            pyzmq-${version}
-        checksums           rmd160  4adc0c6bc955456ba2eaeecc4d5d16614bef643a \
-                            sha256  77994f80360488e7153e64e5959dc5471531d1648e3a4bff14a714d074a38cc2
-
-        livecheck.type      none
-    }
-
     depends_lib-append     path:lib/libzmq.dylib:zmq
 
     post-patch {

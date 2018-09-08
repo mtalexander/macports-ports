@@ -37,10 +37,10 @@ if {${subport} eq ${name}} {
 
     # release
 
-    version         ${branch}.0
-    checksums       rmd160 e4165d2e2ff4ce76e9d5c023a9731f826da5be40 \
-                    sha256 d0781a90f6cdb9049d104ac16a150f9350b693498b9dea8a0331e799db6b9d69 \
-                    size   8089372
+    version         ${branch}.2
+    checksums       rmd160 cc9e81815a6edfbd5e08d6a4f25bcf3488009853 \
+                    sha256 0f97485799e51a7070cc11494f3e02349b0fc3a24cc12b082e737bf67a0581a4 \
+                    size   8388114
 
     master_sites    ${homepage}/files/v${branch}/
     conflicts       cmake-devel
@@ -64,11 +64,11 @@ if {${subport} eq ${name}} {
 
     # devel
 
-    version         20180729
-    set commit      264012dae0cdefac1c7f152ce6aefe5bb0dddf40
-    checksums       rmd160 7e8404ab67967eaf13e2aade77e937825c4ac7af \
-                    sha256 d1bf7eeb293ebb0eca3a6a732f4e326a98add8c683f1da11be2e2c21f6bbfa49 \
-                    size   6334766
+    version         20180907
+    set commit      424d86be5b332d2f5b85dfd2ba2900430f7e02c3
+    checksums       rmd160 fc32bdee0ed841ae7cf8c844c646eafaf1d9a260 \
+                    sha256 bc0b9afb456495539fdd8a65df4651a6db594bc726b73b6cf88a3c56bd5dc164 \
+                    size   6440498
 
     use_bzip2       yes
     master_sites    https://gitlab.kitware.com/cmake/cmake/repository/archive${extract.suffix}?ref=${commit}&
@@ -91,7 +91,7 @@ if {${subport} eq ${name}} {
         patch-Source_Modules_FindLibUV.cmake.devel.diff
 
     livecheck.type  regex
-    livecheck.regex /cmake/cmake/commit/(\[0-9a-g\]+)
+    livecheck.regex data-clipboard-text=\"(\[0-9a-g\]+)\"
     livecheck.version ${commit}
     livecheck.url   https://gitlab.kitware.com/cmake/cmake/tree/master
 
@@ -119,8 +119,8 @@ configure.env-append \
 if {${os.platform} eq "darwin" && ${os.major} == 11 && ${configure.cxx_stdlib} eq "libc++"} {
     compiler.whitelist macports-clang-3.4
 }
-# Clang 3.8 and later require cmake; avoid circular dependency.
-compiler.blacklist-append macports-clang-3.8 macports-clang-3.9 macports-clang-4.0 macports-clang-5.0
+# Clang 3.9 and later require cmake; avoid circular dependency.
+compiler.blacklist-append macports-clang-3.9 macports-clang-4.0 macports-clang-5.0 macports-clang-6.0
 
 platform darwin {
     configure.env-append \
