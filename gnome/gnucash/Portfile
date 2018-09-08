@@ -63,8 +63,6 @@ configure.cppflags-append -I${worksrcpath}
 
 depends_build-append     port:pkgconfig \
                          port:intltool \
-                         port:autoconf \
-                         port:automake \
                          port:libtool \
                          port:gtest
          
