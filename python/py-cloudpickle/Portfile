@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-cloudpickle
-version             0.5.5
+version             0.6.1
 revision            0
 categories-append   science
 platforms           darwin
@@ -23,9 +23,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  d807b6e50a54da1730c2f18f12eb8346eff6b49b \
-                    sha256  6ea4b548f61a4f616b065182716318c7dced8c053517f35ac59cec22802daf3d \
-                    size    25557
+checksums           rmd160  a8c14ff24acfe6939047357c4afaf899f1a168a5 \
+                    sha256  f169a8523a40eb0a3452e1878aac31da6759409fbafa51dd50d89d4a6b42bcf1 \
+                    size    28574
 
 if {${name} ne ${subport}} {
     livecheck.type      none

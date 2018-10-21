@@ -28,11 +28,11 @@ if {${subport} eq ${name}} {
 } else {
 
     # devel
-    github.setup    osmocom libosmocore 559443040567c5def8fdb84dd43504202e2ae7df
-    version         20180904
-    checksums       rmd160 bfb2c549477414452774b2c19e3907a811418228 \
-                    sha256 6cdeac7a276ebba4d2aa7fd4a514f819c63bf36d4a8b4c8a271936b0eefac74a \
-                    size   1059409
+    github.setup    osmocom libosmocore f6c369fb8c1b2b6a567da277f35285284b43b089
+    version         20181016
+    checksums       rmd160 30617985b83a9051d6ac5e7340581cab846779df \
+                    sha256 0eda44322e332a1c45177408e6b6a70b3021603090fc5441ca436a51b4bdc97d \
+                    size   1070415
 
 }
 

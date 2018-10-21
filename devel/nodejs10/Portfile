@@ -4,12 +4,12 @@ PortSystem              1.0
 PortGroup               compiler_blacklist_versions 1.0
 
 name                    nodejs10
-version                 10.9.0
+version                 10.12.0
 
 categories              devel net
 platforms               darwin
 license                 {MIT BSD}
-maintainers             {ciserlohn @ci42}
+maintainers             {ciserlohn @ci42} openmaintainer
 
 description             Evented I/O for V8 JavaScript
 
@@ -24,9 +24,9 @@ homepage                http://nodejs.org/
 master_sites            ${homepage}dist/v${version}
 use_xz                  yes
 
-checksums               rmd160  f5a61c67e31c77c0bab6cb5b644488f244fcb344 \
-                        sha256  d17ef8eb72d6a31f50a663d554beb9bcb55aa2ce57cf189abfc9b1ba20530d02 \
-                        size    19987812
+checksums               rmd160  59898d0e855ff1385e3a3676163abda3bb86b0fb \
+                        sha256  d9cd890d6c3b060f7a5497a522564328fe73ec39dda082f41c4141a73ac30ae4 \
+                        size    20185168
 
 distname                node-v${version}
 
@@ -38,7 +38,7 @@ depends_lib             port:python27
 proc rec_glob {basedir pattern} {
     set files [glob -directory $basedir -nocomplain -type f $pattern]
     foreach dir [glob -directory $basedir -nocomplain -type d *] {
-        eval lappend files [rec_glob $dir $pattern]
+        lappend files {*}[rec_glob $dir $pattern]
     }
     return $files
 }
@@ -155,7 +155,6 @@ destroot {
         src/node_crypto_clienthello-inl.h \
         src/node_crypto_clienthello.h \
         src/node_crypto_groups.h \
-        src/node_debug_options.h \
         src/node_dtrace.h \
         src/node_errors.h \
         src/node_file.h \
@@ -181,7 +180,6 @@ destroot {
         src/node_win32_etw_provider.h \
         src/node_win32_perfctr_provider.h \
         src/node_worker.h \
-        src/node_wrap.h \
         src/pipe_wrap.h \
         src/req_wrap-inl.h \
         src/req_wrap.h \

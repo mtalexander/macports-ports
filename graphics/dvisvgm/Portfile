@@ -4,9 +4,6 @@ PortSystem          1.0
 PortGroup           cxx11 1.1
 PortGroup           github 1.0
 
-github.setup        mgieseki dvisvgm 2.3.4
-revision            2
-conflicts           texlive-bin-extra
 categories          graphics textproc
 platforms           darwin
 license             GPL-3+
@@ -16,13 +13,18 @@ description         DVI to SVG converter
 long_description    The command-line utility dvisvgm is a tool for TeX/LaTeX users. It \
                     converts DVI files to the XML-based scalable vector graphics format SVG.
 
-homepage            http://dvisvgm.bplaced.net/
+github.setup        mgieseki dvisvgm 2.3.4
+revision            4
+checksums           rmd160 a6b6bae339fb915b2c5f585b4f176a93fd901fc3 \
+                    sha256 5399f9ac2b254bc8a5c4862bc2126f2e8c6caec243c3205c0223564371100129 \
+                    size   2896641
+
 github.tarball_from releases
 
-checksums           rmd160  a6b6bae339fb915b2c5f585b4f176a93fd901fc3 \
-                    sha256  5399f9ac2b254bc8a5c4862bc2126f2e8c6caec243c3205c0223564371100129
+homepage            http://dvisvgm.bplaced.net/
 
-depends_build       port:pkgconfig
+depends_build       port:asciidoc \
+                    port:pkgconfig
 
 depends_lib         port:freetype \
                     port:ghostscript \
@@ -32,3 +34,12 @@ depends_lib         port:freetype \
 
 test.run            yes
 test.target         check
+
+pre-activate {
+    if {![catch {set vers [lindex [registry_active texlive-bin-extra] 0]}]
+        && ([vercmp [lindex $vers 1] 47446] < 0 ||
+            [vercmp [lindex $vers 1] 47446] == 0
+            && [vercmp [lindex $vers 2] 1] < 1)} {
+        registry_deactivate_composite texlive-bin-extra "" [list ports_nodepcheck 1]
+    }
+}

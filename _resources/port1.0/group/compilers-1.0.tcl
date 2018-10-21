@@ -65,14 +65,17 @@ default compilers.required_f {}
 default compilers.required_some_f {}
 default compilers.variants_conflict {}
 default compilers.libfortran {}
-default compilers.clear_archflags yes
+default compilers.clear_archflags no
 
 # also set a default gcc version
 if {${build_arch} eq "ppc" || ${build_arch} eq "ppc64"} {
     # see https://trac.macports.org/ticket/54215#comment:36
     set compilers.gcc_default gcc6
-} else {
+} elseif {${os.major} < 10} {
+    # see https://trac.macports.org/ticket/57135
     set compilers.gcc_default gcc7
+} else {
+    set compilers.gcc_default gcc8
 }
 
 set compilers.list {cc cxx cpp objc fc f77 f90}
@@ -113,7 +116,7 @@ foreach v ${gcc_versions} {
     set cdb(gcc$v,f90)      ${prefix}/bin/gfortran-mp-$version
 }
 
-set clang_versions {33 34 37 38 39 40 50 60}
+set clang_versions {33 34 37 38 39 40 50 60 70}
 foreach v ${clang_versions} {
     # if the string is more than one character insert a '.' into it: e.g 33 -> 3.3
     set version $v

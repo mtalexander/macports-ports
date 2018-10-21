@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 PortGroup           github 1.0
 
-github.setup        beautify-web js-beautify 1.8.4 v
+github.setup        beautify-web js-beautify 1.8.8 v
 name                py-jsbeautifier
 categories-append   textproc
 platforms           darwin
@@ -15,11 +15,11 @@ maintainers         {yan12125 @yan12125} openmaintainer
 description         JS beautifier written in Python
 long_description    ${description}
 
-homepage            http://jsbeautifier.org/
+homepage            https://beautifier.io/
 
-checksums           rmd160  57bf72eaf681cf89354e1f14b0851170195643a6 \
-                    sha256  7051f32ce570969927c3baecb6ac1d367d01997cf46a88aa5cabc16afab5fad3 \
-                    size    1005093
+checksums           rmd160  4724a7bf1cd2a8d0ea5fc70b59aec7b300ce243a \
+                    sha256  69041b577d833290775c05234337b4a7bb8d7804c91c94e66856c9b80ac08491 \
+                    size    1017091
 
 python.versions     27 36 37
 
@@ -34,7 +34,7 @@ if {${name} ne ${subport}} {
 
     test.run            yes
     test.env            PYTHONPATH=${worksrcpath}/python
-    test.dir            ${worksrcpath}/python/jsbeautifier
+    test.dir            ${worksrcpath}
     test.cmd            ${python.bin}
-    test.target         -m unittest -v
+    test.target         python/js-beautify-test.py
 }

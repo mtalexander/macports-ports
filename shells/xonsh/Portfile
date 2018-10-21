@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        xonsh xonsh 0.7.7
+github.setup        xonsh xonsh 0.8.1
 github.tarball_from tags
 categories          shells
 platforms           darwin
-maintainers         nomaintainer
+maintainers         {mps @Schamschula} openmaintainer
 license             Permissive
 
 description         Xonsh is a Python-ish, BASHwards-looking shell language \
@@ -21,11 +21,11 @@ long_description    ${description} \
                     macOS, and Windows. Xonsh is meant for the daily use of \
                     experts and novices alike.
 
-checksums           rmd160  279212f66dde25ffc4f01cdaaf6fed697f5cb4d7 \
-                    sha256  37bac988d42cc79429b4654704a645da50e7d719072c1fb72c8cc9c47b1480b0 \
-                    size    1949914
+checksums           rmd160  602ed3f6902b313743f2a7b786424659ade55c33 \
+                    sha256  42ed14aa5e59d6625371ae236117d4690b9ee5ff6cb5e6ee22ce4a83c18c922a \
+                    size    1960602
 
-python.versions     34 35 36
+python.versions     34 35 36 37
 
 depends_lib-append  port:py${python.version}-prompt_toolkit \
                     port:py${python.version}-pygments \
@@ -40,18 +40,22 @@ subport             xonsh-devel {
 }
 
 
-variant python34 conflicts python35 python36 description {Use Python 3.4} {
+variant python34 conflicts python35 python36 python37 description {Use Python 3.4} {
     python.default_version 34
 }
 
-variant python35 conflicts python34 python36 description {Use Python 3.5} {
+variant python35 conflicts python34 python36 python37 description {Use Python 3.5} {
     python.default_version 35
 }
 
-variant python36 conflicts python34 python35 description {Use Python 3.6} {
+variant python36 conflicts python34 python35 python37 description {Use Python 3.6} {
     python.default_version 36
 }
 
-if {![variant_isset python34] && ![variant_isset python35]} {
-    default_variants +python36
+variant python37 conflicts python34 python35 python36 description {Use Python 3.7} {
+    python.default_version 37
+}
+
+if {![variant_isset python34] && ![variant_isset python35] && ![variant_isset python36]} {
+    default_variants +python37
 }

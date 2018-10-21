@@ -88,11 +88,11 @@ if {$subport eq $name || $subport eq "emacs-app"} {
 
 if {$subport eq "emacs-devel" || $subport eq "emacs-app-devel"} {
     epoch           1
-    version         20180621
+    version         20181014
 
     fetch.type      git
     git.url         http://git.savannah.gnu.org/r/emacs.git
-    git.branch      5583e6460c38c5d613e732934b066421349a5259
+    git.branch      700acbd9917732ec35b7cd90d908bf6db6ff6d28
 
     pre-configure {
         system -W ${worksrcpath} "sh ./autogen.sh"

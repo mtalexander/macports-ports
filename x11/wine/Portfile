@@ -14,8 +14,7 @@ PortGroup                   compiler_blacklist_versions 1.0
 name                        wine
 conflicts                   wine-devel wine-crossover
 set my_name                 wine
-version                     3.0.2
-revision                    1
+version                     3.0.3
 set branch                  [lindex [split ${version} .] 0].0
 license                     LGPL-2.1+
 categories                  x11
@@ -60,9 +59,9 @@ distfiles                   ${wine_distfile}:winesource \
                             ${wine_mono_distfile}:winemono
 
 checksums                   ${wine_distfile} \
-                            rmd160  9d574ba81dd3be1a6f44f4114898ccaaedc9714f \
-                            sha256  cad771375409e24244eab252da044306158af8a8bea4432e7ca81c1dc6b463ff \
-                            size    19726920 \
+                            rmd160  3d916d7bbf35d635770b1d04e941e8198f0e12d0 \
+                            sha256  eb645999ea6f6455a5275bf267e19a32497c8f5aac818ea40afe7c8c396a4da1 \
+                            size    19735412 \
                             ${wine_gecko_distfile} \
                             rmd160  abf7cc78b49dd0623bc8fe87ae0e32bb8694e13d \
                             sha256  3b8a361f5d63952d21caafd74e849a774994822fb96c5922b01d554f1677643a \
@@ -209,14 +208,16 @@ variant x11 {
                                 --x-lib=${prefix}/lib
 }
 
-default_variants            +x11
+if {${os.platform} ne "darwin" || (${os.major} >= 9 && ${os.major} <= 17)} {
+    default_variants        +x11
+}
 
 configure.universal_args
 
 set merger_configure_args(x86_64) "--enable-win64 --libdir=${prefix}/lib"
 set merger_configure_args(i386)   --with-wine64=${workpath}/${worksrcdir}-x86_64
 
-if {${build_arch} eq "x86_64"} {
+if {${build_arch} eq "x86_64" && ${os.major} < 18} {
     default_variants            +universal
 }
 
@@ -291,17 +292,36 @@ platform darwin {
 
         and then set "RetinaMode" to "y". You may also want to adjust your\
         DPI under the Graphics tab in winecfg.}
+
+    if {${os.major} < 9} {
+        archive_sites
+        distfiles
+        depends_build
+        depends_lib
+        pre-fetch {
+            ui_error "${name} @${version} requires Mac OS X 10.5 or later."
+            return -code error "incompatible Mac OS X version"
+        }
+    } elseif {${os.major} > 17} {
+        archive_sites
+        distfiles
+        depends_build
+        depends_lib
+        pre-fetch {
+            ui_error "${name} cannot be built on macOS 10.14 or later."
+            return -code error "incompatible macOS version"
+        }
+    }
 }
 
-pre-fetch {
-    if {${os.endian} eq "big"} {
+if {${os.endian} eq "big"} {
+    archive_sites
+    distfiles
+    depends_build
+    depends_lib
+    pre-fetch {
         ui_error "${name} can only be used on an Intel Mac or other computer with a little-endian processor."
         return -code error "incompatible processor"
-    }
-
-    if {${os.platform} eq "darwin" && ${os.major} < 9} {
-        ui_error "${name} ${version} requires OS X 10.5 or greater."
-        return -code error "incompatible OS X version"
     }
 }
 

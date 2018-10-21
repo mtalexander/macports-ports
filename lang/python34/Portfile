@@ -36,7 +36,8 @@ patchfiles          patch-setup.py.diff \
                     patch-Lib-ctypes-macholib-dyld.py.diff \
                     patch-libedit.diff \
                     omit-local-site-packages.patch \
-                    patch-Include-pyport.h.diff
+                    patch-Include-pyport.h.diff \
+                    uuid-64bit.patch
 
 depends_build       port:pkgconfig
 depends_lib         port:bzip2 \

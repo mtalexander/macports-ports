@@ -36,7 +36,8 @@ patchfiles          patch-setup.py.diff \
                     patch-configure.diff \
                     patch-libedit.diff \
                     omit-local-site-packages.patch \
-                    patch-Include-pyport.h.diff
+                    patch-Include-pyport.h.diff \
+                    uuid-64bit.patch
 
 # https://bugs.python.org/issue21811
 patchfiles-append   yosemite-configure-fixes.patch \

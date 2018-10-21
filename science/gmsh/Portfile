@@ -5,7 +5,7 @@ PortGroup           cmake 1.0
 
 name                gmsh
 conflicts           gmsh-devel
-version             4.0.0
+version             4.0.2
 categories          science
 platforms           darwin
 license             GPL-2+
@@ -23,9 +23,9 @@ master_sites        http://www.geuz.org/gmsh/src/
 distname            gmsh-${version}-source
 extract.suffix      .tgz
 
-checksums           rmd160  c912c91a8c67c70e7990d6eab383e3c9c2bb9871 \
-                    sha256  fb0c8afa37425c6f4315ab3b3124e9e102fcf270a35198423a4002796f04155f \
-                    size    12751974
+checksums           rmd160  fb4ca9edf0b6bbfc2f9dba228fb9ea36335c9c31 \
+                    sha256  f3c993408153961bd0bbd762458231abe50aeaabe7ab2466462975f2971e5c0d \
+                    size    12764404
 
 patchfiles          patch-CMakeLists.txt.diff
 

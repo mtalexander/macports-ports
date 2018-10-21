@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-openpyxl
-version             2.5.6
+version             2.5.8
 revision            0
 categories-append   textproc
 platforms           darwin
@@ -25,9 +25,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  e8b5e4bf87df93bff4ade3657345bf11858c08b8 \
-                    sha256  04091e034911a0afc531c3a15e5ae0b1b6a43654dbf63c187f47d20cdfefac1c \
-                    size    173998
+checksums           rmd160  6933aec3bd157bfeca7191c8ca3c23de3b5ba1dc \
+                    sha256  22904d7bdfaaab33d65d50a0915a65eeb2f29c85d9ec53081563850678a29927 \
+                    size    1949915
 
 if {${name} ne ${subport}} {
     depends_build-append \
