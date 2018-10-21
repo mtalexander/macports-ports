@@ -113,6 +113,15 @@ post-destroot {
         README ${destroot}${docdir}
 }
 
+variant gnucash {
+        description "Patch glibconfig.h so GnuCash will build.  See https://trac.macports.org/ticket/55446 for more information."
+        post-destroot {
+            # Patch glibconfig.h so it defines gint64 et al as long long instead of long
+            # This is required to make GnuCash build
+            system -W ${destroot}${prefix}/lib/glib-2.0/include "patch -p1 <${filespath}/patch-glibconfig.h.diff"
+        }
+}
+
 variant debug {
         configure.cflags-delete -funroll-loops
         configure.cflags-append -O0 -g
