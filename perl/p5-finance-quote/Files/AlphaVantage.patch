@@ -43,9 +43,9 @@ index 6e383b2..e3f3ac7 100644
 +    if ( !$json_data || $json_data->{'Error Message'} ) {
 +      return undef;
 +    }
-+#     print "Failed: " . $json_data->{'Information'} . "\n" if (($try_cnt < 5) && ($json_data->{'Information'}));
-+    sleep (20) if (($try_cnt < 5) && ($json_data->{'Information'}));
-+  } while (($try_cnt < 5) && ($json_data->{'Information'}));
++    # print "Failed: " . $json_data->{'Note'} . "\n" if (($try_cnt < 5) && ($json_data->{'Note'}));
++    sleep (20) if (($try_cnt < 5) && ($json_data->{'Information'} || $json_data->{'Note'}));
++  } while (($try_cnt < 5) && ($json_data->{'Information'} || $json_data->{'Note'}));
 +
    my $exchange_rate = $json_data->{'Realtime Currency Exchange Rate'}->{'5. Exchange Rate'};
 -  
@@ -68,7 +68,7 @@ index e9157c7..ba3ab5d 100755
 +# optimal server-side performance:
 +#   https://www.alphavantage.co/support/#api-key
 +our @alphaqueries=();
-+my $maxQueries = { quantity =>20 , seconds => 65}; # no more than x queries per y seconds
++my $maxQueries = { quantity =>5 , seconds => 55}; # no more than x queries per y seconds
  
  my $ALPHAVANTAGE_URL =
      'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=compact&datatype=json';
@@ -164,13 +164,14 @@ index e9157c7..ba3ab5d 100755
          if ($code != 200) {
              $info{ $stock, 'success' } = 0;
              $info{ $stock, 'errormsg' } = $desc;
-@@ -148,6 +191,16 @@ sub alphavantage {
+@@ -148,6 +191,17 @@ sub alphavantage {
              $info{ $stock, 'errormsg' } = $@;
          }
  
 +        my $try_cnt = 0;
-+        while (($try_cnt < 5) && ($json_data->{'Information'})) {
++        while (($try_cnt < 5) && ($json_data->{'Information'} || $json_data->{'Note'})) {
 +            # print STDERR "INFORMATION:".$json_data->{'Information'}."\n";
++            # print STDERR "NOTE:".$json_data->{'Note'}."\n";
 +            # print STDERR "ADDITIONAL SLEEPING HERE !";
 +            sleep (20);
 +            &$get_content();
@@ -181,7 +182,7 @@ index e9157c7..ba3ab5d 100755
          if ( !$json_data || $json_data->{'Error Message'} ) {
              $info{ $stock, 'success' } = 0;
              $info{ $stock, 'errormsg' } =
-@@ -155,6 +208,12 @@ sub alphavantage {
+@@ -155,6 +209,12 @@ sub alphavantage {
              next;
          }
  
@@ -194,7 +195,7 @@ index e9157c7..ba3ab5d 100755
          my $last_refresh = $json_data->{'Meta Data'}->{'3. Last Refreshed'}; # when market is open this returns an isodate + time, otherwise only the isodate
          $last_refresh = substr($last_refresh,0,10);  # remove time if returned
          if ( !$last_refresh ) {
-@@ -203,7 +262,7 @@ sub alphavantage {
+@@ -203,7 +263,7 @@ sub alphavantage {
  
          # deduce currency
          if ( $stock =~ /(\..*)/ ) {
@@ -203,7 +204,7 @@ index e9157c7..ba3ab5d 100755
              if ( $currencies_by_suffix{$suffix} ) {
                  $info{ $stock, 'currency' } = $currencies_by_suffix{$suffix};
  
-@@ -233,8 +292,6 @@ sub alphavantage {
+@@ -233,8 +293,6 @@ sub alphavantage {
  
          $info{ $stock, "currency_set_by_fq" } = 1;
  
