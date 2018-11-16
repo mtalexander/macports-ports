@@ -83,15 +83,18 @@ depends_lib       port:guile \
                   port:icu \
                   port:libxml2
 
-depends_run       port:gnucash-docs
-# yelp currently requires X11 to build so disable dependency if building
-# with +quartz
-#
-# TODO: add +x11 +quartz variants to distinguish one build from the other
-# since they have different binary dependencies.  Otherwise, rev-upgrade
-# errors may occur
-if {![variant_isset quartz]} {
-    depends_run-append port:yelp
+variant quartz conflicts x11 {
+    require_active_variants gtk3 quartz x11
+    require_active_variants glib2 quartz x11
+    depends_lib-append port:gtk-osx-application-gtk3
+}
+
+variant x11 conflicts quartz {
+    require_active_variants gtk3 x11 quartz
+    require_active_variants glib2 x11 quartz
+    # yelp requires x11 to build and gnucash-docs depends on
+    # it so only get the docs if building for X111
+    depends_run-append port:gnucash-docs
 }
 
 # aqbanking is not universal
@@ -119,6 +122,10 @@ post-activate {
 
 if {$subport == $name} {
     livecheck.regex "/${name} .*/(\[0-9\]+\\.\[0-9\]*\[0-9\])/"
+}
+
+if {![variant_isset quartz]} {
+    default_variants +x11
 }
 
 # There currently isn't a separate beta release.
