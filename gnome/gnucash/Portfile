@@ -4,6 +4,7 @@ PortSystem        1.0
 PortGroup         perl5 1.0
 PortGroup         cmake 1.1
 PortGroup         cxx11 1.1
+PortGroup         active_variants 1.1
 
 name              gnucash
 conflicts         gnucash gnucash-devel
@@ -46,16 +47,17 @@ post-patch {
 
     reinplace "s|set(HAVE_OSX_KEYCHAIN 1)||" ${worksrcpath}/CMakeLists.txt
     
-    # Drop in a patched version of glibconfig.h via
-    # https://git.gnome.org/browse/gtk-osx/plain/patches/glib-gint64-long-long.patch
-    # because gnucash incorrectly assumes int64_t and gint64 are
-    # the same size. See https://trac.macports.org/ticket/55446
-    xinstall -d ${workpath}/glib-2.0/include
-    file copy ${prefix}/lib/glib-2.0/include/glibconfig.h ${workpath}/glib-2.0/include
-    system -W ${workpath}/glib-2.0/include "patch -p1 <${filespath}/patch-glibconfig.h.diff"
+    if {[active_variants glib2 "" "gnucash"]} {
+        # Drop in a patched version of glibconfig.h via
+        # https://git.gnome.org/browse/gtk-osx/plain/patches/glib-gint64-long-long.patch
+        # because gnucash incorrectly assumes int64_t and gint64 are
+        # the same size. See https://trac.macports.org/ticket/55446
+        xinstall -d ${workpath}/glib-2.0/include
+        file copy ${prefix}/lib/glib-2.0/include/glibconfig.h ${workpath}/glib-2.0/include
+        system -W ${workpath}/glib-2.0/include "patch -p1 <${filespath}/patch-glibconfig.h.diff"
+        configure.env-append PKG_CONFIG_GLIB_2_0_LIBDIR=${workpath}
+    }
 }
-
-configure.env-append PKG_CONFIG_GLIB_2_0_LIBDIR=${workpath}
 
 configure.cppflags-delete   -I${prefix}/include
 configure.cppflags-append   -isystem${prefix}/include
