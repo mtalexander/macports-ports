@@ -1,0 +1,11 @@
+--- configure.orig	2018-11-16 00:10:53.000000000 -0500
++++ configure	2018-11-16 00:14:22.000000000 -0500
+@@ -22984,7 +22984,7 @@
+   backend_immodules="$backend_immodules,quartz"
+   GDK_WINDOWING="$GDK_WINDOWING
+ #define GDK_WINDOWING_QUARTZ"
+-  GDK_EXTRA_LIBS="$GDK_EXTRA_LIBS -framework Cocoa"
++  GDK_EXTRA_LIBS="$GDK_EXTRA_LIBS -W1,-framework -W1,Cocoa"
+   DISABLE_ON_QUARTZ='%'
+    if true; then
+   USE_QUARTZ_TRUE=
