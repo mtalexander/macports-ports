@@ -4,7 +4,7 @@ PortSystem          1.0
 
 name                gtkspell2
 version             2.0.16
-revision            7
+revision            8
 categories          x11 gnome textproc
 platforms           darwin
 # Source files have no copyright or license notices, and docs don't mention

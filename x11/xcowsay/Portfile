@@ -5,6 +5,7 @@ PortGroup               github 1.0
 
 github.setup            nickg xcowsay 1.4 v
 github.tarball_from     releases
+revision                1
 categories              x11
 license                 GPL-3+
 platforms               darwin

@@ -7,6 +7,7 @@ name                gnome-online-accounts
 
 # version 3.16.0+ requires webkit2gtk-4.0
 version             3.28.0
+revision            1
 
 license             LGPL-2
 set branch          [join [lrange [split ${version} .] 0 1] .]
@@ -68,7 +69,7 @@ configure.args      --enable-ubuntu-online-accounts=no \
 platform darwin {
     if {${configure.cxx_stdlib} eq "libstdc++"} {
         version         3.8.5
-        revision        2
+        revision        3
         checksums       rmd160  21889d886fa262e536929ecb6905cfcd3f50a462 \
                         sha256  34d6fbc33bda4c7bba8aa52343ebe1eb8afe1033097c10a2d9979c0a99593e5d
         depends_build-append \

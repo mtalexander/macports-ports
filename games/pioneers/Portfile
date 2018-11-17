@@ -5,6 +5,7 @@ PortGroup           app 1.0
 
 name                pioneers
 version             15.5
+revision            1
 categories          games
 license             GPL
 maintainers         {snc @nerdling} gmail.com:jweede

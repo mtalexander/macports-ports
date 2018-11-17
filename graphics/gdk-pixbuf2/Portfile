@@ -1,12 +1,14 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-PortGroup           gobject_introspection 1.0
+# Introspection prot group doesn't work with meson, do it by hand
+#PortGroup          gobject_introspection 1.0
+PortGroup           meson 1.0
 
 name                gdk-pixbuf2
 set my_name         gdk-pixbuf
 epoch               2
-version             2.36.12
+version             2.38.0
 license             LGPL
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          graphics
@@ -22,9 +24,9 @@ long_description    ${description}
 
 master_sites        gnome:sources/${my_name}/${branch}/
 
-checksums           rmd160  283963dfc2e04e7f51a3b195afb514379ecfda7b \
-                    sha256  fff85cf48223ab60e3c3c8318e2087131b590fd6f1737e42cb3759a3b427a334 \
-                    size    5675768
+checksums           rmd160  fe9ea05c11541496d05897af7413b797b8317f6f \
+                    sha256  dd50973c7757bcde15de6bcd3a6d462a445efd552604ae6435a0532fbbadae47 \
+                    size    5229368
 
 depends_build       port:pkgconfig
 
@@ -33,14 +35,16 @@ depends_lib         path:lib/pkgconfig/glib-2.0.pc:glib2 \
                     port:libpng \
                     port:jasper \
                     port:jpeg \
-                    port:tiff
+                    port:tiff \
+                    port:gobject-introspection
 
-gobject_introspection yes
+# Patch for upstream commit 2335d219.  
+#  "Workaround to install modules with .so suffix on osx"
+patchfiles          name-suffix.diff
 
 license_noconflict  gobject-introspection
 
-configure.args      --with-libjasper \
-                    --disable-silent-rules
+configure.args      -Djasper=true -Dgir=true -Dinstalled_tests=false
 
 test.run            yes
 test.target         check
@@ -50,12 +54,16 @@ post-activate {
 }
 
 variant bundle description {Enable application bundle relocation support} {
-    configure.args-append   --enable-relocations
+    configure.args-append   -Drelocatable=true
 }
 
-variant x11 {
+variant x11 conflicts quartz {
     depends_lib-append      port:xorg-libX11
-    configure.args-append   --with-x11
+    configure.args-append   -Dx11=true
+}
+
+variant quartz conflicts x11 {
+    configure.args-append   -Dx11=false
 }
 
 if {![variant_isset quartz]} {

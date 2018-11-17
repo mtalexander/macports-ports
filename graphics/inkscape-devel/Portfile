@@ -8,6 +8,7 @@ epoch               1
 set git_commit      b1b33698810bb8ae6e31e509697ff27d2732e7ac
 set git_date        20180614
 version             0.92.2-${git_date}
+revision            1
 license             GPL-2 LGPL-2.1
 maintainers         {devans @dbevans}
 categories          graphics gnome

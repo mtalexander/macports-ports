@@ -5,7 +5,7 @@ PortGroup           active_variants 1.1
 
 name                awesome
 version             3.5.6
-revision            1
+revision            2
 categories          x11 x11-wm
 platforms           darwin
 maintainers         nomaintainer
