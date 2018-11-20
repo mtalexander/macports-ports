@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-keyring
-version             15.1.0
+version             16.1.0
 categories-append   security
 
 license             {MIT PSF}
@@ -21,9 +21,9 @@ homepage            https://github.com/jaraco/keyring
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  36c93f1f83d01afcbf3c5b2c3332473a6aff53bc \
-                    sha256  6232b972dfbd44fd9bd649242dbf17f616988b152d4268f9ca1dcc704b467381 \
-                    size    42891
+checksums           rmd160  08fe827c558c7e6e8fe7dba175d6b433c70a0b1a \
+                    sha256  e9d58fcb4e559f13ae7d10df301cef45ef2786ef8162a648373f8566b1761eb0 \
+                    size    43863
 
 python.versions     27 34 35 36 37
 
@@ -37,7 +37,7 @@ if {${name} ne ${subport}} {
     post-destroot {
         set docdir ${prefix}/share/doc/${subport}
         xinstall -d ${destroot}${docdir}
-        xinstall -m 644 -W ${worksrcpath} CHANGES.rst LICENSE README.rst \
+        xinstall -m 0644 -W ${worksrcpath} CHANGES.rst LICENSE README.rst \
             ${destroot}${docdir}
     }
 

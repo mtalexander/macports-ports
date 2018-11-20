@@ -17,11 +17,11 @@ subport libiio-devel {
     PortGroup       obsolete 1.0
 }
 
-github.setup    analogdevicesinc libiio 4c9a0502d15bd7906c1cfe234da59f4a6d328566
-version         20180927
-checksums       rmd160 ab26eaf938f3538e1b656bbc69195d14f38a2118 \
-                sha256 2bf4f8cf00f1d6e14034991be3cd27a5e1287bfbd846208b0214f796ca4293cd \
-                size   193751
+github.setup    analogdevicesinc libiio 29c582ecab0588e03458c65ba4ee6541536bed16
+version         20181108
+checksums       rmd160 bc7db0bef90161df0a5cf1a58485c36a592f5ccb \
+                sha256 375733bb195eb4c0ddb909c54c90e3b7665a93951724e8853b66664780920172 \
+                size   195733
 
 depends_lib-append port:libxml2 \
     path:lib/libusb.dylib:libusb \

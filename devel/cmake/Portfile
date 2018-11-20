@@ -37,10 +37,10 @@ if {${subport} eq ${name}} {
 
     # release
 
-    version         ${branch}.3
-    checksums       rmd160 e964e54a5776dccee8cc3f786c2b050ca30172bb \
-                    sha256 acbf13af31a741794106b76e5d22448b004a66485fc99f6d7df4d22e99da164a \
-                    size   8388552
+    version         ${branch}.4
+    checksums       rmd160 57f7e1b9853cbb837ee4485442ce9a569c1e225c \
+                    sha256 5255584bfd043eb717562cff8942d472f1c0e4679c4941d84baadaa9b28e3194 \
+                    size   8388984
 
     master_sites    ${homepage}/files/v${branch}/
     conflicts       cmake-devel
@@ -64,11 +64,11 @@ if {${subport} eq ${name}} {
 
     # devel
 
-    version         20181018
-    set commit      1771ec85b6475c10566026ad7813eb74f732d507
-    checksums       rmd160 6aff6aea73dee9db6d7fe4101480449bb75fc85a \
-                    sha256 d3d2d80d116479f4ab0a195e162440f9c829acfc01a9ce0e945ebe2f149e99e8 \
-                    size   6462875
+    version         20181113
+    set commit      64bc4bda748b6c33d496fe294e959e7609b89260
+    checksums       rmd160 284fec201d54592d604c89952f8b95979527a853 \
+                    sha256 57280fe0364e4a268344c025d4f77996b298fbf91a5baad26510987b1dd6852e \
+                    size   6498578
 
     use_bzip2       yes
     master_sites    https://gitlab.kitware.com/cmake/cmake/repository/archive${extract.suffix}?ref=${commit}&
@@ -161,19 +161,9 @@ configure.post_args
 # CMake's configure script doesn't recognize `--host`.
 array set merger_host {i386 {} x86_64 {} ppc {} ppc64 {}}
 
-# Tiger has issues with system libraries;
-# just use the ones internal to cmake instead.
 platform darwin 8 {
-    configure.args-delete --system-libs
-    configure.args-append --no-system-libs
-    depends_lib-delete \
-        path:lib/pkgconfig/libuv.pc:libuv \
-        port:curl \
-        port:expat \
-        port:zlib \
-        port:bzip2 \
-        port:libarchive \
-        port:ncurses
+    patchfiles-append patch-cmake-3-12-libuv-tiger.diff
+    configure.ldflags-append -Wl,-framework -Wl,ApplicationServices
 }
 
 # Leopard's Rosetta has some difficulties configuring the ppc slice

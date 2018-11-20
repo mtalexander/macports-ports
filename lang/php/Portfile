@@ -125,32 +125,32 @@ switch ${subport_branch} {
     }
     7.1 {
         epoch           2
-        version         7.1.23
+        version         7.1.24
         use_xz          yes
-        checksums       rmd160  6438b85f48ba205f0ded4a6cf2b9758990737999 \
-                        sha256  227a3c76133c3dc1cec937989456cbd89ed00e68e7260c651900dbe1f5b798bc \
-                        size    12227528
+        checksums       rmd160  74cb92296372bcf9d12188440bdb3dd5214837ea \
+                        sha256  e70dcec0ae28b6bc308b78972ec15aa850808819cc765f505aa51e5a7e2fa5d7 \
+                        size    12205112
     }
     7.2 {
         epoch           2
-        version         7.2.11
+        version         7.2.12
         use_xz          yes
-        checksums       rmd160  320afbf5b307eca6b4638a3a92147b0383ff15e6 \
-                        sha256  da1a705c0bc46410e330fc6baa967666c8cd2985378fb9707c01a8e33b01d985 \
-                        size    12132268
+        checksums       rmd160  966a63e879f5c6edac361f3b4d8a18ad9a5e3d0e \
+                        sha256  989c04cc879ee71a5e1131db867f3c5102f1f7565f805e2bb8bde33f93147fe1 \
+                        size    12141472
     }
     7.3 {
         # When this becomes a stable version, remove the overrides for homepage,
         # master_sites and livecheck, and update php.latest_stable_branch in the
         # php-1.1 portgroup.
         epoch           1
-        version         7.3.0RC3
+        version         7.3.0RC5
         homepage        https://qa.php.net/
         master_sites    https://downloads.php.net/~cmb/
         use_xz          yes
-        checksums       rmd160  d10290973696f1f85f46c8e7eb09ea6c6d511ad5 \
-                        sha256  bd6c7fa718ff5b430d64ae1b5cfdf3e076ceb0a4a8569927bba8fe65fa04c4b5 \
-                        size    11927028
+        checksums       rmd160  736f4ce3994e5b8dd03322d134a314585e8a09dc \
+                        sha256  0bf6a6bdfd37576b9a341559023b0adf90063b8970ab08ea7a4d8e83b82136cd \
+                        size    11916200
         livecheck.url   ${homepage}
         livecheck.regex php-([strsed ${subport_branch} {g/\\./\\./}](?:\\.\[0-9.\]+)*(?:(?:alpha|beta|RC)\\d+|-latest))\\.tar
     }
@@ -195,11 +195,12 @@ if {[is_sapi_subport]} {
         depends_lib-append  port:pcre
     } else {
         depends_lib-append  port:pcre2
+        patchfiles-append   patch-${php}-Zend-zend_cpuinfo.c.diff
     }
     
     # Use -p1 to accommodate the Suhosin patch
     patch.pre_args      -p1
-    patchfiles          patch-${php}-scripts-php-config.in.diff
+    patchfiles-append   patch-${php}-scripts-php-config.in.diff
 
     if {[vercmp ${branch} 5.3] <= 0} {
         patchfiles-append \

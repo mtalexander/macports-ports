@@ -2,8 +2,10 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
+PortGroup           legacysupport 1.0
 
 name                osmocore
+revision            1
 maintainers         {michaelld @michaelld} openmaintainer
 description         ${name} provides a set of C-language libraries that form the core infrastructure of many Osmocom Open Source Mobile Communications projects.
 long_description    ${description}
@@ -28,11 +30,11 @@ if {${subport} eq ${name}} {
 } else {
 
     # devel
-    github.setup    osmocom libosmocore f6c369fb8c1b2b6a567da277f35285284b43b089
-    version         20181016
-    checksums       rmd160 30617985b83a9051d6ac5e7340581cab846779df \
-                    sha256 0eda44322e332a1c45177408e6b6a70b3021603090fc5441ca436a51b4bdc97d \
-                    size   1070415
+    github.setup    osmocom libosmocore 4c9d1479a6e1653b49649116ffef9af337f332b5
+    version         20181112
+    checksums       rmd160 a0eee3456311219fed708d5bd6d45a83a7703175 \
+                    sha256 11d1ef81e461dab5f52126242b69a439260de52c8609019a58d98abc892742d2 \
+                    size   1074631
 
 }
 

@@ -5,10 +5,10 @@ PortGroup           app 1.0
 PortGroup           active_variants 1.1
 
 name                pspp-devel
-set buildstamp      20181008070110
-set buildhash       g35c08c
-version             1.1.0
-revision            12
+set buildstamp      20181119030501
+set buildhash       g61efc2
+version             1.2.0
+revision            3
 # depends_test port:p${perl5.major}-text-diff
 categories          math
 license             GPL-3+
@@ -44,9 +44,9 @@ depends_lib-append  path:lib/pkgconfig/cairo.pc:cairo \
 
 depends_build-append    port:pkgconfig
 
-checksums           rmd160  b88191cd3523d43417f5afca9946945bbe05be09 \
-                    sha256  ff6475c64ec4a7d3a6db58d52484bd2a5560d8ad81e0cf8da967e1bd0540c410 \
-                    size    7171883
+checksums           rmd160  d891eb72cbb1bb971d0ce2c3843ede1483501b4c \
+                    sha256  bb53597f2e7d78a711d1cea0e6a8d3edf1a761a5ccd9c1687fa4718b29500f84 \
+                    size    7212696
 
 post-extract {
     if {[variant_isset gui]} {

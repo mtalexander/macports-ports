@@ -9,10 +9,11 @@ PortGroup           github 1.0
 PortGroup           select 1.0
 PortGroup           xcodeversion 1.0
 PortGroup           cxx11 1.1
+PortGroup           legacysupport 1.0
 
-github.setup        root-project root 6-14-04 v
+github.setup        root-project root 6-14-06 v
 version             [string map {- .} ${github.version}]
-revision            1
+revision            0
 livecheck.version   ${github.version}
 
 # Use git commit
@@ -24,13 +25,13 @@ livecheck.version   ${github.version}
 
 livecheck.type      regex
 livecheck.url       ${github.homepage}/tags
-livecheck.regex     {v(6[-.]\d[02468][-.]\d{2})}
+livecheck.regex     {v(6[-.]\d[02468][-.]\d{2}).tar.gz}
 
 set version_major   [lindex [split ${version} .] 0]
 
-checksums           rmd160  6bb8cb0728bd78ac5c1c6691e168fb1c2f2d084f \
-                    sha256  44c5fd15a7f42ac96f93648195e9122c1ad0e3849f220a12ad41a3a667d2e775 \
-                    size    162475294
+checksums           rmd160  ef52582710d3d56705201fdff6dcf19c69858109 \
+                    sha256  70a10fc7e121dc86abf39e0392b50eb5f65f9e79d8b8075ee314c010c0208cd5 \
+                    size    162474349
 
 name                root${version_major}
 categories          science
@@ -58,7 +59,6 @@ depends_lib         port:expat \
                     port:zlib \
                     port:xz \
                     port:gl2ps \
-                    port:tbb \
                     port:lz4 \
                     port:vdt \
                     port:OpenBLAS
@@ -98,7 +98,7 @@ configure.args-append \
                     -Dbuiltin_pcre=OFF \
                     -Dbuiltin_zlib=OFF \
                     -Dbuiltin_lzma=OFF \
-                    -Dbuiltin_tbb=OFF \
+                    -Dbuiltin_tbb=ON \
                     -Dbuiltin_afterimage=ON \
                     -Dfftw3=OFF \
                     -Dkrb5=OFF \
@@ -190,17 +190,14 @@ platform darwin {
             return -code error "Unsupported OSX version"
         }
     }
+
+    # Use macports TBB for 10.12 (Darwin16) and newer
+    if { ${os.major} > 15 } {
+        configure.args-replace -Dbuiltin_tbb=ON -Dbuiltin_tbb=OFF
+        depends_lib-append port:tbb
+    }
     
     pre-configure {
-        # replace
-        #   -DCMAKE_OSX_SYSROOT="/Developer/SDKs/MacOSX10.6.sdk"
-        #   -DCMAKE_OSX_DEPLOYMENT_TARGET="10.6"
-        # with
-        #   -DCMAKE_OSX_SYSROOT="/"
-        #   -DCMAKE_OSX_DEPLOYMENT_TARGET=""
-        configure.args-strsed "s|CMAKE_OSX_SYSROOT=\[^\[:blank:\]\]*|CMAKE_OSX_SYSROOT=\"/\"|"
-        configure.args-strsed "s|CMAKE_OSX_DEPLOYMENT_TARGET=\[^\[:blank:\]\]*|CMAKE_OSX_DEPLOYMENT_TARGET=\"\"|"
-
         # Force use of system python in build scripts
         # Find command finds text files containing the string to be replaced.
         # shtest-encoding.py intentionally includes an unreadable character, so have to skip it ...
@@ -209,6 +206,7 @@ platform darwin {
             reinplace -q "s|${pystringtoreplace}|/usr/bin/python|g" $f
         }
     }
+
 }
 
 post-destroot {
@@ -688,7 +686,7 @@ if { ${active_clang_variant} != "" } {
 # Note that g95 does not work here, so that variant is removed
 # ========================================================================================
 
-set gcc_versions { 6 7 8 }
+set gcc_versions { 6 7 8 9 }
 set default_fortran_variant +gcc8
 
 foreach gcc_ver ${gcc_versions} {

@@ -3,7 +3,7 @@
 PortSystem 1.0
 
 name            spring-boot-cli
-version         2.0.5
+version         2.1.0
 
 categories      java
 platforms       darwin
@@ -28,9 +28,9 @@ master_sites    https://repo.spring.io/release/org/springframework/boot/${name}/
 
 distname        ${name}-${version}.RELEASE-bin
 
-checksums       rmd160  50f0c1dc2d42593805ad17a861efb23e302cec1d \
-                sha256  6336b903cc21c49506a1e58544e84a5b4857dd85fae567a7c994ce43cf80947d \
-                size    9118621
+checksums       rmd160  c3ded1d42ac9db71416974fbabc37ac8d44ffcd8 \
+                sha256  21831c34a7cd7737a18681945b7e11693ac056062a7dab94fbcee84e94939e87 \
+                size    11120150
 
 worksrcdir      spring-${version}.RELEASE
 

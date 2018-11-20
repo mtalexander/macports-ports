@@ -71,6 +71,7 @@ py-backports-ssl_match_hostname \
 py-backports_abc        0.5_1       33
 py-backports.weakref    1.0.post1   34
 py-barnaba              0.1.6       34 35
+py-bcolz                1.2.1_1     34
 py-beaker               1.10.0_1    26
 py-beautifulsoup        3.2.1_1     26
 py-beautifulsoup4       4.5.3_1     26 33
@@ -171,7 +172,7 @@ py-fuse                 0.2.1_4     26
 py-gda                  2.25.3_4    26
 py-gdal                 2.0.0_1     26
 py-gdata                2.0.18_1    26
-py-gdbm                 2.5.6_1     25
+py-gdbm                 2.5.6_1     25 31
 py-gdl                  2.25.3_2    26
 py-generator            0.1.20120721_1 \
                                     26 33
@@ -220,6 +221,7 @@ py-itsdangerous         0.24_1      26 33
 py-jcc                  2.13_1      26
 py-jenkins-job-builder  0.8.1_2     26
 py-jinja                1.2_2       26
+py-jinja2               2.10_1      26 33
 py-jmespath             0.9.3       34
 py-jsbeautifier         1.4.0_1     26
 py-jug                  1.6.7_1     33
@@ -230,7 +232,7 @@ py-keyring              3.6_1       26 33
 py-kivy                 1.10.1_1    26
 py-kyotocabinet         1.18_1      26
 py-lepl                 5.1.3_1     26
-py-libcloud             0.17.0_1    26 33
+py-libcloud             0.20.1_1    26 33 34 35
 py-liblzma              0.5.3_2     26
 py-lmfit                0.9.2_1     26 33
 py-logilab-common       1.4.2_1     33
@@ -241,6 +243,7 @@ py-macfsevents          0.8.1_1     33
 py-mako                 1.0.7_1     26
 py-managesieve          0.4.2_1     26
 py-matplotlib           1.5.0_1     26 33
+py-markupsafe           1.0_1       26 33
 py-mdp-toolkit          3.3_2       26 33
 py-mecab                0.996_1     26
 py-mechanize            0.2.5_1     26
@@ -444,7 +447,7 @@ py-tempita              0.5.2_1     26
 py-theano               1.0.2_1     33
 py-thrift               0.10.0_1    26
 py-threadpool           1.2.7_1     26
-py-tkinter              2.5.6_1     25
+py-tkinter              2.5.6_1     25 31
 py-tornado              5.0.2_1     26 33
 py-tre                  0.8.0_2     26
 py-tweepy               1.12_1      26
@@ -473,6 +476,7 @@ py-webob                1.8.2_1     26
 py-werkzeug             0.14.1_1    26 33
 py-wordaxe              0.3.3_1     26
 py-w3lib                1.9.0_1     33
+py-xarray               0.11.0      34
 py-xdg                  0.25_1      26 33
 py-xhtml2pdf            0.0.6_2     26
 py-xmpppy               0.4.1_2     26

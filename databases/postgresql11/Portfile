@@ -7,7 +7,7 @@ PortGroup muniversal 1.0
 
 #remember to update the -doc and -server as well
 name                postgresql11
-version             11rc1
+version             11.1
 
 categories          databases
 platforms           darwin
@@ -25,9 +25,9 @@ master_sites        http://ftp3.de.postgresql.org/pub/Mirrors/ftp.postgresql.org
             postgresql:source/v${version}/
 distname            postgresql-${version}
 
-checksums           rmd160  4534882f648a2d29ba1fa22eadb38becb1c6abd0 \
-                    sha256  608c35369b79a40239663c4213267fd08d3184c3a2cd4d6ff71103ca61930609 \
-                    size    21193201
+checksums           rmd160  76ad4f0e433e42ea824809878423871e9b4fa4e0 \
+                    sha256  90815e812874831e9a4bf6e1136bf73bc2c5a0464ef142e2dfea40cda206db08 \
+                    size    21263173
 
 use_bzip2           yes
 
@@ -83,12 +83,12 @@ test.target         check
 # remember to change livecheck with first proper release
 livecheck.type      regex
 #livecheck.regex    (11\\.\[.0-9\]*\[a-z\]+\[0-9\])
-livecheck.regex    (11\[a-z\]+\[0-9\])
-#livecheck.regex    (11\\.\[.0-9\]+)
+#livecheck.regex    (11\[a-z\]+\[0-9\])
+livecheck.regex    (11\\.\[.0-9\]+)
 livecheck.url       ${homepage}/ftp/source/
 
 post-destroot {
-    system "cd ${destroot}${prefix}/bin && ln -sf ${libdir}/bin/psql psql10"
+    system "cd ${destroot}${prefix}/bin && ln -sf ${libdir}/bin/psql psql11"
 
     reinplace -E "s#^CFLAGS =#CFLAGS +=#g" \
         ${destroot}${prefix}/lib/${name}/pgxs/src/Makefile.global
@@ -146,4 +146,5 @@ variant tcl description {add Tcl support} {
 variant llvm description {add support for JIT compilation} {
     depends_lib-append      port:llvm-6.0
     configure.args-append   --with-llvm
+    configure.env-append    LLVM_CONFIG=${prefix}/libexec/llvm-6.0/bin/llvm-config
 }

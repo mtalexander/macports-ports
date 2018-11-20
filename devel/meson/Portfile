@@ -4,9 +4,8 @@ PortSystem          1.0
 PortGroup           python 1.0
 PortGroup           github 1.0
 
-github.setup        mesonbuild meson 0.48.0
+github.setup        mesonbuild meson 0.48.2
 github.tarball_from releases
-revision            3
 license             Apache-2
 categories          devel python
 maintainers         {soap.za.net:git @SoapZA} openmaintainer
@@ -22,9 +21,9 @@ long_description    Meson  is  a  build system designed to optimize programmer p
                     Valgrind,  CCache  and  the like. It is both extremely fast, and, even more importantly, \
                     as user friendly as possible.
 
-checksums           rmd160  5d8e48120b50d7941a0b08b76b0c7e75da0a52fd \
-                    sha256  982937ba5b380abe13f3a0c4dff944dd19d08b72870e3b039f5037c91f82835f \
-                    size    1307245
+checksums           rmd160  ffd978b41b628cfde3a08385a650ae8830f4c598 \
+                    sha256  39ead8bfd0dc9c7b0af15e23ea975c864600bf871fba279c9918625bb9a85506 \
+                    size    1310363
 
 # as of verison 0.45.0,requires python 3.5 or better
 

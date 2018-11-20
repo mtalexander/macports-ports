@@ -3,14 +3,15 @@
 PortSystem          1.0
 PortGroup           muniversal 1.0
 PortGroup           compiler_blacklist_versions 1.0
+PortGroup           cxx11 1.1
 PortGroup           gobject_introspection 1.0
 
 name                gegl-devel
 conflicts           gegl-0.4
 set git_name        gegl
-set git_commit      8c6ab9b0fd59e62c2563f32b969595df6700d589
-set git_date        20181018
-version             0.4.11-${git_date}
+set git_commit      7e1ddbb250a17e0ebd37f4fa397025c9d87fe9ee
+set git_date        20181115
+version             0.4.13-${git_date}
 revision            1
 license             {GPL-3+ LGPL-3+}
 categories          graphics
@@ -31,9 +32,9 @@ distname            ${git_name}-${git_commit}
 
 use_bzip2           yes
 
-checksums           rmd160  5b19fae6080a5fb686c045a2d359782804f91e0b \
-                    sha256  1b8e0c1edca62010fde6d68f5c2fd5f885009d90c3937ef8c4b124375ee9cd64 \
-                    size    24079655
+checksums           rmd160  4d6f379673ddba0b15604568e188ae66eaf16669 \
+                    sha256  ce9c2265ba8af006f82297ca631edd685c0eb02e8c118010a7e1caf6c928bd60 \
+                    size    24102601
 
 depends_build       port:pkgconfig \
                     port:w3m \
@@ -56,6 +57,7 @@ depends_lib         port:babl-devel \
                     port:librsvg \
                     path:lib/libavcodec.dylib:ffmpeg \
                     port:libspiro \
+                    port:SuiteSparse_UMFPACK \
                     port:vala \
                     port:webp
 
@@ -81,8 +83,7 @@ configure.python    ${prefix}/bin/python2.7
 
 configure.args      --disable-docs \
                     --disable-silent-rules \
-                    --without-sdl \
-                    --without-umfpack
+                    --without-sdl
 
 # use version specific binary suffix to avoid conflict with gegl, gegl-0.3
 
