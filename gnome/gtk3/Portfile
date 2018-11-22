@@ -256,6 +256,11 @@ variant x11 conflicts quartz {
                             --enable-x11-backend
 }
 
+variant debug {
+    configure.args-append   --enable-debug=yes
+    configure.cflags-append -g -O0
+}
+
 if {![variant_isset quartz]} {
     default_variants +x11
 }
