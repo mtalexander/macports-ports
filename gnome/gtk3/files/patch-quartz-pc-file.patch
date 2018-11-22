@@ -5,7 +5,7 @@
    GDK_WINDOWING="$GDK_WINDOWING
  #define GDK_WINDOWING_QUARTZ"
 -  GDK_EXTRA_LIBS="$GDK_EXTRA_LIBS -framework Cocoa"
-+  GDK_EXTRA_LIBS="$GDK_EXTRA_LIBS -W1,-framework -W1,Cocoa"
++  GDK_EXTRA_LIBS="$GDK_EXTRA_LIBS -Wl,-framework -Wl,Cocoa"
    DISABLE_ON_QUARTZ='%'
     if true; then
    USE_QUARTZ_TRUE=
