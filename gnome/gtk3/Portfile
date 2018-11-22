@@ -52,7 +52,8 @@ depends_run         port:shared-mime-info \
 
 patchfiles          O_CLOEXEC-10.6-and-earlier.patch \
                     patch-quartz-pc-file.patch \
-                    flickering-tooltip.patch
+                    flickering-tooltip.patch \
+                    tooltip-position.patch
 
 # gtk3 +quartz uses instancetype which is not available
 # before approximately Xcode 4.6 (#49391)

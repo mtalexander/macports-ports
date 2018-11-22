@@ -1,0 +1,13 @@
+diff --git a/gtk/gtktooltip.c b/gtk/gtktooltip.c
+index f9156624ed..c3297d944c 100644
+--- gtk/gtktooltip.c
++++ gtk/gtktooltip.c
+@@ -936,7 +936,7 @@ gtk_tooltip_position (GtkTooltip *tooltip,
+                                       device,
+                                       &pointer_x, &pointer_y, NULL);
+ 
+-      if (anchor_rect.height > max_anchor_rect_height)
++      if (anchor_rect.height > max_anchor_rect_height || TRUE)
+         {
+           anchor_rect.x = pointer_x - 4;
+           anchor_rect.y = pointer_y - 4;
