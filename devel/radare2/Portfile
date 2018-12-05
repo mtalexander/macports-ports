@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        radare radare2 3.0.1
+github.setup        radare radare2 3.1.1
 categories          devel
 platforms           darwin
 license             LGPL-3+
@@ -18,9 +18,9 @@ depends_lib         port:capstone \
                     port:zlib \
                     port:libzip
 
-checksums           rmd160  27cb5fb71e236c7146026ed39e29212dee1a1c25 \
-                    sha256  4d215393ce2150397ba8fecfb88068167b8f643ec149d0bf1b7dd8e5d0a657c0 \
-                    size    6641301
+checksums           rmd160  98ceddf26de069975ac73420a4dc3a487f30e930 \
+                    sha256  e25ead667a38bb2a16e85da687e7a024e2cfa7449657324d50e04a532a9f2954 \
+                    size    6665068
 
 configure.args-append \
                     --with-syscapstone \

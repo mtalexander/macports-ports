@@ -15,6 +15,7 @@ array set replacements {
     33 34
     34 35
     35 36
+    36 37
 }
 
 proc unknown args {
@@ -82,6 +83,7 @@ py-boto                 2.45.0_1    26
 py-boto3                1.6.16      34
 py-botocore             1.9.16      34
 py-bottle               0.12.9_1    26
+py-bottle               0.12.13_1   34 35
 py-bottle-sqlalchemy    0.3_1       26
 py-bottleneck           1.2.1_1     26 33
 py-cairo                1.10.0_4    26 33
@@ -245,6 +247,7 @@ py-managesieve          0.4.2_1     26
 py-matplotlib           1.5.0_1     26 33
 py-markupsafe           1.0_1       26 33
 py-mdp-toolkit          3.3_2       26 33
+py-mdtraj               1.9.2       34 35
 py-mecab                0.996_1     26
 py-mechanize            0.2.5_1     26
 py-memprof              0.3.3_1     26 32 33
@@ -278,6 +281,7 @@ py-novas                3.1.1.4_1   33
 py-novas_de405          1997_1      26 33
 py-ntplib               0.3.1_1     26
 py-numexpr              2.6.6_1     26 33
+py-nvchecker            1.1_1       36
 py-obspy                1.1.0       34
 py-openbabel            2.3.2_1     26
 py-openopt              0.29_2      26

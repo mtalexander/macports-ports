@@ -3,25 +3,32 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        macports macports-legacy-support 0.5 v
 name                legacy-support
-revision            1
-
-# Remove at the next version update
-dist_subdir         ${name}/${version}_1
-
 categories          devel
 platforms           darwin
 
 maintainers         {jonesc @cjones051073} {kencu @kencu} openmaintainer
 license             MIT
 
-description         Installs wrapper headers to add missing functionality from legacy OSX versions.
+description         Installs wrapper headers to add missing functionality to legacy OSX versions.
 long_description    ${description}
 
-checksums           rmd160  6696fc5b8b380a2740fea1efacb4132ff2315cc5 \
-                    sha256  79fef11cfd82a55ec94721e258730faab37a965d2225a8dc5c98adc09728cd01 \
-                    size    7920
+subport ${name} {
+    conflicts           ${name}-devel
+    github.setup        macports macports-legacy-support 0.6.1 v
+    checksums           rmd160  e586dff724b1db36a4fa7a49c8f3c7cfbe742a8e \
+                        sha256  a43051241fbe52c31a8ecdd88f550cdabf854482a7060d422ccb063c6cd2c543 \
+                        size    11782
+}
+
+subport ${name}-devel {
+    conflicts           ${name}
+    github.setup        macports macports-legacy-support 270e8dfee0e670803ad623da44aee679805dd300
+    version             20181204
+    checksums           rmd160  aecc52e56b4cffde66c2355f38f4b3d6d9ad30fd \
+                        sha256  39e136a6d6b84e3b6861fe1a4edc15bb1a6425b0fcb2a140b67a0a87663bd136 \
+                        size    12764
+}
 
 use_configure       no
 

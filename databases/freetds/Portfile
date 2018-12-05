@@ -4,10 +4,10 @@ PortSystem          1.0
 
 name                freetds
 epoch               1
-version             1.00.107
-checksums           rmd160  b961bebc187fc1c901512d820f8ea8e109fb45e2 \
-                    sha256  22dd80acad1e4b2805fcf25c5f111c79427ec48d9650fdb26ab6a040105b95ab \
-                    size    2159215
+version             1.00.109
+checksums           rmd160  9d0a3a8b963fb9d461f40993a449a36761e5ad26 \
+                    sha256  3e93b2bcdddc7246147398b9bc3b989c6e7ffed54acbce18f4f34b745c8f0034 \
+                    size    2159013
 
 categories          databases
 platforms           darwin
