@@ -1,0 +1,23 @@
+From baa283b73b917ca033831a36f487696e9f9b1dbe Mon Sep 17 00:00:00 2001
+From: John Ralls <jralls@ceridwen.us>
+Date: Fri, 14 Dec 2018 15:57:24 -0800
+Subject: Don't make initializing return_val conditional.
+
+Closes: https://gitlab.gnome.org/GNOME/gtk/issues/1517
+
+diff --git a/gdk/quartz/gdkevents-quartz.c b/gdk/quartz/gdkevents-quartz.c
+index 952d4a8189..642fe7f1ee 100644
+--- gdk/quartz/gdkevents-quartz.c
++++ gdk/quartz/gdkevents-quartz.c
+@@ -1551,8 +1551,10 @@ gdk_event_translate (GdkEvent *event,
+           grab = _gdk_display_get_last_device_grab (_gdk_display,
+                                                     gdk_seat_get_pointer (seat));
+         }
+-      return_val = TRUE;
+     }
++
++  return_val = TRUE;
++
+   switch (event_type)
+     {
+     case GDK_QUARTZ_LEFT_MOUSE_DOWN:
