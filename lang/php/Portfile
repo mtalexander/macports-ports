@@ -452,10 +452,10 @@ subport ${php}-apache2handler {
     PortGroup               active_variants 1.1
 
     switch -- ${version} {
-        5.2.17              {revision 2}
-        5.3.29              {revision 2}
-        5.4.45              {revision 2}
-        5.5.38              {revision 2}
+        5.2.17              {revision 3}
+        5.3.29              {revision 3}
+        5.4.45              {revision 3}
+        5.5.38              {revision 3}
     }
     
     description             ${php} Apache 2 Handler SAPI

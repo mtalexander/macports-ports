@@ -8,6 +8,7 @@ subport                 enigma-devel {}
 if {${subport} eq "enigma"} {
     conflicts               enigma-devel
     version                 1.21
+    revision                1
     master_sites            sourceforge:project/enigma-game/Release%20${version}/
     checksums               rmd160  7942dd2acc1e21cb40200a9ae767a4673c569a2a \
                             sha256  d872cf067d8eb560d3bb1cb17245814bc56ac3953ae1f12e2229c8eb6f82ce01 \
