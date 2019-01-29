@@ -8,12 +8,12 @@ PortGroup       active_variants 1.1
 
 name            boost
 
-version         1.66.0
+version         1.69.0
 # Revision is set below in the `if {$subport eq $name} { ... }` statement
 # The boost-numpy subport has its own revision number
-checksums       rmd160  ee5dafdfa49adf50a5333cef1f55dac4f70b4c14 \
-                sha256  5721818253e6a0989583192f96782c4a98eb6204965316df9f5ad75819225ca9 \
-                size    85995778
+checksums       rmd160  308544f184f04e4f192ac6a1118f6db787558ee6 \
+                sha256  8f32d4617390d1c2d16f26a27ab60d97807b35440d45891fa340fc2648b04406 \
+                size    95078138
 
 license         Boost-1
 categories      devel
@@ -69,7 +69,8 @@ patchfiles      patch-tools-build-src-engine-build.sh.diff \
 # https://trac.macports.org/ticket/48717
 # https://svn.boost.org/trac/boost/ticket/11671
 
-patchfiles-append patch-export_serialization_explicit_template_instantiations.diff
+# This is probably fixed and I don't think it affectsclang
+#patchfiles-append patch-export_serialization_explicit_template_instantiations.diff
 
 post-patch {
     reinplace "s|%%CONFIGURE.CC%%|${configure.cc}|g" ${worksrcpath}/tools/build/src/engine/build.jam \
@@ -277,7 +278,7 @@ subport boost-numpy {
 }
 
 if {$subport eq $name} {
-    revision 4
+    revision 0
     patchfiles-append patch-disable-numpy-extension.diff
 
     variant not_tagged description {Don't tag the library names with a code indicating build options} {
