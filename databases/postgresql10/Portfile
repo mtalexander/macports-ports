@@ -7,7 +7,8 @@ PortGroup muniversal 1.0
 
 #remember to update the -doc and -server as well
 name                postgresql10
-version             10.6
+version             10.7
+revision            0
 
 categories          databases
 platforms           darwin
@@ -25,9 +26,9 @@ master_sites        http://ftp3.de.postgresql.org/pub/Mirrors/ftp.postgresql.org
             postgresql:source/v${version}/
 distname            postgresql-${version}
 
-checksums           rmd160  29ede591c228fb8c7f1bd0d33b0233dd879f3d74 \
-                    sha256  68a8276f08bda8fbefe562faaf8831cb20664a7a1d3ffdbbcc5b83e08637624b \
-                    size    20350612
+checksums           rmd160  78fa48868219b84728ba97d6ab9795e7f0b0d027 \
+                    sha256  bfed1065380c1bba927bfe51f23168471373f26e3324cbad859269cc32733ede \
+                    size    18940030
 
 use_bzip2           yes
 
@@ -41,7 +42,8 @@ depends_run         port:postgresql_select
 worksrcdir          postgresql-${version}
 
 set libdir          ${prefix}/lib/${name}
-configure.args      --sysconfdir=${prefix}/etc/${name} \
+configure.args      PG_SYSROOT=disabled \
+                    --sysconfdir=${prefix}/etc/${name} \
                     --bindir=${libdir}/bin \
                     --libdir=${libdir} \
                     --includedir=${prefix}/include/${name} \

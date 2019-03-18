@@ -3,6 +3,8 @@
 PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           muniversal 1.0
+PortGroup           compilers 1.0
+PortGroup           compiler_blacklist_versions 1.0
 
 name                OpenBLAS
 categories          math science
@@ -16,14 +18,24 @@ platforms           darwin
 # for the user processor
 archive_sites
 
+# block compilers that do not support thread-local storage. it would
+# be better to use the cxx11 1.1 PG, but it conflicts with the
+# compilers 1.0 PG & so just block compilers instead.
+compiler.blacklist-append cc {*gcc-3*} {*gcc-4.[0-7]} {clang < 800.0.38}
+platform darwin i386 {
+    compiler.blacklist-append {macports-clang-[3-4].*}
+    compiler.fallback-append macports-clang-5.0 macports-clang-6.0 macports-clang-7.0
+}
+
 subport OpenBLAS-devel {}
 if {[string first "-devel" $subport] > 0} {
 
-    github.setup    xianyi OpenBLAS b6363f45398812b3d725b54174efab793915df4c
-    version         20181125
-    checksums       rmd160 dfd38438cedfd93791e6e72746769a84bc21dd2c\
-                    sha256 cfc0e939c7d94c33282ae88f5bbfba987209d481611211c3a147bb16cdd98e6e\
-                    size   11846759
+    github.setup    xianyi OpenBLAS 4fc17d0d754b7905667fb84a68cf37a0d28a93bd
+    version         20190313
+    checksums       rmd160 49abba21d8251259f28d226cd5f8dfb6767ae56d \
+                    sha256 91c62106dd64882fc01c7e135c807f190e27c9f9f00a8e6246cadaa4cc5d8480 \
+                    size   11898682
+    revision        0
 
     name            ${github.project}-devel
     conflicts       OpenBLAS
@@ -35,113 +47,21 @@ if {[string first "-devel" $subport] > 0} {
 
 } else {
 
-    github.setup    xianyi OpenBLAS 0.3.3 v
-    checksums       rmd160 d8dad5c03057bd26874e78b3f216fe45e53995ca \
-                    sha256 4f1ac0376cfdc89cf415c772d3239614dba7b783170c37ecde8d0d766d8f7433 \
-                    size   11826312
-
+    github.setup    xianyi OpenBLAS 0.3.5 v
+    checksums       rmd160  7089b502d723602c74bac7ff42bb4de7a7157696 \
+                    sha256  f4761d863a8738b2ebe4522dabaae1402d08dcba64ddfcca3c9ffbe02d795318 \
+                    size    11853101
+    revision        1
     conflicts       OpenBLAS-devel
 
     patchfiles      patch-libnoarch.release.diff \
-                    patch-linkLib.release.diff
-
+                    patch-linkLib.release.diff  \
+                    patch-darwin-powerpc.diff \
+                    patch-openblas-powermac970-fix.diff
 }
 
-# declare +clang variant
-
-variant clang description "Use Clang as C/C++ compiler (required for AVX)" {}
-
-# default to +clang if the processor has avx instructions
-if {![catch {sysctl hw.optional.avx1_0} has_avx] && $has_avx == 1 &&
-    ![variant_isset clang]} {
-    default_variants +clang
-}
-
-# it is OK to use -clang, so don't check for that condition here
-
-# declare +gcc* variants
-
-set GCC_VERSIONS_NO_DOT {45 46 47 48 49 5 6 7 8}
-
-foreach this_gcc_version_no_dot ${GCC_VERSIONS_NO_DOT} {
-    set ndx [lsearch -exact ${this_gcc_version_no_dot} ${this_gcc_version_no_dot}]
-    set this_conflicts [lreplace ${this_gcc_version_no_dot} ${ndx} ${ndx}]
-    if {[variant_isset clang]} {
-        set this_description "Use gcc${this_gcc_version_no_dot} as Fortran compiler"
-    } else {
-        set this_description "Use gcc${this_gcc_version_no_dot} for the compiler suite"
-    }
-    variant gcc${this_gcc_version_no_dot} \
-        conflicts {*}${this_conflicts} \
-        description ${this_description} {}
-}
-
-# set default +gcc* variant: default to +gcc8 if not other +gcc*
-# variant is selected. this variant is used for Fortran, no matter
-# whether +clang is selected or not. if +clang is not selected or
-# -clang is selected, then use the selected +gcc* variant for the
-# compiler suite.
-
-set GCC_VER_NO_DOT 0
-foreach this_gcc_version_no_dot ${GCC_VERSIONS_NO_DOT} {
-    if {[variant_isset gcc${this_gcc_version_no_dot}]} {
-        set GCC_VER_NO_DOT ${this_gcc_version_no_dot}
-        break
-    }
-}
-
-if {${GCC_VER_NO_DOT} == 0} {
-    default_variants +gcc8
-}
-
-# make sure -gcc8 was not selected alone
-
-set GCC_VER_NO_DOT 0
-foreach this_gcc_version_no_dot ${GCC_VERSIONS_NO_DOT} {
-    if {[variant_isset gcc${this_gcc_version_no_dot}]} {
-        set GCC_VER_NO_DOT ${this_gcc_version_no_dot}
-        break
-    }
-}
-
-if {${GCC_VER_NO_DOT} == 0} {
-    ui_error "\n\nYou must select a Fortran compiler variant; you cannot select -gcc8 alone.\n"
-    return -code error "Invalid variant selection."
-}
-
-set GCC_VER_DOT [join [split ${GCC_VER_NO_DOT} ""] "."]
-
-# set compilers to use
-
-if {[variant_isset clang]} {
-
-    # use selected +gcc* for Fortran only
-    depends_build-append    port:gcc${GCC_VER_NO_DOT}
-    # add correct libgcc as a runtime dependency
-    depends_lib-append      path:lib/libgcc/libgcc_s.1.dylib:libgcc
-    if { ${GCC_VER_NO_DOT} <= 7 } { depends_lib-append port:libgcc7 }
-    if { ${GCC_VER_NO_DOT} <= 6 } { depends_lib-append port:libgcc6 }
-    
-    configure.fc            ${prefix}/bin/gfortran-mp-${GCC_VER_DOT}
-
-    if {[vercmp $xcodeversion 5.0] >= 0} {
-        configure.compiler      clang
-    } else {
-        # Xcode's clang < 5.0 does not support avx
-
-        #Use a compiler depending on system
-        if {${configure.cxx_stdlib} eq "libc++"} {
-            configure.compiler      macports-clang-3.7
-        } else {
-            configure.compiler      macports-clang-3.4
-        }
-    }
-} else {
-
-    # use selected +gcc* for the whole compiler suite
-    configure.compiler  macports-gcc-${GCC_VER_DOT}
-
-}
+compilers.choose    fc
+compilers.setup     default_fortran
 
 variant lapack description "Add Lapack/CLapack support to the library" { }
 default_variants-append +lapack
@@ -163,19 +83,35 @@ pre-build {
             } else {
                 puts $makeINC "BINARY = 32"
             }
-            if {![variant_isset clang]} {
-                 puts $makeINC "COMMON_OPT = -O3"
-            } else {
-                #Ensure to use the AVX-capable assembler
-                puts $makeINC "COMMON_OPT = -O3"
-            }
+
+            puts $makeINC "COMMON_OPT = -O3"
             puts $makeINC "COMMON_PROF = -pg"
 
             if {![variant_isset lapack]} {
                 puts $makeINC "NO_LAPACK = 1"
             }
-            if {![variant_isset clang]} {
+
+            if {${build_arch} eq "ppc" || ${build_arch} eq "ppc64"} {
+                # on a PPC of some sort; just disable AVX
                 puts $makeINC "NO_AVX = 1"
+                puts $makeINC "NO_AVX2 = 1"
+                puts $makeINC "NO_AVX512 = 1"
+            } else {
+                if {![avx_compiler_isset]} {
+                    puts $makeINC "NO_AVX = 1"
+                }
+                # Disable AVX2 on OSX10.6 and older only.
+                # On newer platforms AVX2 is now supported via
+                # https://github.com/macports/macports-ports/pull/3486
+                if { ${os.major} <= 10 } {
+                    puts $makeINC "NO_AVX2 = 1"
+                }
+                # Deactivating AVX512 instructions which do not build
+                # at this point. Keeping them in -devel subport. See
+                # https://trac.macports.org/ticket/57912
+                if {[string first "-devel" $subport] < 1} {
+                    puts $makeINC "NO_AVX512 = 1"
+                }
             }
             close $makeINC
         }
@@ -192,31 +128,54 @@ pre-build {
         } else {
             puts $makeINC "BINARY = 32"
         }
-        if {![variant_isset clang]} {
-            puts $makeINC "COMMON_OPT = -O3"
-        } else {
-            #Ensure to use the AVX-capable assembler
-            puts $makeINC "COMMON_OPT = -O3"
-        }
+
+        puts $makeINC "COMMON_OPT = -O3"
         puts $makeINC "COMMON_PROF = -pg"
 
         if {![variant_isset lapack]} {
             puts $makeINC "NO_LAPACK = 1"
         }
-        if {![variant_isset clang]} {
-            if { ![catch {sysctl hw.optional.avx1_0} has_avx] && $has_avx == 1 } {
+
+        if {${build_arch} eq "ppc" || ${build_arch} eq "ppc64"} {
+            # on a PPC of some sort; just disable AVX
+            puts $makeINC "NO_AVX = 1"
+            puts $makeINC "NO_AVX2 = 1"
+            puts $makeINC "NO_AVX512 = 1"
+        } else {
+            if {![avx_compiler_isset]} {
                 ui_msg "Warning: the chosen compiler cannot handle advanced optimisation instructions."
                 ui_msg "         AVX instructions are disabled."
+                puts $makeINC "NO_AVX = 1"
             }
-            puts $makeINC "NO_AVX = 1"
+            # Disable AVX2 on OSX10.6 (Darwin10) and older only.
+            # On newer platforms AVX2 is now supported via
+            # https://github.com/macports/macports-ports/pull/3486
+            if { ${os.major} <= 10 } {
+                puts $makeINC "NO_AVX2 = 1"
+            }
+            # Deactivating AVX512 instructions which do not build at
+            # this point. Keeping them in -devel subport. See
+            # https://trac.macports.org/ticket/57912
+            if {[string first "-devel" $subport] < 1} {
+                puts $makeINC "NO_AVX512 = 1"
+            }
         }
         close $makeINC
     }
 }
-# Using system ones as default is set to bin/gcc-ar which does not
-# exist, and using gcc-mp ones end up in an error about a missing
-# plugin. (see ticket #38551 for example)
-build.args          "AR=/usr/bin/ar RANLIB=/usr/bin/ranlib"
+
+depends_build-append port:cctools
+build.args          "AR=${prefix}/bin/ar RANLIB=${prefix}/bin/ranlib"
+
+platform darwin 8 {
+    depends_build-append    port:gmake
+    build.cmd               ${prefix}/bin/gmake
+
+    depends_test-append     port:gmake
+    test.cmd                build.cmd
+}
+
+
 destroot.args       "PREFIX=${prefix}"
 
 if {[variant_isset universal]} {

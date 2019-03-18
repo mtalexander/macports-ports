@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-testfixtures
-version             6.3.0
+version             6.6.0
 categories-append   devel
 platforms           darwin
 license             MIT
@@ -21,14 +21,12 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  7f2d23031b838c19f0f113fd7c4dd691f12b61fe \
-                    sha256  53c06c1feb0bf378d63c54d1d96858978422d5a34793b39f0dcb0e44f8ec26f4 \
-                    size    103752
+checksums           rmd160  b58b3ded6d9faad72a6f104d989407e3b4bbcce5 \
+                    sha256  361e0a557f95e351ee4487a14eb26ccb1337038a33f16f588bcb0be90977d80b \
+                    size    112193
 
 if {${name} ne ${subport}} {
     depends_build-append  port:py${python.version}-setuptools
 
     livecheck.type      none
-} else {
-    livecheck.type      pypi
 }

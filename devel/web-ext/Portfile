@@ -3,13 +3,13 @@
 PortSystem              1.0
 
 name                    web-ext
-version                 2.9.2
-checksums               rmd160  19fd91ce91944c05605e698fce29baa1d5ae5884 \
-                        sha256  26f5540fce775af6fc6be4e2108f5f5471d8c3fa9b118ce8ed3a64294f022175 \
-                        size    296259
+version                 3.0.0
+checksums               rmd160  37b498f90d371ae5dccff7fc334d2a3a4d838981 \
+                        sha256  f8c651fd812fee68ea9030c17a269ce5c9989ffa640b368f69dbc5f071c6b0af \
+                        size    212552
 
 categories              devel
-maintainers             {yan12125 @yan12125} openmaintainer
+maintainers             nomaintainer
 license                 MPL-2
 description             A command line tool to help build, run, and test web extensions 
 
@@ -23,12 +23,6 @@ extract.suffix          .tgz
 platforms               darwin
 
 depends_lib-append      path:bin/node:nodejs10
-
-platform darwin {
-    if {${os.major} < 13} {
-        depends_lib-replace path:bin/node:nodejs10 path:bin/node:nodejs6
-    }
-}
 
 depends_build-append    path:bin/npm:npm6
 

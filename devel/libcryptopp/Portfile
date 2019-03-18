@@ -3,7 +3,7 @@
 PortSystem 1.0
 
 name                libcryptopp
-version             7.0.0
+version             8.1.0
 categories          devel security
 platforms           darwin
 maintainers         {raphael @raphael-st} openmaintainer
@@ -14,12 +14,13 @@ long_description    Crypto++ Library is a free C++ class library of \
 homepage            https://www.cryptopp.com/
 license             Boost-1
 
-master_sites        ${homepage}
+master_sites        ${homepage} \
+                    https://raw.githubusercontent.com/weidai11/website/master
 distname            cryptopp[strsed ${version} {g/\.//}]
 
-checksums           rmd160  2f0a3638e1b544c3e4c0d7652af7e23bec0581a6 \
-                    sha256  a4bc939910edd3d29fb819a6fc0dfdc293f686fa62326f61c56d72d0a366ceb0 \
-                    size    7296665
+checksums           rmd160  10a085913cb06297ade50da08b924ea508d7f926 \
+                    sha256  f609b453e42abbab7163191dfe060964121f04da212e2e4f2f0ebe94b7e806ae \
+                    size    8846289
 
 use_zip             yes
 extract.mkdir       yes

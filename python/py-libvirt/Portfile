@@ -5,10 +5,11 @@ PortGroup           python 1.0
 
 # Remember to update libvirt and py-libvirt at the same time.
 name                py-libvirt
-version             4.9.0
-checksums           rmd160  b81157a8c3a91ee2cae6bacfef59f7c7c5323ce4 \
-                    sha256  01c4becf50b521a9e3d1b48a3a79d83cb389d86d760b895d911d78f5b6ae7b60 \
-                    size    191922
+version             5.0.0
+revision            0
+checksums           rmd160  955bd01b056a17bf69516c005ca9a3cd32d41867 \
+                    sha256  47605ccc3996aa0833919dc8e9bbde98b10968c5a8d37f7ca55c6a29894e8abf \
+                    size    192726
 
 platforms           darwin
 license             MIT

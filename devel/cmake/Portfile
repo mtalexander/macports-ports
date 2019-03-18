@@ -2,6 +2,7 @@
 
 PortSystem          1.0
 PortGroup           muniversal 1.0
+PortGroup           legacysupport 1.0
 
 # devel requires C++11 as of 2017-08-21
 # https://gitlab.kitware.com/cmake/cmake/commit/c1f3eb9f2d628b2911aa17f65012fab0befc4b87
@@ -31,16 +32,17 @@ dist_subdir         cmake
 
 subport cmake-devel {}
 
-set branch          3.13
+set branch          3.14
 
 if {${subport} eq ${name}} {
 
     # release
 
-    version         ${branch}.1
-    checksums       rmd160 17b512802c0ba4b8648044d68a23782075881bf2 \
-                    sha256 befe1ce6d672f2881350e94d4e3cc809697dd2c09e5b708b76c1dae74e1b2210 \
-                    size   8614663
+    version         ${branch}.0
+    checksums       rmd160 9edfb583b9417b12e95cdcb56776a41d4d0b2663 \
+                    sha256 aa76ba67b3c2af1946701f847073f4652af5cbd9f141f221c97af99127e75502 \
+                    size   8846626
+    revision        0
 
     master_sites    ${homepage}/files/v${branch}/
     conflicts       cmake-devel
@@ -53,8 +55,8 @@ if {${subport} eq ${name}} {
         patch-Modules-noArchCheck.release.diff \
         patch-CMakeFindFrameworks.cmake.release.diff \
         patch-Source_CMakeVersionCompute.cmake.release.diff \
-        patch-Source_CMakeLists.txt.release.diff \
-        patch-Source_Modules_FindLibUV.cmake.release.diff
+        patch-Source_Modules_FindLibUV.cmake.release.diff \
+        patch-fix_cxx14_17_checks.release.diff
 
     livecheck.type  regex
     livecheck.regex ${name}-(\[0-9.\]+)${extract.suffix}
@@ -64,15 +66,17 @@ if {${subport} eq ${name}} {
 
     # devel
 
-    version         20181128
-    set commit      772edffbf0c08fc0a6fcf74fb98545b7afcfee13
-    checksums       rmd160 c704c91148b44a5092b9ea19b71107265f8d7ccf \
-                    sha256 0d26b360414f477ed50a5305b61634cc86f09e9e6ffdea19ce17d8cf5d9189fb \
-                    size   6506100
+    version         20190314
+    set commit      2efecea485a76df149ecc5d644cc2a1ec6c33cf3
+    checksums       rmd160 1fa0a04427c14830387d0af026e565d4f3ca972f \
+                    sha256 8c23d5cd7cd72f5b89c5a9291292747ca022fe0ccfd46a16e37ca05bce56588a \
+                    size   6827156
+    revision        0
 
     use_bzip2       yes
     master_sites    https://gitlab.kitware.com/cmake/cmake/repository/archive${extract.suffix}?ref=${commit}&
     distname        ${name}-${commit}
+    worksrcdir      ${name}-${commit}-${commit}
 
     conflicts       cmake
     long_description ${base_long_description} \
@@ -83,8 +87,8 @@ if {${subport} eq ${name}} {
         patch-Modules-noArchCheck.devel.diff \
         patch-CMakeFindFrameworks.cmake.devel.diff \
         patch-Source_CMakeVersionCompute.cmake.devel.diff \
-        patch-Source_CMakeLists.txt.devel.diff \
-        patch-Source_Modules_FindLibUV.cmake.devel.diff
+        patch-Source_Modules_FindLibUV.cmake.devel.diff \
+        patch-fix_cxx14_17_checks.devel.diff
 
     livecheck.type  regex
     livecheck.regex data-clipboard-text=\"(\[0-9a-g\]+)\"

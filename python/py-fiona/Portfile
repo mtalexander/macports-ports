@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-fiona
-version             1.8.2
+version             1.8.5
 revision            0
 categories-append   gis
 platforms           darwin
@@ -25,9 +25,9 @@ master_sites        pypi:F/Fiona
 
 distname            Fiona-${version}
 
-checksums           rmd160  6e3f4a9098f0d2dceafc4e86507f8c4cedc67e37 \
-                    sha256  4c6419b7ac29136708029f6a44b4ccd458735a4d241016c7b1bab41685c08d8f \
-                    size    1153332
+checksums           rmd160  1c9ae5869bde687bd0dcf2ff8a5c58edeeb51753 \
+                    sha256  4f5cc2d449edbbf693c83e24cdada72de7c41297383d16fcc92387eb445e9d35 \
+                    size    1712882
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-setuptools \

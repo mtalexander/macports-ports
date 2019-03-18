@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        crystal-lang crystal 0.26.1
+github.setup        crystal-lang crystal 0.27.2
+revision            0
 categories          lang
 platforms           darwin
 supported_archs     x86_64
@@ -37,16 +38,17 @@ master_sites-append https://github.com/crystal-lang/${name}/releases/download/${
 distfiles-append    ${name}-${cr_full_ver}-${os.platform}-${build_arch}${extract.suffix}:bootstrap
 
 checksums           ${distname}${extract.suffix} \
-                    rmd160  2680a4a1869c957e5d422dd0d2641df389350074 \
-                    sha256  20b03c50d29d1cc7ef5c44f8a85050bb51e28721324e223599b46568efcfc264 \
-                    size    1994956 \
+                    rmd160  a235fe9128e09cda28bfc96957ede3833b9f2633 \
+                    sha256  2be4039d912dc1150b81624c078af256c98fc45ab3ee0e7761e35c7842503e42 \
+                    size    2061826 \
                     ${name}-${cr_full_ver}-${os.platform}-${build_arch}${extract.suffix} \
-                    rmd160  f5f481a1d5214b1184588142bf747832b7a7d376 \
-                    sha256  3ad9616204d36ee4171e15892ee32216eab06f87f1f6cf5e32b45196dd4231d7 \
-                    size    15225143
+                    rmd160  87aa8d75d973c87f5785103f7dc07672d88ccc68 \
+                    sha256  2fcd11a3c3d12176004c13aa90d8ca15acde7d1ffa9a82cbaadcd526984a8691 \
+                    size    15340333
 
 patchfiles          patch-compiler.diff patch-readline.diff \
-                    patch-crypto.diff patch-ssl.diff patch-xml.diff
+                    patch-crypto.diff patch-ssl.diff patch-xml.diff \
+                    patch-xml-reader.diff ; # Remove on next release
 
 if {${os.platform} eq "darwin" && ${os.major} <= 15} {
     pre-fetch {

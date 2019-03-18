@@ -3,11 +3,14 @@
 PortSystem          1.0
 PortGroup           cxx11 1.1
 PortGroup           cmake 1.1
+PortGroup           github 1.0
 PortGroup           qt5 1.0
 
+set git_commit      926023e248df0bbedf2ff05071b2e61f8921fae7
+set git_date        20190211
+github.setup        scribusproject scribus ${git_commit}
 name                scribus-devel
-version             1.5.4
-revision            9
+version             1.5.5.svn-${git_date}
 categories          print
 license             LGPL-2+ BSD MIT
 platforms           darwin
@@ -25,13 +28,10 @@ long_description    Scribus is an open source desktop publishing program. It \
                     currently 1.5.x.
 
 homepage            http://www.scribus.net/
-master_sites        sourceforge:project/scribus/${name}/${version}/
-distname            scribus-${version}
-use_7z              yes
 
-checksums           rmd160  64af5755f7a2cc4bc7da157555cce9c5b3186732 \
-                    sha256  c756037464cfc1f760ddad0cce5cc323d4091e65cd119dd1d69ad16be32b7d6c \
-                    size    53538127
+checksums           rmd160  f0902def7f80b99b5556d6796153f2ea71359eaa \
+                    sha256  79d796a7987df41228659e21b3a72acf527bd27f183e3110aaccc6f09d971e65 \
+                    size    85702743
 
 # Builds forever with llvm-gcc-4.2. https://trac.macports.org/ticket/30835
 compiler.blacklist-append   llvm-gcc-4.2
@@ -87,8 +87,6 @@ variant bitmap description {Input filters for most GraphicsMagick bitmap formats
 
 build.env           HOME=${worksrcpath}
 
-patchfiles          poppler.patch CMakeLists.txt.patch
-
 # These can be uncommented to livecheck for the devel version
-livecheck.url       https://www.scribus.net/downloads/unstable-branch/
-livecheck.regex     /scribus-devel/(\[a-z0-9\]+(\\.\[a-z0-9\]+)+)/
+#livecheck.url       https://www.scribus.net/downloads/unstable-branch/
+#livecheck.regex     /scribus-devel/(\[a-z0-9\]+(\\.\[a-z0-9\]+)+)/

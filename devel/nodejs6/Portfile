@@ -4,8 +4,7 @@ PortSystem              1.0
 PortGroup               compiler_blacklist_versions 1.0
 
 name                    nodejs6
-version                 6.15.1
-revision                1
+version                 6.17.0
 
 categories              devel net
 platforms               darwin
@@ -25,9 +24,9 @@ homepage                https://nodejs.org/
 master_sites            ${homepage}dist/v${version}
 use_xz                  yes
 
-checksums               rmd160  fb21d18e01a1f508eb2f01e472fb6c1f32268501 \
-                        sha256  c3bde58a904b5000a88fbad3de630d432693bc6d9d6fec60a5a19e68498129c2 \
-                        size    15845836
+checksums               rmd160  4d538ad52260b67b131c373772d6bf9ec4d291f4 \
+                        sha256  c1dac78ea71c2e622cea6f94ba97a4be49329a1d36cd05945a1baf1ae8652748 \
+                        size    15853760
 
 distname                node-v${version}
 

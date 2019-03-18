@@ -3,7 +3,8 @@
 PortSystem          1.0
 
 name                live555
-version             2018.11.26
+version             2019.02.27
+revision            0
 categories          multimedia
 platforms           darwin
 maintainers         nomaintainer
@@ -22,9 +23,9 @@ homepage            http://www.live555.com/liveMedia/
 master_sites        ${homepage}public/ \
                     http://mirror.sobukus.de/files/src/live555/
 
-checksums           rmd160  3a7abbf87a299fa7eca99954b879e31d97869668 \
-                    sha256  b3385364e584d51f1b0b13738e5bd58ca29978907310a90ecdccfbda41f1fb47 \
-                    size    646617
+checksums           rmd160  ebe7e2886865d4876c9e37535fb80b8e2a9ebd38 \
+                    sha256  7653c44ac1c8255dd34d9151a92db8ef4af224e8b980e4af2f8937b3a30d38af \
+                    size    635377
 
 distname            live.${version}
 worksrcdir          live

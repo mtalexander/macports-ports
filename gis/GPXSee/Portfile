@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           qmake5 1.0
 
-github.setup        tumic0 GPXSee 6.3
+github.setup        tumic0 GPXSee 7.4
 categories          gis graphics
 platforms           darwin
 license             GPL-3
@@ -12,18 +12,20 @@ maintainers         {@sikmir gmail.com:sikmir} openmaintainer
 
 description         GPS log file viewer and analyzer
 long_description    GPXSee is a Qt-based GPS log file viewer and analyzer \
-                    that supports GPX, TCX, KML, FIT, IGC, NMEA, SLF, LOC and OziExplorer files.
+                    that supports all common GPS log file formats.
 
 homepage            https://www.gpxsee.org/
 
-checksums           rmd160  aea3dcc8c8ced4c8939405d0eb3b23caaafb1d28 \
-                    sha256  dfd32c79ef75b57107ce6d9107413e7850fdef4e8f5246a35aeb15ede8437dd3 \
-                    size    3861604
+checksums           rmd160  a8ffdde5b9f3c0b2c95595ab3c99eaf1efff90bb \
+                    sha256  f6cabbd69956b3f01bc4de91a238e7ccd3ee7e945103e7ed6301d0de547ed604 \
+                    size    4301199
 
 patchfiles          patch-src_GUI_app_cpp.diff
 
 qt5.depends_build_component     qttools
 qt5.depends_runtime_component   qtimageformats qttranslations
+
+depends_run-append  port:QtPBFImagePlugin
 
 post-configure {
     system -W ${worksrcpath} "${qt_lrelease_cmd} gpxsee.pro"

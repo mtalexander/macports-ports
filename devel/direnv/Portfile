@@ -20,36 +20,36 @@ long_description    \
 
 if {${name} eq ${subport}} {
 
-    go.setup        github.com/direnv/direnv 2.18.2 v
-    checksums       rmd160 358f2a1bc47d7d6af42c84ed555be3e1313a0019 \
-                    sha256 c7aaef591b5491e219dec2f58b79db17a50f1d49218d4d0e93b1e2185cdb8f69 \
-                    size   95656
+    go.setup        github.com/direnv/direnv 2.19.2 v
+    checksums       rmd160 82dcf907d257fb25e2bc194918382cd3f47d7b79 \
+                    sha256 ea47adb7499eeefbe39e8a663a600578e7dd8d8c5029f1fbcb854344d5ef9cb0 \
+                    size   97496
+    revision        0
 
     conflicts       direnv-devel
 }
 
 subport direnv-devel {
 
-    go.setup        github.com/direnv/direnv 1d059735affc293d0319f6879bf65a569cb20ca6
-    version         20181122
-    checksums       rmd160 358f2a1bc47d7d6af42c84ed555be3e1313a0019 \
-                    sha256 c7aaef591b5491e219dec2f58b79db17a50f1d49218d4d0e93b1e2185cdb8f69 \
-                    size   95656
+    go.setup  github.com/direnv/direnv 8fcfa7889b4ae795760e4675d0466633706ecca1
+    version   20190308
+    checksums rmd160 3daf39a1ae61d91e87531d5638e53c4587480804 \
+              sha256 0ae8d5661af22554a445331b9399db80b4019d1146a809c84f6fbb45fb2110b3 \
+              size   97705
+    revision  0
 
     conflicts       direnv
     long_description ${long_description}: \
         This port follows the GIT master version of ${name}, which is \
         typically updated every few days to weeks.
 
-    # devel dependency
-    # add to both at next release
-
-    depends_build-append port:shfmt
 }
 
 # override github information
 
 homepage            http://direnv.net/
+
+depends_build-append port:shfmt
 
 build.cmd           make
 build.target        all

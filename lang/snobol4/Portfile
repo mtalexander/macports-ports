@@ -1,3 +1,5 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
 PortSystem          1.0
 
 name                snobol4
@@ -20,6 +22,10 @@ checksums           md5     e6dc01fa2064ad9744e76b53d3d286e0 \
                     sha1    287a464a5ce794082c38a888a78ee201aead7608 \
                     rmd160  37d820aa4ecc161afb6cb26e1783d958b252590b
 
-configure.args      --mandir=${prefix}/share/man
+patchfiles          configure.patch
+
+configure.args      --incdir=${configure.sdkroot}/usr/include \
+                    --libdir=${configure.sdkroot}/usr/lib \
+                    --mandir=${prefix}/share/man
 
 configure.universal_args-delete --disable-dependency-tracking

@@ -12,16 +12,12 @@ long_description    ${description}. The IIO subsystem is intended to provide sup
 license             LGPL-2+
 platforms           darwin
 
-subport libiio-devel {
-    replaced_by     libiio
-    PortGroup       obsolete 1.0
-}
-
-github.setup    analogdevicesinc libiio c54152afd30973a862e8f9d58cff0233f9ef461a
-version         20181123
-checksums       rmd160 34200325350007882950c6e448c6a35c2277f15b \
-                sha256 8ec04d5dbc7093b74fea03f0f88c308e1feb1cc200315b3d84a063c8ada9a354 \
-                size   198255
+github.setup analogdevicesinc libiio cce2ee21b1f9f951c7804f1e03f6c1667b5e9482
+version      20190213
+checksums    rmd160 a066878250923448856f24a350e71f7b6f6f0b5e \
+             sha256 af0402ca0e7f1efc2dcdc13a8444db7f55cef40619ca0ca7a8d8965283266708 \
+             size   199731
+revision     0
 
 depends_lib-append port:libxml2 \
     path:lib/libusb.dylib:libusb \
@@ -65,7 +61,7 @@ post-destroot {
     move ${destroot}${prefix}/lib/python2.7 ${destroot}${py_install_dir}
 
     # link from iio.framework to normal
-    set iio_framework_version 0.16
+    set iio_framework_version 0.17
     set iio_framework_top ${frameworks_dir}/iio.framework
     set iio_framework ${iio_framework_top}/Versions/${iio_framework_version}/iio
     set iio_dr_framework_top ${destroot}${iio_framework_top}

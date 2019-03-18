@@ -109,48 +109,56 @@ switch ${subport_branch} {
     }
     5.6 {
         epoch           2
-        version         5.6.38
+        version         5.6.40
         use_xz          yes
-        checksums       rmd160  f8f61b7369b4cdeb65645be08a5c96a0c42a7cb8 \
-                        sha256  c2fac47dc6316bd230f0ea91d8a5498af122fb6a3eb43f796c9ea5f59b04aa1e \
-                        size    12467408
+        checksums       rmd160  43b648cf24cdea59765a1d12c247f83f60af283f \
+                        sha256  1369a51eee3995d7fbd1c5342e5cc917760e276d561595b6052b21ace2656d1c \
+                        size    12472236
     }
     7.0 {
         epoch           2
-        version         7.0.32
+        version         7.0.33
         use_xz          yes
-        checksums       rmd160  4852fe0fda5988ce042bc767f4bb494f2cff603a \
-                        sha256  ff6f62afeb32c71b3b89ecbd42950ef6c5e0c329cc6e1c58ffac47e6f1f883c4 \
-                        size    12030780
+        checksums       rmd160  621c2459c182de0a071f591eec45e4a3c32d8bdd \
+                        sha256  ab8c5be6e32b1f8d032909dedaaaa4bbb1a209e519abb01a52ce3914f9a13d96 \
+                        size    12033040
     }
     7.1 {
         epoch           2
-        version         7.1.24
+        version         7.1.26
         use_xz          yes
-        checksums       rmd160  74cb92296372bcf9d12188440bdb3dd5214837ea \
-                        sha256  e70dcec0ae28b6bc308b78972ec15aa850808819cc765f505aa51e5a7e2fa5d7 \
-                        size    12205112
+        checksums       rmd160  c8defe1861b1d511afcb70881cda5dfb5d0afd97 \
+                        sha256  10b7ae634c12852fae52a22dc2262e5f12418ad59fd20da2d00d71a212235d31 \
+                        size    12206956
     }
     7.2 {
         epoch           2
-        version         7.2.12
+        version         7.2.15
         use_xz          yes
-        checksums       rmd160  966a63e879f5c6edac361f3b4d8a18ad9a5e3d0e \
-                        sha256  989c04cc879ee71a5e1131db867f3c5102f1f7565f805e2bb8bde33f93147fe1 \
-                        size    12141472
+        checksums       rmd160  6067fc9f21a66e65495db83caa132a8ef7d4b102 \
+                        sha256  75e90012faef700dffb29311f3d24fa25f1a5e0f70254a9b8d5c794e25e938ce \
+                        size    12164460
     }
     7.3 {
+        epoch           2
+        version         7.3.2
+        use_xz          yes
+        checksums       rmd160  66e5db5e21c1539f11307a65ea79ae0b73f1ca62 \
+                        sha256  010b868b4456644ae227d05ad236c8b0a1f57dc6320e7e5ad75e86c5baf0a9a8 \
+                        size    11966760
+    }
+    7.4 {
         # When this becomes a stable version, remove the overrides for homepage,
         # master_sites and livecheck, and update php.latest_stable_branch in the
         # php-1.1 portgroup.
-        epoch           1
-        version         7.3.0RC6
+        epoch           0
+        version         7.4.0alpha1
         homepage        https://qa.php.net/
         master_sites    https://downloads.php.net/~cmb/
         use_xz          yes
-        checksums       rmd160  25af0c0dcf5eb7897f64b4c1fa9acf410ae0933d \
-                        sha256  8120b5830e24d5fabc96da693ab924852e6c2a95829ad994d6a5107c69787848 \
-                        size    11918172
+        checksums       rmd160  0 \
+                        sha256  0 \
+                        size    0
         livecheck.url   ${homepage}
         livecheck.regex php-([strsed ${subport_branch} {g/\\./\\./}](?:\\.\[0-9.\]+)*(?:(?:alpha|beta|RC)\\d+|-latest))\\.tar
     }
@@ -195,7 +203,6 @@ if {[is_sapi_subport]} {
         depends_lib-append  port:pcre
     } else {
         depends_lib-append  port:pcre2
-        patchfiles-append   patch-${php}-Zend-zend_cpuinfo.c.diff
     }
     
     # Use -p1 to accommodate the Suhosin patch
@@ -327,16 +334,25 @@ subport ${php} {
     PortGroup               select 1.0
     
     switch -- ${version} {
-        5.2.17              {revision 13}
-        5.3.29              {revision 3}
-        5.4.45              {revision 2}
-        5.5.38              {revision 2}
+        5.2.17              {revision 14}
+        5.3.29              {revision 4}
+        5.4.45              {revision 3}
+        5.5.38              {revision 4}
+        5.6.40              {revision 2}
+        7.0.33              {revision 1}
+        7.1.26              {revision 1}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
     }
     
     depends_run             port:php_select
     
     select.group            php
     select.file             ${filespath}/${subport}
+    
+    if {[vercmp ${branch} 5.5] >= 0 && [vercmp ${branch} 7.0] < 0} {
+        patchfiles-append   patch-${php}-Zend-EX_TMP_VAR.diff
+    }
     
     post-patch {
         # Ensure the build date is the same for all universal archs.
@@ -452,10 +468,15 @@ subport ${php}-apache2handler {
     PortGroup               active_variants 1.1
 
     switch -- ${version} {
-        5.2.17              {revision 3}
-        5.3.29              {revision 3}
-        5.4.45              {revision 3}
-        5.5.38              {revision 3}
+        5.2.17              {revision 2}
+        5.3.29              {revision 2}
+        5.4.45              {revision 2}
+        5.5.38              {revision 2}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
     }
     
     description             ${php} Apache 2 Handler SAPI
@@ -495,6 +516,18 @@ To enable ${subport}, run:
 ### CGI SAPI ###
 
 subport ${php}-cgi {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     description             ${php} CGI SAPI
     
     long_description        ${description}
@@ -523,6 +556,17 @@ subport ${php}-cgi {
 
 if {[vercmp ${branch} 5.3] >= 0} {
 subport ${php}-fpm {
+    switch -- ${version} {
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     description             ${php} FPM SAPI
     
     long_description        ${description}
@@ -579,6 +623,18 @@ ${phpinidir}/php-fpm.conf.default.
 ### Bundled extensions ###
 
 subport ${php}-calendar {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     description             a PHP extension for converting between different \
                             calendar formats
     
@@ -586,6 +642,18 @@ subport ${php}-calendar {
 }
 
 subport ${php}-curl {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       net www
     
     description             a PHP interface to the curl library, which lets you \
@@ -599,6 +667,18 @@ subport ${php}-curl {
 }
 
 subport ${php}-dba {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       databases
     
     description             a PHP interface for accessing DBM databases such as \
@@ -619,6 +699,17 @@ subport ${php}-dba {
 
 if {[vercmp ${branch} 5.3] >= 0} {
 subport ${php}-enchant {
+    switch -- ${version} {
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       textproc devel
     
     description             a PHP interface to enchant
@@ -645,6 +736,18 @@ subport ${php}-enchant {
 }
 
 subport ${php}-exif {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       graphics
     
     description             a PHP interface to the EXIF image metadata functions
@@ -653,6 +756,18 @@ subport ${php}-exif {
 }
 
 subport ${php}-ftp {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       net
     
     description             a PHP extension for accessing file servers using the \
@@ -666,6 +781,18 @@ subport ${php}-ftp {
 }
 
 subport ${php}-gd {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       graphics
     
     description             a PHP interface to the gd library
@@ -703,6 +830,18 @@ subport ${php}-gd {
 }
 
 subport ${php}-gettext {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       devel
     
     description             a PHP interface to the gettext natural language \
@@ -716,6 +855,18 @@ subport ${php}-gettext {
 }
 
 subport ${php}-gmp {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       devel math
     
     description             a PHP interface to GMP, the GNU multiprocessing \
@@ -734,6 +885,18 @@ subport ${php}-gmp {
 }
 
 subport ${php}-iconv {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       textproc
     
     description             a PHP interface to the libiconv character encoding \
@@ -747,6 +910,18 @@ subport ${php}-iconv {
 }
 
 subport ${php}-imap {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       mail
     
     description             a PHP interface to the IMAP protocol
@@ -769,6 +944,11 @@ subport ${php}-intl {
         5.3.29              {revision 3}
         5.4.45              {revision 1}
         5.5.38              {revision 1}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
     }
     
     categories-append       devel
@@ -783,6 +963,18 @@ subport ${php}-intl {
 }
 
 subport ${php}-ipc {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     php.extensions          shmop sysvmsg sysvsem sysvshm
     
     description             interprocess communication extensions for PHP
@@ -792,6 +984,18 @@ subport ${php}-ipc {
 }
 
 subport ${php}-ldap {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       databases
     
     description             a PHP interface to LDAP
@@ -808,6 +1012,18 @@ subport ${php}-ldap {
 }
 
 subport ${php}-mbstring {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       textproc
     
     description             a PHP extension for manipulating strings in multibyte \
@@ -820,6 +1036,16 @@ if {[vercmp ${branch} 7.2] < 0} {
 # mcrypt was evicted from PHP core in version 7.2; php72-mcrypt and later
 # subports are found in the separate php-mcrypt Portfile.
 subport ${php}-mcrypt {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+    }
+
     categories-append       security
     
     description             a PHP interface to the mcrypt library, which offers \
@@ -839,6 +1065,14 @@ subport ${php}-mcrypt {
 
 if {[vercmp ${branch} 7] < 0} {
 subport ${php}-mssql {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+    }
+
     php.extensions          mssql pdo_dblib
     
     categories-append       databases
@@ -856,6 +1090,18 @@ subport ${php}-mssql {
 }
 
 subport ${php}-mysql {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     php.extensions          mysqli pdo_mysql
     if {[vercmp ${branch} 7] < 0} {
         php.extensions-prepend mysql
@@ -1006,6 +1252,18 @@ For percona, use ${prefix}/var/run/percona/mysqld.sock
 }
 
 subport ${php}-odbc {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     php.extensions          odbc pdo_odbc
     
     categories-append       databases
@@ -1040,6 +1298,15 @@ subport ${php}-odbc {
 
 if {[vercmp ${branch} 5.5] >= 0} {
     subport ${php}-opcache {
+        switch -- ${version} {
+            5.5.38              {revision 1}
+            5.6.40              {revision 1}
+            7.0.33              {revision 0}
+            7.1.26              {revision 0}
+            7.2.15              {revision 0}
+            7.3.2               {revision 0}
+        }
+
         php.extensions.zend opcache
         
         description         OPcache improves PHP performance by storing precompiled \
@@ -1059,6 +1326,18 @@ if {[vercmp ${branch} 5.5] >= 0} {
 }
 
 subport ${php}-openssl {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       devel security
     
     description             a PHP interface to OpenSSL signature-generation \
@@ -1080,6 +1359,18 @@ subport ${php}-openssl {
 }
 
 subport ${php}-oracle {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     php.extensions          oci8 pdo_oci
     
     categories-append       databases
@@ -1105,6 +1396,18 @@ subport ${php}-oracle {
 }
 
 subport ${php}-pcntl {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       sysutils
     
     description             a PHP interface to Unix-style process creation, \
@@ -1121,6 +1424,18 @@ a web server environment.
 }
 
 subport ${php}-posix {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       sysutils
     
     description             a PHP interface to additional POSIX functions
@@ -1131,6 +1446,18 @@ subport ${php}-posix {
 }
 
 subport ${php}-postgresql {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     php.extensions          pgsql pdo_pgsql
     
     categories-append       databases
@@ -1225,6 +1552,18 @@ subport ${php}-postgresql {
 }
 
 subport ${php}-pspell {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       textproc
     
     description             a PHP interface to the aspell library, which lets you \
@@ -1243,8 +1582,11 @@ subport ${php}-snmp {
         5.3.29              {revision 1}
         5.4.45              {revision 1}
         5.5.38              {revision 1}
-        5.6.38              {revision 1}
-        7.0.32              {revision 1}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
     }
 
     categories-append       sysutils
@@ -1260,6 +1602,18 @@ subport ${php}-snmp {
 }
 
 subport ${php}-soap {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       net
     
     description             a PHP extension for writing SOAP clients and servers
@@ -1272,6 +1626,18 @@ subport ${php}-soap {
 }
 
 subport ${php}-sockets {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       net
     
     description             a PHP interface to BSD socket communication \
@@ -1282,6 +1648,11 @@ subport ${php}-sockets {
 
 if {[vercmp ${branch} 7.2] >= 0} {
 subport ${php}-sodium {
+    switch -- ${version} {
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     php.extensions          sodium
 
     categories-append       security
@@ -1299,6 +1670,17 @@ subport ${php}-sodium {
 
 if {[vercmp ${branch} 5.3] >= 0} {
 subport ${php}-sqlite {
+    switch -- ${version} {
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     php.extensions          sqlite sqlite3 pdo_sqlite
     
     categories-append       databases
@@ -1330,6 +1712,12 @@ subport ${php}-tidy {
         5.2.17              {revision 2}
         5.3.29              {revision 2}
         5.4.45              {revision 1}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
     }
     
     categories-append       www
@@ -1349,6 +1737,18 @@ subport ${php}-tidy {
 }
 
 subport ${php}-wddx {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       textproc
     
     description             a PHP interface to Web Distributed Data Exchange
@@ -1363,6 +1763,18 @@ subport ${php}-wddx {
 }
 
 subport ${php}-xmlrpc {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       textproc
     
     description             a PHP extension for writing XML-RPC clients and servers
@@ -1384,6 +1796,18 @@ subport ${php}-xmlrpc {
 }
 
 subport ${php}-xsl {
+    switch -- ${version} {
+        5.2.17              {revision 0}
+        5.3.29              {revision 0}
+        5.4.45              {revision 0}
+        5.5.38              {revision 0}
+        5.6.40              {revision 0}
+        7.0.33              {revision 0}
+        7.1.26              {revision 0}
+        7.2.15              {revision 0}
+        7.3.2               {revision 0}
+    }
+
     categories-append       textproc
     
     description             a PHP interface to libxslt, which implements the XSL \
@@ -1409,6 +1833,7 @@ set php                 php[php.suffix_from_branch ${branch}]
 if {${name} eq ${subport}} {
     # Set up the stub port.
     version             ${branch}
+    revision            0
     supported_archs     noarch
     distfiles
     depends_run         port:${php}

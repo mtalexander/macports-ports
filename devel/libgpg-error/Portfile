@@ -4,7 +4,8 @@ PortSystem      1.0
 PortGroup       muniversal 1.0
 
 name            libgpg-error
-version         1.32
+version         1.35
+revision        0
 categories      devel
 platforms       darwin
 license         LGPL-2.1+
@@ -21,9 +22,9 @@ master_sites    gnupg
 
 use_bzip2       yes
 
-checksums       rmd160  789084067e9ad59c155da077312bd6037e936e85 \
-                sha256  c345c5e73cc2332f8d50db84a2280abfb1d8f6d4f1858b9daa30404db44540ca \
-                size    904382
+checksums       rmd160  0552d7242e2715a02134e9a87cf8432dc2be63f9 \
+                sha256  cbd5ee62a8a8c88d48c158fff4fc9ead4132aacd1b4a56eb791f9f997d07e067 \
+                size    918408
 
 depends_lib     port:libiconv \
                 port:gettext

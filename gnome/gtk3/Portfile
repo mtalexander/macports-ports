@@ -60,6 +60,7 @@ patchfiles          O_CLOEXEC-10.6-and-earlier.patch \
 
 if {[variant_isset quartz]} {
     compiler.blacklist  *gcc-3.* *gcc-4.* {clang < 425}
+    patchfiles-append patch-quartz-hardcode-screen-resolution.patch
 } else {
     compiler.blacklist  *gcc-3.* *gcc-4.* {clang < 300}
 }

@@ -15,22 +15,27 @@ long_description    ${description}
 
 subport ${name} {
     conflicts           ${name}-devel
-    github.setup        macports macports-legacy-support 0.6.1 v
-    checksums           rmd160  e586dff724b1db36a4fa7a49c8f3c7cfbe742a8e \
-                        sha256  a43051241fbe52c31a8ecdd88f550cdabf854482a7060d422ccb063c6cd2c543 \
-                        size    11782
+    github.setup        macports macports-legacy-support 0.9 v
+    checksums           rmd160  4f9dc8cee3bbbabf5d025270edff0039af2ca525 \
+                        sha256  37af545d422ff41ba7b79f045f794af36985f7b29e43af953199242cf442b64a \
+                        size    27205
 }
 
 subport ${name}-devel {
     conflicts           ${name}
-    github.setup        macports macports-legacy-support 270e8dfee0e670803ad623da44aee679805dd300
-    version             20181204
-    checksums           rmd160  aecc52e56b4cffde66c2355f38f4b3d6d9ad30fd \
-                        sha256  39e136a6d6b84e3b6861fe1a4edc15bb1a6425b0fcb2a140b67a0a87663bd136 \
-                        size    12764
+    github.setup        macports macports-legacy-support e21d52aa07054cc0575c9975439b31339d538251
+    version             20190316
+    revision            0
+    livecheck.type      none
+    checksums           rmd160  0b6b731c0fb323dc4c7cdfabc587ba9e8391d8ae \
+                        sha256  f55f557746c277fec4fbd6768b22826f246d722b6fda71ad688c138ff5854a1f \
+                        size    29091
 }
 
 use_configure       no
+
+test.run            yes
+test.target         test
 
 variant universal {}
 
@@ -42,3 +47,19 @@ build.env           CXX="${configure.cxx}" \
                     PREFIX=${prefix}
 
 destroot.env        PREFIX=${prefix}
+
+post-destroot {
+  if { ${subport} eq "${name}-devel" } {
+    platform darwin 8 {
+      # install Tiger-specific fixes -- not quite ready
+        #copy ${worksrcpath}/tiger_only/include/libproc.h \
+        #     ${destroot}${prefix}/include/LegacySupport/libproc.h
+
+        #copy ${worksrcpath}/tiger_only/include/sys/proc_info.h \
+        #     ${destroot}${prefix}/include/LegacySupport/sys/proc_info.h
+
+        copy ${worksrcpath}/tiger_only/bin/which \
+             ${destroot}${prefix}/bin/which
+    }
+  }
+}

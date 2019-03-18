@@ -4,8 +4,7 @@ PortSystem          1.0
 PortGroup           cmake 1.0
 
 name                wireshark2
-version             2.6.4
-revision            1
+version             2.6.7
 categories          net
 license             {GPL-2 GPL-3}
 maintainers         {darkart.com:opendarwin.org @ghosthound}
@@ -27,12 +26,12 @@ distfiles           wireshark-${version}${extract.suffix}
 
 worksrcdir          wireshark-${version}
 
-checksums           sha256  a06b007e6343f148b8b93443b2fcfc9bb3204311cd268565d54d1b71660bc861 \
-                    rmd160  719cab381d824672e0f5e4b1c7a20de8863b28a6 \
-                    sha1    89ef68c2696b6b424cc65bb63a1be085fe7bd776 \
-                    size    28218232
+checksums           sha256  747b3e7a37414942959f76f198be49dcbcca936bda538c4408942ce71bfd2b71 \
+                    rmd160  4d27f7d67a9b8d11270c6fcf135eb5ad7648d462 \
+                    sha1    6d601a140b369618e5ac3acab736a1b8de8d5432 \
+                    size    28420060
 
-conflicts           wireshark-devel wireshark wireshark22 wireshark24
+conflicts           wireshark-devel wireshark wireshark22 wireshark24 wireshark3
 
 depends_build-append \
                     port:pkgconfig

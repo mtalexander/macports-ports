@@ -4,7 +4,8 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-keyring
-version             17.0.0
+version             18.0.0
+revision            0
 categories-append   security
 
 license             {MIT PSF}
@@ -21,9 +22,9 @@ homepage            https://github.com/jaraco/keyring
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  33e1cf607ba17a6408b2ac00c5be404cb50aa409 \
-                    sha256  d3744d22e398c19405d819d3c2d3bb82dc05a96513f577411c8847bb207dc289 \
-                    size    44171
+checksums           rmd160  a419899468cef2a2212a61edee30eff940bf7101 \
+                    sha256  12833d2b05d2055e0e25931184af9cd6a738f320a2264853cabbd8a3a0f0b65d \
+                    size    48509
 
 python.versions     27 34 35 36 37
 

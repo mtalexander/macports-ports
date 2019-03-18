@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-scikit-learn
-version             0.20.1
+version             0.20.3
 revision            0
 categories-append   science
 platforms           darwin
@@ -27,9 +27,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  7ccf7d9bbef7c1f4a0340e2fcf8c0e5d88b12199 \
-                    sha256  fa1869c18fef812e321b9ed875519daefb3a7ea016ba1392526d231a7994e81c \
-                    size    9718330
+checksums           rmd160  83e04bc34d4adf8836a562550e4ad1405f53fc68 \
+                    sha256  c503802a81de18b8b4d40d069f5e363795ee44b1605f38bc104160ca3bfe2c41 \
+                    size    11818490
 
 if {${name} ne ${subport}} {
     depends_build-append \

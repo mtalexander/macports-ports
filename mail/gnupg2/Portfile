@@ -4,7 +4,7 @@ PortSystem          1.0
 
 set my_name         gnupg
 name                ${my_name}2
-version             2.2.11
+version             2.2.13
 categories          mail security
 maintainers         {jann @roederja} {ionic @Ionic} openmaintainer
 license             GPL-3+
@@ -23,9 +23,9 @@ master_sites        ${my_name}:${my_name}
 
 use_bzip2           yes
 
-checksums           rmd160  4c5312475f573bbc28888fa34c693c5be1742b70 \
-                    sha256  496c3e123ef53f35436ddccca58e82acaa901ca4e21174e77386c0cea0c49cd9 \
-                    size    6652480
+checksums           rmd160  b24158d4a6b9ce00fc27f2f5b855793e5d15dc6a \
+                    sha256  76c787a955f9e6e0ead47c9be700bfb9d454f955a7b7c7e697aa719bac7b11d8 \
+                    size    6702712
 
 platform darwin {
     if {![variant_isset pinentry] && ![variant_isset pinentry_mac]} {
@@ -59,7 +59,6 @@ depends_lib         port:libiconv           \
                     port:libksba            \
                     port:libgcrypt          \
                     port:libgpg-error       \
-                    port:openldap           \
                     port:readline           \
                     port:gnutls             \
                     port:libusb-compat      \
@@ -79,6 +78,14 @@ variant pinentry_mac conflicts pinentry description {Handle user input via pinen
     depends_lib-append      port:pinentry-mac
     configure.args-append   --with-pinentry-pgm=${applications_dir}/pinentry-mac.app/Contents/MacOS/pinentry-mac
 }
+
+configure.args-append --disable-openldap
+variant openldap description {Support openldap} {
+    depends_lib-append      port:openldap
+    configure.args-replace  --disable-openldap --enable-openldap
+}
+
+default_variants    +openldap
 
 test.run            yes
 test.dir            ${worksrcpath}/tests

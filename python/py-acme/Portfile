@@ -5,7 +5,8 @@ PortGroup           python 1.0
 
 set real_name       acme
 name                py-${real_name}
-version             0.28.0
+version             0.32.0
+revision            0
 worksrcdir          ${real_name}-${version}
 distfiles           ${real_name}-${version}${extract.suffix}
 categories-append   security
@@ -19,9 +20,9 @@ master_sites        pypi:a/acme
 
 python.versions     27 36 37
 
-checksums           rmd160  05dbd8e39238d73d6d34f2838a0326fd753b32c5 \
-                    sha256  bf7c2f1c24a26ab5b9fce3a6abca1d74a5914d46919649ae00ad5817db62bb85 \
-                    size    81539
+checksums           rmd160  1280c615850376a2ce461e4b8f0313e7a4788149 \
+                    sha256  0eefce8b7880eb7eccc049a6b8ba262fc624bc34b3a8581d05b82f2bb39f1aec \
+                    size    86489
 
 if {${name} ne ${subport}} {
     depends_build-append \
