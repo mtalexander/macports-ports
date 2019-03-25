@@ -9,7 +9,7 @@ PortGroup           compiler_blacklist_versions 1.0
 name                gtk3
 set real_name       gtk+
 epoch               1
-version             3.24.5
+version             3.24.7
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          gnome x11
 license             LGPL-2.1+
@@ -29,9 +29,9 @@ use_xz              yes
 
 master_sites        gnome:sources/gtk+/${branch}/
 
-checksums           rmd160  1b982684d0a13480764727a6978e74fd9a0156ad \
-                    sha256  0be5fb0d302bc3de26ab58c32990d895831e2b7c7418d0ffea1206d6a3ddb02f \
-                    size    21012108
+checksums           rmd160  7d61df95d629f1c9af2933d15657246f72ae8e5c \
+                    sha256  52121144a2df4babed75eb5f34de130a46420101fde3ae216d3142df8a481520 \
+                    size    19375708
 
 minimum_xcodeversions {9 3.1}
 
@@ -60,7 +60,6 @@ patchfiles          O_CLOEXEC-10.6-and-earlier.patch \
 
 if {[variant_isset quartz]} {
     compiler.blacklist  *gcc-3.* *gcc-4.* {clang < 425}
-    patchfiles-append patch-quartz-hardcode-screen-resolution.patch
 } else {
     compiler.blacklist  *gcc-3.* *gcc-4.* {clang < 300}
 }
