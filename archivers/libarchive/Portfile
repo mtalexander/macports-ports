@@ -35,7 +35,7 @@ autoreconf.cmd   "build/autogen.sh"
 autoreconf.args  -fvi
 
 depends_build    port:autoconf port:automake port:libtool \
-                 port:pkgconfig
+                 port:pkgconfig port:gawk
 
 configure.args   --enable-bsdtar=shared --enable-bsdcpio=shared \
                  --disable-silent-rules --without-nettle \
