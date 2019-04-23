@@ -1,47 +1,28 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           perl5 1.0
 
-name                p5-image-exiftool
-version             11.32
-
-if {$subport ne "exiftool"} {
-    PortGroup           perl5 1.0
-    perl5.branches      5.26 5.28
-    perl5.setup         Image-ExifTool ${version}
-}
+perl5.branches      5.26 5.28
+perl5.link_binaries no
+# when updating this port, don't forget to keep port exiftool at same version
+perl5.setup         Image-ExifTool 11.37
 
 license             {Artistic-1 GPL}
-maintainers         nomaintainer
+maintainers         {devans @dbevans} openmaintainer
 platforms           darwin
 supported_archs     noarch
 
-description         Perl interface and general command line utility to read, write and edit EXIF metadata
+description         Perl interface to read, write and edit EXIF metadata
 long_description    ${description}
-
-checksums           rmd160  8761c48fa9b4d60afa4ae590caefe464640ca6a9 \
-                    sha256  c6cc7d2232df9161d4e0d9af4ebc50a82dcbff8e4adeb6b4833376c228d2972e \
-                    size    4513430
 
 homepage            http://exiftool.sourceforge.net/
 master_sites        sourceforge:project/exiftool/
 
+checksums           rmd160  089582d6ec2ddf9cbb28f3fe194acd516ece528b \
+                    sha256  e8cea0dfe2604b89285b3e4a4e627144e07e2e6eb2601cd7e7196dc45fe12eee \
+                    size    4531738
+
 livecheck.type      regex
 livecheck.url       ${homepage}
-if {$subport ne "exiftool"} {
-    livecheck.regex     ${perl5.module}-(\[0-9.\]+)${extract.suffix}
-}
-
-subport exiftool {
-    revision        0
-    set perl_branch 5.28
-    distfiles
-    use_configure   no
-    depends_run     port:p${perl_branch}-image-exiftool
-    build {}
-
-    destroot {
-        xinstall -d ${destroot}${prefix}/bin
-        ln -s ${prefix}/bin/exiftool-${perl_branch} ${destroot}${prefix}/bin/exiftool
-    }
-}
+livecheck.regex     ${perl5.module}-(\[0-9.\]+)${extract.suffix}

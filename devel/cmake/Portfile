@@ -2,7 +2,16 @@
 
 PortSystem          1.0
 PortGroup           muniversal 1.0
-PortGroup           legacysupport 1.0
+PortGroup           xcodeversion 1.0
+
+# use legacy support if OSX <= 10.11 && Xcode < 8.
+# Xcode 8 provides "clock_gettime" while Xcode 7 doesn't.
+# legacysupport is used for 10.11 just for this specific feature.
+if {${os.platform} eq "darwin" && \
+    ${os.major} <= 15 && \
+    [vercmp ${xcodeversion} 8.0] < 0} {
+    PortGroup legacysupport 1.0
+}
 
 # devel requires C++11 as of 2017-08-21
 # https://gitlab.kitware.com/cmake/cmake/commit/c1f3eb9f2d628b2911aa17f65012fab0befc4b87
@@ -38,10 +47,10 @@ if {${subport} eq ${name}} {
 
     # release
 
-    version         ${branch}.0
-    checksums       rmd160 9edfb583b9417b12e95cdcb56776a41d4d0b2663 \
-                    sha256 aa76ba67b3c2af1946701f847073f4652af5cbd9f141f221c97af99127e75502 \
-                    size   8846626
+    version         ${branch}.3
+    checksums       rmd160 49c605e8eba424c3becd36556153f678f138d73d \
+                    sha256 215d0b64e81307182b29b63e562edf30b3875b834efdad09b3fcb5a7d2f4b632 \
+                    size   8851085
     revision        0
 
     master_sites    ${homepage}/files/v${branch}/
@@ -66,11 +75,11 @@ if {${subport} eq ${name}} {
 
     # devel
 
-    version         20190314
-    set commit      2efecea485a76df149ecc5d644cc2a1ec6c33cf3
-    checksums       rmd160 1fa0a04427c14830387d0af026e565d4f3ca972f \
-                    sha256 8c23d5cd7cd72f5b89c5a9291292747ca022fe0ccfd46a16e37ca05bce56588a \
-                    size   6827156
+    set commit      955f7f41c08b90553fb4bcf364c12c072802d925
+    version         20190422-[string range ${commit} 0 7]
+    checksums       rmd160 b7896864b23db8a21818b4edb6310e2170ac6377 \
+                    sha256 34c5693d2c2dc9c19e4e6d3916d0a228962a1e92b994da2b80504ed555209b48 \
+                    size   6866515
     revision        0
 
     use_bzip2       yes
@@ -124,12 +133,12 @@ compiler.blacklist-append macports-clang-3.9 macports-clang-4.0 macports-clang-5
 
 platform darwin {
     configure.env-append \
-                    CMAKE_OSX_DEPLOYMENT_TARGET="${macosx_deployment_target}"
+                    CMAKE_OSX_DEPLOYMENT_TARGET=${macosx_deployment_target}
 
     if {${configure.sdkroot} != ""} {
-        configure.env-append CMAKE_OSX_SYSROOT="${configure.sdkroot}"
+        configure.env-append CMAKE_OSX_SYSROOT=${configure.sdkroot}
     } else {
-        configure.env-append CMAKE_OSX_SYSROOT="/"
+        configure.env-append CMAKE_OSX_SYSROOT=/
     }
 
     if {${os.arch} eq "i386" && ${os.major} <= 9} {
@@ -186,23 +195,6 @@ post-patch {
     # patch PREFIX
     reinplace "s|__PREFIX__|${prefix}|g" ${worksrcpath}/macports.cmake
     reinplace "s|__PREFIX__|${prefix}|g" ${worksrcpath}/Modules/CMakeFindFrameworks.cmake
-
-    # patch Python Version; doing this is OK even when +docs is not
-    # used, because the PYTHON_EXECUTABLE is used only when building
-    # docs -- so, when not building docs its setting makes no difference.
-
-    if {[variant_isset python27]} {
-        set PYTHON_VERSION_WITH_DOT "2.7"
-    } elseif {[variant_isset python34]} {
-        set PYTHON_VERSION_WITH_DOT "3.4"
-    } elseif {[variant_isset python35]} {
-        set PYTHON_VERSION_WITH_DOT "3.5"
-    } elseif {[variant_isset python36]} {
-        set PYTHON_VERSION_WITH_DOT "3.6"
-    } else {
-        set PYTHON_VERSION_WITH_DOT "3.7"
-    }
-    reinplace "s|__PYTHON_VERSION_WITH_DOT__|${PYTHON_VERSION_WITH_DOT}|g" ${worksrcpath}/macports.cmake
 }
 
 post-destroot {
@@ -264,48 +256,48 @@ if {[variant_isset gui]} {
 }
 
 variant docs description {Build documentation: HTML and manpages} {
+
     configure.args-append \
         --mandir=share/man \
         --sphinx-man \
-        --sphinx-html
+        --sphinx-html \
+        --sphinx-build=${prefix}/bin/sphinx-build-${PYTHON_VERSION_WITH_DOT}
+
+    depends_build-append \
+        port:py${PYTHON_VERSION_NO_DOT}-sphinx
+
+    # these are required for Py3X, but not Py27
+    if {${PYTHON_VERSION_NO_DOT} ne "27"} {
+        depends_build-append \
+            port:py${PYTHON_VERSION_NO_DOT}-sphinxcontrib-applehelp \
+            port:py${PYTHON_VERSION_NO_DOT}-sphinxcontrib-devhelp \
+            port:py${PYTHON_VERSION_NO_DOT}-sphinxcontrib-htmlhelp \
+            port:py${PYTHON_VERSION_NO_DOT}-sphinxcontrib-jsmath \
+            port:py${PYTHON_VERSION_NO_DOT}-sphinxcontrib-qthelp \
+            port:py${PYTHON_VERSION_NO_DOT}-sphinxcontrib-serializinghtml \
+            port:py${PYTHON_VERSION_NO_DOT}-sphinxcontrib-websupport
+    }
+
 }
 
 variant python27 conflicts python34 python35 python36 requires docs \
-    description {Build documentation using Sphinx from Python 2.7} {
-    depends_build-append port:py27-sphinx
-    configure.args-append \
-        --sphinx-build=${prefix}/bin/sphinx-build-2.7
-}
+    description {Build documentation using Sphinx from Python 2.7} {}
 
 variant python34 conflicts python27 python35 python36 python37 requires docs \
-    description {Build documentation using Sphinx from Python 3.4} {
-    depends_build-append port:py34-sphinx
-    configure.args-append \
-        --sphinx-build=${prefix}/bin/sphinx-build-3.4
-}
+    description {Build documentation using Sphinx from Python 3.4} {}
 
 variant python35 conflicts python27 python34 python36 python37 requires docs \
-    description {Build documentation using Sphinx from Python 3.5} {
-    depends_build-append port:py35-sphinx
-    configure.args-append \
-        --sphinx-build=${prefix}/bin/sphinx-build-3.5
-}
+    description {Build documentation using Sphinx from Python 3.5} {}
 
 variant python36 conflicts python27 python34 python35 python37 requires docs \
-    description {Build documentation using Sphinx from Python 3.6} {
-    depends_build-append port:py36-sphinx
-    configure.args-append \
-        --sphinx-build=${prefix}/bin/sphinx-build-3.6
-}
+    description {Build documentation using Sphinx from Python 3.6} {}
 
 variant python37 conflicts python27 python34 python35 python36 requires docs \
-    description {Build documentation using Sphinx from Python 3.7} {
-    depends_build-append port:py37-sphinx
-    configure.args-append \
-        --sphinx-build=${prefix}/bin/sphinx-build-3.7
-}
+    description {Build documentation using Sphinx from Python 3.7} {}
 
 if {[variant_isset docs]} {
+
+    # default Python is 2.7
     if {![variant_isset python27] &&
         ![variant_isset python34] &&
         ![variant_isset python35] &&
@@ -314,6 +306,7 @@ if {[variant_isset docs]} {
         default_variants +python27
     }
 
+    # make sure -python27 is not specified alone
     if {![variant_isset python27] &&
         ![variant_isset python34] &&
         ![variant_isset python35] &&
@@ -322,4 +315,24 @@ if {[variant_isset docs]} {
         ui_error "\n\nYou must select either the +python27, +python34, +python35, +python36, or +python37 variant when using variant +docs.\n"
         return -code error "Invalid variant selection"
     }
+
+    # determine Python-related variables
+    if {[variant_isset python27]} {
+        set PYTHON_VERSION_WITH_DOT "2.7"
+    } elseif {[variant_isset python34]} {
+        set PYTHON_VERSION_WITH_DOT "3.4"
+    } elseif {[variant_isset python35]} {
+        set PYTHON_VERSION_WITH_DOT "3.5"
+    } elseif {[variant_isset python36]} {
+        set PYTHON_VERSION_WITH_DOT "3.6"
+    } else {
+        set PYTHON_VERSION_WITH_DOT "3.7"
+    }
+    set PYTHON_VERSION_NO_DOT [join [split ${PYTHON_VERSION_WITH_DOT} "."] ""]
+
+    post-patch {
+        # patch Python Version
+        reinplace "s|__PYTHON_VERSION_WITH_DOT__|${PYTHON_VERSION_WITH_DOT}|g" ${worksrcpath}/macports.cmake
+    }
+    
 }

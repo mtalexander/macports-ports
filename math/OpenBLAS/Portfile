@@ -30,18 +30,19 @@ platform darwin i386 {
 subport OpenBLAS-devel {}
 if {[string first "-devel" $subport] > 0} {
 
-    github.setup    xianyi OpenBLAS 4fc17d0d754b7905667fb84a68cf37a0d28a93bd
-    version         20190313
-    checksums       rmd160 49abba21d8251259f28d226cd5f8dfb6767ae56d \
-                    sha256 91c62106dd64882fc01c7e135c807f190e27c9f9f00a8e6246cadaa4cc5d8480 \
-                    size   11898682
+    github.setup    xianyi OpenBLAS 744779d3351aa96afa5188d75eb76ac5ec197d13
+    version         20190415-[string range ${github.version} 0 7]
+    checksums       rmd160 9691d52ba4d9b04ae2e86fd963ee87cf7aa01db0 \
+                    sha256 49f237915e8a4bbd8d250599262205fa5d56171a21d8f57e29d86b15f9542098 \
+                    size   11913371
     revision        0
 
     name            ${github.project}-devel
     conflicts       OpenBLAS
 
     patchfiles      patch-libnoarch.devel.diff \
-                    patch-linkLib.devel.diff
+                    patch-linkLib.devel.diff \
+                    patch-OpenBLAS-i386-Apple.diff
 
     github.livecheck.branch develop
 
@@ -57,7 +58,8 @@ if {[string first "-devel" $subport] > 0} {
     patchfiles      patch-libnoarch.release.diff \
                     patch-linkLib.release.diff  \
                     patch-darwin-powerpc.diff \
-                    patch-openblas-powermac970-fix.diff
+                    patch-openblas-powermac970-fix.diff \
+                    patch-OpenBLAS-i386-Apple.diff
 }
 
 compilers.choose    fc

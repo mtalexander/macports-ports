@@ -20,10 +20,10 @@ long_description    \
 
 if {${name} eq ${subport}} {
 
-    go.setup        github.com/direnv/direnv 2.19.2 v
-    checksums       rmd160 82dcf907d257fb25e2bc194918382cd3f47d7b79 \
-                    sha256 ea47adb7499eeefbe39e8a663a600578e7dd8d8c5029f1fbcb854344d5ef9cb0 \
-                    size   97496
+    go.setup        github.com/direnv/direnv 2.20.1 v
+    checksums       rmd160 8372c319e57ac8557c87b8dca32da6d874014afa \
+                    sha256 837b208c0bbee6f250f051d53cc1d89cfcd7899dad4363ade9845dd955bce425 \
+                    size   98939
     revision        0
 
     conflicts       direnv-devel
@@ -31,11 +31,11 @@ if {${name} eq ${subport}} {
 
 subport direnv-devel {
 
-    go.setup  github.com/direnv/direnv 8fcfa7889b4ae795760e4675d0466633706ecca1
-    version   20190308
-    checksums rmd160 3daf39a1ae61d91e87531d5638e53c4587480804 \
-              sha256 0ae8d5661af22554a445331b9399db80b4019d1146a809c84f6fbb45fb2110b3 \
-              size   97705
+    go.setup  github.com/direnv/direnv 4d99f12f158f7f9923aa311824929da38c7a9cfc
+    version   20190418-[string range ${github.version} 0 7]
+    checksums rmd160 147f0f4c6e7b8398634cc4847f62accaa7986ff9 \
+              sha256 ed47b62d47efd225d0845ab17d62fd63b8f4979af62c3227c4a56cec21a77745 \
+              size   99582
     revision  0
 
     conflicts       direnv

@@ -38,6 +38,7 @@ depends_lib port:aalib	\
             port:libmpcdec \
             port:libogg \
             port:libvorbis \
+            port:libvpx \
             port:mesa \
             port:vcdimager \
             port:xorg-libXinerama \

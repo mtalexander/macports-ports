@@ -18,10 +18,10 @@ long_description \
 
 if {${subport} eq ${name}} {
 
-    github.setup    libuv libuv 1.27.0 v
-    checksums       rmd160 cab799d8f0d9e22be70c50d1b998d060369bf9db \
-                    sha256 7acfbdc4f61fb82d16710eefa1f91555a4bfe40de7fa380f0838e230ddd977dd \
-                    size   1214259
+    github.setup    libuv libuv 1.28.0 v
+    checksums       rmd160 021dfc555baec1572795c06b502228379146e580 \
+                    sha256 4a115f752fb8dd2f24f8ad5a3c1a975260b550c0fc3ef525c449eb382f182358 \
+                    size   1219212
     revision        0
 
     conflicts       libuv-devel
@@ -30,11 +30,11 @@ if {${subport} eq ${name}} {
 
 subport libuv-devel {
 
-    github.setup    libuv libuv 23bb992d7b38a83bb83fb0851148d9f6941157f0
-    version         20190316
-    checksums       rmd160 6545342fe8336f1ec8ac82f74c199c5794a325f3 \
-                    sha256 913c91e63297ebe7079ec695d4ed07cd4a813975f1bd79ff76c5c20e3fff7a71 \
-                    size   1214328
+    github.setup    libuv libuv 2e443b12bd370dad249a8239a0e11f0ee480b373
+    version         20190415-[string range ${github.version} 0 7]
+    checksums       rmd160 1fd0b634af358bd72831223b960492c1dc916a85 \
+                    sha256 78da0c76148b14a3277a461f0997c5c0e111675c30a37ed7f05fc18ff9a29880 \
+                    size   1219289
     revision        0
 
     long_description    ${long_description} \

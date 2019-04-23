@@ -4,3 +4,6 @@
 */*/work
 
 Portfile~
+*.tcl~
+
+.DS_Store

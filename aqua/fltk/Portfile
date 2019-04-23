@@ -51,11 +51,11 @@ if {${subport} eq ${name}} {
     long_description ${long_description} \
         This port provides the snapshot released of FLTK, typically updated a few times a month.
 
-    github.setup fltk fltk 5571c0c3814e98b04930b11c0edebbdd0024f6b1
-    version      20190310
-    checksums    rmd160 c10c5d6a817b6ef8acff4bf42201ee492ea9cd06 \
-                 sha256 f260edcbc92c888595a3e3a3bb5528747d07b16246c10c34713046abbdeb4993 \
-                 size   5943788
+    github.setup fltk fltk 8d0647732fe984bc9c56d0f33c82583d6e52ff66
+    version      20190416-[string range ${github.version} 0 7]
+    checksums    rmd160 ac2938da886b16120d76d2d3018f569ec2d16cd2 \
+                 sha256 498a43e273d12530e5a594023e16c8c8abd2b11e38023045905ee48ea02cf317 \
+                 size   5946679
     revision     0
 
     patchfiles-append \

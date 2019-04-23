@@ -6,7 +6,7 @@ PortGroup           select 1.0
 
 
 name                py-awscli
-version             1.16.107
+version             1.16.144
 revision            0
 platforms           darwin
 supported_archs     noarch
@@ -20,9 +20,9 @@ homepage            https://aws.amazon.com/cli/
 master_sites        pypi:a/awscli
 distname            awscli-${version}
 
-checksums           rmd160  534a5e7f263447b06f4d1458b563b06963df65b9 \
-                    sha256  583019f071866d158d25c6a4c0e9658ea9ea683add2c4179fe74cbc9deb676aa \
-                    size    667982
+checksums           rmd160  ce6bb7cc294678bb74859ce6fbb79d20c709287a \
+                    sha256  2c7255fcda31b696b5501f28e68bd4db3c99ba5e73990a720c71f096f0a5f2e1 \
+                    size    690092
 
 python.versions     27 35 36 37
 
