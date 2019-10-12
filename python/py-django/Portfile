@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        django django 2.2
+github.setup        django django 2.2.2
 name                py-django
 categories-append   www
 platforms           darwin
@@ -23,17 +23,17 @@ supported_archs     noarch
 
 if {${name} ne ${subport}} {
     if {${python.version} == 27} {
-        github.setup    django django 1.11.20
+        github.setup    django django 1.11.21
 
-        checksums       rmd160  69ed938ab126dc66f41debe8a39b6fe4dd11ccde \
-                        sha256  902a0c06907567f884d2110eb6d35299a8bbb87954c2eff8c391a70526232710 \
-                        size    7894815
+        checksums       rmd160  dab17e60adbf82aafa11d73dea032714507fb66f \
+                        sha256  ae0e4252834c9737cf0188621c1e46bfc985bbd3000a40e72e4bccdecfa462ba \
+                        size    7894554
 
         github.livecheck.regex  {(1\..+?)}
     } else {
-        checksums       rmd160  7cfa3f9c151ad4ea9881432f13ded3d2d886565d \
-                        sha256  705b0d217c77440a7a0f2d9d2a2a3539bc151838f93d3cb85556873af925359c \
-                        size    8893174
+        checksums       rmd160  42a29a93dd9f8f79a041e5d766d2975d884a32b8 \
+                        sha256  b7cb6bbe1ac098ed7c9011133ef0bd450a24cafa9f59a3fca05903687fa3d995 \
+                        size    8898318
 
         livecheck.type  none
     }

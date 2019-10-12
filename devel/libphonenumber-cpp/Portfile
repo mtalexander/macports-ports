@@ -5,7 +5,8 @@ PortGroup           cmake 1.1
 PortGroup           cxx11 1.1
 PortGroup           github 1.0
 
-github.setup        googlei18n libphonenumber 8.10.8 v
+github.setup        googlei18n libphonenumber 8.10.14 v
+revision            1
 name                libphonenumber-cpp
 revision            1
 license             Apache-2
@@ -18,7 +19,7 @@ platforms           darwin
 
 set main_distfile   ${distfiles}
 
-set gtest_version   1.8.0
+set gtest_version   1.8.1
 set gtest_distfile  release-${gtest_version}.tar.gz
 set gtest_srcdir    ${workpath}/googletest-release-${gtest_version}/googletest
 set gtest_master    https://github.com/google/googletest/archive
@@ -30,15 +31,15 @@ master_sites        ${github.master_sites}:main \
                     ${gtest_master}:gtest
 
 checksums           ${main_distfile} \
-                    rmd160  781576b73d3f5dc8093840b45cf1e869ddbf147e \
-                    sha256  16a597e721c096724cc33d76c2f56d901e9f7d9a05b30f45ee63f92049f5ae7f \
-                    size    7284259 \
+                    rmd160  fb3968c37062ce3c835fb1fe0f0bcecc885b98fa \
+                    sha256  c52143ca197d444a56a752425f6169aea820ae9af36b80b473cd3ed2a13f691e \
+                    size    7297956 \
                     ${gtest_distfile} \
-                    rmd160  b0a9e48874df3291a261ed85a0c0a4d677b01dc1 \
-                    sha256  58a6f4277ca2bc8565222b3bbd58a177609e9c488e8a72649359ba51450db7d8 \
-                    size    1281617
+                    rmd160  ad357c51fa7a1f4f6be069cc1ceae2c722fc28a2 \
+                    sha256  9bf1fe5182a604b4135edc1a425ae356c9ad15e9b23f9f12a02e80184c3a249c \
+                    size    992298
 
-worksrcdir          googlei18n-libphonenumber-5857657/cpp
+worksrcdir          google-libphonenumber-6bb388c/cpp
 
 patchfiles          patch-cpp-CMakeLists.txt.diff
 

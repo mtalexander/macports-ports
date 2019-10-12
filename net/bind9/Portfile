@@ -1,7 +1,7 @@
 PortSystem 1.0
 
 name			bind9
-version			9.14.0
+version			9.14.3
 categories		net
 maintainers		{geeklair.net:dluke @danielluke}
 platforms		darwin freebsd sunos
@@ -23,9 +23,9 @@ homepage		https://www.isc.org/
 distname		bind-${version}
 master_sites		isc:${name}/${version}
 
-checksums	rmd160	e688999c7a5fa212f736ae8c90a5d5be56e995a5 \
-		sha256	4edd459830bb97f749e25a5d42a2a4a093d7800e9962fca4300996cf7ea680af \
-		size	6290135
+checksums	rmd160	dc7bd989fd5cf20db954078af5a54e6f1bc558a9 \
+		sha256	ce878aabcf01b61ed114522c32fff9e268b02da55b3c248349860bc3d0c8bdfa \
+		size	6258311
 
 depends_lib		path:lib/libssl.dylib:openssl  \
 			port:libxml2 \

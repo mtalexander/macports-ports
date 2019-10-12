@@ -3,11 +3,11 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/gohugoio/hugo 0.55.3 v
+go.setup            github.com/gohugoio/hugo 0.55.6 v
 revision            0
-checksums           rmd160  ef6515105c8af04019efecca6ee8fba55bb1f93c \
-                    sha256  d75ff892dcc4d9e9609e595fe3ea4884d57cb5f449d5d0e4746b781ee23536cb \
-                    size    26286843
+checksums           rmd160  727e0fc66c941f9af109ddfcd06420f124595eaf \
+                    sha256  54ff98fb68ff6f4f1dc445553ed786d218e0ee3ab5fc8641f9f5fd6869c24461 \
+                    size    26962618
 
 categories          www
 platforms           darwin
@@ -43,4 +43,8 @@ variant bash_completion {
         xinstall -d ${destroot}${prefix}/share/bash-completion/completions/
         xinstall -m 644 ${worksrcpath}/hugo.sh ${destroot}${prefix}/share/bash-completion/completions/${name}
     }
+}
+
+variant extended description {Builds Hugo Extended with Sass/SCSS support} {
+    build.args-append --tags extended
 }

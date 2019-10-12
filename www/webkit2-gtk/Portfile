@@ -13,8 +13,7 @@ PortGroup           cxx11 1.1
 name                webkit2-gtk
 conflicts           webkit2-gtk-devel
 version             2.20.5
-# Revision 2 goies with gtk3 @3.24.2_0, revision 3 goes with gtk3 @3.22.30_2
-revision            3
+revision            4
 description         Apple's WebKit2 HTML rendering library for GTK+3 (with optional support for GTK+2 plugins)
 long_description    ${description}
 maintainers         {devans @dbevans}
@@ -83,7 +82,8 @@ patchfiles-append \
     PR-157574.patch \
     patch-bundle-link-webcore.diff \
     patch-enable-plugin-architecture-unix.diff \
-    patch-name-conflicts.diff
+    patch-name-conflicts.diff \
+    patch_bad_optional_access.diff
     
 # Source/WTF/wtf/RAMSize.cpp has changed, and the Darwin parts were
 # stripped out. Replace it with the previous version

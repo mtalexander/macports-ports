@@ -31,12 +31,12 @@ if {${subport} eq ${name}} {
 
     # devel
 
-    github.setup open-source-parsers jsoncpp b16abf8ce1e78d0c77bcd6e458afe6048c855b6a
-    version      20190331-[string range ${github.version} 0 7]
-    checksums    rmd160 47d98f47afb19079220744235fab2078517bc528 \
-                 sha256 fc2c2b5948e1e673ccc338c3fbfd8e013a37db980fdf7412734bef75bc85768a \
-                 size   200574
-    revision     0
+    github.setup open-source-parsers jsoncpp 5510f14a71fab7d7307815c4097e30cfef84f329
+    version   20190625-[string range ${github.version} 0 7]
+    checksums rmd160 bdef41ed024441f05e72f9dd919127c1a1220aed \
+              sha256 89fb8adcef49995455f47d856dd3787d2ca77e8f60da5d9f5fb79a4f05d6376f \
+              size   202319
+    revision  0
 
     conflicts       jsoncpp
     long_description ${description}: \

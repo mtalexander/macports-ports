@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/syncthing/syncthing 1.1.1 v
+go.setup            github.com/syncthing/syncthing 1.1.4 v
 categories          net
 platforms           darwin
 license             MPL-2
@@ -17,9 +17,9 @@ long_description    Syncthing replaces proprietary sync and cloud services \
                     and how it's transmitted over the Internet.
 homepage            https://syncthing.net
 
-checksums           rmd160  1ff6d787b01efc59ed5b0e1325e78cf5f4035ac1 \
-                    sha256  be5f052e2959e0cc77135588b3c3a942ece1da293e1d844bbc9343ae8963d7ff \
-                    size    4667987
+checksums           rmd160  507fddf9a22a81fb224ed8bc2a8bf091c2e607fb \
+                    sha256  e3a28494a695375f3a3c8dae16176a3ff995cb3526ef5ee097e14b2b4d9b381f \
+                    size    4700106
 
 build.env-append    GO111MODULE=on
 build.cmd           ${go.bin} run build.go

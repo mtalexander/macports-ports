@@ -22,12 +22,11 @@ dist_subdir         gnuradio
 
 if {${subport} eq ${name}} {
 
-    github.setup    gnuradio gnuradio 3.7.13.4 v
-    revision        5
-    checksums \
-        rmd160 150f8ccb6f724e2bdced377f56d36c3810649992 \
-        sha256 44c987c941b69fcf77d4e9fa7f8039eb8bf82591e8184c431f44351abe6bba3e \
-        size   4431335
+    github.setup gnuradio gnuradio 3.7.13.5 v
+    checksums rmd160 6a7f38601633658632cf13a8dc157bbb1e9fcad7 \
+              sha256 f0c1fb0bbec673a798efdbdad27d4a1b914ef1fd77528642f1e2134920156335 \
+              size   4434061
+    revision  0
 
     long_description    ${description}: \
         This port is kept up with the GNU Radio release, currently ${version}, which is typically updated every few months.
@@ -78,12 +77,12 @@ subport gnuradio-next {
     name                gnuradio-next
     conflicts           gnuradio gnuradio-devel
 
-    github.setup gnuradio gnuradio 0ab1a75a8181e2d89d82b499913d5e30b2bca018 
-    version      20190221
-    checksums    rmd160 e108e3a6da22301cb8ea1f7414b98eb57ef3844e \
-                 sha256 0adf8f6c4fae5fa8513f248fc7d35abd59920a310e073c709d4850a32bad315c \
-                 size   3430840
-    revision     2
+    github.setup gnuradio gnuradio 469954226349be36f1b056163f543fca2eadd0fd 
+    version   20190621-[string range ${github.version} 0 7]
+    checksums rmd160 70144cb9bf04a4c80d9b4f0047d07c8dcaf383ac \
+              sha256 48cc658dfe369fbd7c21020e593f65839f45d56692fddd5021281fc890883e3a \
+              size   3401527
+    revision  0
 
     # set the version override string
 
@@ -175,10 +174,6 @@ if {${subport} eq "gnuradio"} {
 
     # patches for next
 
-    # temporary patch to fix CTRLPORT testing
-    patchfiles-append \
-        patch-fix_ctrlport_test.next.diff
-
     # temporary patch to fix and allow external setting for
     # CMAKE_C/CXX_STANDARD
 
@@ -218,7 +213,7 @@ if {${subport} eq "gnuradio-next"} {
         ![variant_isset python35] &&
         ![variant_isset python36] &&
         ![variant_isset python37]} {
-        ui_error "\n\nYou must select one of the variants +python27 , +python34 , +python35, +python36, or +python37. .\n"
+        ui_error "\n\nYou must select one of the variants +python27, +python34, +python35, +python36, or +python37.\n"
         return -code error "Invalid variant selection"
     }
 
@@ -252,8 +247,11 @@ depends_lib-append  \
 if {${subport} eq "gnuradio"} {
 
     # release
-    # still require cppunit for testing
-    depends_test-append port:cppunit
+    # still require cppunit for testing; NOTE: cppunit is checked for
+    # during configure, so we need it to be in depends_lib or
+    # depends_build to be used correctly. Choose the latter since it's
+    # not required for runtime; just for build/test.
+    depends_build-append port:cppunit
 
 } elseif {${subport} eq "gnuradio-devel"} {
 

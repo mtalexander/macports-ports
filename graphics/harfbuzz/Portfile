@@ -5,11 +5,15 @@ PortSystem          1.0
 # https://github.com/harfbuzz/harfbuzz/issues/1642
 PortGroup           cxx11 1.1
 
+# https://github.com/harfbuzz/harfbuzz/issues/1651#issuecomment-484051395
+PortGroup           compiler_blacklist_versions 1.0
+compiler.blacklist-append {clang < 700}
+
 name                harfbuzz
-version             2.3.1
-checksums           rmd160  6c2500882f1f67635e59908efb1f2264e2c00aaa \
-                    sha256  f205699d5b91374008d6f8e36c59e419ae2d9a7bb8c5d9f34041b9a5abcae468 \
-                    size    17942960
+version             2.5.3
+checksums           rmd160  d3e57a0c2b0b43df571200db8635c88ae1959d5b \
+                    sha256  fed00dc797b7ba3ca943225f0a854baaed4c1640fff8a31d455cd3b5caec855c \
+                    size    5685712
 
 categories          graphics
 platforms           darwin
@@ -22,14 +26,19 @@ long_description    HarfBuzz is an ${description}.
 
 homepage            https://www.freedesktop.org/wiki/Software/HarfBuzz/
 master_sites        https://www.freedesktop.org/software/harfbuzz/release/
-use_bzip2           yes
+use_xz              yes
 
 depends_build       port:pkgconfig
 
-patchfiles-append   dont-use-TARGET_OS_OSX.patch
+patchfiles          CGFloat.patch
 
 configure.args      --disable-silent-rules \
                     ac_cv_prog_AWK=/usr/bin/awk
+
+# Do not use -Werror. New compilers may have new warnings; we don't want users
+# to encounter build failures because of that.
+configure.cflags-append     -DHB_NO_PRAGMA_GCC_DIAGNOSTIC_ERROR
+configure.cxxflags-append   -DHB_NO_PRAGMA_GCC_DIAGNOSTIC_ERROR
 
 if {${name} eq ${subport}} {
     revision        0

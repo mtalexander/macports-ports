@@ -59,12 +59,12 @@ subport zmq22 {
 }
 
 subport zmq-devel {
-    github.setup zeromq libzmq 494a82f0e70855e727329ea8c1c6135dad1f0d28
-    version      20190414-[string range ${github.version} 0 7]
-    checksums    rmd160 25ae6762c8d1597a6202c548cfc0d13a18a9378a \
-                 sha256 234407589d9bb0ffb84c19f0d6610c39d2495f0b039e160de18ab93d5410aa96 \
-                 size   809193
-    revision     0
+    github.setup zeromq libzmq 4904bf7177750dc7904a0d038dd9f5ff9083316d
+    version   20190623-[string range ${github.version} 0 7]
+    checksums rmd160 4554398c69d418ba3ffe683629fd3b9823ab971a \
+              sha256 96561f5d7a78c66eb55204610f5883101a8c2b5bc1243df07d5eaf12e1e5b8fa \
+              size   820419
+    revision  0
 
     conflicts    zmq zmq22 zmq3
     configure.args-append --disable-libunwind --disable-cxx11 --disable-c11

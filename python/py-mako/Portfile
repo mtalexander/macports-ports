@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-mako
-version             1.0.9
+version             1.0.12
 revision            0
 categories-append   www
 platforms           darwin
@@ -37,9 +37,9 @@ master_sites        pypi:M/Mako
 
 distname            Mako-${version}
 
-checksums           rmd160  3f123f0487c6d44d5747927b3cb34410a07a465f \
-                    sha256  0728c404877cd4ca72c409c0ea372dc5f3b53fa1ad2bb434e1d216c0444ff1fd \
-                    size    459569
+checksums           rmd160  f73d5bee774feec66c8599ff8d62f1d80d81c74f \
+                    sha256  0cfa65de3a835e87eeca6ac856b3013aade55f49e32515f65d999f91a2324162 \
+                    size    460108
 
 if {${name} ne ${subport}} {
     # Mako depends on pkg_resources from setuptools

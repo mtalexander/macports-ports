@@ -10,7 +10,7 @@ cmake.generator     Ninja
 name                inkscape
 conflicts           inkscape-devel inkscape-gtk3-devel
 version             0.92.4
-revision            2
+revision            5
 license             GPL-2 LGPL-2.1
 maintainers         {devans @dbevans}
 categories          graphics gnome
@@ -22,7 +22,7 @@ long_description    Inkscape is an multi-platform, Open-Source Vector Graphics E
                     that uses SVG as its native file format. \
                     ${description}
 
-homepage            http://www.inkscape.org/
+homepage            https://inkscape.org/
 master_sites        https://inkscape.org/en/gallery/item/13330
 
 use_bzip2           yes
@@ -65,6 +65,8 @@ depends_lib-append  port:desktop-file-utils \
                     port:py${python_version}-lxml \
                     port:py${python_version}-numpy
 
+patchfiles          patch-poppler-0.76.diff
+
 post-patch {
     reinplace "s|\"python-interpreter\", \"python\"|\"python-interpreter\", \"python2.7\"|g" ${worksrcpath}/src/extension/implementation/script.cpp
     reinplace "s|^#include \"Object.h\"|#include \"${prefix}/include/poppler/Object.h\"|" ${worksrcpath}/src/extension/internal/pdfinput/pdf-parser.h
@@ -104,5 +106,5 @@ post-activate {
 }
 
 livecheck.type      regex
-livecheck.url       https://inkscape.org/en/release
-livecheck.regex     ">Download Inkscape (\\d+(?:\\.\\d+)*)"
+livecheck.url       ${homepage}
+livecheck.regex     ">Current stable version: (\\d+(?:\\.\\d+)*)<"

@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                fldigi
-version             4.1.02
+version             4.1.04
 revision            1
 # same sources but with different version
 set version_flarq   4.3.7
@@ -19,9 +19,9 @@ long_description    Fldigi (Fast Light Digital Modem Application), is a \
 homepage            http://www.w1hkj.com
 master_sites        http://www.w1hkj.com/files/${name}/
 
-checksums           rmd160  3eade162052641401bfbf5628816a897d96257b9 \
-                    sha256  ed5320619594911e8b7a887a8a098ee2b08bd25a594cd0e7be8c5834ea99d224 \
-                    size    4681621
+checksums           rmd160  8e405b46f16bea6e29ba5b01ae89d03ce3f6a5ec \
+                    sha256  89c19c349eaf04cd3bab94df89cdaa9d4ad8b1bc50871d3f8be1175ab237bb45 \
+                    size    4689833
 
 depends_build-append \
     port:pkgconfig
@@ -33,11 +33,6 @@ depends_lib-append \
     port:libsamplerate \
     port:libsndfile \
     port:portaudio
-
-# remove when upstream accept it
-patchfiles-append \
-    patch-info.plist.diff \
-    patch-FreqControl.cxx.diff
 
 configure.args-append \
     --without-pulseaudio

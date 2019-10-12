@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cmake 1.0
 
 name                wireshark3
-version             3.0.1
+version             3.0.2
 revision            1
 categories          net
 license             {GPL-2 GPL-3}
@@ -27,10 +27,10 @@ distfiles           wireshark-${version}${extract.suffix}
 
 worksrcdir          wireshark-${version}
 
-checksums           sha256  86864c3d0f6c2311992a98d8ea7dfd429097fe62dae2e5516e1a2f6bef2ac08c \
-                    rmd160  27ed3498a1e9a89706c1461736219c4ae4b08085 \
-                    sha1    33b880fb76b356dce4713a207c0bb9624f9b2c43 \
-                    size    30903792
+checksums           sha256  7e1ec5664a0dba4493d8729f9922378bdd05040fb159c2b03b42111efda2e53b \
+                    rmd160  52c36f04fe8858a2aa7e6b9a682f658b392d432d \
+                    sha1    64d18b3c6faa1cb2052562657f610946334ac643 \
+                    size    30910100
 
 conflicts           wireshark-devel wireshark wireshark2 wireshark22 wireshark24
 
@@ -61,7 +61,21 @@ configure.args-append \
                     -DENABLE_ZLIB=OFF \
                     -DBUILD_wireshark=OFF
 
-variant qt5 conflicts no_gui description {Build wireshark with a qt5 GUI} { }
+variant qt5 conflicts no_gui description {Build wireshark with a qt5 GUI} {
+    PortGroup               qt5 1.0
+    configure.args-replace  -DENABLE_APPLICATION_BUNDLE=OFF -DENABLE_APPLICATION_BUNDLE=ON
+    configure.args-replace  -DBUILD_wireshark=OFF -DBUILD_wireshark=ON
+    configure.args-append   -DENABLE_QT5=ON
+    qt5.depends_component   qtbase \
+                            qtmacextras \
+                            qtmultimedia \
+                            qtsvg \
+                            qttranslations
+
+    post-destroot {
+        move ${destroot}/${prefix}/bin/Wireshark.app ${destroot}${applications_dir}/Wireshark.app
+    }
+}
 
 variant no_gui conflicts qt5 description {do not build the wireshark GUI} {
     ## initial settings (above) handle this
@@ -113,6 +127,10 @@ variant geoip description {Build with GeoIP support} {
     depends_lib-append      port:libgeoip
 }
 
+variant chmodbpf description {Enable Wireshark to acces macOS capture devices} {
+    depends_run             port:wireshark-chmodbpf
+}
+
 variant python34 description {Use python34 during build} {
     depends_build-append    port:python34
 }
@@ -129,21 +147,10 @@ variant python37 description {Use python37 during build} {
     depends_build-append    port:python37
 }
 
-default_variants +zlib +libsmi +gnutls +libgcrypt +cares +geoip +kerberos5
+default_variants +zlib +libsmi +gnutls +libgcrypt +cares +geoip +kerberos5 +chmodbpf
 
 if {![variant_isset qt5] && ![variant_isset no_gui]} {
     default_variants-append +qt5
-}
-
-if {[variant_isset qt5]} {
-    PortGroup                qt5 1.0
-    qt5.depends_component    qtmacextras qtmultimedia qtsvg qttranslations
-    configure.args-replace  -DENABLE_APPLICATION_BUNDLE=OFF -DENABLE_APPLICATION_BUNDLE=ON
-    configure.args-replace  -DBUILD_wireshark=OFF -DBUILD_wireshark=ON
-    configure.args-append   -DENABLE_QT5=ON
-    post-destroot {
-        move ${destroot}/${prefix}/bin/Wireshark.app ${destroot}${applications_dir}/Wireshark.app
-    }
 }
 
 ## if no python3* variant is specified, add +python37 
@@ -172,5 +179,3 @@ livecheck.type      regex
 livecheck.url       ${homepage}download.html
 livecheck.regex     "Stable Release \\((\\d+(?:\\.\\d+)*)"
 
-#
-##EOF

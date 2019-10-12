@@ -3,7 +3,7 @@
 PortSystem              1.0
 
 name                    bwping
-version                 1.12
+version                 1.15
 categories              net
 platforms               darwin
 maintainers             {@oleg-derevenetz gmail.com:oleg.derevenetz} openmaintainer
@@ -18,11 +18,9 @@ homepage                https://bwping.sourceforge.io/
 
 master_sites            sourceforge
 
-checksums               md5     24645a3c60e63ad48369c9e90eb11e3d \
-                        rmd160  cf4d8433384819f193568b7f186f3a6667352510 \
-                        sha256  79f84a7e7dc787931de578fe5fe53c17daa9cb009f25f0eb198db2504b48e054 \
-                        size    103462
-
-patchfiles              patch-gcc-pedantic.diff
+checksums               md5     129426785a760c86ed6f91086a456859 \
+                        rmd160  e0b568adf9b047717a5900ce96e049236c5457e5 \
+                        sha256  ed40b5f56da61830734f1a1aa967ad7fd9f7b3a2e688ca9ff2d509156c14b37d \
+                        size    104234
 
 configure.args          --mandir=${prefix}/share/man/

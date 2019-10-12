@@ -4,19 +4,16 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-isort
-version             4.3.17
+version             4.3.21
 revision            0
+
 categories-append   devel
 platforms           darwin
-license             MIT
 supported_archs     noarch
-
-python.versions     27 34 35 36 37
-
+license             MIT
 maintainers         {reneeotten @reneeotten} openmaintainer
 
 description         A Python utility / library to sort Python imports.
-
 long_description    isort is a Python utility / library to sort imports \
                     alphabetically, and automatically separated into sections. \
                     It provides a command line utility, Python library and \
@@ -25,12 +22,13 @@ long_description    isort is a Python utility / library to sort imports \
 
 homepage            https://github.com/timothycrosley/isort/
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
-
 distname            isort-${version}
 
-checksums           rmd160  b409892f928152c5f41a553b1cd7140055f10957 \
-                    sha256  268067462aed7eb2a1e237fcb287852f22077de3fb07964e87e00f829eea2d1a \
-                    size    68797
+checksums           rmd160  f3905a2005ed7df9127161d1561f786addcde7fc \
+                    sha256  54da7e92468955c4fceacd0c86bd0ec997b0e1ee80d97f67c35a78b719dccab1 \
+                    size    69546
+
+python.versions     27 34 35 36 37
 
 if {${name} ne ${subport}} {
     if {${python.version} in "27 34"} {
@@ -60,7 +58,7 @@ if {${name} ne ${subport}} {
 
     depends_test-append \
                     port:py${python.version}-pytest
-    test.run        yes
+    test.run        no
     # three tests fail, but only when run under MacPorts; skip them for now
     test.cmd        py.test-${python.branch}
     test.args       -k \"not test_other_file_encodings and not test_new_lines_are_preserved and not test_settings_path_skip_issue_909\"

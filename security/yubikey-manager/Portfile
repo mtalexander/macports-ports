@@ -5,7 +5,7 @@ PortGroup           python 1.0
 PortGroup           github 1.0
 
 name                yubikey-manager
-github.setup        Yubico yubikey-manager 2.1.0 yubikey-manager-
+github.setup        Yubico yubikey-manager 3.0.0 yubikey-manager-
 revision            0
 categories          security python
 platforms           darwin
@@ -17,9 +17,9 @@ long_description    ${description}
 
 homepage            https://developers.yubico.com/yubikey-manager/
 
-checksums           rmd160  96a5d37fe1709aa27990247b8fad66ca0c8dca1c \
-                    sha256  c9b91a0aa492766aa8a3e42cde8b86a9f75d6bf0f9cbf8d0c4b1282b31b966fd \
-                    size    104765
+checksums           rmd160  801495c5160b8adb901eadaf0eb1da705d89c08d \
+                    sha256  4a38bb025bdbc714e444793b72e09f47fec9cf178800fec5c73d8e7d2192da43 \
+                    size    111315
 
 python.default_version 37
 

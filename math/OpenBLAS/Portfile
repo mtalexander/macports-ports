@@ -14,10 +14,6 @@ description         OpenBLAS is an optimized BLAS library based on GotoBLAS2
 long_description    ${description}
 platforms           darwin
 
-# Prevent precompiled binaries to let compilation optimise the library
-# for the user processor
-archive_sites
-
 # block compilers that do not support thread-local storage. it would
 # be better to use the cxx11 1.1 PG, but it conflicts with the
 # compilers 1.0 PG & so just block compilers instead.
@@ -27,14 +23,41 @@ platform darwin i386 {
     compiler.fallback-append macports-clang-5.0 macports-clang-6.0 macports-clang-7.0
 }
 
+#Define target based on version of OS
+#OS 10.5 supports down to Intel Core Solo (Intel) or PowerPC G4
+if {${os.major} == 9} { 
+    if {${os.arch} eq "i386" || [variant_isset universal]} {
+        set blas_arch "YONAH"
+    } else {
+        set blas_arch "PPCG4"
+    }
+}
+#OS 10.6 supports down to Intel Core Solo architecture
+if {${os.major} == 10} { 
+    set blas_arch "YONAH"
+} 
+#OS 10.7-10.11 supports down to iMac 7,1, with Intel Core 2 Duo architecture
+#OS 10.12-13 supports down to iMac 10,1, with Intel Core 2 Duo architecture
+if {${os.major} >= 11 && ${os.major} <= 17} { 
+    set blas_arch "CORE2"
+}
+#OS 10.14 supports down to Mac Pro 5,1 that has Nehalem architecture
+if {${os.major} >= 18} { 
+    set blas_arch "NEHALEM"
+} 
+if {![info exists blas_arch]} {
+    #For older versions, we force native variant as there is no PPCG3 target in OpenBLAS
+    default_variants-append +native
+}
+
 subport OpenBLAS-devel {}
 if {[string first "-devel" $subport] > 0} {
 
-    github.setup    xianyi OpenBLAS 744779d3351aa96afa5188d75eb76ac5ec197d13
-    version         20190415-[string range ${github.version} 0 7]
-    checksums       rmd160 9691d52ba4d9b04ae2e86fd963ee87cf7aa01db0 \
-                    sha256 49f237915e8a4bbd8d250599262205fa5d56171a21d8f57e29d86b15f9542098 \
-                    size   11913371
+    github.setup    xianyi OpenBLAS 3b761892df62bdb542e75fb245bb3ecb6aedc34d
+    version         20190625-[string range ${github.version} 0 7]
+    checksums       rmd160 2d33084c394a910e00e01f8be4a9140c79e92237 \
+                    sha256 1066e4669c580bf46edde10f3ab68b6300b6bb57ec820abc184c89e952966122 \
+                    size   11970990
     revision        0
 
     name            ${github.project}-devel
@@ -46,20 +69,29 @@ if {[string first "-devel" $subport] > 0} {
 
     github.livecheck.branch develop
 
+    #Not using precompiled binaries in -devel support
+    default_variants-append +native
+
 } else {
 
-    github.setup    xianyi OpenBLAS 0.3.5 v
-    checksums       rmd160  7089b502d723602c74bac7ff42bb4de7a7157696 \
-                    sha256  f4761d863a8738b2ebe4522dabaae1402d08dcba64ddfcca3c9ffbe02d795318 \
-                    size    11853101
+    github.setup    xianyi OpenBLAS 0.3.6 v
+    checksums       rmd160 1e64aaaf26c92e8d49e3a9a61b1c43c7b99ad647 \
+                    sha256 57e9fab61e1993005ab9f5d6b99929febbeddee3fda6d0e446b515ccff4f4fe4 \
+                    size   11923774
     revision        1
+
     conflicts       OpenBLAS-devel
 
     patchfiles      patch-libnoarch.release.diff \
                     patch-linkLib.release.diff  \
-                    patch-darwin-powerpc.diff \
-                    patch-openblas-powermac970-fix.diff \
                     patch-OpenBLAS-i386-Apple.diff
+
+    if {![variant_isset native]} {
+        notes "
+        This version is built based on a base architecture for convenience, 
+        which may not be optimized for your system. To build a version 
+        customized for your machine, use the +native variant"
+    }
 }
 
 compilers.choose    fc
@@ -67,6 +99,11 @@ compilers.setup     default_fortran
 
 variant lapack description "Add Lapack/CLapack support to the library" { }
 default_variants-append +lapack
+
+variant native description "Force compilation on machine to get fully optimized library" {
+    # Prevent precompiled binaries to let compilation optimise the library for the user processor
+    archive_sites
+}
 
 use_configure       no
 
@@ -91,6 +128,15 @@ pre-build {
 
             if {![variant_isset lapack]} {
                 puts $makeINC "NO_LAPACK = 1"
+            }
+
+            if {![variant_isset native]} { 
+                #We set a minimal target in case native variant is not set
+                if {${build_arch} eq "ppc" || ${build_arch} eq "ppc64"} {
+                    puts $makeINC "TARGET = PPCG4"
+                } else {
+                    puts $makeINC "TARGET = ${blas_arch}"
+                }
             }
 
             if {${build_arch} eq "ppc" || ${build_arch} eq "ppc64"} {
@@ -138,6 +184,12 @@ pre-build {
             puts $makeINC "NO_LAPACK = 1"
         }
 
+        if {![variant_isset native]} { 
+            #We set a minimal target in case native variant is not set
+            puts $makeINC "TARGET = ${blas_arch}"
+        }
+
+        #Setting up build flags
         if {${build_arch} eq "ppc" || ${build_arch} eq "ppc64"} {
             # on a PPC of some sort; just disable AVX
             puts $makeINC "NO_AVX = 1"

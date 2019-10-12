@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-altair
-version             2.4.1
+version             3.1.0
 revision            0
 categories-append   devel graphics
 platforms           darwin
@@ -23,9 +23,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  3ae4c0709ea1c95bbc16478ae475d3b72283a952 \
-                    sha256  ec62eb75df5adb619b9651dbefbdc130e37004508c7ca48da21863100ab114d3 \
-                    size    341404
+checksums           rmd160  336cf531c825bee3a0ece3b24b3b4084b17c2844 \
+                    sha256  77bf6baee04135cc37a20edd07820163336e2d2bb240804473e80dbefcb4bffd \
+                    size    512322
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-entrypoints \

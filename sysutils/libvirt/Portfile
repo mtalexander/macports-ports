@@ -4,11 +4,11 @@ PortSystem          1.0
 
 # Remember to update libvirt and py-libvirt at the same time.
 name                libvirt
-version             5.1.0
+version             5.4.0
 revision            0
-checksums           rmd160  8474f7467d82379d460f40d821e50b1c973fc402 \
-                    sha256  26f97a53d3172f07f8b63884d845ed71307c4675dc4e1b281c59d253e1e323ab \
-                    size    14893608
+checksums           rmd160  f16d47c576101bde956e4c47469a001139021901 \
+                    sha256  1cfa802081bee09fd0ddfa97bd491e6554e25fa59f7a7758b41d8aef53458e7b \
+                    size    12346896
 
 categories          sysutils
 license             LGPL-2.1+

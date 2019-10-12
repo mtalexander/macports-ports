@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        kubernetes kubectl 1.14.0
+github.setup        kubernetes kubectl 1.15.0
 categories          sysutils
 platforms           darwin
 supported_archs     x86_64
@@ -21,9 +21,9 @@ dist_subdir         ${name}/${version}
 extract.suffix
 extract.only
 
-checksums           rmd160  06604e87738a935e778a696938c2ad8693c3f2aa \
-                    sha256  26bb69f6ac819700d12be3339c19887a2e496ef3e487e896af2375bf1455cb9f \
-                    size    48697144
+checksums           rmd160  86573df886f85aa8be05247a1ec1158007ba1ca0 \
+                    sha256  63f1ace419edffa1f5ebb64a6c63597afd48f8d94a61d4fb44e820139adbbe54 \
+                    size    48587552
 
 use_configure       no
 

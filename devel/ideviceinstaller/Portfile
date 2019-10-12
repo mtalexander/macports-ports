@@ -35,20 +35,17 @@ depends_build-append \
 
 depends_lib         port:libplist \
                     port:libzip \
-                    port:libimobiledevice
+                    path:lib/libimobiledevice.dylib:libimobiledevice
 
 configure.cmd       ./autogen.sh
 
 subport ideviceinstaller-devel {
-    github.setup    libimobiledevice ideviceinstaller f14def7cd9303a0fe622732fae9830ae702fdd7c
-    version         20181001
+    github.setup    libimobiledevice ideviceinstaller ab9352110092cf651b5602301371cd00691c7e13
+    version         20190613
 
-    checksums       rmd160  a79a163dc2dffe032c6c6128f982a734cecbd85d \
-                    sha256  d40b4094821c37cfdf7bfbce48554527ce44b5012832a08863591a5efffcc6eb \
-                    size    19969
-
-    depends_lib-delete port:libimobiledevice
-    depends_lib-append port:libimobiledevice-devel
+    checksums       rmd160  ccffbd026fc067be90819f5085b489188ecb0057 \
+                    sha256  808c4e6e142f3cd53edfe694519095157f8f511db50c3f49279d8f8c32cd2cd7 \
+                    size    20284
 
     conflicts       ideviceinstaller
 

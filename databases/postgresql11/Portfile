@@ -7,7 +7,7 @@ PortGroup muniversal 1.0
 
 #remember to update the -doc and -server as well
 name                postgresql11
-version             11.2
+version             11.4
 revision            0
 
 categories          databases
@@ -26,9 +26,9 @@ master_sites        http://ftp3.de.postgresql.org/pub/Mirrors/ftp.postgresql.org
             postgresql:source/v${version}/
 distname            postgresql-${version}
 
-checksums           rmd160  6b092d1e0695ee14fa1363ce931fa0f179c11b2d \
-                    sha256  2676b9ce09c21978032070b6794696e0aa5a476e3d21d60afc036dc0a9c09405 \
-                    size    19714229
+checksums           rmd160  74afcef82d626536da9d77fbe247d88d00a19f0a \
+                    sha256  02802ddffd1590805beddd1e464dd28a46a41a5f1e1df04bab4f46663195cc8b \
+                    size    19759635
 
 use_bzip2           yes
 

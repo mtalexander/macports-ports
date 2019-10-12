@@ -2,7 +2,7 @@ PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
 
 name                spot
-version             2.7.2
+version             2.7.5
 revision            0
 categories          science math
 maintainers         {mmoll @mamoll} openmaintainer
@@ -12,9 +12,9 @@ homepage            https://spot.lrde.epita.fr/index.html
 platforms           darwin
 license             GPL-3
 master_sites        http://www.lrde.epita.fr/dload/spot/
-checksums           rmd160  89eb0784b20113bc7a5b520d95f7f753b7076459 \
-                    sha256  e11347d7a6c4deb4ebdaf16bc464b709316c14fefa371f2370c48ec6081f0865 \
-                    size    7168214
+checksums           rmd160  51f408bb13e9f20ff52c0f78a47ae0b8d5c050b4 \
+                    sha256  2cbbfb6245250603c92fd3d512d07b5d70c7924826b156a260c4a41039c0ce23 \
+                    size    7367614
 depends_lib-append  port:boost
 
 # make sure compiler supports C++14

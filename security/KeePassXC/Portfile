@@ -66,8 +66,10 @@ configure.pre_args-append \
     -DWITH_XC_UPDATECHECK=OFF
 
 if {${os.major} < 12} {
-    # autotype does not compile on 10.7
-    configure.pre_args-append   -DWITH_XC_AUTOTYPE=OFF
+    pre-fetch {
+        ui_error "${name} ${version} requires Mac OS X 10.8 or greater."
+        return -code error "incompatible Mac OS X version"
+    }
 }
 
 # In the future the Touch ID feature may require Darwin 17 (10.13)
@@ -76,15 +78,23 @@ if {${os.major} >= 16} {
     configure.pre_args-append   -DWITH_XC_TOUCHID=ON
 }
 
+if {${os.major} < 16} {
+    pre-configure {
+        # error: call to unavailable function 'operator delete': introduced in macOS 10.12
+        reinplace "s|-fsized-deallocation||" ${worksrcpath}/CMakeLists.txt
+    }
+}
+
 if {${subport} eq ${name}} {
     # stable
-    github.setup            keepassxreboot keepassxc 2.4.1
+    github.setup            keepassxreboot keepassxc 2.4.3
+    github.tarball_from     archive
 
     conflicts               KeePassXC-devel
 
-    checksums               rmd160  90aa9aef23e2ce919fb7142d9d3c8c1da66a0fbb \
-                            sha256  ef4b979ff31fef5c4dd9be114c3d6c5cebaad14690605da8ddb089b146afca00 \
-                            size    4816216
+    checksums               rmd160  44302495518351d1596117bbb6f2e1c224715c19 \
+                            sha256  4e78c04d0e3ea0a45d4f944e396358866dfde7316721b031c135b78920099af6 \
+                            size    4840019
 
     patchfiles              stable/patch-no-deployqt.diff
 
@@ -92,16 +102,19 @@ if {${subport} eq ${name}} {
                             -DKEEPASSXC_BUILD_TYPE=Release
 } else {
     # devel
-    github.setup            keepassxreboot keepassxc d5d51d668fe6926ca276580b78746c10fa68add1
-    version                 20190413
+    github.setup            keepassxreboot keepassxc ce1f19cacc229c2097189620288f50ee512f6c29
+    github.tarball_from     archive
+    version                 20190703
+    revision                0
 
     conflicts               KeePassXC
 
-    checksums               rmd160  2e2617a550e932735040623e021a71d55b7ccc2d \
-                            sha256  0e8167f4e331a7fbaae20456701c0ac070dbafcdd05a71b0d9ca97f4aab8eb77 \
-                            size    4815839
+    checksums               rmd160  e0409fd526567cd290c79708778fe3a6b68d1b26 \
+                            sha256  033183a33070456d2ed7db4122880446663c547729442cd736ea422386d7616d \
+                            size    9445627
 
-    patchfiles              devel/patch-no-deployqt.diff
+    patchfiles              devel/patch-no-deployqt.diff \
+                            devel/patch-osx10.11.diff
 }
 
 post-destroot {

@@ -11,11 +11,11 @@ PortGroup           xcodeversion 1.0
 
 name                mongodb
 epoch               1
-version             4.0.8
+version             4.0.10
 revision            0
-checksums           rmd160  c820862afb839d8a79e71afbf5e9878144e94e43 \
-                    sha256  83e694405b72002588a64275be00bf1e36e12f5955451171645f45cb3f16f251 \
-                    size    49841488
+checksums           rmd160  8fffd9c257aa5200648489590d4cffbaf92a2aef \
+                    sha256  11c9c55f1145ac1b6f757ff74f969d41cf47044191b3b0f3fee77f333b8f4f8d \
+                    size    49870574
 
 license             SSPL
 categories          databases
@@ -78,6 +78,8 @@ if {[vercmp ${macosx_deployment_target} 10.11] >= 0 && [vercmp ${configure.sdk_v
     depends_build-append    port:ld64
     require_active_variants ld64 ld64_xcode
 }
+
+patchfiles          string_view.patch
 
 configure.cflags    {*}${configure.cc_archflags}
 configure.ldflags   {*}${configure.ld_archflags}

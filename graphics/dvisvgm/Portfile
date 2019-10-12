@@ -19,54 +19,52 @@ subport dvisvgm-devel {}
 
 if {${subport} eq ${name}} {
 
-    github.setup mgieseki dvisvgm 2.7
-    checksums    rmd160 8ab80a1b75679bacd4926a0155ee205b322c1b88 \
-                 sha256 c8276b5780f5a9aee6ab475449bcb7fd4e27b780f4e5525902238a5b88c3edf7 \
-                 size   3037242
-    revision     1
+    github.setup mgieseki dvisvgm 2.7.2
+    checksums rmd160 65d21d8720e27aa922a28f957f9a86731be6d97c \
+              sha256 8bddcc480b68582fffc701573979c269367ffa592d7091f87b4a040d72b8ff4d \
+              size   2559427
+    revision  1
 
-    # github.tarball_from releases
     conflicts    ${name}-devel
+
+    # deal moving from github release to tags; remove at next update
+    dist_subdir  ${name}/${version}_1
 
     long_description ${description}: \
         This port follows the release version of ${name}, which is typically \
         updated every 6 months. If for some reason this port does not build or \
         function as desired, try the ${name}-devel port.
 
-    # temporary patch to move some c++14 features back to c++11 or
-    # earlier. This patch comes from upstream.
-    patchfiles-append patch-fix-make_array.diff
-    patch.pre_args -p1
-
 } else {
 
     # devel
 
-    github.setup mgieseki dvisvgm 6e826ebfc9b9fc5e40ff81782348c9d3bded042f
-    version      20190415-[string range ${github.version} 0 7]
-    checksums    rmd160 184b78514fc7241e1e2ae6d859928aef4b1a6bde \
-                 sha256 a492cede98d46ac7839a8edde00f6a183ee7ec88a41f564840d5470788d8e178 \
-                 size   2556452
-    revision     0
+    github.setup mgieseki dvisvgm 3abb2ec1ee3bfc3623f2a77d8dff4f6d71c7b409
+    version   20190607-[string range ${github.version} 0 7]
+    checksums rmd160 0572cf6ef863f63049bb262a1a24a760af0ae443 \
+              sha256 aa10270ecc3343877693e422aa4d6ebf7342b0cc523df1a231734a008650008b \
+              size   2559368
+    revision  1
 
     conflicts    ${name}
     long_description ${description}: \
         This port follows the GIT master version of ${name}, which is typically \
         updated every few days to weeks.
 
-    use_autoconf yes
-    autoconf.cmd ${worksrcpath}/autogen.sh
-
-    # Setting autoconf.cmd to a non-default value after setting 'use_autoconf yes'
-    # removes the automatic dependencies, so re-add them.
-    depends_build \
-        port:autoconf \
-        port:automake \
-        port:libtool
-
 }
 
+use_autoconf yes
+autoconf.cmd ${worksrcpath}/autogen.sh
+
+# Setting autoconf.cmd to a non-default value after setting 'use_autoconf yes'
+# removes the automatic dependencies, so re-add them.
 depends_build \
+    port:autoconf \
+    port:automake \
+    port:libtool
+
+# these are dependencies of the project itself
+depends_build-append \
     port:asciidoc \
     port:pkgconfig
 
