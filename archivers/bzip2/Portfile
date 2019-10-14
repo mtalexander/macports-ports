@@ -3,11 +3,11 @@
 PortSystem              1.0
 
 name                    bzip2
-version                 1.0.7
+version                 1.0.8
 revision                0
-checksums               rmd160  b33630926415e60694c7cff422fe4cb164a6fe72 \
-                        sha256  e768a87c5b1a79511499beb41500bcc4caf203726fff46a6f5f9ad27fe08ab2b \
-                        size    809680
+checksums               rmd160  a593488c5c0240bcfceb292c9fa95fb7ad42cb27 \
+                        sha256  ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269 \
+                        size    810029
 
 platforms               darwin freebsd linux sunos
 categories              archivers sysutils
@@ -32,6 +32,12 @@ use_configure           no
 use_parallel_build      yes
 
 variant universal {}
+
+if {${os.platform} eq "darwin" && ${os.major} < 11} {
+    # Having the stdlib set to libc++ on 10.6 causes a dependency on a
+    # macports-clang compiler to be added, which would be a dep cycle.
+    configure.cxx_stdlib
+}
 
 build.args              CC="${configure.cc} [get_canonical_archflags cc]" \
                         PREFIX=${prefix}

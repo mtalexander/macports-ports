@@ -5,7 +5,7 @@ PortSystem          1.0
 
 name                nonpareil
 version             0.79
-revision            6
+revision            7
 platforms           darwin
 categories          emulators
 license             GPL-2
@@ -73,6 +73,12 @@ destroot.args       prefix=${prefix} destdir=${destroot}
 
 post-patch {
     reinplace s|@PREFIX@|${prefix}|g ${worksrcpath}/src/SConscript
+}
+
+post-destroot {
+    # avoids conflict with nss
+    # ref: https://trac.macports.org/ticket/58683
+    file rename ${destroot}${prefix}/bin/modutil ${destroot}${prefix}/bin/modutil-${name}
 }
 
 platform macosx {

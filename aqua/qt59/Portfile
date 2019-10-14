@@ -307,12 +307,12 @@ array set modules {
             5405312
         }
         ""
-        ""
+        "port:icu port:zlib"
         "qtbase qtdeclarative qtquickcontrols qtquickcontrols2 qtserialport"
         {"Qt Location" "Qt Positioning"}
         ""
         "variant overrides: "
-        "revision 0"
+        "revision 1"
         "License: "
     }
     qtmacextras {
@@ -790,9 +790,7 @@ foreach {module module_info} [array get modules] {
 
         distname        ${module}-opensource-src-${version}
 
-        if { ${revision_string} ne "0" } {
-            revision ${revision_string}
-        }
+        revision ${revision_string}
 
         # see https://bugreports.qt.io/browse/QTBUG-35514
         build.target
@@ -1201,8 +1199,11 @@ foreach {module module_info} [array get modules] {
 
                 # see https://trac.macports.org/ticket/58204
                 depends_lib-append    port:openssl10
-                configure.args-append -I${prefix}/include/openssl-1.0 \
-                                      -L${prefix}/lib/openssl-1.0
+                # Please do not use -I and -L.
+                # -I becomes -isystem in the Qt build system, which is checked *after* CPATH.
+                compiler.cpath-prepend ${prefix}/include/openssl-1.0
+                compiler.library_path-prepend \
+                                       ${prefix}/lib/openssl-1.0
             }
             default_variants-append +openssl
 
@@ -1365,6 +1366,9 @@ foreach {module module_info} [array get modules] {
                         reinplace "s|return 0;|return 0;\\\n#error turn off test|g" ${worksrcpath}/Tools/qmake/config.tests/${test}/${test}.cpp
                     }
                 }
+
+                # avoid unnecessary dependency on OpenSSL
+                configure.args-append "QMAKE_LIBS_OPENSSL="
             }
 
             # special case
@@ -1525,9 +1529,7 @@ foreach {module module_info} [array get modules] {
 
             distname        ${module}-opensource-src-${version}
 
-            if { ${revision_string} ne "0" } {
-                revision ${revision_string}
-            }
+            revision ${revision_string}
 
             description       Documentation for the port ${name}-${module}
             long_description  ${description}
@@ -1595,9 +1597,7 @@ foreach {sql_names sql_info} [array get sql_plugins] {
 
         distname        qtbase-opensource-src-${version}
 
-        if { ${revision_string} ne "0" } {
-            revision ${revision_string}
-        }
+        revision ${revision_string}
 
         checksums                              \
             rmd160  [lindex [lindex $modules(qtbase) 0] 0] \
@@ -1675,7 +1675,7 @@ foreach {sql_names sql_info} [array get sql_plugins] {
 subport ${name}-docs {
     # meta-port to install documentation for various modules
 
-    #revision 0
+    revision            0
 
     description         Documentation for Qt Tool Kit ${qt_major}
     long_description    Documentation for Qt Tool Kit ${qt_major}
@@ -1710,7 +1710,7 @@ subport ${name}-docs {
 if { ${subport} eq ${name} } {
     # the main port is Meta-port to install various modules
 
-    #revision 0
+    revision            0
 
     description         Qt Tool Kit ${qt_major}
     long_description    Qt Tool Kit: A cross-platform framework \

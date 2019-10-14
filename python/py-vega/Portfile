@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-vega
-version             2.3.2
+version             2.6.0
 revision            0
 categories-append   devel graphics
 platforms           darwin
@@ -23,9 +23,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  37e0677a484cd729878627684bb9dcd9c2ac094f \
-                    sha256  61931c3f94e7dc1a3d53afd9377e0356d3d6e3d05e265da17c27096ba39b6938 \
-                    size    1075033
+checksums           rmd160  c92ca77c5e1905b85ad105982fdcfeadad759d9e \
+                    sha256  c66354d6d164cc3d7254bcd129d8d861daf4a9e9cb8738b1724791777f6c29f0 \
+                    size    1112095
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-setuptools \

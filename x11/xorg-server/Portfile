@@ -53,7 +53,7 @@ depends_lib \
 # https://trac.macports.org/ticket/36055
 # https://llvm.org/bugs/show_bug.cgi?id=30346
 # https://trac.macports.org/ticket/53910
-compiler.blacklist gcc-4.0 macports-clang-3.9 macports-clang-devel {clang >= 802 < 900}
+compiler.blacklist gcc-4.0 macports-clang-devel {clang >= 802 < 900}
 
 configure.args --with-apple-applications-dir=${applications_dir} \
         --with-bundle-id-prefix=org.macports \
@@ -103,6 +103,12 @@ patchfiles-append 5008-fix-calloc-free-mis-match-bug.patch
 # enables the automake option "subdir-objects" so that automake
 # doesn't complain about subdirectory *.in replacement files usage.
 patchfiles-append 2001-enable-automake-subdir-objects.patch
+
+# Workaround for Darwin19+
+# :info:build X11Application.m:431:17: error: use of undeclared identifier '_appFlags'
+# :info:build                 _appFlags._active = YES;
+# :info:build                 ^
+patchfiles-append Darwin19-Remove-AppFlags-Active-Hack.patch
 
 patch.pre_args -p1
 

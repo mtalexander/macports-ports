@@ -1,14 +1,15 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           compiler_blacklist_versions 1.0
 
 # Remember to update libvirt and py-libvirt at the same time.
 name                libvirt
-version             5.4.0
+version             5.8.0
 revision            0
-checksums           rmd160  f16d47c576101bde956e4c47469a001139021901 \
-                    sha256  1cfa802081bee09fd0ddfa97bd491e6554e25fa59f7a7758b41d8aef53458e7b \
-                    size    12346896
+checksums           rmd160  39bd8d5edf4a4c0cba11b80b5f384c05a8d1477a \
+                    sha256  e23328289b18bdedc1e966f6c26402b2983149c660ed8bd52cda6feab0c20c55 \
+                    size    13129328
 
 categories          sysutils
 license             LGPL-2.1+
@@ -36,7 +37,8 @@ depends_lib         port:curl \
                     port:yajl \
                     port:zlib
 
-compiler.blacklist-append apple-gcc* gcc-3.3 gcc-4.* *llvm-gcc-4.2 macports-gcc-4.3
+# see https://trac.macports.org/ticket/58726
+compiler.blacklist-append apple-gcc* gcc-3.3 *gcc-4.* {clang < 425}
 
 # libvirt build scripts work with python 2.x only
 configure.python    ${prefix}/bin/python2.7
@@ -99,6 +101,11 @@ configure.args      --disable-silent-rules \
                     --without-xenapi \
                     --without-xen-inotify \
                     --with-yajl
+
+# work around a hopefully temporary bug that appeared in 5.5.0:
+# https://bugzilla.redhat.com/show_bug.cgi?id=1728944
+# see https://trac.macports.org/ticket/58726
+configure.cflags-append -std=gnu99
 
 if {![variant_isset openssl]} {
     default_variants +gnutls

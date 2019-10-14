@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                gradle
-version             5.5
+version             5.6.2
 categories          devel java groovy
 license             Apache-2
 maintainers         {amake @amake} openmaintainer
@@ -22,9 +22,9 @@ distname            ${name}-${version}-bin
 master_sites        https://services.gradle.org/distributions
 
 # Update checksums for variant when updating these!
-checksums           rmd160  21c94bc4bc50c3bc8169b27d032d77c3bd21c91f \
-                    sha256  8d78b2ed63e7f07ad169c1186d119761c4773e681f332cfe1901045b1b0141bc \
-                    size    89150290
+checksums           rmd160  b1bb3127d1df4fa2abe8e7546e03f3fc5d74ef7b \
+                    sha256  32fce6628848f799b0ad3205ae8db67d0d828c10ffe62b748a7c0d9f4a5d9ee0 \
+                    size    93890597
 
 worksrcdir          ${name}-${version}
 
@@ -56,9 +56,9 @@ destroot {
 variant all description {Install supplemental documentation and source code} {
     distname        ${name}-${version}-all
 
-    checksums       rmd160  e21e84110dca60ad139e6d5e35dc36b1fcb05da8 \
-                    sha256  302b7df46730ce75c582542c056c9bf5cac2b94fbf2cc656d0e37e41e8a5d371 \
-                    size    136295812
+    checksums       rmd160  2e93329d1f2662631a1f86d0b7cdac55bbd6f179 \
+                    sha256  027fdd265d277bae65a0d349b6b8da02135b0b8e14ba891e26281fa877fe37a2 \
+                    size    139632144
 
     post-destroot {
         xinstall -m 0755 -d ${destroot}${prefix}/share/doc/${name}

@@ -5,7 +5,7 @@ PortGroup           select 1.0
 
 name                python38-devel
 
-version             3.8.0b1
+version             3.8.0rc1
 epoch               1
 revision            0
 set major           [lindex [split $version .] 0]
@@ -14,7 +14,7 @@ set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          lang
 license             PSF
 platforms           darwin
-maintainers         {yan12125 @yan12125} openmaintainer
+maintainers         nomaintainer
 
 description         An interpreted, object-oriented programming language
 long_description    Python is an interpreted, interactive, object-oriented \
@@ -25,9 +25,9 @@ master_sites        ${homepage}ftp/python/3.8.0/
 
 distname            Python-${version}
 use_xz              yes
-checksums           rmd160  b39fac594a845b31214409b3dc504124567107b4 \
-                    sha256  bd9f113242c95463fd95a5b2e9e48a00edcb9c2eb7f9a56cee864e4c5be37f10 \
-                    size    17601532
+checksums           rmd160  6e421df53ecfc9a025748354b264810314558fc6 \
+                    sha256  ae44df6ccf5d70059dd4d04c97156f5fcace74384a6f3cfb2fdf9baddb90a821 \
+                    size    17812764
 
 patchfiles          patch-setup.py.diff \
                     patch-Lib-cgi.py.diff \

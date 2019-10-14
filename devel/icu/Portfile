@@ -1,6 +1,7 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem      1.0
+PortGroup       clang_dependency 1.0
 
 name            icu
 set my_name     icu4c
@@ -32,6 +33,17 @@ distfiles                   ${distname}-src${extract.suffix}
 checksums                   rmd160  5c895a6e2b135978df59e135ed772747aec0065f \
                             sha256  05c490b69454fce5860b7e8e2821231674af0a11d7ef2febea9a32512998cb9d \
                             size    23746939
+
+# This port is used by clang-3.4 to bootstrap libcxx
+subport ${name}-bootstrap {
+    configure.pre_args      --prefix=${prefix}/libexec/libcxx-bootstrap
+    configure.cxx_stdlib    libstdc++
+    compiler.whitelist      clang llvm-gcc-4.2 gcc-4.2 apple-gcc-4.2
+}
+# Also needed by later clangs.
+if {${os.platform} eq "darwin" && ${os.major} < 11 && ${cxx_stdlib} eq "libc++"} {
+    clang_dependency.extra_versions 3.7
+}
 
 worksrcdir      ${name}/source
 set docdir      ${prefix}/share/doc/${name}

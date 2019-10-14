@@ -4,8 +4,8 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-zipp
-version             0.5.1
-revision            0
+version             0.6.0
+revision            1
 categories-append   devel
 platforms           darwin
 license             MIT
@@ -22,14 +22,16 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  6205a16c83d1cc99eb18cdf2325eb51d11863e0a \
-                    sha256  ca943a7e809cc12257001ccfb99e3563da9af99d52f261725e96dfe0f9275bc3 \
-                    size    10763
+checksums           rmd160  dd2381041d1ad7011c5906182756064d72f63824 \
+                    sha256  3718b1cbcd963c7d4c5511a8240812904164b7f381b647143a89d3b98f9bcd8e \
+                    size    10778
 
 if {${name} ne ${subport}} {
     depends_build-append \
                         port:py${python.version}-setuptools \
                         port:py${python.version}-setuptools_scm
+
+    depends_lib-append  port:py${python.version}-more-itertools
 
     livecheck.type      none
 }

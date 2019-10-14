@@ -46,7 +46,7 @@ depends_lib-append      port:argon2 \
 # [3] https://build.macports.org/builders/ports-10.12_x86_64-builder/builds/82949/steps/install-port/logs/stdio
 compiler.blacklist-append {clang < 900} macports-clang-3.4 macports-clang-3.3
 # XXX: the following line shouldn't be necessary - revisit when libc++ becomes the default and default compiler configurations are updated
-compiler.fallback-append macports-clang-5.0 macports-clang-4.0 macports-clang-3.9
+compiler.fallback-append macports-clang-5.0
 
 pre-configure {
     reinplace "s#/usr/local/bin#${prefix}/bin#" \
@@ -102,19 +102,18 @@ if {${subport} eq ${name}} {
                             -DKEEPASSXC_BUILD_TYPE=Release
 } else {
     # devel
-    github.setup            keepassxreboot keepassxc ce1f19cacc229c2097189620288f50ee512f6c29
+    github.setup            keepassxreboot keepassxc 018e9f30be5b46755a64552a30cfbb29e2ae8c1b
     github.tarball_from     archive
-    version                 20190703
+    version                 20190831
     revision                0
 
     conflicts               KeePassXC
 
-    checksums               rmd160  e0409fd526567cd290c79708778fe3a6b68d1b26 \
-                            sha256  033183a33070456d2ed7db4122880446663c547729442cd736ea422386d7616d \
-                            size    9445627
+    checksums               rmd160  36651aaf95a185b99620c6ad87bb316d9ad3939d \
+                            sha256  fd968352dec7754c7e5f15b77a98f1eb56a882e66739591432381dfb95dfa02a \
+                            size    9451238
 
-    patchfiles              devel/patch-no-deployqt.diff \
-                            devel/patch-osx10.11.diff
+    patchfiles              devel/patch-no-deployqt.diff
 }
 
 post-destroot {
