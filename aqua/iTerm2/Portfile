@@ -5,7 +5,15 @@ PortGroup           github 1.0
 PortGroup           xcodeversion 1.0
 use_xcode           yes
 
-if {[vercmp ${os.version} 17.0.0] < 0} {
+if {${os.major} > 16} {
+    version             3.3.7
+    revision            0
+    checksums \
+        rmd160  f4084341393387e534de7de441ed7e5eee60a18b \
+        sha256  aaf44f31555a54dcdc694a6963951f80427b818682d8131d941fcf4c61845898 \
+        size    18948613
+    patchfiles          patch-Makefile-XC10.diff
+} else {
     version             3.2.0
     revision            0
     checksums \
@@ -13,15 +21,6 @@ if {[vercmp ${os.version} 17.0.0] < 0} {
         sha256  017aff348352369abcc994caaca0f6112e1f17c4d65041acdb9f19830b2b96bd \
         size    11969144
     patchfiles          patch-Makefile.diff
-} else {
-    version             3.3.5
-    revision            1
-    checksums \
-        rmd160  612cb41be30fe2940bc300055afbb77938d4a19d \
-        sha256  6ce9e5650fa4245fc5b702c58cdea43b6d3fe995abc7b52520377f840fd8a492 \
-        size    18852672
-    patchfiles          patch-Makefile-XC10.diff
-    patchfiles-append   patch-CVE-2019-9535.diff
 }
 
 github.setup        gnachman iTerm2 ${version} v

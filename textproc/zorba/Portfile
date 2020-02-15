@@ -70,5 +70,10 @@ configure.args-append \
     -DCURL_LIBRARY=${prefix}/lib/libcurl.dylib \
     -DZORBA_XQUERYX=YES
 
+# required for ICU
+compiler.cxx_standard     2011
+configure.cppflags-append -DU_USING_ICU_NAMESPACE=1
+configure.cxxflags-append -std=c++11
+
 test.env DYLD_LIBRARY_PATH=${worksrcpath}/src
 test.run yes

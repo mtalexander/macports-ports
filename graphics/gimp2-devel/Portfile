@@ -2,14 +2,14 @@
 
 PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
-PortGroup           cxx11 1.1
 
 name                gimp2-devel
 conflicts           gimp2 gimp3-devel
 set git_name        gimp
-set git_commit      2c8006896d3422a871717d4d405382ce17fd9434
-set git_date        20190801
-version             2.10.13-${git_date}
+set git_commit      b205bd6f59e2270476d62ee37f24812586c32e95
+set git_date        20191218
+version             2.10.15-${git_date}
+revision            1
 license             GPL-3+
 categories          graphics
 maintainers         {devans @dbevans}
@@ -20,8 +20,7 @@ long_description    The GNU Image Manipulation Program (GIMP) is a powerful \
                     tool for the preparation and manipulation of digital images. \
                     The GIMP provides the user with a wide variety of image \
                     manipulation, painting, processing, and rendering tools. \
-                    This is the maintenance version leading to a future 2.10.4 release \
-                    based on a recent snapshot of upstream branch gimp-2-10.
+                    This is an unstable maintenance version leading to a future stable release.
 
 homepage            http://www.gimp.org/
 master_sites        https://gitlab.gnome.org/GNOME/${git_name}/-/archive/${git_commit}/
@@ -30,19 +29,19 @@ distname            ${git_name}-${git_commit}
 
 use_bzip2           yes
 
-checksums           rmd160  bd3d409d0059c815f48c4db6e92188afcaf680e4 \
-                    sha256  6a67aa1c1448bb64dc50600b264d39dc310af4911a8c4002035f8398a2929c05 \
-                    size    82563000
+checksums           rmd160  cac696584e1eecd65ff5e41f5d039362dc1f6072 \
+                    sha256  009fc4ddddcb42db4978c9d3ebda3c6963f77168674e980f2695456b8ed4658e \
+                    size    82620107
 
 set perl_version    5.28
 
 depends_build       port:pkgconfig \
+                    port:appstream-glib \
                     port:autoconf \
                     port:automake \
                     port:libtool \
                     port:intltool \
                     port:gtk-doc \
-                    port:appstream-glib \
                     port:perl${perl_version}
 
 depends_lib         port:desktop-file-utils \
@@ -62,6 +61,7 @@ depends_lib         port:desktop-file-utils \
                     port:ghostscript \
                     port:libpng \
                     port:libmng \
+                    port:libheif \
                     port:openexr \
                     port:openjpeg \
                     port:gexiv2 \
@@ -93,6 +93,7 @@ use_parallel_build  no
 # redefinition of typedef is invalid in C [-Wtypedef-redefinition] (#50329)
 # as of version 2.10.0 requires a C++14 compatible compiler to configure
 
+compiler.cxx_standard 2014
 compiler.blacklist-append *gcc-3.* *gcc-4.* {clang < 700}
 
 patchfiles          patch-configure.ac.diff \
@@ -147,7 +148,6 @@ configure.args      --build=${configure.build_arch}-apple-${os.platform}${os.ver
                     --disable-python \
                     --without-alsa \
                     --without-gudev \
-                    --without-libheif \
                     --without-webkit \
                     ac_cv_path_INTLTOOL_PERL=${configure.perl}
 

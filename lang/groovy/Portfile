@@ -1,7 +1,11 @@
-PortSystem 1.0
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem      1.0
+PortGroup       java 1.0
 
 name            groovy
-version         2.5.8
+version         3.0.0
+revision        0
 
 categories      lang java
 maintainers     {breun.nl:nils @breun} openmaintainer
@@ -37,13 +41,16 @@ master_sites    https://dl.bintray.com/${name}/maven/
 distname        apache-${name}-binary-${version}
 use_zip         yes
 
-checksums       rmd160  2df28ec5e7c917570827578bda24b8e3a063ad4b \
-                sha256  49fb14b98f9fed1744781e4383cf8bff76440032f58eb5fabdc9e67a5daa8742 \
-                size    30368648
+checksums       rmd160  9bfedbe6629b857dde71cbf9523e3b41b990d0bf \
+                sha256  f4b2211e7651ed4ec7728c96c1e1961795c4a9de7b0cad6d399df8e92001d682 \
+                size    42775607
 
 worksrcdir      ${name}-${version}
 
 use_configure   no
+
+java.version    1.8+
+java.fallback   openjdk8
 
 build {}
 
@@ -64,7 +71,7 @@ destroot {
     }
 
     # Add symlinks to the scripts
-    foreach f { grape grape_completion groovy groovyConsole groovyConsole_completion groovy_completion groovyc groovyc_completion groovydoc groovydoc_completion groovysh groovysh_completion java2groovy startGroovy } {
+    foreach f { grape grape_completion groovy groovy_completion groovyConsole groovyConsole_completion groovyc groovyc_completion groovydoc groovydoc_completion groovysh groovysh_completion java2groovy startGroovy } {
         ln -s ../share/java/${name}/bin/${f} ${destroot}${prefix}/bin
     }
 }

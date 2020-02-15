@@ -5,14 +5,14 @@ PortGroup           python 1.0
 PortGroup           select 1.0
 
 name                py-pytest
-version             5.2.1
+version             5.3.5
 revision            0
 categories-append   devel
 platforms           darwin
 license             MIT
 supported_archs     noarch
 
-python.versions     27 34 35 36 37
+python.versions     27 35 36 37 38
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -23,13 +23,10 @@ long_description    The pytest framework makes it easy to write small tests, \
                     for applications and libraries.
 
 homepage            https://pytest.org
-master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
-distname            ${python.rootname}-${version}
-
-checksums           rmd160  8f62e2d0ba5d733fc4330007adde05820f47307a \
-                    sha256  ca563435f4941d0cb34767301c27bc65c510cb82e90b9ecf9cb52dc2c63caaa0 \
-                    size    971744
+checksums           rmd160  e03742f5e3e73277ef5bcd49b6373bf70e98657f \
+                    sha256  0d5fe9189a148acc3c3eb2ac8e1ac0742cb7618c084f3d228baaec0c254b318d \
+                    size    990935
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -42,12 +39,15 @@ if {${name} ne ${subport}} {
                         port:py${python.version}-more-itertools \
                         port:py${python.version}-atomicwrites \
                         port:py${python.version}-pluggy \
-                        port:py${python.version}-importlib-metadata \
                         port:py${python.version}-wcwidth
+
+    if {${python.version} < 38} {
+        depends_lib-append port:py${python.version}-importlib-metadata
+    }
 
     depends_run         port:pytest_select
 
-    if {${python.version} < 35} {
+    if {${python.version} eq 27} {
         version             4.6.3
         revision            2
         distname            ${python.rootname}-${version}
@@ -55,12 +55,8 @@ if {${name} ne ${subport}} {
                             sha256  4a784f1d4f2ef198fe9b7aef793e9fa1a3b2f84e822d9b3a64a181293a572d45 \
                             size    949947
 
-        depends_lib-append  port:py${python.version}-six
-
-        if {${python.version} eq 27} {
-            depends_lib-append \
+        depends_lib-append  port:py${python.version}-six \
                             port:py${python.version}-funcsigs
-        }
     }
 
     if {${python.version} < 36} {

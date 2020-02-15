@@ -68,10 +68,8 @@ default compilers.libfortran {}
 default compilers.clear_archflags no
 
 # also set a default gcc version
-if {${build_arch} eq "ppc" || ${build_arch} eq "ppc64"} {
-    # see https://trac.macports.org/ticket/54215#comment:36
-    set compilers.gcc_default gcc6
-} elseif {${os.major} < 10} {
+# should be the same as gcc_compilers.tcl
+if {${os.major} < 10} {
     # see https://trac.macports.org/ticket/57135
     set compilers.gcc_default gcc7
 } elseif {${os.major} < 11} {
@@ -116,9 +114,10 @@ foreach v ${gcc_versions} {
     set cdb(gcc$v,fc)       ${prefix}/bin/gfortran-mp-$compiler_version
     set cdb(gcc$v,f77)      ${prefix}/bin/gfortran-mp-$compiler_version
     set cdb(gcc$v,f90)      ${prefix}/bin/gfortran-mp-$compiler_version
+    set cdb(gcc$v,cxx_stdlib) libstdc++
 }
 
-set clang_versions {33 34 37 39 40 50 60 70 80 90}
+set clang_versions {33 34 37 50 60 70 80 90}
 foreach v ${clang_versions} {
     # if the string is more than one character insert a '.' into it: e.g 33 -> 3.3
     set compiler_version $v
@@ -142,6 +141,7 @@ foreach v ${clang_versions} {
     set cdb(clang$v,fc)       ""
     set cdb(clang$v,f77)      ""
     set cdb(clang$v,f90)      ""
+    set cdb(clang$v,cxx_stdlib) ""
 }
 
 # and lastly we add a gfortran and g95 variant for use with clang*; note that
@@ -162,6 +162,7 @@ set cdb(gfortran,objc)     ""
 set cdb(gfortran,fc)       $cdb(${compilers.gcc_default},fc)
 set cdb(gfortran,f77)      $cdb(${compilers.gcc_default},f77)
 set cdb(gfortran,f90)      $cdb(${compilers.gcc_default},f90)
+set cdb(gfortran,cxx_stdlib) ""
 
 set cdb(g95,variant)  g95
 set cdb(g95,compiler) g95
@@ -179,6 +180,7 @@ set cdb(g95,objc)     ""
 set cdb(g95,fc)       ${prefix}/bin/g95
 set cdb(g95,f77)      ${prefix}/bin/g95
 set cdb(g95,f90)      ${prefix}/bin/g95
+set cdb(g95,cxx_stdlib) ""
 
 foreach cname [array names cdb *,variant] {
     lappend compilers.variants $cdb($cname)
@@ -262,6 +264,14 @@ proc compilers.setup_variants {variants} {
                         }
                     "
                 }
+            }
+
+            # see https://trac.macports.org/ticket/59199 for setting configure.cxx_stdlib
+            # see https://trac.macports.org/ticket/59329 for compilers.is_fortran_only
+            if {![compilers.is_fortran_only] && $cdb($variant,cxx_stdlib) ne ""} {
+                append body "
+                    configure.cxx_stdlib $cdb($variant,cxx_stdlib)
+                "
             }
 
             variant ${variant} description \

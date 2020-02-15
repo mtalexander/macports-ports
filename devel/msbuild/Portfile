@@ -5,8 +5,8 @@ PortGroup               github 1.0
 
 # mono_version is the version of port Mono
 # see https://github.com/mono/mono/blob/mono-${mono_version}/packaging/MacSDK/msbuild.py for version
-github.setup            mono msbuild ad9c9926a76e3db0d2b878a24d44446d73640d19
-version                 20190605
+github.setup            mono msbuild 21ce14f98f5998d43cfcdd17f456a131baadbdb5
+version                 20200124
 revision                0
 categories              devel
 platforms               darwin
@@ -17,22 +17,25 @@ long_description        The Microsoft Build Engine is a platform for building ap
 
 # see msbuild_download_url in file eng/cibuild_bootstrapped_msbuild.sh
 # see global.json
-set bootstrap_msbuild   mono_msbuild_xplat-master-3c930fa8
+set bootstrap_msbuild   mono_msbuild_6.4.0.208
 
 # msbuild requires msbuild to build
-master_sites-append     https://github.com/mono/msbuild/releases/download/0.06/:bootstrap
+master_sites-append     https://github.com/mono/msbuild/releases/download/0.08/:bootstrap
 distfiles-append        ${bootstrap_msbuild}.zip:bootstrap
 
 checksums               ${distname}${extract.suffix} \
-                        rmd160  cd94c92f7b2dbf705c21ebe261ef4f166ead5639 \
-                        sha256  43929581d5f1556d6c6b047361774269d21e25400b3059652ac8a3a6a6208f5c \
-                        size    15354569 \
+                        rmd160  a184676cab8b8d436b2ccd0ac68b4e066973e72a \
+                        sha256  52259af8bdb0ea07fc033f33e94212838e06aa163ba77e07dde1f2d9af3204ba \
+                        size    9031901 \
                         ${bootstrap_msbuild}.zip \
-                        rmd160  5806a472faeb46fd77fb2020671bc6bc660af09c \
-                        sha256  281b8ae3f31c44290a3521becb7d824cb2f8957d2190417942b841a0db0ef284 \
-                        size    20073670
+                        rmd160  28f672523376c34880fe5f4f32b3f60e0b4a06b1 \
+                        sha256  b38fda1acf3e3abaa82ef4660dfdb7b07bc2165bed547c1c7c4e678ba40e3d71 \
+                        size    21799773
 
 extract.only            ${distname}${extract.suffix}
+
+#see https://trac.macports.org/ticket/59534
+patchfiles-append       patch-case-sensitive.diff
 
 post-extract {
     # replicate the code in function DownloadMSBuildForMono found in file eng/cibuild_bootstrapped_msbuild.sh
@@ -51,7 +54,7 @@ build.target            all-mono
 
 destroot {
     # see https://github.com/mono/mono/blob/mono-${mono_version}/packaging/MacSDK/msbuild.py
-    system -W ${worksrcpath} "./artifacts/mono-msbuild/msbuild mono/build/install.proj /p:MonoInstallPrefix=${destroot}${prefix} /p:Configuration=Release-MONO"
+    system -W ${worksrcpath} "./stage1/mono-msbuild/msbuild mono/build/install.proj /p:MonoInstallPrefix=${destroot}${prefix} /p:Configuration=Release-MONO"
     reinplace "s|${destroot}||g" ${destroot}${prefix}/bin/msbuild
 }
 

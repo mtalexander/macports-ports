@@ -1,28 +1,28 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; truncate-lines: t; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
 
-PortSystem                                      1.0
-PortGroup           cmake                       1.1
-PortGroup           github                      1.0
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
 
-github.setup        rspamd rspamd 1.9.4
-revision            2
+github.setup        rspamd rspamd 2.3
+revision            0
 
 categories          mail
 license             BSD
 maintainers         nomaintainer
 platforms           darwin
 license             Apache-2
-homepage            http://rspamd.com
+homepage            https://rspamd.com
 
-description         Rspamd filtering system is created as a replacement of popular spamassassin \
+description         Rspamd filtering system is created as a replacement of popular spamassassin\
                     spamd and is designed to be fast, modular and easily extendable system.
-long_description    ${description}  Rspamd core is written in C language using event driven \
-                    paradigma. Plugins for rspamd can be written in lua. Rspamd is designed to \
+long_description    ${description}  Rspamd core is written in C language using event driven\
+                    paradigma. Plugins for rspamd can be written in lua. Rspamd is designed to\
                     process connections completely asynchronous and do not block anywhere in code.
 
-checksums           rmd160  27480eeec017c43c332cb7390e299f3cb13de7d8 \
-                    sha256  cf0ca0129dac652445250d041b1a5235c9073efc9066f6d2854c9ad4cd641741 \
-                    size    4476572
+checksums           rmd160  c406d85c9ec2d0c7e652d74ff740fb175dc994ff \
+                    sha256  6e95bc21abd3a38803710e6d23d0f322f0effd089b6f5bf84c6f413f579fea96 \
+                    size    4410237
 
 depends_build-append \
                     port:pkgconfig
@@ -33,14 +33,16 @@ depends_lib-append  \
                     path:lib/pkgconfig/glib-2.0.pc:glib2 \
                     port:gmime \
                     port:hyperscan \
+                    port:icu \
                     port:libevent \
                     port:libmagic \
+                    port:libsodium \
                     port:libstemmer \
                     port:libunwind \
                     port:lua \
                     port:luajit \
                     path:lib/libopenblas.dylib:OpenBLAS \
-                    port:openssl \
+                    path:lib/libssl.dylib:openssl \
                     port:perl5 \
                     port:ragel \
                     port:sqlite3 \

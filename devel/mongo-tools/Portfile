@@ -8,18 +8,18 @@ post-extract {
     set dir [glob ${workpath}/*]
     regexp "/${github.author}-${github.project}-(\[0-9a-f\]+)$" ${dir} -> git_commit
     reinplace -E "s|^(\[\[:space:\]\]*VersionStr=).*\$|\\1${git.branch}|" ${dir}/set_goenv.sh
-    reinplace -E "s|^(\[\[:space:\]\]*Gitspec=).*\$|\\1${git_commit}|" ${dir}/set_goenv.sh
+    reinplace -E "s|^(\[\[:space:\]\]*GitCommit=).*\$|\\1${git_commit}|" ${dir}/set_goenv.sh
 }
 
 PortGroup           golang 1.0
 
 # Keep mongo-tools at the same version as mongodb.
 
-go.setup            github.com/mongodb/mongo-tools 4.0.12 r
-revision            1
-checksums           rmd160  48461362c4c0a50eab8d687e5ea18fc77c71a56a \
-                    sha256  4864fb762157f809d16c12ab9feee50a733590159c5eaebc778b2cd2d0967ba4 \
-                    size    11135018
+go.setup            github.com/mongodb/mongo-tools 4.2.3 r
+revision            0
+checksums           rmd160  bed1bd6d64a05de62a310cd0e814101b8c57d346 \
+                    sha256  676a5a4e056a7ff2ce2e16da958f61a52deb8ef2b6103b5bf6148b8647906811 \
+                    size    15019931
 
 categories          devel
 platforms           darwin
@@ -48,7 +48,8 @@ dist_subdir         ${name}
 depends_build-append \
                     port:pkgconfig
 
-depends_lib         port:libpcap \
+depends_lib         port:cyrus-sasl2 \
+                    port:libpcap \
                     path:lib/libssl.dylib:openssl
 
 patchfiles          openssl.patch

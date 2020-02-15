@@ -3,13 +3,13 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        ccache ccache 3.7.4 v
+github.setup        ccache ccache 3.7.7 v
 revision            0
 # Use tarball, since the releases archive discourages running ./autogen.sh
 github.tarball_from tarball
-checksums           rmd160  d20bf418ee72ef8c3cdaeadc1d5ead6e3a951351 \
-                    sha256  82b101e0c5fb4ed26563a8668cf9d8d8f10017d79ba7e031e38ab93a26e9ffeb \
-                    size    386584
+checksums           rmd160  cdf51e58e7194914a8bd28c977db57514aa5dfdc \
+                    sha256  c76c35388a1acb62791454524af82c320a0ff3aa71f4ab4a94121923a8126a70 \
+                    size    386759
 
 categories          devel
 platforms           darwin freebsd
@@ -42,7 +42,9 @@ depends_build       port:autoconf \
                     port:automake \
                     port:libtool
 
-depends_lib         port:asciidoc \
-                    port:zlib
+depends_build-append \
+                    port:asciidoc
+
+depends_lib         port:zlib
 
 conflicts           ccache-devel

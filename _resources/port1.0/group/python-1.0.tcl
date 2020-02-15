@@ -23,13 +23,20 @@ use_configure   no
 # we want the default universal variant added despite not using configure
 universal_variant yes
 
-build.target    build
+default build.target {build[python_get_defaults jobs_arg]}
 
 post-extract {
-    # Prevent setuptools' easy_install from downloading dependents
+    # Prevent setuptools' easy_install from downloading dependencies
     set fs [open $env(HOME)/.pydistutils.cfg w+]
     puts $fs {[easy_install]}
     puts $fs {allow_hosts = None}
+    close $fs
+    # Same for pip
+    file mkdir $env(HOME)/.config/pip
+    set fs [open $env(HOME)/.config/pip/pip.conf w+]
+    puts $fs {[install]}
+    puts $fs {no-deps = yes}
+    puts $fs {no-index = yes}
     close $fs
 }
 
@@ -43,6 +50,9 @@ pre-destroot    {
 
 options python.rootname
 default python.rootname {[regsub ^py- [option name] ""]}
+
+default master_sites    {pypi:[string index ${python.rootname} 0]/${python.rootname}}
+default distname        {${python.rootname}-${version}}
 
 options python.versions python.version python.default_version
 option_proc python.versions python_set_versions
@@ -62,14 +72,15 @@ proc python_get_version {} {
 }
 proc python_get_default_version {} {
     global python.versions
+    set def_v 37
     if {[info exists python.versions]} {
-        if {37 in ${python.versions}} {
-            return 37
+        if {${def_v} in ${python.versions}} {
+            return ${def_v}
         } else {
             return [lindex ${python.versions} end]
         }
     } else {
-        return 37
+        return ${def_v}
     }
 }
 
@@ -294,6 +305,13 @@ proc python_get_defaults {var} {
         binary_suffix {
             if {[string match py-* [option name]]} {
                 return -${python.branch}
+            } else {
+                return ""
+            }
+        }
+        jobs_arg {
+            if {${python.version} >= 35 && [option use_parallel_build]} {
+                return " -j[option build.jobs]"
             } else {
                 return ""
             }

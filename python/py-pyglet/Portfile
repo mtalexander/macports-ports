@@ -4,13 +4,13 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-pyglet
-version             1.4.4
+version             1.4.10
 revision            0
 categories-append   devel graphics
 platforms           darwin
 license             BSD
 
-python.versions     27 34 35 36 37
+python.versions     27 35 36 37 38
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -18,15 +18,12 @@ description         A cross-platform windowing and multimedia library for Python
 long_description    ${description}
 
 homepage            http://pyglet.readthedocs.org/
-master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 use_zip             yes
 
-distname            ${python.rootname}-${version}
-
-checksums           rmd160  b10b7a6746f560d5d835f1c015bb03e71d80bc49 \
-                    sha256  08353c549b7f26d5815cc2e9360a85e4e0d80e6a67962e18df0255b00cb529ab \
-                    size    4631883
+checksums           rmd160  7bb3f66eafcfafe00d83a2c556c699b0eb1d81e9 \
+                    sha256  c57e3e18246f45e4d6bb3d29e39d128d6e72b05f4212b10353adc3ba260ceb65 \
+                    size    5121084
 
 if {${name} ne ${subport}} {
     depends_build-append \

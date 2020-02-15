@@ -4,14 +4,15 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-wand
-version             0.5.7
+python.rootname     Wand
+version             0.5.9
 revision            0
 categories-append   graphics
 platforms           darwin
 license             MIT
 supported_archs     noarch
 
-python.versions     27 34 35 36 37
+python.versions     27 35 36 37 38
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -19,13 +20,10 @@ description         Ctypes-based simple MagickWand API binding for Python
 long_description    ${description}
 
 homepage            http://wand-py.org/
-master_sites        pypi:W/Wand
 
-distname            Wand-${version}
-
-checksums           rmd160  fe38da3a0afcb4db55c26fd62735b9267341b62b \
-                    sha256  13a96818a2f89e7684704ba3bfc20bdb21a15e08736c3fdf74035eeaeefd7873 \
-                    size    117313
+checksums           rmd160  289c10947901c754e1162177afad30022ce89b95 \
+                    sha256  6eaca78e53fbe329b163f0f0b28f104de98edbd69a847268cc5d6a6e392b9b28 \
+                    size    118311
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -39,6 +37,4 @@ if {${name} ne ${subport}} {
     }
 
     livecheck.type      none
-} else {
-    livecheck.name      Wand
 }

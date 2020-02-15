@@ -3,11 +3,11 @@
 PortSystem          1.0
 
 name                wireguard-go
-version             0.0.20190908
+version             0.0.20200121
 revision            0
-checksums           rmd160  914f8e384c445af9fd749b7e7d36a7a74d5f79b9 \
-                    sha256  3c4cc802a521736d01d24bfb4fe29a5e74da07d69637ec7bcdee074decf62c6a \
-                    size    79212
+checksums           rmd160  d0e7a84545088fe5df207ec7e8d21f15a46b75bf \
+                    sha256  d790697df58bcd1d890f126d8a4f0b9aa11ad6f847a692e9c638a4b7b0454c14 \
+                    size    80532
 
 categories          net
 platforms           darwin
@@ -28,8 +28,7 @@ homepage            https://www.wireguard.com/
 master_sites        https://git.zx2c4.com/wireguard-go/snapshot/
 use_xz              yes
 
-depends_build       port:git \
-                    port:go
+depends_build       port:go
 
 use_configure       no
 

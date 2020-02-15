@@ -2,7 +2,6 @@
 
 PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
-PortGroup           cxx11 1.1
 PortGroup           cmake 1.1
 
 cmake.generator     Ninja
@@ -10,7 +9,7 @@ cmake.generator     Ninja
 name                inkscape
 conflicts           inkscape-devel inkscape-gtk3-devel
 version             0.92.4
-revision            8
+revision            13
 license             GPL-2 LGPL-2.1
 maintainers         {devans @dbevans}
 categories          graphics gnome
@@ -37,7 +36,11 @@ set python_major    2
 set python_minor    7
 set python_version  ${python_major}${python_minor}
 
+# this port only uses boost headers during build
+# and does not link with any boost libraries
+# no need to rebuild due to boost library ABI changes
 depends_build-append \
+                    port:boost \
                     port:pkgconfig \
                     port:libtool \
                     port:intltool \
@@ -52,7 +55,6 @@ depends_lib-append  port:desktop-file-utils \
                     port:dbus-glib \
                     port:lcms2 \
                     port:poppler \
-                    port:boost \
                     port:ImageMagick \
                     port:libcdr-0.1 \
                     port:libexif \
@@ -65,7 +67,9 @@ depends_lib-append  port:desktop-file-utils \
                     port:py${python_version}-lxml \
                     port:py${python_version}-numpy
 
-patchfiles          patch-poppler-0.76.diff
+patchfiles          patch-poppler-0.76.diff \
+                    patch-poppler-0.82.diff \
+                    patch-poppler-0.83.diff
 
 post-patch {
     reinplace "s|\"python-interpreter\", \"python\"|\"python-interpreter\", \"python2.7\"|g" ${worksrcpath}/src/extension/implementation/script.cpp
@@ -77,6 +81,9 @@ post-patch {
 # py-numpy is currently not universal (#48263).
 
 universal_variant no
+
+# dependencies require C++11
+compiler.cxx_standard 2011
 
 # clang-425.0.28 cannot handle glibmm's headers
 # allow build with more modern gcc on 10.5 and earlier

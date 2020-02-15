@@ -6,7 +6,7 @@ PortGroup           compiler_blacklist_versions  1.0
 PortGroup           github                       1.0
 PortGroup           legacysupport                1.0
 
-github.setup        xrootd xrootd 4.11.0 v
+github.setup        xrootd xrootd 4.11.2 v
 version             ${github.version}
 revision            0
 
@@ -18,27 +18,26 @@ livecheck.regex     v(\[0-9.\]+)${extract.suffix}
 categories          science
 maintainers         {jonesc @cjones051073} openmaintainer
 
-description         generic suite for fast, low-latency and scalable data access
-
-long_description    XRootD software framework is a fully generic suite for fast, \
-                    low-latency and scalable data access.
+description         Generic suite for fast, low-latency and scalable data access.
+long_description    ${description}
 
 license             LGPL-3+
 platforms           darwin
 
 homepage            http://xrootd.org/
 
-checksums           rmd160  43be6fb80e8fd2996f28b319e6ce228814d15d86 \
-                    sha256  5bce2056d9fdc48cc980d5a5dd1a5cdf45df01322ec77aefb2e1765b0f416250 \
-                    size    2579978
+checksums           rmd160  81346aae9a853e85e141a4d5b626afeaf4f42f8f \
+                    sha256  3b052a09c06df9ae7a83f0091480df319036df689b2066db6e965fa4e011b828 \
+                    size    2583141
 
 depends_build-append port:cctools \
                      port:pkgconfig
 
-depends_lib         port:curl \
+depends_lib-append  port:curl \
                     port:libxml2 \
                     port:json-c \
                     port:swig \
+                    path:lib/libuuid.dylib:ossp-uuid \
                     port:zlib 
 
 default_variants    +ssl +readline +kerberos 

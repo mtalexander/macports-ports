@@ -4,9 +4,9 @@ PortSystem          1.0
 PortGroup           python 1.0
 PortGroup           github 1.0
 
-set git_hash        f3c01cfd8ea12bf8d1ba1329849311bd6719d98c
+set git_hash        39d5324bbd4d9fe40da1a8fbaeeee5db9352e46f
 github.setup        macports upt-macports ${git_hash}
-version             0.1-20190801
+version             0.1-20200209
 name                py-${github.project}
 revision            0
 
@@ -18,9 +18,9 @@ maintainers         {@korusuke somaiya.edu:karan.sheth} openmaintainer
 description         MacPorts backend for upt.
 long_description    ${description}
 
-checksums           rmd160  89165715208e905417515407b874faf00152a434 \
-                    sha256  62a769686c3da3eb971b074dc77177daa906a38ce0b4c2ea0483e104128cf78c \
-                    size    10141
+checksums           rmd160  dfe4b11250a7918bd3492c809ea88a3baea3c1e2 \
+                    sha256  3d3ac6c65fb3159f28a1d04a553aedc1a604059a35c9635355008c8533462363 \
+                    size    11817
 
 python.versions     37
 
@@ -30,7 +30,11 @@ if {${name} ne ${subport}} {
 
     depends_lib-append \
                     port:py${python.version}-jinja2 \
+                    port:py${python.version}-packaging \
                     port:py${python.version}-requests
+
+    depends_test-append \
+                    port:py${python.version}-requests-mock
 
     test.run        yes
     test.cmd        ${python.bin} -m unittest

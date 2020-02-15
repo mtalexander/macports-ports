@@ -7,8 +7,7 @@ PortGroup clang_dependency 1.0
 name                python37
 
 # Remember to keep py37-tkinter and py37-gdbm's versions sync'd with this
-version             3.7.4
-revision            1
+version             3.7.6
 
 set major           [lindex [split $version .] 0]
 set branch          [join [lrange [split ${version} .] 0 1] .]
@@ -26,16 +25,17 @@ master_sites        ${homepage}ftp/python/${version}/
 
 distname            Python-${version}
 use_xz              yes
-checksums           md5 d33e4aae66097051c2eca45ee3604803 \
-                    rmd160 b9ddfd1ad22b75920f37104ed2fbc0ab39c683f2 \
-                    sha256 fb799134b868199930b75f26678f18932214042639cd52b16da7fd134cd9b13f
+checksums           md5 c08fbee72ad5c2c95b0f4e44bf6fd72c \
+                    rmd160 3b3f651d53f55c00c9fea579d901a9eff3d26905 \
+                    sha256 55a2cce72049f0794e9a11a84862e9039af9183603b78bc60d89539f82cf533f
 
 patchfiles          patch-setup.py.diff \
                     patch-Lib-cgi.py.diff \
                     patch-configure.diff \
                     patch-Lib-ctypes-macholib-dyld.py.diff \
                     patch-libedit.diff \
-                    patch-configure-xcode4bug.diff
+                    patch-configure-xcode4bug.diff \
+                    patch-_osx_support.py.diff
 
 depends_build       port:pkgconfig
 depends_lib         port:bzip2 \
@@ -95,8 +95,11 @@ platform darwin {
     set confdir     config-${branch}m-darwin
 
     post-configure {
+        # poll() misbehaves on 10.8 and older
         # See https://trac.macports.org/ticket/18376
-        system -W ${worksrcpath} "ed - pyconfig.h < ${filespath}/pyconfig.ed"
+        if {${os.major} <= 12} {
+            system -W ${worksrcpath} "ed - pyconfig.h < ${filespath}/pyconfig.ed"
+        }
     }
 
     post-build {
@@ -195,6 +198,10 @@ variant universal {
 
 variant optimizations description {Compile with LTO and PGO. Build time greatly increased} {
     configure.args-append   --enable-optimizations
+}
+
+variant dtrace description {enable DTrace support} {
+    configure.args-append   --with-dtrace
 }
 
 livecheck.type      regex

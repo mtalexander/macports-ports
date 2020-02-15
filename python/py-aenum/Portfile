@@ -4,14 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-aenum
-version             2.2.1
+version             2.2.3
 revision            0
 categories-append   devel
 platforms           darwin
 license             BSD
 supported_archs     noarch
 
-python.versions     27 34 35 36 37
+python.versions     27 35 36 37 38
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -19,13 +19,10 @@ description         Advanced Enumerations (compatible with Python's stdlib Enum)
 long_description    ${description}
 
 homepage            https://bitbucket.org/stoneleaf/aenum
-master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
-distname            ${python.rootname}-${version}
-
-checksums           rmd160  acb66ba34bae2be6020aa06b359fee9c55cdde76 \
-                    sha256  b12a7be3d89b270f266f8643aaa126404e5cdc0929bd6f09548b8eaed85e2aa1 \
-                    size    105129
+checksums           rmd160  1d74ebcdbc3a74afd86a271f36ef232b0aa7b76d \
+                    sha256  a4334cabf47c167d44ab5a6198837b80deec5d5bad1b5cf70c966c3a330260e8 \
+                    size    106574
 
 if {${name} ne ${subport}} {
     depends_build-append \

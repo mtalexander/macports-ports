@@ -3,11 +3,11 @@
 PortSystem          1.0
 
 name                wireguard-tools
-version             0.0.20190913
+version             1.0.20200206
 revision            0
-checksums           rmd160  c12a9519efe753f74c3851bbd37632e7147a1622 \
-                    sha256  997327185d2d1b597dc118f737c0c165e2a2c21453387ea02659f1159d148518 \
-                    size    330788
+checksums           rmd160  53650ceddf5eb908cba77471b8dca591db4fc3b0 \
+                    sha256  f5207248c6a3c3e3bfc9ab30b91c1897b00802ed861e1f9faaed873366078c64 \
+                    size    92288
 
 categories          net
 platforms           darwin
@@ -15,15 +15,15 @@ license             GPL-2
 maintainers         {isi.edu:calvin @cardi} openmaintainer
 description         Tools for the WireGuard VPN
 long_description    \
-    WireGuard-tools contains command-line tools to interact with \
+    wireguard-tools contains command-line tools to interact with \
     the userspace Go implementation of WireGuard. Currently there \
     are two tools: wg, to set and retrieve configuration of \
     WireGuard interfaces, and wg-quick, set up a WireGuard interface \
     simply.
 
 homepage            https://www.wireguard.com/
-master_sites        https://git.zx2c4.com/WireGuard/snapshot/
-distname            WireGuard-${version}
+master_sites        https://git.zx2c4.com/wireguard-tools/snapshot/
+distname            wireguard-tools-${version}
 use_xz              yes
 
 depends_run         port:bash \
@@ -31,11 +31,10 @@ depends_run         port:bash \
 
 use_configure       no
 
-# only build and install the tools for macOS
-build.pre_args      -C src/tools
+build.pre_args      -C src
 build.target
 
-destroot.pre_args   -C src/tools
+destroot.pre_args   -C src
 destroot.args       install
 destroot.post_args-append PREFIX=${prefix} \
                     SYSCONFDIR=${prefix}/etc \
@@ -50,5 +49,5 @@ post-destroot {
     reinplace -E "s|\(search_paths\\+=.*\)\(/usr/local/etc\)|\\1${sysconfdir}|" ${destroot}${completions_path}/wg-quick
 }
 
-livecheck.name      WireGuard
-livecheck.url       https://git.zx2c4.com/WireGuard/refs/
+livecheck.name      wireguard-tools
+livecheck.url       https://git.zx2c4.com/wireguard-tools/refs/

@@ -4,14 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 PortGroup           github 1.0
 
-github.setup        numba llvmlite 0.29.0 v
+github.setup        numba llvmlite 0.31.0 v
 name                py-llvmlite
-revision            1
+revision            0
 categories-append   devel science
 platforms           darwin
 license             BSD
 
-python.versions     27 34 35 36 37
+python.versions     27 35 36 37 38
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -20,9 +20,9 @@ long_description    ${description}
 
 homepage            http://llvmlite.pydata.org/
 
-checksums           rmd160  1f338c3b64bff688f47d98812f27f6070ba6143d \
-                    sha256  ce381131ded4668dbe150634a0736da324fa32c9e31068d2305ced853f09f6fc \
-                    size    196505
+checksums           rmd160  72cbabced6a93db7232a6a6d652e56993887f5d3 \
+                    sha256  fe4b36661f050565e73e07d0c31ee47bd2b44602e0bf17d4a19d3d7d0d2c60f4 \
+                    size    199646
 
 if {${name} ne ${subport}} {
     patchfiles-append   patch-ffi_Makefile.osx.diff

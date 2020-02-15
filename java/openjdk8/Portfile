@@ -3,28 +3,35 @@
 PortSystem       1.0
 
 name             openjdk8
-version          8u222
+version          8u242
 revision         0
 
-set build        10
+set build        08
 set major        8
 
-subport openjdk8-openj9 {
-    version      8u222
+subport openjdk8-graalvm {
+    version      19.3.1
     revision     0
 
-    set build    10
     set major    8
-    set openj9_version 0.15.1
+}
+
+subport openjdk8-openj9 {
+    version      8u242
+    revision     0
+
+    set build    08
+    set major    8
+    set openj9_version 0.18.1
 }
 
 subport openjdk8-openj9-large-heap {
-    version      8u222
+    version      8u242
     revision     0
 
-    set build    10
+    set build    08
     set major    8
-    set openj9_version 0.15.1
+    set openj9_version 0.18.1
 }
 
 subport openjdk10 {
@@ -36,29 +43,36 @@ subport openjdk10 {
 }
 
 subport openjdk11 {
-    version      11.0.4
+    version      11.0.6
     revision     0
 
-    set build    11
+    set build    10
+    set major    11
+}
+
+subport openjdk11-graalvm {
+    version      19.3.1
+    revision     0
+
     set major    11
 }
 
 subport openjdk11-openj9 {
-    version      11.0.4
-    revision     0
+    version      11.0.6
+    revision     1
 
-    set build    11
+    set build    10
     set major    11
-    set openj9_version 0.15.1
+    set openj9_version 0.18.1
 }
 
 subport openjdk11-openj9-large-heap {
-    version      11.0.4
-    revision     0
+    version      11.0.6
+    revision     1
 
-    set build    11
+    set build    10
     set major    11
-    set openj9_version 0.15.1
+    set openj9_version 0.18.1
 }
 
 subport openjdk12 {
@@ -88,29 +102,29 @@ subport openjdk12-openj9-large-heap {
 }
 
 subport openjdk13 {
-    version      13
+    version      13.0.2
     revision     0
 
-    set build    33
+    set build    8
     set major    13
 }
 
 subport openjdk13-openj9 {
-    version      13
+    version      13.0.2
     revision     0
 
-    set build    33
+    set build    8
     set major    13
-    set openj9_version 0.16.0
+    set openj9_version 0.18.0
 }
 
 subport openjdk13-openj9-large-heap {
-    version      13
+    version      13.0.2
     revision     0
 
-    set build    33
+    set build    8
     set major    13
-    set openj9_version 0.16.0
+    set openj9_version 0.18.0
 }
 
 categories       java devel
@@ -137,24 +151,46 @@ if {${subport} eq "openjdk8"} {
     livecheck.regex  (?c)jdk-(\[0-9.\]+)
 }
 
+if {${os.platform} eq "darwin" && ${os.major} < 14} {
+    known_fail yes
+    pre-fetch {
+        ui_error "${name} ${version} is only supported on Mac OS X 10.10 Yosemite or later."
+        return -code error
+    }
+}
+
 if {${subport} eq "openjdk8"} {
     master_sites https://github.com/AdoptOpenJDK/openjdk${major}-binaries/releases/download/jdk${version}-b${build}/
     
-    checksums    rmd160  b56170dfdc1da40b18b1f17f3f59a54eee7a5c79 \
-                 sha256  9605fd00d2960934422437f601c7a9a1c5537309b9199d5bc75f84f20cd29a76 \
-                 size    102266954
+    checksums    rmd160  8127d78a0a6455d7a5cbb1e2de5b498389678a6a \
+                 sha256  06675b7d65bce0313ee1f2e888dd44267e8afeced75e0b39b5ad1f5fdff54e0b \
+                 size    102535673
 
     distname     OpenJDK${major}U-jdk_x64_mac_hotspot_${version}b${build}
     worksrcdir   jdk${version}-b${build}
 
     configure.cxx_stdlib libstdc++
+} elseif {${subport} eq "openjdk8-graalvm"} {
+    master_sites https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-${version}/
+    distname     graalvm-ce-java${major}-darwin-amd64-${version}
+    worksrcdir   graalvm-ce-java${major}-${version}
 
+    checksums    rmd160  8869ada9ed3e7a787dbdaf4653524ba713383405 \
+                 sha256  eba3765174f0279ae2dc57c84fc0eb324da778dbfdcc03c6fa8381fe3728aef9 \
+                 size    357777334
+
+    description  GraalVM Community Edition based on OpenJDK ${major}
+    long_description GraalVM is a universal virtual machine for running applications written in JavaScript, Python, \
+                 Ruby, R, JVM-based languages like Java, Scala, Groovy, Kotlin, Clojure, and LLVM-based languages \
+                 such as C and C++.
+
+    homepage     https://www.graalvm.org
 } elseif {${subport} eq "openjdk8-openj9"} {
     master_sites https://github.com/AdoptOpenJDK/openjdk${major}-binaries/releases/download/jdk${version}-b${build}_openj9-${openj9_version}/
 
-    checksums    rmd160  ca2295364eb5ec2d8e96f4d67821347ecc0b990a \
-                 sha256  df185e167756332163633a826b329db067f8a721f7d5d27f0b353a35fc415de0 \
-                 size    113687040
+    checksums    rmd160  6db70061a643d19c2bbe41637e085293a94aab7e \
+                 sha256  665dc9c8239b7270b007ab9dd7522570e2686e327d89caf57a6aa6e5c6450078 \
+                 size    114579018
 
     distname     OpenJDK${major}U-jdk_x64_mac_openj9_${version}b${build}_openj9-${openj9_version}
     worksrcdir   jdk${version}-b${build}
@@ -169,9 +205,9 @@ if {${subport} eq "openjdk8"} {
 } elseif {${subport} eq "openjdk8-openj9-large-heap"} {
     master_sites https://github.com/AdoptOpenJDK/openjdk${major}-binaries/releases/download/jdk${version}-b${build}_openj9-${openj9_version}/
 
-    checksums    rmd160  ebadd190bd0b1bc31e95a286837b9b8c5e83f647 \
-                 sha256  a55adfc18ab175510b1f5dced82d9ca660c4f4636f992c301f6db2f49cae4759 \
-                 size    113678902
+    checksums    rmd160  3b319be42f052139b6432b6f89ba667a13aa4e08 \
+                 sha256  e1f8e053899a5d4eba9de8928d4744041b1d127a98959bc9683e4b31868b25cc \
+                 size    114576741
 
     distname     OpenJDK${major}U-jdk_x64_mac_openj9_macosXL_${version}b${build}_openj9-${openj9_version}
     worksrcdir   jdk${version}-b${build}
@@ -207,18 +243,33 @@ if {${subport} eq "openjdk8"} {
 } elseif {${subport} eq "openjdk11"} {
     master_sites https://github.com/AdoptOpenJDK/openjdk${major}-binaries/releases/download/jdk-${version}%2B${build}/
 
-    checksums    rmd160  2bdf0011a0ee020841aad2c972b4f4e75ab5132c \
-                 sha256  a50b211f475b9497311c9b65594764d7b852b1653f249582bb20fc3c302846a5 \
-                 size    190345711
+    checksums    rmd160  a45caba85e458dd5927a34828404574d3da252be \
+                 sha256  b87102274d983bf6bb0aa6c2c623301d0ff5eb7f61043ffd04abb00f962c2dcd \
+                 size    189024328
 
     distname     OpenJDK${major}U-jdk_x64_mac_hotspot_${version}_${build}
     worksrcdir   jdk-${version}+${build}
+} elseif {${subport} eq "openjdk11-graalvm"} {
+    master_sites https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-${version}/
+    distname     graalvm-ce-java${major}-darwin-amd64-${version}
+    worksrcdir   graalvm-ce-java${major}-${version}
+
+    checksums    rmd160  d630c59c192d10e31b7d790757c5f2a34129e855 \
+                 sha256  b3ea6cf6545332f667b2cc742bbff9949d47e49eecea06334d14f0b69aa1a3f3 \
+                 size    450067870
+
+    description  GraalVM Community Edition based on OpenJDK ${major}
+    long_description GraalVM is a universal virtual machine for running applications written in JavaScript, Python, \
+                 Ruby, R, JVM-based languages like Java, Scala, Groovy, Kotlin, Clojure, and LLVM-based languages \
+                 such as C and C++.
+
+    homepage     https://www.graalvm.org
 } elseif {${subport} eq "openjdk11-openj9"} {
     master_sites https://github.com/AdoptOpenJDK/openjdk${major}-binaries/releases/download/jdk-${version}%2B${build}_openj9-${openj9_version}/
 
-    checksums    rmd160  9f71da3e233feb16a84d4369611033a00d7ee4ed \
-                 sha256  7c09678d9c2d9dd0366693c6ab27bed39c76a23e7ac69b8a25c794e99dcf3ba7 \
-                 size    196042493
+    checksums    rmd160  a20f46cf19d34e4b489b5bffb1755d2465fc7cd9 \
+                 sha256  9a5c5b3bb51a82e666c46b2d1bbafa8c2bbc3aae50194858c8f96c5d43a96f64 \
+                 size    196636566
 
     distname     OpenJDK${major}U-jdk_x64_mac_openj9_${version}_${build}_openj9-${openj9_version}
     worksrcdir   jdk-${version}+${build}
@@ -233,9 +284,9 @@ if {${subport} eq "openjdk8"} {
 } elseif {${subport} eq "openjdk11-openj9-large-heap"} {
     master_sites https://github.com/AdoptOpenJDK/openjdk${major}-binaries/releases/download/jdk-${version}%2B${build}_openj9-${openj9_version}/
 
-    checksums    rmd160  049469ea87ee1abe83a9cb65e551c82962c8964f \
-                 sha256  f0769c458982efb927325d7892c6a7b7dcf3f71265992830025574275dcb3cc8 \
-                 size    196031578
+    checksums    rmd160  e134ac760608708bab54ac9fdc863cf5a1ccafa2 \
+                 sha256  bb6eec01ebd74a85c178a13d3568d3d657eb48d583d6602627c8237355b801cf \
+                 size    196630490
 
     distname     OpenJDK${major}U-jdk_x64_mac_openj9_macosXL_${version}_${build}_openj9-${openj9_version}
     worksrcdir   jdk-${version}+${build}
@@ -298,18 +349,18 @@ if {${subport} eq "openjdk8"} {
     master_sites https://github.com/AdoptOpenJDK/openjdk${major}-binaries/releases/download/jdk-${version}%2B${build}/
     distname     OpenJDK${major}U-jdk_x64_mac_hotspot_${version}_${build}
 
-    checksums    rmd160  542642959d04f0d43e7bc34e4d4f1615b68283fa \
-                 sha256  f948be96daba250b6695e22cb51372d2ba3060e4d778dd09c89548889783099f \
-                 size    198189530
+    checksums    rmd160  0de593a1b3df57a6a91d9ab3e3d0ee7475bc1e0d \
+                 sha256  0ddb24efdf5aab541898d19b7667b149a1a64a8bd039b708fc58ee0284fa7e07 \
+                 size    198206427
 
     worksrcdir   jdk-${version}+${build}
 } elseif {${subport} eq "openjdk13-openj9"} {
     master_sites https://github.com/AdoptOpenJDK/openjdk${major}-binaries/releases/download/jdk-${version}%2B${build}_openj9-${openj9_version}/
     distname     OpenJDK${major}U-jdk_x64_mac_openj9_${version}_${build}_openj9-${openj9_version}
 
-    checksums    rmd160  07adcea6a8d60372414f5afd90c7a333a541d3f6 \
-                 sha256  583e0defd5c062550896ead7cac383be16f1a81d9b6492dfec26da9af5dcc1c0 \
-                 size    199513858
+    checksums    rmd160  193fc075719f33545f7f9deafebd783b5d7e8df1 \
+                 sha256  dd8d92eec98a3455ec5cd065a0a6672cc1aef280c6a68c507c372ccc1d98fbaa \
+                 size    201152468
 
     worksrcdir   jdk-${version}+${build}
 
@@ -324,9 +375,9 @@ if {${subport} eq "openjdk8"} {
     master_sites https://github.com/AdoptOpenJDK/openjdk${major}-binaries/releases/download/jdk-${version}%2B${build}_openj9-${openj9_version}/
     distname     OpenJDK${major}U-jdk_x64_mac_openj9_macosXL_${version}_${build}_openj9-${openj9_version}
 
-    checksums    rmd160  40eecc015b5653d976333e093194d27b8da6575a \
-                 sha256  6d490314d3dcec8d203c67bb4799a69a564cb544b3ccaf6ec92fdfd9e42a119d \
-                 size    199510663
+    checksums    rmd160  7e71c9b1bd5aa8365af66803e3b5292b391e710b \
+                 sha256  a9b7cf11ec9c5df29a09336c91dd7e3232f6fae423e10eec60836330efc2c8cc \
+                 size    201151793
 
     worksrcdir   jdk-${version}+${build}
 
@@ -339,6 +390,26 @@ if {${subport} eq "openjdk8"} {
                  suitable for running all workloads. \
                  \
                  This version uses non-compressed references and should be used for applications which require heaps that are over ~57 GB.
+}
+
+variant Applets \
+    description { Advertise the JVM capability "Applets".} {}
+
+variant BundledApp \
+    description { Advertise the JVM capability "BundledApp". This is required by some java-based app bundles to recognize and use the JVM.} {}
+
+variant JNI \
+    description { Advertise the JVM capability "JNI". This is required by some java-based app bundles to recognize and use the JVM.} {}
+
+variant WebStart \
+    description { Advertise the JVM capability "WebStart".} {}
+
+patch {
+    foreach var { Applets BundledApp JNI WebStart } {
+        if {[variant_isset ${var}]} {
+            reinplace -E "s|^(\[\[:space:\]\]*<string>)CommandLine(</string>)|\\1${var}\\2\\\n\\1CommandLine\\2|" ${worksrcpath}/Contents/Info.plist
+        }
+    }
 }
 
 use_configure    no

@@ -3,7 +3,8 @@
 PortSystem          1.0
 
 name                xterm
-version             348
+version             352
+revision            0
 categories          x11
 license             X11
 platforms           darwin
@@ -17,9 +18,9 @@ homepage            https://invisible-island.net/xterm/
 master_sites        ftp://ftp.invisible-island.net/pub/xterm/ \
                     https://invisible-mirror.net/archives/xterm/
 
-checksums           rmd160  6c64e41c85ba608251abbd004730260c423934b1 \
-                    sha256  8b1f5121dbf3690de9d85a3b9329e3357021705dd7c21da192e47542769275be \
-                    size    1375431
+checksums           rmd160  fca12c34538f6e76c91b4584e5782adfb2c893e4 \
+                    sha256  7342f8da0e5337ed8c8722b05257d90b1bd2f9b04f3a2d9c10ad05e95c52d57e \
+                    size    1405420
 
 extract.suffix      .tgz
 

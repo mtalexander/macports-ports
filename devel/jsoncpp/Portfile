@@ -20,33 +20,33 @@ subport jsoncpp-devel {}
 if {${subport} eq ${name}} {
 
     # release
-    github.setup    open-source-parsers jsoncpp 1.9.1
-    checksums       rmd160 83f09e5315eb913eb9867d0b082f90bac195e29f \
-                    sha256 79c71d0816dd11e32e76561a4481c30352a1ea922c1cddce81608a2621c18dfe \
-                    size   203119
-    revision        0
+    github.setup open-source-parsers jsoncpp 1.9.2
+    checksums rmd160 34374a13fadc93e42b26c60282029a5c1f113023 \
+              sha256  6bc246534c35df7c9b200869b6e8536c9b0024e6c11f3023541f7fdd88794168 \
+              size    211398
+    revision  0
 
     conflicts       jsoncpp-devel
+
+    # temporary patch to fix build errors
+    patchfiles-append patch-fix-build.release.diff
+    patch.pre_args -p1
 
 } else {
 
     # devel
 
-    github.setup open-source-parsers jsoncpp 736409f1b5dadc392a7a301c9176d8ef0d2a1d76
-    version   20191001-[string range ${github.version} 0 7]
-    checksums rmd160 b33874e3561deeba8102b2a1594ec5fd00fefa30 \
-              sha256 39013fcbddf31e6880a412478943b1b77349b7aef7081e210b29c402a1052018 \
-              size   206209
+    github.setup open-source-parsers jsoncpp 6bc55ec35d02931960ec1f5768fc9c56ab62ef66
+    version   20200106-[string range ${github.version} 0 7]
+    checksums rmd160 8b64b22b536ac456a636cb459473c15b893b9bf4 \
+              sha256 545032820729f3701c3e4c5d8695cd7b2a689af28781549ad67fac1b248087e5 \
+              size   212319
     revision  0
 
     conflicts       jsoncpp
-    long_description ${description}: \
+    long_description {*}${description}: \
         This port follows the GIT master version of ${name}, which is typically updated every few days to weeks.
 
-    # temporary patch to fix build errors, mostly in how [[deprecated]] is used
-    patchfiles-append patch-fix-build.diff
-    patch.pre_args -p1
-    
 }
 
 cmake.out_of_source yes

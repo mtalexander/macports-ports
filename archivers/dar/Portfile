@@ -2,14 +2,13 @@
 
 PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
-PortGroup           cxx11 1.1
 
 name                dar
-version             2.6.6
-revision            0
-checksums           rmd160  a0094e1f1657f6db97edf215a2e0d29a0bc8bb9b \
-                    sha256  fac66df4df145b3b6d6faa934d1f3035439b367ba45b7d3f478ecad9d2620ddf \
-                    size    2106789
+version             2.6.8
+revision            1
+checksums           rmd160  d5d63c8907ad77ac0ca55e54729be5d1370ec5d9 \
+                    sha256  4365943798add9554a1ccf6514186a6146d421812eb9d767b7744a524035bc16 \
+                    size    2134781
 
 categories          archivers
 platforms           darwin
@@ -24,17 +23,20 @@ long_description    dar is a shell command that backs up directory trees \
 homepage            http://dar.sourceforge.net/
 master_sites        sourceforge:project/dar/dar/${version}
 
-depends_build       port:doxygen
+depends_build       port:doxygen \
+                    port:pkgconfig
 
 depends_lib         port:bzip2 \
+                    port:curl \
                     port:gettext \
                     port:libgcrypt \
                     port:libiconv \
                     port:lzo2 \
                     path:lib/libssl.dylib:openssl \
+                    port:xz \
                     port:zlib
 
-patchfiles          deci.patch
+compiler.cxx_standard 2011
 
 # error: unknown type name 'thread_local'
 compiler.blacklist-append {clang < 800}

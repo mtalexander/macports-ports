@@ -5,7 +5,7 @@ PortGroup           compilers 1.0
 PortGroup           active_variants 1.1 
 
 name                gildas
-version             201910b
+version             202002a
 set my_version      [string tolower [clock format [clock scan 2000-[string range ${version} 4 5]-10] -format %b]][string range ${version} 2 3][string range ${version} 6 end]
 categories          science
 platforms           darwin
@@ -30,20 +30,21 @@ master_sites        http://www.iram.fr/~gildas/dist/ \
 distname            ${name}-src-${my_version}
 use_xz              yes
 
-checksums           rmd160  e3af7407cb69de975bfdf144661b59a1a9c1406d \
-                    sha256  342691a9ef1bf45941d86f21d14305cbfc962104fef652ec1f5ac7b797346f92 \
-                    size    40930832
+checksums           rmd160  2fc26d21389625041f7004839d0ee3070f823302 \
+                    sha256  46d453a58e00e769c060d6f658c5fade084bd9ac474daf1b71cfdd11ef24c315 \
+                    size    41938500
 
 patch.pre_args      -p1
 patchfiles          patch-admin-Makefile.def.diff \
                     patch-admin-Makefile.python.diff \
+                    patch-admin-Makefile.build.diff \
                     patch-admin-gildas-env.sh.diff \
                     patch-admin-define-system.sh.diff
 
 depends_lib         port:gtk2 \
                     port:libpng \
-                    port:python27 \
-                    port:py27-numpy
+                    port:python38 \
+                    port:py38-numpy
 
 depends_build       port:cfitsio \
                     port:pkgconfig
@@ -59,7 +60,7 @@ compilers.enforce_some_fortran cfitsio
 
 compilers.choose    fc
 compilers.setup     -g95 -gcc44 -gcc45 -gcc46 require_fortran
-configure.python    ${prefix}/bin/python2.7
+configure.python    ${prefix}/bin/python3.8
 
 post-extract {
     if {![gcc_variant_isset]} {

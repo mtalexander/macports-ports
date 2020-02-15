@@ -3,7 +3,7 @@ PortSystem          1.0
 PortGroup           active_variants 1.1
 
 name                zabbix4
-revision            2
+revision            0
 categories          net
 maintainers         {eborisch @eborisch} openmaintainer
 platforms           darwin
@@ -20,8 +20,9 @@ long_description    Zabbix is the ultimate open source availability and \
                     of the best commercial ones. 
 
 array set VERSIONS {
-    4  4.0.12
-    42 4.2.6
+    4  4.0.17
+    42 4.2.8
+    44 4.4.5
 }
 
 set zver            [regsub -all {[^\d]} ${subport} {}]
@@ -31,7 +32,7 @@ distname            zabbix-${version}
 livecheck.name      zabbix
 
 livecheck.url \
-    http://sourceforge.net/projects/zabbix/files/ZABBIX%20Latest%20Stable/
+    https://www.zabbix.com/download_sources
 homepage            http://www.zabbix.com/
 master_sites \
     sourceforge:project/zabbix/ZABBIX%20Latest%20Stable/${version} \
@@ -39,31 +40,45 @@ master_sites \
 dist_subdir         zabbix${zver}
 
 if {$zver == 4} {
-    livecheck.regex     "Stable\/(4\.0\.\[0-9\]+)\/"
+    livecheck.regex     "zabbix-(4\.0\.\[0-9\]+).tar.gz"
     checksums \
-        rmd160  d40e10ec91ec75f426844ad74e9eb2ad5a7f9990 \
-        sha256  5c5e728a6f2903e20aea5fdd67a14099630725eba7b1c6628f92fd0c3efd8bca \
-        size    17138671
+        rmd160  5b58d30dec15f5bc96b61cb9bf94a6c372bb2852 \
+        sha256  41f0999d1e60046cc68cacd2bb88df77ad03356894a015ea94300feeb94ac940 \
+        size    17191889
 }
 if {$zver == 42} {
-    livecheck.regex     "Stable\/(4\.2\.\[0-9\]+)\/"
+    livecheck.regex     "zabbix-(4\.2\.\[0-9\]+).tar.gz"
     checksums \
-        rmd160  2c9a17a673199d337cc819d411940362ac488018 \
-        sha256  646b1f29a768e3123a00a9afadf382b4d0dfd54e20fb31023f0d6da066da0864 \
-        size    18278708
+        rmd160  6108c446e0c92c7388b7eaf31b9fd628b15c06e4 \
+        sha256  57dbc2a95a09581b5196d2abc86ee1aaf65f3c909d6b4bc53d260dc4dd69b9c6 \
+        size    18332348
+}
+
+if {$zver == 44} {
+    livecheck.regex     "zabbix-(4\.4\.\[0-9\]+).tar.gz"
+    checksums \
+        rmd160  dcb961c036ea585d279988dad73df898e86ffe25 \
+        sha256  94a897825b062e17b34767c0864305cee6a87476dda8bee88dcf845b24bed0ea \
+        size    19284769
 }
 
 patchfiles          log_and_pid_locations.patch
 
 universal_variant   no
 
-subport             zabbix42            {conflicts zabbix4}
+subport             zabbix42            {conflicts zabbix4 zabbix44}
+subport             zabbix44            {conflicts zabbix4 zabbix42}
 
-subport             zabbix4-agent       {conflicts zabbix42-agent}
-subport             zabbix42-agent      {conflicts zabbix4-agent}
+subport             zabbix4-agent       {conflicts zabbix42-agent zabbix44-agent}
+subport             zabbix42-agent      {conflicts zabbix4-agent zabbix44-agent}
+subport             zabbix44-agent      {conflicts zabbix4-agent zabbix42-agent}
 
-subport             zabbix4-frontend    {conflicts zabbix42-frontend}
-subport             zabbix42-frontend   {conflicts zabbix4-frontend}
+subport             zabbix4-frontend    {conflicts zabbix42-frontend \
+                                         zabbix44-frontend}
+subport             zabbix42-frontend   {conflicts zabbix4-frontend \
+                                         zabbix44-frontend}
+subport             zabbix44-frontend   {conflicts zabbix4-frontend \
+                                         zabbix42-frontend}
 
 proc isFlavor {desc subp} {
     if {[string first ${desc} ${subp}] >= 0} {
@@ -105,6 +120,12 @@ if {[isFlavor agent ${subport}]} {
     startupitem.logfile     ${prefix}/var/log/zabbix/zabbix_agentd.launch
 
     configure.args-append   --enable-agent
+    
+    # Revisit if/when upstream supports building on OSX
+    #if {$zver == 44} {
+    #    configure.args-append   --enable-agent2
+    #    build.env-append    GOPATH=${worksrcpath}/src/zabbix
+    #}
 
     destroot.keepdirs \
         ${destroot}${prefix}/etc/zabbix${zver}/zabbix_agentd.conf.d \
@@ -148,7 +169,7 @@ if {[isFlavor agent ${subport}]} {
                             port:libssh2 \
                             port:libxml2 \
                             port:net-snmp \
-                            port:openssl \
+                            path:lib/libssl.dylib:openssl \
                             port:zlib
 
     depends_run-append      port:fping
@@ -377,7 +398,7 @@ if {[isFlavor agent ${subport}]} {
 1) Edit the sample .conf file ${prefix}/etc/zabbix${zver}/zabbix_agentd.conf.sample
    (rename & omit .sample)
 
-   Set the following variable to the ip address of your ZABBIX server to\
+   Set the following variable to the IP address of your ZABBIX server to\
    allow it access to the agent.
 
     Server=x.x.x.x
@@ -393,7 +414,7 @@ if {[isFlavor agent ${subport}]} {
 } elseif {[isFlavor frontend ${subport}]} {
     notes "
 ####
-#### Begin ZABBIX${zver} frontend installastion section ####
+#### Begin ZABBIX${zver} frontend installation section ####
 
 1) Set a symbolic link in your Apache document root pointing to the PHP
    frontend files

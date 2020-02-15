@@ -8,11 +8,11 @@ PortGroup           conflicts_build 1.0
 
 name                magic-devel
 conflicts           magic
-version             8.2.144
+version             8.2.182
 revision            0
-checksums           rmd160  4e04c64d0a64ce40947ddca1c09f3251c92741df \
-                    sha256  79d16e474a7d9a895fb1869516bfe1e99aee7e9a9234ee457384b876efc6f928 \
-                    size    4008407
+checksums           rmd160  43444bd84711bd2ad975f400810c88d01e2c0d76 \
+                    sha256  ba94b6006dcce550d29852c0591a7427437a2bb188ca90ea5ccdf11f3d98afc5 \
+                    size    4051495
 
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          science
@@ -38,7 +38,7 @@ extract.suffix      .tgz
 
 depends_lib         port:blt \
                     path:lib/pkgconfig/cairo.pc:cairo \
-                    port:libglu \
+                    port:libGLU \
                     port:mesa \
                     port:tcl \
                     port:tk

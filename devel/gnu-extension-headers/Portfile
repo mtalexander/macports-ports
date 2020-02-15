@@ -5,14 +5,14 @@ PortSystem          1.0
 name                gnu-extension-headers
 version             1.1
 
-categories          lang devel
+categories          devel lang
 platforms           darwin
 license             GPL-3+
 
 maintainers         nomaintainer
 
 description         Provides versions of various GNU extension headers
-long_description    ${description}
+long_description    {*}${description}
 
 livecheck.type      none
 

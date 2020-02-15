@@ -4,8 +4,9 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-botocore
-version             1.12.176
-revision            0
+version             1.14.9
+revision            1
+
 platforms           darwin
 supported_archs     noarch
 license             Apache-2
@@ -17,24 +18,36 @@ long_description    A low-level interface to a growing number of Amazon Web \
                     AWS CLI as well as boto3.
 
 homepage            https://github.com/boto/botocore
-master_sites        pypi:b/botocore
-distname            ${python.rootname}-${version}
 
-checksums           rmd160  7a16870c1a247aa4629c3a4af21fe8dcf36eeb22 \
-                    sha256  bc64583e25823764da3603048bd7664e5736aea06c26d4e9e3722876689fbc6a \
-                    size    5717363
+checksums           rmd160  8b8256bdf4a3f029745a68b991c7cb80a107976b \
+                    sha256  1909424c9544f92142c8e551888731e32a99f9c99cfe8d21fea3ec0c32981dae \
+                    size    6095336
 
-python.versions     27 35 36 37
+python.versions     27 35 36 37 38
 
 if {${name} ne ${subport}} {
-    depends_build-append    port:py${python.version}-setuptools
-    depends_lib-append      port:py${python.version}-dateutil \
-                            port:py${python.version}-docutils \
-                            port:py${python.version}-jmespath \
-                            port:py${python.version}-urllib3
+    # temporary fix for docutils versioning cap (now 0.16 in MacPorts)
+    post-patch {
+        reinplace "s|docutils\>\=0\.10\,\<0\.16|docutils\>\=0\.10,\<\=0\.16|g" \
+            ${worksrcpath}/setup.py
+    }
 
-    depends_test-append port:py${python.version}-mock
-    test.run            yes
+    depends_build-append \
+                    port:py${python.version}-setuptools
 
-    livecheck.type      none
+    depends_lib-append \
+                    port:py${python.version}-dateutil \
+                    port:py${python.version}-docutils \
+                    port:py${python.version}-jmespath \
+                    port:py${python.version}-urllib3
+
+    depends_test-append \
+                    port:py${python.version}-behave \
+                    port:py${python.version}-jsonschema \
+                    port:py${python.version}-mock \
+                    port:py${python.version}-nose
+
+    test.run        yes
+
+    livecheck.type  none
 }

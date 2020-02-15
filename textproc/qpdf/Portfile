@@ -3,10 +3,10 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        qpdf qpdf 9.0.0 release-qpdf-
-checksums           rmd160  46f83a4ce838b9ae8bd382b5c5f68dc7c4af77f8 \
-                    sha256  9d2a70c181ff7e5d92a0fc10c4973a2a8164d4fb71ce3584bc5f1740bd65379c \
-                    size    18172400
+github.setup        qpdf qpdf 9.1.1 release-qpdf-
+checksums           rmd160  214c8614f83554bbc818f75ee35dfcc0c4c27e71 \
+                    sha256  a2c6fc410ec45df0ca0996b039e00bb6f39cfc76d42d784b7ad7bc9e163f4236 \
+                    size    18312457
 
 categories          textproc pdf
 platforms           darwin
@@ -21,4 +21,7 @@ homepage            http://qpdf.sourceforge.net/
 github.tarball_from releases
 
 depends_lib         port:jpeg \
+                    port:gnutls \
+                    port:libxml2 \
+                    port:libxslt \
                     port:zlib

@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/go-delve/delve 1.4.0 v
+
+categories          devel
+license             MIT
+installs_libs       no
+
+build.target        github.com/go-delve/delve/cmd/dlv
+
+maintainers         {gmail.com:herby.gillot @herbygillot} openmaintainer
+
+checksums           rmd160  cb29d31a9c1f10cd324a753bec6e9d962610ded7 \
+                    sha256  7439eb8caeaf9c1320e684e3dc6664dc0496c99bdfc3960594f479a249de37ff \
+                    size    7785378
+
+description         Delve is a debugger for the Go programming language.
+long_description    Delve is a debugger for the Go programming language. \
+                    The goal of the project is to provide a simple, full \
+                    featured debugging tool for Go. Delve should be easy \
+                    to invoke and easy to use. Chances are if you're using a \
+                    debugger, things aren't going your way. With that in mind,\
+                    Delve should stay out of your way as much as possible.
+
+notes               "delve is installed as dlv"
+
+set delve_doc_dir   ${prefix}/share/doc/${name}
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/dlv ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${delve_doc_dir}
+    copy {*}[glob ${worksrcpath}/Documentation/*] ${destroot}${delve_doc_dir}/
+}

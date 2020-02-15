@@ -2,9 +2,10 @@
 
 PortSystem          1.0
 PortGroup           cmake 1.1
+PortGroup           legacysupport 1.0
 
 name                libzip
-version             1.5.2
+version             1.6.1
 revision            0
 categories          archivers
 license             BSD
@@ -19,9 +20,9 @@ homepage            https://libzip.org/
 master_sites        ${homepage}download/
 use_xz              yes
 
-checksums           rmd160  5db464fb8c1fe4e7e197d6a373f4cb4d169f961f \
-                    sha256  b3de4d4bd49a01e0cab3507fc163f88e1651695b6b9cb25ad174dbe319d4a3b4 \
-                    size    725724
+checksums           rmd160  82cfbd288b9a4b605deef26d3be07f1008c74ce3 \
+                    sha256  705dac7a671b3f440181481e607b0908129a9cf1ddfcba75d66436c0e7d33641 \
+                    size    732932
 
 depends_build-append \
                     port:coreutils

@@ -6,7 +6,7 @@ PortGroup           python 1.0
 
 set real_name       acme
 name                py-${real_name}
-github.setup        certbot certbot 0.39.0 v
+github.setup        certbot certbot 1.2.0 v
 revision            0
 worksrcdir          certbot-${version}/${real_name}
 categories-append   security
@@ -17,11 +17,11 @@ long_description    ${description}
 platforms           darwin
 homepage            https://certbot.eff.org/
 
-python.versions     27 36 37
+python.versions     27 36 37 38
 
-checksums           rmd160  eba404b8828613490daaecbbabd5efff33c3918f \
-                    sha256  3854d927ed26e37149e121383a633a94a5d9dda1b633be13c3bacbab9f347359 \
-                    size    1350207
+checksums           rmd160  e0f36309201c5f87caf96172945e91db806a8093 \
+                    sha256  b408415f072010a35109f950de74b2cc5f6cfe47942e9c6e4c9e7291477d64c8 \
+                    size    1354121
 
 if {${name} ne ${subport}} {
     depends_build-append \

@@ -39,7 +39,8 @@ depends_run         port:adwaita-icon-theme \
                     port:yelp
 
 patchfiles          patch-src-Makefile.am.diff \
-                    patch-separate-weeks-events-overlaps.diff
+                    patch-separate-weeks-events-overlaps.diff \
+                    patch-utils-libical-3.0.diff
 
 # reconfigure using upstream autogen.sh for intltool 0.51 compatibility
 

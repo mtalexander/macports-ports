@@ -22,6 +22,7 @@ if {${subport} eq "enigma"} {
     
     github.setup            Enigma-Game Enigma 3864fcf29cd6a7ab89b6a2160c281ab995e5f386
     version                 20171207
+    revision                1
     checksums               rmd160  6a0186344130e79751b23ee23cf15c713dfb1cef \
                             sha256  db742a85983482aef9f223fc17c26039454f16d2ee14865b937af53e53e78d0e \
                             size    51848604

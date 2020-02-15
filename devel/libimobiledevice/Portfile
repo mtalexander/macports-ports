@@ -39,7 +39,7 @@ depends_build-append \
                     port:pkgconfig
 
 depends_lib         port:libplist \
-                    port:openssl \
+                    path:lib/libssl.dylib:openssl \
                     port:libusbmuxd
 
 configure.cmd       ./autogen.sh
@@ -48,13 +48,13 @@ configure.args      --disable-silent-rules \
                     --without-cython
 
 subport libimobiledevice-devel {
-    github.setup    libimobiledevice libimobiledevice 60823f9eeb3f09cd8083f613522d01e21d2f6d2d
-    version         20190930
+    github.setup    libimobiledevice libimobiledevice af91dc6376946daffd5c9ece916d9f33af828890
+    version         20191113
     revision        0
 
-    checksums       rmd160  2494d483dca62c726e7d982e563ee0612d4055fc \
-                    sha256  e5ade27a8e09c6fb8fe13ee494d43749db9cd1461d8af198d52d248fe6d265f2 \
-                    size    241880
+    checksums       rmd160  82583e8e635c8908cf1be39bc3cc5f1793a793ad \
+                    sha256  b4299f250e391a1c493f78944eac1165170c76dedd95677ed181592989ed765b \
+                    size    244977
 
     depends_lib-delete port:libusbmuxd
     depends_lib-append port:libusbmuxd-devel
@@ -66,4 +66,6 @@ subport libimobiledevice-devel {
 
 if {${subport} eq ${name}} {
     conflicts       libimobiledevice-devel
+    # SSLv3_method is removed in current openssl
+    patchfiles-append   idevice.c.patch
 }

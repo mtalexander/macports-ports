@@ -7,7 +7,7 @@ PortGroup           cxx11 1.1
 name                lilypond-devel
 set my_name         lilypond
 version             2.19.83
-revision            2
+revision            3
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          textproc
 maintainers         {snc @nerdling} openmaintainer
@@ -63,6 +63,7 @@ set lilyponddevel.texgyredir \
     "${prefix}/share/texmf-texlive/fonts/opentype/public/tex-gyre"
 set lilyponddevel.mactex_bin   ""
 set lilyponddevel.temp         ""
+set lilyponddevel.have_texgyre false
 
 variant mactex description {Allow lilypond-devel to use MacTeX or another\
     external TeXLive installation instead of MacPorts TeXLive tools.  To\
@@ -156,8 +157,17 @@ compiler.blacklist  *clang* \
                     gcc \
                     gcc-3.3 gcc-4.0 gcc-4.2
 
+if { ${os.major} >= 11 } {
+    compiler.fallback-append \
+                    macports-gcc-9
+}
+
+if { ${os.major} >= 10 } {
+    compiler.fallback-append \
+                    macports-gcc-8
+}
+
 compiler.fallback-append \
-                    macports-gcc-8 \
                     macports-gcc-7 \
                     macports-gcc-6 \
                     macports-gcc-5 \

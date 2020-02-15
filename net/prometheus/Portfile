@@ -1,7 +1,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        prometheus prometheus 2.13.0 v
+github.setup        prometheus prometheus 2.15.2 v
 github.tarball_from archive
 
 description         The Prometheus monitoring system and time series database
@@ -18,10 +18,11 @@ platforms           darwin
 categories          net
 license             Apache-2
 
-maintainers         {gmail.com:herbygillot @herbygillot} openmaintainer
+maintainers         {gmail.com:herby.gillot @herbygillot} openmaintainer
 
 depends_build       port:go \
-                    port:promu
+                    port:promu \
+                    port:yarn
 
 build.env           GOPATH=${workpath} \
                     PATH=${workpath}/bin:$env(PATH)
@@ -41,9 +42,9 @@ set prom_share_dir  ${prefix}/share/${name}
 set prom_log_dir    ${prefix}/var/log/${name}
 set prom_log_file   ${prom_log_dir}/${name}.log
 
-checksums   rmd160  0f420962162c7ed2dc22be439b6e45623d8dea60 \
-            sha256  0a11ecc28989ad984af551a5426e9989aa1ca628fc2e875bb913af445ab38288 \
-            size    15193225
+checksums   rmd160  e6c1c4f380711cd4a3c73bf5ededed4be17c8109 \
+            sha256  2ba37bced3e90c5e7dd3248918f13f2f3444de748cfe413b0a09f82532c3c553 \
+            size    12852804
 
 add_users           ${prom_user} \
                     group=${prom_user} \

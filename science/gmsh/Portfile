@@ -2,13 +2,12 @@
 
 PortSystem              1.0
 PortGroup               cmake          1.1
-PortGroup               cxx11          1.1
 PortGroup               mpi            1.0
 PortGroup               linear_algebra 1.0
 PortGroup               muniversal     1.0
 
 name                    gmsh
-version                 4.4.1
+version                 4.5.2
 revision                0
 categories              science
 platforms               darwin
@@ -26,13 +25,16 @@ master_sites            http://gmsh.info/src/
 distname                gmsh-${version}-source
 extract.suffix          .tgz
 
-checksums               rmd160  e126e2f054acb9321fb68299bbc354f6bccc6ce9 \
-                        sha256  853c6438fc4e4b765206e66a514b09182c56377bb4b73f1d0d26eda7eb8af0dc \
-                        size    13227645
+checksums               rmd160  3bf4b17d4b7eef831782789f951d9143502184bc \
+                        sha256  0120fe240d32ff1d7457f1b6b350cb85c1e01801f9d371a8656c526474882682 \
+                        size    14841960
+
+compiler.cxx_standard   2011
 
 patchfiles              patch-CMakeLists.txt.diff
 
 mpi.setup
+veclibfort              no
 
 depends_lib-append      port:alglib \
                         path:lib/libfltk.dylib:fltk \
@@ -55,14 +57,11 @@ depends_lib-append      port:alglib \
 
 # see http://gmsh.info/doc/texinfo/gmsh.html#Compiling-the-source-code
 
-# FLTK native file chooser was never used (not entirely clear why)
-#    see https://github.com/macports/macports-ports/commit/ae18700dfba27d7084104ecfd8c33814008e967b
 # install static library
 # install shared library
 # use shared library for Gmsh executable
 # use MacPorts libraries
-configure.args-append   -DENABLE_NATIVE_FILE_CHOOSER=OFF \
-                        -DENABLE_BUILD_LIB=ON \
+configure.args-append   -DENABLE_BUILD_LIB=ON \
                         -DENABLE_BUILD_SHARED=ON \
                         -DENABLE_BUILD_DYNAMIC=ON \
                         -DENABLE_SYSTEM_CONTRIB=ON
@@ -108,18 +107,16 @@ variant petsc description {Enable PETSc linear solvers and SLEPc eigensolvers} {
                         -DSLEPC_DIR=${prefix}/lib/slepc
 }
 
+variant oce description {use Community Edition version of Open CASCADE} {
+    depends_lib-replace port:opencascade port:oce
+}
+
 variant openmp description {enable support for OpenMP} {
     configure.args-append \
                         -DENABLE_OPENMP=ON
-
-    # blacklist all system compilers, which do not support OpenMP
-    # use whatever compilers cxx11 PG deems acceptable
-    compiler.blacklist-append \
-                        clang \
-                        llvm-gcc-4.2 \
-                        gcc-4.2 \
-                        gcc-4.0 \
-                        apple-gcc-4.2
+}
+if {[variant_isset openmp]} {
+    compiler.openmp_version 2.5
 }
 
 # please remove on 2020-03-16

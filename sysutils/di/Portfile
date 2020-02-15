@@ -3,7 +3,7 @@
 PortSystem 1.0
 
 name                di
-version             4.47.1
+version             4.47.3
 revision            0
 categories          sysutils
 platforms           darwin
@@ -16,9 +16,9 @@ long_description    di is a disk information utility, displaying everything \
 homepage            https://gentoo.com/di/
 master_sites        sourceforge:project/diskinfo-di
 
-checksums           rmd160  05021a965bd5c4202741038eb7f20d32158fac48 \
-                    sha256  eea8ad94197d9f11790afea0924d8bf29ec001c32eb6209e81c4e13766a2abad \
-                    size    221051
+checksums           rmd160  fbfadae96e92c3ad26e5f30e19c24dce99d92be9 \
+                    sha256  9339281811b10704dc80c2059294e4ff8c74b2687dfcf282d1c56950d4ba9654 \
+                    size    221113
 
 depends_lib         port:gettext
 

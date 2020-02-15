@@ -1,9 +1,11 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
-PortSystem 1.0
+PortSystem      1.0
+PortGroup       java 1.0
 
 name            spring-boot-cli
-version         2.1.9
+version         2.2.4
+revision        0
 
 categories      java
 platforms       darwin
@@ -28,13 +30,16 @@ master_sites    https://repo.spring.io/release/org/springframework/boot/${name}/
 
 distname        ${name}-${version}.RELEASE-bin
 
-checksums       rmd160  33118e5f946a542e727b15df15596386b5fe385d \
-                sha256  9c37e7a48dc43bfde21cf953dd129699e03dcb3099bdd14779a42cab87bfff24 \
-                size    11223614
+checksums       rmd160  80aea8034b91d5024fb440fc385b6153c0e9d3b0 \
+                sha256  6cdb94163728f338f0d1773a75f46b144a8f06348d52715e3f9789f89a45f039 \
+                size    11380514
 
 worksrcdir      spring-${version}.RELEASE
 
 use_configure   no
+
+java.version    1.8+
+java.fallback   openjdk8
 
 build {}
 

@@ -4,13 +4,13 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-pandas
-version             0.25.1
+version             1.0.1
 revision            0
 categories-append   science
 license             BSD
 platforms           darwin
 
-python.versions     27 34 35 36 37
+python.versions     27 35 36 37 38
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -18,17 +18,14 @@ description         Powerful data structures for data analysis and statistics
 
 long_description    ${description}
 
-homepage            http://pandas.pydata.org
-master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+homepage            https://pandas.pydata.org
 
-distname            ${python.rootname}-${version}
-
-checksums           rmd160  1f4ff253e3542e349e3bcc97819bde90b0267b9d \
-                    sha256  cb2e197b7b0687becb026b84d3c242482f20cbb29a9981e43604eb67576da9f6 \
-                    size    12626560
+checksums           rmd160  c095c47ac1134219d15d19b0722a6fec29dbc055 \
+                    sha256  3c07765308f091d81b6735d4f2242bb43c332cc3461cae60543df6b10967fe27 \
+                    size    4852368
 
 if {${name} ne ${subport}} {
-    if {${python.version} < 35} {
+    if {${python.version} eq 27} {
         version             0.24.2
         revision            0
         distname            ${python.rootname}-${version}
@@ -41,6 +38,13 @@ if {${name} ne ${subport}} {
                             port:py${python.version}-matplotlib \
                             port:py${python.version}-bottleneck \
                             port:py${python.version}-numexpr
+    } elseif {${python.version} eq 35} {
+        version             0.25.3
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  cb526595c8b38bd4973a49ebebb61c165421628b \
+                            sha256  52da74df8a9c9a103af0a72c9d5fdc8e0183a90884278db7f386b5692a2220a4 \
+                            size    12632585
     }
 
     depends_build-append \

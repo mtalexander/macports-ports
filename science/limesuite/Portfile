@@ -21,11 +21,11 @@ homepage            https://myriadrf.org/projects/lime-suite/
 subport limesuite-devel {}
 if {[string first "-devel" $subport] > 0} {
 
-    github.setup myriadrf LimeSuite b216ded43d3f56e255499469810ac7189ec05bf2
-    version   20191011-[string range ${github.version} 0 7]
-    checksums rmd160 b7f9473d075f0dc31783c070ec2ba52f7efeeb08 \
-              sha256 fa4996910a81de7ad7c35f5e8410616c0e24e57502264d3d0a727ef12f1d30ce \
-              size   5363787
+    github.setup myriadrf LimeSuite c931854ead81307206bce750c17c2301810b5545
+    version   20200129-[string range ${github.version} 0 7]
+    checksums rmd160  36a513033e9c013b119adb895d21e475d8a70e0f \
+              sha256  48c688f53ec3a6ad437b5f611d15cd87e954ef1da99748541a2e354155031f7b \
+              size    5415614
     revision  0
 
     name            limesuite-devel
@@ -35,11 +35,11 @@ if {[string first "-devel" $subport] > 0} {
 
 } else {
 
-    github.setup    myriadrf LimeSuite 19.04.0 v
-    checksums       rmd160  9b702a15565df94169bb47538522c8cec3774645 \
-                    sha256  1e4d5ac1b6f81ba730e46411a32eb93878f1eb8874574eb01d3c981c918add92 \
-                    size    5357853
-    revision        2
+    github.setup    myriadrf LimeSuite 20.01.0 v
+    checksums       rmd160  ee57027f57c71e2ca734dacd706ec0c15e0e1870 \
+                    sha256  b0aa3db383bec31b613025b58b7f15218f056e6f07c3eabaab8df9097f93854c \
+                    size    5415366
+    revision        0
 
     conflicts       limesuite-devel
     configure.args-append -DLIME_SUITE_EXTVER=release

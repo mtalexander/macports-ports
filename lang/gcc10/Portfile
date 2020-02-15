@@ -8,8 +8,8 @@ PortGroup           conflicts_build             1.0
 
 epoch               3
 name                gcc10
-version             10-20191006
-revision            0
+version             10-20200105
+revision            1
 subport             libgcc-devel { revision 0 }
 platforms           darwin
 categories          lang
@@ -29,9 +29,9 @@ master_sites        ftp://ftp.funet.fi/pub/mirrors/sources.redhat.com/pub/gcc/sn
 distname            gcc-${version}
 use_xz              yes
 
-checksums           rmd160  e940e565cc7773f761e04393498ef36ef92b2706 \
-                    sha256  c31be703d1105a69d40b169da2eaee9553309b3114913c4f71ae157c892f70ce \
-                    size    69786892
+checksums           rmd160  f8f33cec73bb89a740991f06032cb2354aa103e0 \
+                    sha256  22a5feb418f21563ae1c07eac2b6232a5e42ef25fdd15a20ab7349c16f2ef645 \
+                    size    71109940
 
 depends_lib         port:cctools \
                     port:gmp \
@@ -149,8 +149,9 @@ use_parallel_build  yes
 destroot.target     install install-info-host
 
 # Is this gcc release supported here.
-pre-fetch {
-    if { ${os.major} < 11 } {
+if { ${os.major} < 11 } {
+    known_fail      yes
+    pre-fetch {
         ui_error "${name} ${version} is not supported on Darwin ${os.major}"
         return -code error "incompatible OS X version"
     }
@@ -214,12 +215,12 @@ if {${subport} eq "libgcc-devel"} {
     #build.target        all
 
     post-destroot {
-        
+
         file mkdir ${destroot}${prefix}/lib/libgcc.merged
 
         # loop over libs to install
         foreach dylib ${dylibs} {
-            
+
             # Different OS versions (e.g. Leopard) or architectures (e.g. PPC) don't produce all the dylibs
             # https://trac.macports.org/ticket/40098
             # https://trac.macports.org/ticket/40100

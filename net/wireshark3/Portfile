@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cmake 1.0
 
 name                wireshark3
-version             3.0.5
+version             3.0.7
 revision            0
 categories          net
 license             {GPL-2 GPL-3}
@@ -27,10 +27,10 @@ distfiles           wireshark-${version}${extract.suffix}
 
 worksrcdir          wireshark-${version}
 
-checksums           sha256  c551fce475c49cea317ccbf9d22404bc827dde9cee0ccdf6648bfed3ecd9f820 \
-                    rmd160  f4be43f526ae5ef4c42fc294a37418e360a565d4 \
-                    sha1    82883e96ee247d3fcacb0cafa0bed9112824ee3a \
-                    size    30929864
+checksums           sha256  3b2b279017753398b8d5deb440db5f98a205eea35f9417e5fa2893947e7992f2 \
+                    rmd160  7168f7bf9f724e9ec3236c998c54368d85820718 \
+                    sha1    c870ef818952a741773fc1143fba2834c76a1dd0 \
+                    size    30851928
 
 conflicts           wireshark-devel wireshark wireshark2 wireshark22 wireshark24
 
@@ -127,10 +127,6 @@ variant chmodbpf description {Enable Wireshark to acces macOS capture devices} {
     depends_run             port:wireshark-chmodbpf
 }
 
-variant python34 description {Use python34 during build} {
-    depends_build-append    port:python34
-}
-
 variant python35 description {Use python35 during build} {
     depends_build-append    port:python35
 }
@@ -155,8 +151,8 @@ if {![variant_isset adns] && ![variant_isset cares]} {
 
 ## if no python3* variant is specified, add +python37
 ## XYZZY: it would be better to detect which python3* is already installed and use that...
-if {![variant_isset python34] && ![variant_isset python35] && \
-    ![variant_isset python36] && ![variant_isset python37]} {
+if {![variant_isset python35] && ![variant_isset python36] && \
+    ![variant_isset python37]} {
     default_variants-append +python37
 }
 

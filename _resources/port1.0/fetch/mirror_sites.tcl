@@ -222,7 +222,6 @@ set portfetch::mirror_sites::sites(cpan) {
     http://www.msg.com.mx/CPAN/modules/by-module/
     http://www.namesdir.com/mirrors/cpan/modules/by-module/
     https://www.perl.com/CPAN/modules/by-module/
-    http://www.pirbot.com/mirrors/cpan/modules/by-module/
     https://www.planet-elektronik.de/CPAN/modules/by-module/
 }
 
@@ -504,11 +503,13 @@ set portfetch::mirror_sites::sites(macports) {
 global os.platform os.major
 set distfiles_scheme [expr {${os.platform} eq "darwin" && ${os.major} < 10 ? "http" : "https"}]
 
+# Servers that support http.
 set portfetch::mirror_sites::sites(macports_distfiles) "
     ${distfiles_scheme}://distfiles.macports.org/:mirror
     http://aarnet.au.distfiles.macports.org/pub/macports/distfiles/:mirror
     http://aus.us.distfiles.macports.org/macports/distfiles/:mirror
     http://cjj.kr.distfiles.macports.org/:mirror
+    http://cph.dk.distfiles.macports.org/:mirror
     http://fco.it.distfiles.macports.org/mirrors/macports-distfiles/:mirror
     http://jnb.za.distfiles.macports.org/distfiles/:mirror
     http://jog.id.distfiles.macports.org/macports/distfiles/:mirror
@@ -519,8 +520,14 @@ set portfetch::mirror_sites::sites(macports_distfiles) "
     http://nue.de.distfiles.macports.org/:mirror
     ${distfiles_scheme}://pek.cn.distfiles.macports.org/macports/distfiles/:mirror
     http://ykf.ca.distfiles.macports.org/MacPorts/mpdistfiles/:mirror
-    http://ywg.ca.distfiles.macports.org/mirror/macports/distfiles/:mirror
 "
+
+# Servers that only support https.
+if {${distfiles_scheme} eq "https"} {
+    append portfetch::mirror_sites::sites(macports_distfiles) "
+        https://ywg.ca.distfiles.macports.org/mirror/macports/distfiles/:mirror
+    "
+}
 
 # To update this list use:
 # $ curl -s http://dev.mysql.com/downloads/mirrors.html | grep -E '>HTTP<' | sed -e 's,.*href="\(.*\)">.*,    \1/Downloads/:nosubdir,g' -e 's,//Downloads/:nosubdir,/Downloads/:nosubdir,g' | sort -u

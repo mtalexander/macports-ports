@@ -4,10 +4,10 @@ PortSystem              1.0
 PortGroup               python 1.0
 PortGroup               github 1.0
 
-github.setup            gpilab core-nodes 1.0.6 v
+github.setup            gpilab core-nodes 2.0.3 v
 name                    py-gpilab-core
 revision                0
-python.versions         35 36 37
+python.versions         36 37 38
 python.default_version  37
 platforms               darwin
 license                 {BSD LGPL-3+}
@@ -16,17 +16,18 @@ maintainers             {eborisch @eborisch} \
 description             Core GPI nodes.
 
 long_description        The core nodes are a collection of basic data \
-                        manipulation and visualization algorithms. 
+                        manipulation and visualization algorithms.
 
 homepage                http://gpilab.com
 
 checksums \
-    rmd160  840f103578a72ee37aabd3d7b1c95046d1ee56b8 \
-    sha256  6c7491cd5e6529eec7ea50ca0b927cfb6b6b62ccb1d1ea5e677ceda0391ec868 \
-    size    174376
+    rmd160  6966ef73ab5c58713e6fdc73de3716c2e3ae3454 \
+    sha256  4c6ec41c0160a4959259c7df529f65fb73900b6843bfac995891ade49a3078b3 \
+    size    174640
 
 if {${name} ne ${subport} } {
     depends_lib-append      port:py${python.version}-gpilab-framework \
+                            port:py${python.version}-qtpy \
                             port:py${python.version}-h5py \
                             port:py${python.version}-matplotlib
 
@@ -34,14 +35,14 @@ if {${name} ne ${subport} } {
 
     use_configure no
 
-    build { 
+    build {
         set MODS [glob ${worksrcpath}/*/*_PyMOD.cpp]
         foreach mod ${MODS} {
             set D [file dirname ${mod}]
             set M [string range [file tail ${mod}] 0 end-10]
-            ln -s ${worksrcpath} ${D}/core
+            ln -s ${worksrcpath} ${D}/gpi_core
             system -W ${D} "${prefix}/bin/gpi_make-${python.version} ${M}"
-            delete ${D}/core
+            delete ${D}/gpi_core
         }
         system -W ${worksrcpath} \
             "${prefix}/bin/python${python.branch} -O -m compileall ."
@@ -49,22 +50,22 @@ if {${name} ne ${subport} } {
 
     destroot {
         xinstall -d ${destroot}${prefix}/share/${subport}/
-     
-        set PP ${destroot}${python.pkgd}/gpi/node-libs
+
+        set PP ${destroot}${python.pkgd}
         xinstall -d ${PP}
 
         # Normalize hack required due to symlink generation in github portgroup
-        file copy [file dirname [file normalize ${worksrcpath}/_]] ${PP}/core
+        file copy [file dirname [file normalize ${worksrcpath}/_]] ${PP}/gpi_core
 
-        system -W ${PP}/core \
+        system -W ${PP}/gpi_core \
             "mv {AUT,LIC,COP,READ}* ${destroot}${prefix}/share/${subport}"
 
-        delete ${PP}/core/.gitattributes \
-               ${PP}/core/.gitignore
+        delete ${PP}/gpi_core/.gitattributes \
+               ${PP}/gpi_core/.gitignore
 
-        fs-traverse pth ${PP}/core {
+        fs-traverse pth ${PP}/gpi_core {
             if {[file isfile ${pth}]} {
-                if {[string match *build/temp* ${pth}] || 
+                if {[string match *build/temp* ${pth}] ||
                     [string match *.c ${pth}] ||
                     [string match *.cpp ${pth}]} {
                     delete ${pth}
@@ -72,7 +73,7 @@ if {${name} ne ${subport} } {
             }
         }
     }
-                            
+
     livecheck.type          none
 }
 
