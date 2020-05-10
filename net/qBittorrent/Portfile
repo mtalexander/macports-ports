@@ -5,8 +5,8 @@ PortGroup       github 1.0
 PortGroup       qt5 1.0
 PortGroup       compiler_blacklist_versions 1.0
 
-github.setup    qbittorrent qBittorrent 4.2.1 release-
-revision        1
+github.setup    qbittorrent qBittorrent 4.2.5 release-
+revision        0
 categories      net
 maintainers     {@i0ntempest me.com:szf1234} openmaintainer
 platforms       darwin
@@ -22,9 +22,9 @@ long_description \
 
 homepage        https://www.qbittorrent.org
 
-checksums       rmd160  63b72794c0560a1e0ef124e997e4b3d5201ffdcb \
-                sha256  02ba3693fcf48ca8f163bbc0031049579c647c79465c45b64d104df9afa316be \
-                size    7824454
+checksums       rmd160  9efc102d672d1364e7b92896f4ac67f9711dd01b \
+                sha256  31d5bcdbea61241ef68e90ab09ec02e3ad0a7b3a4118b7b42123095ae29eb354 \
+                size    7961726
 
 depends_lib-append \
                 port:boost \
@@ -43,7 +43,7 @@ configure.args-append \
 
 destroot {
         if {[variant_isset gui]} {
-            set appname "qBittorrent.app"
+            set appname "qbittorrent.app"
         } else {
             set appname "qbittorrent-nox.app"
         }

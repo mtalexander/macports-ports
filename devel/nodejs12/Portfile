@@ -7,10 +7,10 @@ PortGroup               compiler_blacklist_versions 1.0
 # this force is OK as node does not link against any other c++ libs
 depends_lib-append      port:libcxx
 configure.cxx_stdlib    libc++
-PortGroup               cxx11 1.1
+compiler.cxx_standard   2011
 
 name                    nodejs12
-version                 12.16.0
+version                 12.16.3
 
 categories              devel net
 platforms               darwin
@@ -24,15 +24,15 @@ long_description        Node's goal is to provide an easy way to build scalable 
                         Machine or Python's Twisted. Node takes the event model a bit further-it \
                         presents the event loop as a language construct instead of as a library.
 
-conflicts               nodejs8 nodejs10 nodejs13
+conflicts               nodejs8 nodejs10 nodejs13 nodejs14
 
 homepage                https://nodejs.org/
 master_sites            ${homepage}dist/v${version}
 use_xz                  yes
 
-checksums               rmd160  14c7ee9e030d943c59988dfc17d590922b8124c2 \
-                        sha256  b8c90637473fce4444a0b4fdae2c1560a1cf9f5959fdf9670541fc52868cf925 \
-                        size    23487084
+checksums               rmd160  1fbf5268ed594e044eeffea4e1eadf93af3aae61 \
+                        sha256  f0559b0829c7f2ac10bf5b3e157e498227e95e26cdb6af814969c49f367359a3 \
+                        size    23682432
 
 distname                node-v${version}
 
@@ -152,7 +152,6 @@ destroot {
     xinstall -m 644 -W ${worksrcpath} \
         AUTHORS \
         CHANGELOG.md \
-        COLLABORATOR_GUIDE.md \
         CONTRIBUTING.md \
         GOVERNANCE.md \
         LICENSE \

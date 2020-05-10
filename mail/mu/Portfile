@@ -6,7 +6,7 @@ name                mu
 platforms           darwin
 categories          mail
 license             GPL-3
-maintainers         {@ra1nb0w irh.it:rainbow} openmaintainer
+maintainers         {ra1nb0w @ra1nb0w} openmaintainer
 
 description         Command-line tools to index and search email (aka maildir-utils)
 long_description \
@@ -31,11 +31,14 @@ if {${subport} eq ${name}} {
     PortGroup       github 1.0
     PortGroup       elisp 1.0
 
-    github.setup    djcb mu 1.2
-    checksums       rmd160  30ff45c6f6009c15d731f8609ca5dc31943010c9 \
-                    sha256  b65827bc95c5a936374775e85d32cd02ec18fd072b8cd5013ce4d002ec06f315 \
-                    size    2297792
+    github.setup    djcb mu 1.4.4
+    checksums       rmd160  985612fed30dd4283bc83890ccf4f662c00d6dc3 \
+                    sha256  7b4da37ccdfe1dd29682fe040aefd9c34df652da88d38d68cb99497f2718d4d8 \
+                    size    2311748
     revision        0
+
+    compiler.c_standard   1999
+    compiler.cxx_standard 2014
 
     depends_build-append \
         port:pkgconfig

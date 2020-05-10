@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/jesseduffield/lazygit 0.14.3 v
+go.setup            github.com/jesseduffield/lazygit 0.20.2 v
 categories          devel
 license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} openmaintainer
@@ -11,12 +11,15 @@ maintainers         {gmail.com:herby.gillot @herbygillot} openmaintainer
 description         A simple terminal UI for git commands, written in Go
 long_description    {*}$description
 
-checksums           rmd160  fff48a8d7c34b2aa90a9efa6efdc65d5e5455cdd \
-                    sha256  4239d67f448acff9eb8a534ece2ea120f031ab59a432181a636fb4585046c341 \
-                    size    7127566
+checksums           rmd160  667af5a9850acd33cb136bee1a88ff54045c4d90 \
+                    sha256  db5a9728de59b6b7611902d760e344cde759c232fe3cbc5d4d923a8522ef9695 \
+                    size    9194812
 
+set build_date      [exec date +%FT%T%z]
 build.args          -ldflags \
-                      '-X main.version=${version} -X main.buildSource=macports'
+                      '-X main.date=${build_date} \
+                       -X main.version=${version} \
+                       -X main.buildSource=macports'
 
 destroot {
     xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/

@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/twpayne/chezmoi 1.8.1 v
+
+categories          sysutils
+license             MIT
+installs_libs       no
+
+maintainers         {gmail.com:herby.gillot @herbygillot} openmaintainer
+
+checksums           rmd160  9f05c1261867e38d3a5ca7222fc455013c3b70f1 \
+                    sha256  759deceb78c4b8a073d39f6f64bb575623b0fed60e39752cb2fb8aa5dafd36a5 \
+                    size    2217165
+
+homepage            https://chezmoi.io/
+
+description         Manage your dotfiles across multiple machines, securely.
+
+long_description    chezmoi helps you manage your personal configuration \
+                    files (dotfiles, like ~/.bashrc) across multiple machines.
+
+build.args          -ldflags \"-X main.version=${version} -X main.builtBy=macports\"
+
+set cm_doc_dir      ${prefix}/share/doc/${name}
+
+destroot {
+    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${cm_doc_dir}
+    copy {*}[glob ${worksrcpath}/docs/*] ${destroot}${cm_doc_dir}/
+}

@@ -4,9 +4,9 @@ PortSystem          1.0
 PortGroup           github  1.0
 PortGroup           cmake   1.1
 
-epoch               2
-github.setup        FreeRDP FreeRDP 2.0.0-rc4
-revision            3
+epoch               3
+github.setup        FreeRDP FreeRDP 2.1.0
+revision            0
 categories          net
 platforms           darwin
 license             Apache
@@ -17,9 +17,9 @@ long_description    FreeRDP is a free implementation of the Remote Desktop Proto
 
 homepage            http://www.freerdp.com
 
-checksums           rmd160  8c492959eca7d8621dbb243a94cd1b12d14529f8 \
-                    sha256  5bdaffd8bee655e8471120438c89e84143902cea38e29ecd6c07cc1715e8f91f \
-                    size    6614847
+checksums           rmd160  7e178b199c8dd059bde53dcca29fa159ea47ac1a \
+                    sha256  c2696220a30fcbb3d0a605a8bc244dc070308ab8e6d29f963d494a0837c50021 \
+                    size    6826257
 
 depends_build-append \
                     port:pkgconfig
@@ -36,7 +36,8 @@ depends_lib-append  port:xorg-libX11 \
                     port:zlib \
                     path:lib/libjpeg.dylib:jpeg \
                     path:lib/libssl.dylib:openssl \
-                    port:kerberos5
+                    port:kerberos5 \
+                    path:lib/libusb.dylib:libusb
 
 # Mac has 64bit filesystem too
 patchfiles-append   patch-64bitfs.diff

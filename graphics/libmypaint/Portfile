@@ -9,11 +9,11 @@ maintainers         {ryandesign @ryandesign} {devans @dbevans} openmaintainer
 platforms           darwin
 
 conflicts           MyPaint MyPaint-devel
-github.setup        mypaint libmypaint 1.5.0 v
+github.setup        mypaint libmypaint 1.6.0 v
 revision            0
-checksums           rmd160  be5a6619a4abfbb43e869d46e77d9b3744e7e525 \
-                    sha256  aba6e0526f9e4bead4a89c7c82084971b90c5128b50da77b0ac0f5ef27772b57 \
-                    size    507232
+checksums           rmd160  370609d3f831fbd8105e8bb66d62283a4b2a3e68 \
+                    sha256  a5ec3624ba469b7b35fd66b6fbee7f07285b7a7813d02291ac9b10e46618140e \
+                    size    519412
 
 license             Permissive
 description         The MyPaint Brush Library

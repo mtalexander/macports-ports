@@ -4,9 +4,9 @@ PortSystem          1.0
 PortGroup           python 1.0
 PortGroup           github 1.0
 
-github.setup        spyder-ide spyder-kernels 32139e8
+github.setup        spyder-ide spyder-kernels 2d123fb1acca7eb766dcdf8bc8905127412642c2
 name                py-spyder-kernels-devel
-version             20200128-[string range ${github.version} 0 7]
+version             20200506-[string range ${github.version} 0 7]
 revision            0
 
 categories-append   devel
@@ -18,11 +18,11 @@ maintainers         {reneeotten @reneeotten} openmaintainer
 description         Jupyter kernels for Spyder's console.
 long_description    ${description}
 
-checksums           rmd160  b6c684fc2e4ddf1fcea6eea0939a00891790ac2d \
-                    sha256  3ce7115d2e914ae46b00aa151fc94302edabd60176e626256ce597a6e15d47bd \
-                    size    68808
+checksums           rmd160  c0f02ee3e145226b265cb67540daf64a33a8d880 \
+                    sha256  7de90ec26013c7949184e0a5b7675c5ad395032597868ca6b46899d467c2baa8 \
+                    size    71124
 
-python.versions     27 35 36 37 38
+python.versions     36 37 38
 
 if {${name} ne ${subport}} {
     conflicts       py${python.version}-spyder-kernels

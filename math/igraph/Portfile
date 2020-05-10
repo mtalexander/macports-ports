@@ -3,12 +3,12 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        igraph igraph 0.8.0
+github.setup        igraph igraph 0.8.2
 github.tarball_from releases
 
 categories          math science devel
 license             GPL-2+
-maintainers         {snc @nerdling} openmaintainer
+maintainers         {snc @nerdling} {gmail.com:szhorvat @szhorvat} openmaintainer
 description         Network analysis and graph theory library for C.
 long_description    igraph is a C library for network analysis and graph theory, \
                     with an emphasis on efficiency, portability and ease of use.
@@ -18,14 +18,14 @@ platforms           darwin
 depends_lib         port:gmp \
                     port:libxml2
 
-checksums           rmd160  0622c01766132fdacd4ee0a032b7efeeb9b869ca \
-                    sha256  72637335600cf4758fd718009b16d92489b58a2f5dd96d884740d20cd5769649 \
-                    size    3597881
+checksums           rmd160  4471b3b8110ddefe85e164920ff3bbc4e7e81f83 \
+                    sha256  718a471e7b8cbf02e3e8006153b7be6a22f85bb804283763a0016280e8a60e95 \
+                    size    3625308
 
 test.run            yes
 test.target         check
 
-# igraph 0.8.0 embeds GLPK 4.45. Currently GLPK is at version 4.65.
+# igraph 0.8.1 embeds GLPK 4.45. Currently GLPK is at version 4.65.
 # Some igraph functions perform better with this new GLPK version.
 
 variant external_glpk description {Build with external GLPK} {

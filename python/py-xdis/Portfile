@@ -4,8 +4,9 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-xdis
-version             4.2.2
+version             4.5.1
 platforms           darwin
+supported_archs     noarch
 license             GPL-2
 maintainers         {khindenburg @kurthindenburg} openmaintainer
 
@@ -20,26 +21,28 @@ long_description \
     (NYU) called ACOR that estimates the autocorrelation time \
     of time series data very quickly.
 
-homepage            https://pypi.python.org/pypi/${python.rootname}/
-master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
-distname            ${python.rootname}-${version}
+homepage            https://github.com/rocky/python-xdis
 
-checksums           rmd160  e3b0ef97ced1fc90daffdd947b312476f006c22d \
-                    sha256  096b9f70d1ee77181cd6153db630f6f390d59dc588540b0b856c4220d61d91f2 \
-                    size    205819
+checksums           rmd160  0d2900fe6543f7f760586d0c2dd35b2c64afe4d6 \
+                    sha256  2cbdbff1325a78b2f825bc065ccd1d3c827cd5188963ec87a2f89576eb5867bd \
+                    size    224393
 
 python.versions     27 35 36 37 38
 
 if {${name} ne ${subport}} {
-    depends_build-append    port:py${python.version}-setuptools \
-                            port:py${python.version}-pytest-runner
+    depends_lib-append  port:py${python.version}-click \
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-six
 
-    depends_lib-append  port:py${python.version}-click
+    post-patch {
+        reinplace "s|PYTHON ?= python|PYTHON ?= ${python.bin}|g" ${worksrcpath}/test/Makefile
+    }
 
-    depends_test-append port:py${python.version}-py \
-                        port:py${python.version}-pytest
-    test.run            yes
-    test.env            PYTHONPATH=${worksrcpath}/build/lib
+    test.run        yes
+    test.dir        ${build.dir}/test
+    test.cmd        make
+    test.target     check-full
+    test.env        PYTHONPATH=${worksrcpath}/build/lib
 
     livecheck.type  none
 }

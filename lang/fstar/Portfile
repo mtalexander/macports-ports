@@ -45,7 +45,7 @@ if {${fstar.stable}} {
     # Strip everything but <major>.<minor>
     fstar.release       [regsub {^([^\.]+\.[^\.]+).*} ${fstar.version} {\1}]
 } else {
-    fstar.version       20200211
+    fstar.version       20200420
     fstar.release       devel
 }
 
@@ -124,6 +124,8 @@ if {${fstar.project} eq "fstar"} {
     description             A tool for extracting low-level F* programs to readable C code
     long_description        KreMLin is a tool that extracts an F* program to readable C code.
 
+    compiler.c_standard     2011
+
     depends_run-append      port:kremlin_select
 
     depends_build-append    port:gsed
@@ -155,14 +157,16 @@ subport fstar {
 }
 
 subport fstar-devel {
-    github.setup        ${github.author} ${github.project} d45a3cb36a4ccc241a2131a3675b0329d42ac480
+    github.setup        ${github.author} ${github.project} 96ac738de1ae0939c87245ba506bcc6917d0599c
     version             ${fstar.version}-[string range ${github.version} 0 6]
     revision            0
 
-    checksums           rmd160  30020f14bb9f8ff1bb01cb1e8d23c1a45a0d67f7 \
-                        sha256  7198e36fb8d31b33ac84462c697c7998a1986cd17d62c6329669f390ef4489bd \
-                        size    7419166
+    checksums           rmd160  e0c655688ea6ed7ca3d51b210dceb5d3cf8f364a \
+                        sha256  da5a01b385538a6b869af450f5772367a8f356c2f7379fbafc565c94415d300c \
+                        size    7745726
     github.tarball_from tarball
+
+    patchfiles-append   fstar-devel/patch-tests_machine__integers_Makefile
 }
 
 subport kremlin {
@@ -203,13 +207,13 @@ subport kremlin {
 }
 
 subport kremlin-devel {
-    github.setup        ${github.author} ${fstar.project} 9c4d0063a821d6836bdd7fd6294dba589555526a
+    github.setup        ${github.author} ${fstar.project} 21170c9ac1e8a0c7021ec8194ad8e9cef9a95b92
     version             ${fstar.version}-[string range ${github.version} 0 6]
     revision            0
 
-    checksums           rmd160  670fe36ddce957a36c331720bc38124b4c7c0e31 \
-                        sha256  1f63f28751b58fe60fbaddb0c280d0c785f08b1648d0395094691786d39e9db5 \
-                        size    758361
+    checksums           rmd160  a2fab52642fa112f04bffbcb264784ae272920d7 \
+                        sha256  0f74aef623dad575d3216a17e873fdba215f59893c36282ffe69aa4ebf24cff9 \
+                        size    795216
 
     patchfiles-append   kremlin-devel/patch-clang-driver-options \
                         kremlin-devel/patch-fix-make-command \

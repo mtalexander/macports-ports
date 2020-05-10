@@ -3,9 +3,10 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/derailed/k9s 0.14.0 v
+go.setup            github.com/derailed/k9s 0.19.4 v
+homepage            https://k9scli.io
 
-categories          sysutils
+categories          sysutils devel
 maintainers         {breun.nl:nils @breun} openmaintainer
 description         K9s
 long_description    K9s provides a curses based terminal UI to interact with \
@@ -19,9 +20,9 @@ platforms           darwin
 supported_archs     x86_64
 license             Apache-2
 
-checksums           rmd160  20a9574248fa19b6afc9bf8ba38b6882951ec545 \
-                    sha256  5eef54640bbd44f8bd8fe3691023de5944159cf0eda420a329b477f32bf6cccd \
-                    size    2071661
+checksums           rmd160  619c78683b80935092b8bed28e13cc80b87325b9 \
+                    sha256  b076de9d589ea867a304310b4360ca80ea8309bd370a83acf9a25d63512393b6 \
+                    size    6059578
 
 # Reproduce the "build" target from the upstream Makefile
 set go_ldflags      "-w -X ${go.package}/cmd.version=${version} \

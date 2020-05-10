@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        neomutt neomutt 20191207
+github.setup        neomutt neomutt 20200424
 revision            0
 categories          mail
 platforms           darwin
@@ -20,9 +20,9 @@ long_description    Mutt is a small but very powerful text-based MIME \
                     groups of messages.
 homepage            https://neomutt.org
 
-checksums           rmd160  b9b9711aa897e498ee9e22a05d876e9da3c232c1 \
-                    sha256  1cbfba0e1d897d2be3624345a8bf0c7f35211cd278398a5a924f319f1bfe8117 \
-                    size    3229315
+checksums           rmd160  e71a6fba0cf1a46f0c08951206b0f6181495f6d8 \
+                    sha256  f9f0a450b314477b4d69de99b112f8b2d24d73de661248514d0209142a09abb6 \
+                    size    3324006
 
 depends_build       port:docbook-xml-4.2 port:docbook-xsl-nons port:libxslt port:w3m
 depends_lib         path:bin/perl:perl5 \
@@ -36,25 +36,25 @@ depends_run         path:share/curl/curl-ca-bundle.crt:curl-ca-bundle
 post-patch {
     # Use MacPorts Perl
     reinplace -W ${worksrcpath} "s|/usr/bin/perl|${prefix}/bin/perl|g" \
-              doc/gen-map-doc \
+              docs/gen-map-doc \
               doxygen/doxygen.conf
 
     reinplace -W ${worksrcpath} "s|/usr/bin/|${prefix}/bin/|g" \
               contrib/sample.neomuttrc-tlr \
               contrib/smime_keys \
               contrib/smime_keys_test.pl \
-              doc/manual.xml.head
+              docs/manual.xml.head
     reinplace -W ${worksrcpath} "s|/usr/libexec/|${prefix}/libexec/|g" \
               contrib/gpg.rc \
               contrib/smime.rc \
-              doc/manual.xml.head
+              docs/manual.xml.head
     reinplace -W ${worksrcpath} "s|/usr/local/|${prefix}/|g" \
               init.h \
               contrib/hcache-bench/README.md \
               contrib/sample.neomuttrc \
-              doc/manual.xml.head
+              docs/manual.xml.head
     reinplace -W ${worksrcpath} "s|/usr/share|${prefix}/share|g" \
-              doc/manual.xml.head
+              docs/manual.xml.head
 }
 
 configure.args      --disable-idn \
@@ -66,7 +66,7 @@ configure.args      --disable-idn \
 configure.ccache     no
 configure.env-append CCACHE=none
 
-default_variants    +idn +mutt
+default_variants    +gpgme +idn +mutt
 if {${install.user} ne "root"} {
     default_variants-append     +homespool
 }
@@ -127,6 +127,10 @@ variant qdbm description {Enable header cache using QDBM database} {
     configure.args-append       --with-qdbm=${prefix}
     depends_lib-append          port:qdbm
 }
+variant rocksdb description {Enable header cache using RocksDB database} {
+    configure.args-append       --with-rocksdb=${prefix}
+    depends_lib-append          port:rocksdb
+}
 variant sasl description {Simple Authentication and Security Layer support} {
     configure.args-append       --with-sasl=${prefix}
     depends_lib-append          port:cyrus-sasl2
@@ -134,6 +138,10 @@ variant sasl description {Simple Authentication and Security Layer support} {
 variant slang description {Use S-lang instead of ncurses} {
     configure.args-append       --with-ui=slang --with-slang=${prefix}
     depends_lib-replace         port:ncurses port:slang2
+}
+variant tdb description {Enable header cache using Trivial database} {
+    configure.args-append       --with-tdb=${prefix}
+    depends_lib-append          port:tdb
 }
 variant tokyocabinet description {Enable header cache using Tokyo Cabinet database} {
     configure.args-append       --with-tokyocabinet=${prefix}

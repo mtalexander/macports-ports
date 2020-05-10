@@ -3,16 +3,13 @@
 PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
 
-# When updating mongodb to a new version, update mongo-tools to the
-# same version.
-
 name                mongodb
 epoch               1
-version             4.2.3
+version             4.2.6
 revision            0
-checksums           rmd160  ce03973377b61285d973b2814680dda6520be2be \
-                    sha256  008fddb13550a26fb6d22fcb9ff6409630f602254f4b661d4ebf56c2a9a45a76 \
-                    size    61565615
+checksums           rmd160  cc595c8de43315bdc7aaf365f8ccf49ef019ac86 \
+                    sha256  7825f3afb5e75025928cb659ccc717d784b75d149dcb26cac83348e2479929b7 \
+                    size    61671088
 
 license             SSPL
 categories          databases

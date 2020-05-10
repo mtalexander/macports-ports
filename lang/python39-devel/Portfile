@@ -6,7 +6,7 @@ PortGroup select 1.0
 name                python39-devel
 
 # Remember to keep py39-tkinter and py39-gdbm's versions sync'd with this
-version             3.9.0a3
+version             3.9.0a6
 
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          lang
@@ -24,17 +24,16 @@ master_sites        ${homepage}ftp/python/3.9.0/
 
 distname            Python-${version}
 use_xz              yes
-checksums           md5 8ea79726b42dfd5b9485350fcc82e0bb \
-                    rmd160 9c3321bfbab94fe22d43630f93001bfe9ae3daa6 \
-                    sha256 6a331b755f79dddaa28e669c0e3436280e353613d7638fd9d05a41e8bc448626
+checksums           md5 6b5d9b7fcbc7d3a79217bb1587bae16e \
+                    rmd160 22d9977aaede5748d1ebac4f939529129229e33d \
+                    sha256 628627f23cc0733a73ca98500c7cb8d39019975c6ab3cbe709e9771fc6cca36d
 
 patchfiles          patch-setup.py.diff \
                     patch-Lib-cgi.py.diff \
                     patch-configure.diff \
                     patch-Lib-ctypes-macholib-dyld.py.diff \
                     patch-libedit.diff \
-                    patch-configure-xcode4bug.diff \
-                    patch-_osx_support.py.diff
+                    patch-configure-xcode4bug.diff
 
 depends_build       port:pkgconfig
 depends_lib         port:bzip2 \

@@ -5,7 +5,7 @@ PortGroup           python 1.0
 PortGroup           select 1.0
 
 name                py-sphinx
-version             2.4.1
+version             3.0.3
 categories-append   textproc devel
 license             BSD
 maintainers         {jmr @jmroot} openmaintainer
@@ -23,9 +23,9 @@ supported_archs     noarch
 homepage            https://www.sphinx-doc.org/
 python.rootname     Sphinx
 
-checksums           md5 a7fa14914bb06062230841cedb772ebd \
-                    rmd160 d201cfba4262ff7406e460566bc310d3940662b4 \
-                    sha256 f929b72e0cfe45fa581b8964d54457117863a6a6c9369ecc1a65b8827abd3bf2
+checksums           md5 d5d0f61059c8ddb01b12e80a9e61adcb \
+                    rmd160 e37c7cdce734a3f33b77474b7ace23728906a67f \
+                    sha256 62edfd92d955b868d6c124c0942eba966d54b5f3dcb4ded39e65f74abac3f572
 
 python.versions     27 35 36 37 38
 
