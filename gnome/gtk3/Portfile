@@ -36,7 +36,8 @@ checksums           rmd160  1ced471ba54f93cc3854954d8183c1ce41095642 \
 
 minimum_xcodeversions {9 3.1}
 
-depends_build       port:pkgconfig
+depends_build       port:pkgconfig \
+                    port:xar
 
 depends_lib         port:atk \
                     path:lib/pkgconfig/pango.pc:pango \
