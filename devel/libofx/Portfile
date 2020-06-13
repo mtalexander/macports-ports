@@ -1,9 +1,11 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem              1.0
+PortGroup               github 1.0
 
+github.setup            mtalexander libofx e8cc29002fd0de063f541084e6f2ff580d53622b
 name                    libofx
-version                 0.9.15
+version                 20200509
 categories              devel
 maintainers             nomaintainer
 description             A parser and an API designed to allow applications \
@@ -18,18 +20,22 @@ long_description        This is the LibOFX library. It is a parser and an API \
 homepage                http://libofx.sourceforge.net/
 platforms               darwin
 license                 GPL-2+
-master_sites            sourceforge
 
-checksums               rmd160  f1fdf640a482228176b5e1406e92e72512aaaeea \
-                        sha256  e95c14e09fc37b331af3ef4ef7bea29eb8564a06982959fbd4bca7e331816144 \
-                        size    1298356
+checksums               rmd160  6c9512381dd13f8732212d62b553610519ba5260 \
+                        sha256  004e440a54617e457d4813d17f8675278e644a80d37faeded4b36dccb7bccb01 \
+                        size    225466
 
-depends_build-append    port:pkgconfig
+# gengetopt is needed when checking out from Git
+depends_build-append    port:pkgconfig \
+                        port:gengetopt
 depends_lib-append      port:opensp
 
 use_autoreconf          yes
 configure.args          --with-opensp-includes=${prefix}/include/OpenSP \
-                        --with-opensp-libs=${prefix}/lib
+                        --with-opensp-libs=${prefix}/lib 
+
+# For some reason parallel builds fail in ofxdump
+use_parallel_build  no
 
 patchfiles              patch-libofx-remove-hardcoded-libsdtcxx.diff
 
