@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            gitlab.com/gitlab-org/gitlab-runner 12.10.2 v
+go.setup            gitlab.com/gitlab-org/gitlab-runner 13.3.1 v
 
 categories          devel
 platforms           darwin
@@ -23,9 +23,9 @@ homepage            https://docs.gitlab.com/runner/
 master_sites        https://gitlab.com/gitlab-org/gitlab-runner/-/archive/v${version}/
 distname            gitlab-runner-v${version}
 
-checksums           rmd160  8c62001231ae5bce79ff9e30b34c112874061935 \
-                    sha256  993a737185b691bfe2ce29827d3329287afdaf3bd17248f5bd7e3447ddad6089 \
-                    size    7307295
+checksums           rmd160  8e09fa0537aa87daffdbd5de5370b63dcd55f5ae \
+                    sha256  1a0c3f28223b8c409e1e44467f3e4a9d45f07898b28656347b887feb0978a4a1 \
+                    size    7548448
 
 # Reproduce the "build_simple" target from the upstream Makefile
 set go_ldflags      "-X ${go.package}/common.NAME=${go.package} \

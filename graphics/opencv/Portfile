@@ -37,6 +37,20 @@ checksums           ${distname}${extract.suffix} \
                     sha256  1ed6f5b02a7baf14daca04817566e7c98ec668cec381e0edf534fa49f10f58a2 \
                     size    87430332
 
+platform macosx {
+    if {${os.major} <= 10} {
+        # Build requires at least 10.7.3 SDK, even when targeting 10.6
+        set lion_sdkpath ${developer_dir}/SDKs/MacOSX10.7.sdk
+        if {[file exists $lion_sdkpath]} {
+            configure.sdkroot $lion_sdkpath
+        } else {
+            pre-fetch {
+                error "Building $name @${version} on Mac OS X 10.6 requires the MacOSX10.7.sdk to be present in ${developer_dir}/SDKs/"
+            }
+        }
+    }
+}
+
 worksrcdir          opencv-${version}
 
 conflicts           opencv4
@@ -275,8 +289,12 @@ variant qt5 conflicts qt4 description {Build with Qt5 Backend support.} {
 
 variant java description {Add Java bindings.} {
     PortGroup               java 1.0
-    java.version            12
-    java.fallback           openjdk12
+    # OpenCV appears to support older Java versions,
+    # and MacPorts users have requested Java 8 support:
+    # see https://trac.macports.org/ticket/60193
+    java.version            1.6+
+    # Use latest LTS Java version as fallback
+    java.fallback           openjdk11
     depends_build-append    port:apache-ant
     configure.args-replace  -DBUILD_opencv_java=OFF \
                             -DBUILD_opencv_java=ON

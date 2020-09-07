@@ -26,6 +26,8 @@ checksums               rmd160  6915ebc852a910c6ab64bffa88f580b64543c239 \
                         sha256  66415634c6e8c3fa8b71362879ec7575e27da43da562c798a8a2f223e6e47f5c \
                         size    23267473
 
+patchfiles              configure.patch
+
 # https://trac.macports.org/ticket/31167
 compiler.blacklist-append   {clang < 211.10.1}
 

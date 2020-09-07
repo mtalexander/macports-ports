@@ -25,7 +25,6 @@ patchfiles          AlphaVantage.patch
 if {${perl5.major} != ""} {
     depends_lib-append  \
                     port:p${perl5.major}-cgi \
-                    port:p${perl5.major}-lwp-protocol-https \
                     port:p${perl5.major}-datetime \
                     port:p${perl5.major}-datetime-format-strptime \
                     port:p${perl5.major}-encode \
@@ -37,6 +36,7 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-json \
                     port:p${perl5.major}-json-parse \
                     port:p${perl5.major}-libwww-perl \
+                    port:p${perl5.major}-lwp-protocol-https \
                     port:p${perl5.major}-mozilla-ca \
                     port:p${perl5.major}-string-util \
                     port:p${perl5.major}-text-template \

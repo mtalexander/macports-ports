@@ -51,15 +51,12 @@ if {${subport} eq ${name}} {
     long_description ${long_description} \
         This port provides the snapshot released of FLTK, typically updated a few times a month.
 
-    github.setup fltk fltk f4029aebde2ecdfc176ce03a979bab16ab1c8eb1
-    version   20200328-[string range ${github.version} 0 7]
-    checksums rmd160  6491193756847db16df96d58b3280254654c0b89 \
-              sha256  34cc8a73e664e48ab423c8778fb612653801f89326d31d7a27316ec1c11679dc \
-              size    6085178
-    revision  0
-
-    patchfiles-append \
-        patch-fluid-Makefile.devel.diff
+    github.setup    fltk fltk 1f20806466e8a1adff85aa327dfb50665d9a7948
+    version         20200827-[string range ${github.version} 0 7]
+    checksums       rmd160  7479b07b2d1c546a9861dbb56f2f35d1d2ae6a92 \
+                    sha256  bc16ac507c11beaf8601f98ce7fdfd7dd46eeec8c7af86ee486e3807b4793f7c \
+                    size    6169205
+    revision        0
 
 }
 
@@ -106,6 +103,8 @@ configure.args  --enable-shared \
                 --disable-localzlib \
                 --disable-localpng
 
+configure.cppflags-delete -I${prefix}/include
+configure.ldflags-delete -L${prefix}/lib
 configure.universal_args-delete --disable-dependency-tracking
 
 post-configure {

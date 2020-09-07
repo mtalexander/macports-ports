@@ -1,9 +1,10 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem      1.0
+PortGroup       compiler_blacklist_versions 1.0
 PortGroup       github    1.0
 
-github.setup    timescale timescaledb 1.7.0
+github.setup    timescale timescaledb 1.7.3
 revision        0
 license         Apache-2
 description     A time-series database that integrates with PostreSQL.
@@ -20,9 +21,9 @@ long_description \
                 as well as full SQL support. TimescaleDB is packaged \
                 as a PostgreSQL extension.
 
-checksums       rmd160  df7e7320d50937202cef178e53fb5fc4ecfaa345 \
-                sha256  84bbe4df7fee581efd72ad10fc8fdce9570b11bf6285da29931c04b73627da81 \
-                size    1919794
+checksums       rmd160  f9be1e3e1c6df9b5bde399ad151fde5e1fe35565 \
+                sha256  fc9a755a1a2e2d544eddb82919375e081725c72aad7d82c60eb6f415e51a1eb3 \
+                size    1974530
 
 depends_build   path:bin/cmake:cmake
 
@@ -55,6 +56,11 @@ if {![variant_isset postgresql96] && \
 
 patch.pre_args          -p1
 patchfiles-append       test-CMakeLists.txt.patch
+
+compiler.c_standard     2011
+# Work around MacPorts base C11 compiler selection bug.
+# https://github.com/macports/macports-base/pull/196
+compiler.blacklist-append {clang < 500}
 
 configure.cmd	        ./bootstrap
 configure.pre_args

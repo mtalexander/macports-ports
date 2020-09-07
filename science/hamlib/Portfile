@@ -19,12 +19,16 @@ homepage            https://hamlib.github.io
 
 subport hamlib-devel {}
 if {[string first "-devel" $subport] > 0} {
+    PortGroup       legacysupport 1.0
 
-    github.setup    Hamlib Hamlib c50f26232b7df421835ec94bf0aa9c5078a86f07
-    version         20200414-[string range ${github.version} 0 7]
-    checksums       rmd160  920966d7dde87457a0185b30de6dba28f6caf6e4 \
-                    sha256  e2b7ae9d32a146adfd34e2f95374287410da01c72ba4bc4d46b99e419e62e40a \
-                    size    1438741
+    # clock_gettime
+    legacysupport.newest_darwin_requires_legacy 15
+
+    github.setup    Hamlib Hamlib 3ef3a73b799626a35823d46971ef4466a60f8252
+    version         20200901-[string range ${github.version} 0 7]
+    checksums       rmd160  b75c40cd4b62a5b471c7bd753b24ad3468feca2e \
+                    sha256  7e8539f662710783895b6d9b84dbdd00e7e4507b3e4c7617ae35d935cae4311d \
+                    size    1481576
     revision        0
 
     name            hamlib-devel

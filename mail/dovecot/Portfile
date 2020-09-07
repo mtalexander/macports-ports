@@ -3,10 +3,9 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        dovecot core 2.3.10
+github.setup        dovecot core 2.3.11.3
 name                dovecot
 revision            0
-conflicts           dovecot2
 epoch               20060722
 set core_version    ${version}
 
@@ -22,12 +21,12 @@ long_description    Dovecot is an IMAP and POP3 server for Linux/UNIX-like\
                     it is written in C, it uses several coding techniques to\
                     avoid most of the common pitfalls.
 
-checksums           rmd160  8853f27a1464737cf0a2203770b54249629b297e \
-                    sha256  47cc06d2b005940865132f4bf468520b756d982799b6d4b0e81283dc2bd0c1b2 \
-                    size    3734697
+checksums           rmd160  78920585b85a6ff582711f4d3b1ea9be9254197f \
+                    sha256  242ecbf563b07ce9c5201464f1d0c42ec0df8511de0eda46129b6c42d5b97fe2 \
+                    size    3815047
 
 subport ${name}-sieve {
-    github.setup    dovecot pigeonhole 0.5.10
+    github.setup    dovecot pigeonhole 0.5.11
     revision        0
 
     description     Pigeonhole sieve and managesieve plugins for dovecot
@@ -68,9 +67,9 @@ subport ${name}-sieve {
 
     distname        dovecot-${core_version}-pigeonhole-${version}
 
-    checksums       rmd160  e5a00a86aefb7cb6a4bef42ff65e7bac7e6f414c \
-                    sha256  9769d9fb14fed571deb4994a21c2c0ac3a1c9ab7f0d1bd115fdaba75e36f555b \
-                    size    1044145
+    checksums       rmd160  410524bb4a11c592e1c641453d285804d1216b64 \
+                    sha256  b900eadbd53119032a86dc04284ee82e96a4bd8f5e57cf658451feda9808c5bf \
+                    size    1044337
 
     depends_lib-append \
                     port:${name} \
@@ -104,6 +103,7 @@ if {${name} eq ${subport}} {
                     port:bzip2 \
                     port:libiconv \
                     path:lib/libssl.dylib:openssl \
+                    port:lz4 \
                     port:xz \
                     port:zlib
 
@@ -215,22 +215,31 @@ if {${name} eq ${subport}} {
 
          1. Acquire APNS Mail certificates from a (virtual) macOS\
             High Sierra 10.13 and Server.app version 5.6. Export\
-            the certificates from the Keychain into the file\
-            com.apple.servermgrd.apns.mail.p12 . *Note*: APNS Mail\
-            certificate creation is deprecated on Server.app version 5.7+.
+            the APNS certificates and keys from the Keychain into the\
+            files com.apple.servermgrd.apns.mail.cer and\
+            com.apple.servermgrd.apns.mail.key.p12. APNS certificates appear\
+            separately with names APSP:<UUID> that correspond to the\
+            certificate's User ID field, com.apple.mail.XServer.<UUID>.\
+            APNS keys are simply named com.apple.servermgrd.apns.mail.\
+            *Note*: APNS Mail certificate creation is deprecated on\
+            Server.app version 5.7+.
 
          2. Convert the APNS Mail certificates to PEM files:
 
-                openssl pkcs12 -in com.apple.servermgrd.apns.mail.p12  \\
-                    -clcerts -nokeys | sed '/BEGIN CERTIFICATE/,\$!d'   \\
+                openssl x509 -inform der -in com.apple.servermgrd.apns.mail.cer  \\
+                    | sed '/BEGIN CERTIFICATE/,\$!d'   \\
                 > com.apple.mail.cert.pem
-                sudo install -m 0644 -o ${default_internal_user} -g ${default_login_user} \\
-                    com.apple.mail.cert.pem ${prefix}/etc/dovecot-apns
-                openssl pkcs12 -in com.apple.servermgrd.apns.mail.p12  \\
+                openssl pkcs12 -in com.apple.servermgrd.apns.mail.key.p12  \\
                     -nodes -nocerts | sed '/BEGIN PRIVATE KEY/,\$!d'    \\
                 > com.apple.mail.key.pem
+                # verify that the certificate and key match:
+                openssl x509 -noout -modulus -in com.apple.mail.cert.pem \\
+                | openssl sha1
+                openssl rsa -noout -modulus -in com.apple.mail.key.pem \\
+                | openssl sha1
                 sudo install -m 0640 -o ${default_internal_user} -g ${default_login_user} \\
-                    com.apple.mail.key.pem ${prefix}/etc/dovecot-apns
+                    com.apple.mail.cert.pem com.apple.mail.key.pem \\
+                    ${prefix}/etc/dovecot-apns
 
          3. Configure dovecot for APNS:
 

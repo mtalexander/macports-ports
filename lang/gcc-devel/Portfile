@@ -8,9 +8,9 @@ PortGroup           conflicts_build              1.0
 
 epoch               4
 name                gcc-devel
-version             11-20200503
-revision            0
-subport             libgcc-devel { revision 0 }
+version             11-20200614
+revision            1
+subport             libgcc-devel { revision 1 }
 platforms           darwin
 categories          lang
 maintainers         nomaintainer
@@ -44,11 +44,13 @@ master_sites-append https://mirror.koddos.net/gcc/snapshots/${version}/ \
 distname            gcc-${version}
 use_xz              yes
 
-checksums           rmd160  a71db0c93d7f736788d03513a6a254b373dc8ae5 \
-                    sha256  5dcf52a4b44b73d31039b105dab50204e6bf46c2ac17498afd1bb46504a465e8 \
-                    size    71361416
+checksums           rmd160  5d1c8f310cee642b590c3e7592e8463bbf675ab4 \
+                    sha256  40635ce0e16ad628ea195270923b2bcbbcb6e1e552e0a18dfc1a9c49f286a741 \
+                    size    71538232
 
-depends_lib         port:cctools \
+patchfiles          patch-fix-libgccjit-soname
+
+depends_lib-append  port:cctools \
                     port:gmp \
                     path:lib/pkgconfig/isl.pc:isl \
                     port:ld64 \
@@ -56,7 +58,7 @@ depends_lib         port:cctools \
                     port:libmpc \
                     port:mpfr \
                     port:zlib
-depends_run         port:gcc_select \
+depends_run-append  port:gcc_select \
                     port:libgcc-devel
 
 depends_skip_archcheck-append gcc_select ld64 cctools
@@ -68,9 +70,14 @@ platform darwin {
     configure.pre_args-append --build=${build_arch}-apple-darwin${os.major}
 }
 
+set gcc_configure_langs {c c++ objc obj-c++ lto fortran}
+if {${subport} eq "gcc-devel"} {
+    lappend gcc_configure_langs jit
+}
+
 configure.dir       ${workpath}/build
 configure.cmd       ${worksrcpath}/configure
-configure.args      --enable-languages=c,c++,objc,obj-c++,lto,fortran \
+configure.args      --enable-languages=[join ${gcc_configure_langs} ","] \
                     --libdir=${prefix}/lib/${name} \
                     --includedir=${prefix}/include/${name} \
                     --infodir=${prefix}/share/info \
@@ -93,7 +100,8 @@ configure.args      --enable-languages=c,c++,objc,obj-c++,lto,fortran \
                     --with-as=${prefix}/bin/as \
                     --with-ld=${prefix}/bin/ld \
                     --with-ar=${prefix}/bin/ar \
-                    --with-bugurl=https://trac.macports.org/newticket
+                    --with-bugurl=https://trac.macports.org/newticket \
+                    --enable-host-shared
 
 # see https://lists.macports.org/pipermail/macports-dev/2017-August/036209.html
 # --disable-tls does not limit functionality

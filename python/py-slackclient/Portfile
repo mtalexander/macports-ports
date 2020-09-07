@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        slackapi python-slackclient 2.8.1 v
+name                py-slackclient
+categories-append   irc
+platforms           darwin
+supported_archs     noarch
+license             MIT
+
+python.versions     36 37 38
+
+maintainers         {gmail.com:giovanni.bussi @GiovanniBussi} openmaintainer
+
+description         Slack Web API and Real Time Messaging (RTM) API.
+long_description    The Python slackclient is a developer kit for interfacing with the Slack \
+                    Web API and Real Time Messaging (RTM) API on Python 3.6 and above.
+
+homepage            https://slack.dev/python-slackclient/
+
+checksums           rmd160  f3ea2d19b00b2a1c13bdeed852473041275e54fe \
+                    sha256  c2800834ed0411b43e6bc987d778fd36d3219833af3ef8fb1c16ecdcbea61e65 \
+                    size    2570961
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+    depends_lib-append      port:py${python.version}-aiohttp
+
+    livecheck.type none
+}

@@ -1,13 +1,11 @@
 #-*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-#PortGroup           github     1.0
+PortGroup           github     1.0
 PortGroup           mpi        1.0
 PortGroup           muniversal 1.0
 
-#github.setup        anishida lis 2.0.18
-name  	      	    lis
-version             2.0.21
+github.setup        anishida lis 2.0.23
 revision            0
 master_sites        https://www.ssisc.org/lis/dl
 use_zip       	    yes
@@ -24,11 +22,13 @@ long_description    \
     a parallel software library for solving linear equations and eigenvalue problems \
     that arise in the numerical solution of partial differential equations using iterative methods.
 
-checksums           rmd160  520557002bfa9cbbe452fb69c539816bbe5a0387 \
-                    sha256  a674d645013e99f9239e95358f524836b074c2c285885d5a68155bb4e6e6c1a6 \
-                    size    3987668
+checksums           rmd160  e81e8e8fc069c9d5cb08e4c1971832d2db3cfd5c \
+                    sha256  19f29b39aad4d2c287f60eb82d95792dc30d321a734540343e7643f6a2d2aee0 \
+                    size    3983234
 
 mpi.setup           require_fortran
+compilers.allow_arguments_mismatch \
+                    yes
 
 # respect MacPorts compiler
 patchfiles-append   patch-compiler.diff
@@ -45,4 +45,10 @@ configure.args-append \
 if {[mpi_variant_isset]} {
     configure.args-append \
                     --enable-mpi
+}
+
+post-destroot {
+    foreach f [glob -directory ${worksrcpath}/test *.{c,F,F90}] {
+        file copy ${f} ${destroot}${prefix}/share/examples/${name}/
+    }
 }

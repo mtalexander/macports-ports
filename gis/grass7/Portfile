@@ -3,11 +3,12 @@
 PortSystem          1.0
 PortGroup           wxWidgets 1.0
 PortGroup           github 1.0
+PortGroup           debug 1.0
 
 github.setup        OSGeo grass 7.8.3
 name                grass7
 set main_version    [join [lrange [split ${version} "."] 0 1] ""]
-revision            0
+revision            3
 set realVersion     ${version}
 #distname           grass-${version}
 distname            grass-${realVersion}
@@ -41,16 +42,14 @@ depends_lib         port:bzip2 \
                     port:readline
 
 patchfiles          patch-configure.diff \
-                    patch-Install_make.diff \
+                    patch-Install_make.diff  \
                     patch-libraster_gdal_c.diff
-
-configure.ldflags-append    -framework OpenCL
 
 configure.args-append \
     --prefix=${prefix}/share \
     --exec-prefix=${prefix} \
     --with-opengl=no \
-    --with-opencl=yes \
+    --with-opencl=no \
     --with-bzlib \
     --with-bzlib-includes=${prefix}/include \
     --with-bzlib-libs=${prefix}/lib \
@@ -82,7 +81,7 @@ configure.args-append \
 build.target            default
 
 # Python 3 variants
-set python_suffixes {34 35 36 37 38}
+set python_suffixes {35 36 37 38}
 set python_variants {}
 
 foreach pyver ${python_suffixes} {
@@ -131,25 +130,29 @@ set pydefault "${pydefault}} { default_variants +python38 }"
 
 eval ${pydefault}
 
-# PROJ version
-
-variant proj4 description {Builds with PROJ4 4.x} {}
-
-if {[variant_isset proj4]} {
-    set PROJ    "proj49"
-} else {
-    set PROJ    "proj6"
+variant proj7 conflicts proj6 description {Build with PROJ 7} {
+    depends_lib-append      port:proj7
+    configure.env           PATH=$::env(PATH):${prefix}/lib/proj7/bin
+    build.env               PATH=$::env(PATH):${prefix}/lib/proj7/bin
+    configure.args-append   --with-proj-includes=${prefix}/lib/proj7/include \
+                            --with-proj-libs=${prefix}/lib/proj7/lib \
+                            --with-proj-share=${prefix}/lib/proj7/share/proj
 }
 
-depends_lib-append          port:[string range ${PROJ} 0 end-1]
-configure.env               PATH=$::env(PATH):${prefix}/lib/${PROJ}/bin
-build.env                   PATH=$::env(PATH):${prefix}/lib/${PROJ}/bin
-configure.args-append       --with-proj-includes=${prefix}/lib/${PROJ}/include \
-                            --with-proj-libs=${prefix}/lib/${PROJ}/lib \
-                            --with-proj-share=${prefix}/lib/${PROJ}/share/proj
+variant proj6 conflicts proj7 description {Build with PROJ 6} {
+    depends_lib-append      port:proj6
+    configure.env           PATH=$::env(PATH):${prefix}/lib/proj6/bin
+    build.env               PATH=$::env(PATH):${prefix}/lib/proj6/bin
+    configure.args-append   --with-proj-includes=${prefix}/lib/proj6/include \
+                            --with-proj-libs=${prefix}/lib/proj6/lib \
+                            --with-proj-share=${prefix}/lib/proj6/share/proj
+}
 
-variant gui description {Builds with WxPython GUI} {
+if {![variant_isset proj7] && ![variant_isset proj6]} {
+    default_variants    +proj7
+}
 
+variant gui description {Build with wxPython GUI} {
     wxWidgets.use           wxWidgets-3.2
 
     depends_lib-append      port:${wxWidgets.port}

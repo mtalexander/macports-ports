@@ -12,8 +12,8 @@ if {${subport} ne "gmic" && ${subport} ne "gmic-clib"} {
 }
 
 name                gmic
-version             2.9.0
-revision            1
+version             2.9.2
+revision            0
 license             CeCILL
 categories          science graphics
 platforms           darwin
@@ -37,9 +37,9 @@ use_parallel_build  no
 
 distfiles           ${name}_${version}${extract.suffix}
 
-checksums           rmd160  f5e250c3043f811c76a74d60513a979ed09679b0 \
-                    sha256  6233695f9b27999dcc7cc3aa7480b0f192bd44de85209091a3b4b8a65ae8c4b5 \
-                    size    6195597
+checksums           rmd160  d5e1c8e063b1d496b82c0373e938fd57921f850b \
+                    sha256  385db1ef3ef5805bc7bcb65255e188e349fc5e0ae35687b1b914291212bc4c91 \
+                    size    6639693
 
 depends_lib         port:curl \
                     path:lib/libavcodec.dylib:ffmpeg \
@@ -54,8 +54,7 @@ depends_lib         port:curl \
                     port:zlib
 
 patchfiles          patch-CMakeLists.txt.diff \
-                    patch-src-Makefile.diff \
-                    patch-src-gmic.cpp.diff
+                    patch-src-Makefile.diff
 
 compiler.cxx_standard           2011
 

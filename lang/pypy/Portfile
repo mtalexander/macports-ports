@@ -5,7 +5,7 @@ PortGroup           select 1.0
 
 name                pypy
 version             7.3.1
-revision            0
+revision            1
 categories          lang python devel
 license             MIT PSF
 maintainers         {danchr @danchr} openmaintainer
@@ -244,6 +244,19 @@ if {[string match "pypy*-tkinter" ${subport}]} {
     }
 
     post-destroot { }
+}
+
+
+set min_darwin 11
+
+if {${os.major} < ${min_darwin} && ${os.platform} eq "darwin"} {
+    known_fail yes
+
+    # https://trac.macports.org/ticket/59191
+    pre-fetch {
+        ui_error "${name} ${version} requires Darwin ${min_darwin} or newer."
+        return -code error "incompatible macOS version"
+    }
 }
 
 if {[regexp \- $subport]} {

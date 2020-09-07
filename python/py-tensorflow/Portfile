@@ -40,12 +40,6 @@ if { ${os.major} < ${min_darwin} } {
     }
 }
 
-compiler.blacklist-append {clang < 840}
-# require c++14
-compiler.cxx_standard 2014
-
-patch.pre_args      -p1
-
 # Required java version
 java.version        11+
 # JDK port to install if required java not found
@@ -54,19 +48,22 @@ java.fallback       openjdk14
 # declare no conflict to allow redistribution of binaries.
 license_noconflict  ${java.fallback}
 
+# require c++14
+compiler.cxx_standard 2014
+
 # The oldest Xcode version to use default Xcode compiler
-# Note setting here should be in sync with that in bazel
-set tf_min_xcode    9.0
+# https://github.com/tensorflow/tensorflow/issues/39262
+set tf_min_xcode    10.2
+compiler.blacklist-append {clang < 1001}
+# Work out if we should be using macports clang
+set use_mp_clang [ expr ( [ string match macports-clang-* ${configure.compiler} ] || [ vercmp ${xcodeversion} ${tf_min_xcode} ] < 0 ) ]
 
 # https://trac.macports.org/ticket/59192
 xcode_workaround.type                  avoid_xcode_compiler
+xcode_workaround.os_versions           18 19
 xcode_workaround.fixed_xcode_version   11.4
 
-if {${os.major} < 16} {
-    # Work around for issues with clock_gettime(CLOCK_REALTIME, &ts);
-    # https://stackoverflow.com/questions/5167269/clock-gettime-alternative-in-mac-os-x
-    patchfiles-append CLOCK_REALTIME-Older-OSX.patch
-}
+#patch.pre_args      -p1
 
 variant mkl description {Enable Intel Math Kernel Library support} {
     # Not obvious if this dep is needed ?
@@ -79,7 +76,10 @@ variant mkl description {Enable Intel Math Kernel Library support} {
 #    default_variants-append +mkl
 #}
 
-variant native description {Build from source for best native platform support} { }
+variant native description {Build from source for best native platform support} {
+    # Prevent precompiled binaries to let compilation optimise the library for the user processor
+    archive_sites
+}
 
 # Support python versions
 python.versions        37 38
@@ -130,7 +130,7 @@ if {${name} ne ${subport}} {
     }
     # Disable Xcode detection on older OSes, as we want the
     # MP provided commandline utilities to be used instead.
-    if { [string match macports-clang-* ${configure.compiler}] || [vercmp ${xcodeversion} ${tf_min_xcode}] < 0 } {
+    if { ${use_mp_clang} } {
         configure.env-append BAZEL_USE_CPP_ONLY_TOOLCHAIN=1
         build.env-append     BAZEL_USE_CPP_ONLY_TOOLCHAIN=1
     }
@@ -164,6 +164,14 @@ if {${name} ne ${subport}} {
     }
 
     build {
+
+        # Limit the number of parallel jobs to the number of physical, not logical, cpus.
+        # First current setting to ensure we would be reducing the current setting.
+        set physicalcpus [sysctl hw.physicalcpu]
+        if { ${build.jobs} > ${physicalcpus} } {
+            build.jobs ${physicalcpus}
+        }
+        
         # tensorflow(via bazel) cannot be built if gcc is 'port selected'
         # https://trac.macports.org/ticket/58569
         # https://trac.macports.org/ticket/58679
@@ -178,8 +186,15 @@ if {${name} ne ${subport}} {
         # Build using the wonderful bazel build system ...
         set tf_bazel_cmd "bazel --max_idle_secs=60 --output_user_root=${workpath}"
         set tf_bazel_build_opts "-s -c opt --verbose_failures --config=opt"
+        # Limit bazel resource utilisation
+        set tf_bazel_build_opts "${tf_bazel_build_opts} --jobs ${build.jobs} --local_ram_resources=HOST_RAM*0.75 --local_cpu_resources=HOST_CPUS*.75"
         # Explicitly pass SDK https://github.com/bazelbuild/rules_go/issues/1554
-        set tf_bazel_build_opts "${tf_bazel_build_opts} --macos_sdk_version=${configure.sdk_version}"
+        # Check versioned SDK actually exists... https://trac.macports.org/ticket/60317
+        if {[string first ${configure.sdk_version} ${configure.sdkroot}] != -1} {
+            set tf_bazel_build_opts "${tf_bazel_build_opts} --macos_sdk_version=${configure.sdk_version}"
+        } else {
+            ui_warn "configure.sdkroot='${configure.sdkroot}' does not match configure.sdk_version='${configure.sdk_version}'"
+        }
         # hack to try and transfer MP c, c++ and ld options to bazel...
         foreach opt [list {*}${configure.cflags} ] {
             set tf_bazel_build_opts "${tf_bazel_build_opts} --conlyopt '${opt}'"
@@ -190,12 +205,13 @@ if {${name} ne ${subport}} {
         foreach opt [list {*}${configure.ldflags} ] {
             set tf_bazel_build_opts "${tf_bazel_build_opts} --linkopt '${opt}'"
         }
-        if {[vercmp ${xcodeversion} ${tf_min_xcode}] < 0} {
+        if { ${use_mp_clang} } {
             set tf_bazel_build_opts "${tf_bazel_build_opts} --action_env CC=${configure.cc}"
             set tf_bazel_cmd "BAZEL_USE_CPP_ONLY_TOOLCHAIN=1 ${tf_bazel_cmd}"
         }
         if {[variant_isset mkl]} {
-            set tf_bazel_build_opts "${tf_bazel_build_opts} --config=mkl"
+            # Hardcode disable MKL intil build issue is addressed
+            #set tf_bazel_build_opts "${tf_bazel_build_opts} --config=mkl"
             # Is this required ?
             #set tf_bazel_build_opts "${tf_bazel_build_opts} --cxxopt '-I${prefix}/include/libomp' --linkopt '-L${prefix}/lib/libomp'"
         }

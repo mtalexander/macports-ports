@@ -4,7 +4,7 @@ PortSystem      1.0
 PortGroup       java 1.0
 
 name            spring-boot-cli
-version         2.2.6
+version         2.3.2
 revision        0
 
 categories      java
@@ -30,9 +30,9 @@ master_sites    https://repo.spring.io/release/org/springframework/boot/${name}/
 
 distname        ${name}-${version}.RELEASE-bin
 
-checksums       rmd160  473203e0a268cba55156dc062cf412f3d3616539 \
-                sha256  f2594c453f7a066e8c058f2a078dfd05e9ec0caeb19f58f72a49760a300b014e \
-                size    11410321
+checksums       rmd160  436cea95ec3241f9a7c76b44ad39e0ecd04d71a8 \
+                sha256  19f24c4e6838b430d89d1a8acf92e59e4167a1682d40edbe95a863359be9c79a \
+                size    11606757
 
 worksrcdir      spring-${version}.RELEASE
 
