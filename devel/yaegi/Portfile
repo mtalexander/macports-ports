@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/containous/yaegi 0.8.14 v
+go.setup            github.com/traefik/yaegi 0.9.3 v
 
 description         Yaegi is Another Elegant Go Interpreter
 
@@ -24,11 +24,13 @@ categories          devel
 license             Apache-2
 installs_libs       no
 
-checksums           rmd160  23138fa8aa5fb6479bca130cfc1da4ef6c0d000a \
-                    sha256  b4692361ce6faba6c02474d4dac5f3573066e852e0a881f04a0f610c17559712 \
-                    size    1946238
+checksums           rmd160  d4d62875436c38304da34064ed1ddbec032e1abe \
+                    sha256  f82a9bffcd2384ecf6e80e36b9f49364ef4b4b987ebd597d509eb15b43a9888b \
+                    size    1958471
 
-build.target        github.com/containous/yaegi/cmd/yaegi
+build.target        ./cmd/yaegi
+
+github.tarball_from archive
 
 destroot {
     xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/

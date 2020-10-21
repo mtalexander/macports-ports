@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-rich
+version             9.0.1
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+maintainers         {@harens gmail.com:harensdeveloper} \
+                    openmaintainer
+
+description         Python library for rich text and beautiful formatting \
+                    in the terminal
+long_description    {*}${description}. The Rich API makes it easy to add color \
+                    and style to terminal output. Rich can also render pretty tables, \
+                    progress bars, markdown, syntax highlighted source code, tracebacks, \
+                    and more — out of the box.
+
+homepage            https://rich.readthedocs.io/en/latest/
+
+checksums           rmd160 77c82c59ecd151fde12d1eedc306a8be33e0937d \
+                    sha256 1208bc46dda7ca120b308f20f96f47f731837a2f99a16a116b8e320751ecb7b0 \
+                    size   147431
+
+python.versions     38 39
+
+if {${name} ne ${subport}} {
+
+    depends_build-append \
+                        port:py${python.version}-setuptools
+
+    depends_lib-append  port:py${python.version}-colorama \
+                        port:py${python.version}-commonmark \
+                        port:py${python.version}-typing_extensions \
+                        port:py${python.version}-pygments
+
+    livecheck.type      none
+}

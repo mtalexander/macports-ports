@@ -11,7 +11,7 @@ configure.cxx_stdlib    libc++
 compiler.cxx_standard   2014
 
 name                    nodejs14
-version                 14.9.0
+version                 14.14.0
 
 categories              devel net
 platforms               darwin
@@ -25,15 +25,15 @@ long_description        Node's goal is to provide an easy way to build scalable 
                         Machine or Python's Twisted. Node takes the event model a bit further-it \
                         presents the event loop as a language construct instead of as a library.
 
-conflicts               nodejs8 nodejs10 nodejs12 nodejs13
+conflicts               nodejs8 nodejs10 nodejs12 nodejs13 nodejs15
 
 homepage                https://nodejs.org/
 master_sites            ${homepage}dist/v${version}
 use_xz                  yes
 
-checksums               rmd160  fcfad9e2dc1b339114a993eb7e28ace7159e3c22 \
-                        sha256  012ef6b715306a56183696a878a4803c2edab4f25f1bf3f40425320cf28e6ef6 \
-                        size    33356264
+checksums               rmd160  794dc3ae3d9ed7e8da8a8a36dd9a5ab656e6ead3 \
+                        sha256  04e935f4bd6b1e91c4a491e18d4d7a797009c3760b950cdefb193c4c079df0e6 \
+                        size    33439920
 
 distname                node-v${version}
 
@@ -163,4 +163,4 @@ destroot {
 
 livecheck.url       ${homepage}dist/
 livecheck.type      regex
-livecheck.regex     {v(\d+\.\d+\.\d+)}
+livecheck.regex     {v(14\.\d+\.\d+)}

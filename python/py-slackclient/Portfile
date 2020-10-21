@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 PortGroup           github 1.0
 
-github.setup        slackapi python-slackclient 2.8.1 v
+github.setup        slackapi python-slackclient 2.9.1 v
 name                py-slackclient
 categories-append   irc
 platforms           darwin
@@ -21,9 +21,9 @@ long_description    The Python slackclient is a developer kit for interfacing wi
 
 homepage            https://slack.dev/python-slackclient/
 
-checksums           rmd160  f3ea2d19b00b2a1c13bdeed852473041275e54fe \
-                    sha256  c2800834ed0411b43e6bc987d778fd36d3219833af3ef8fb1c16ecdcbea61e65 \
-                    size    2570961
+checksums           rmd160  c2dfadfae285fe2cbdf4a11b0b2a1068ef6ed625 \
+                    sha256  cec492d6ca264c2b56d2746fd971f17f56f36ee84b2dfdf736d42ddfe20fe6e0 \
+                    size    2576869
 
 if {${name} ne ${subport}} {
     depends_build-append    port:py${python.version}-setuptools

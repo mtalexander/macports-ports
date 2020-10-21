@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/tektoncd/cli 0.12.0 v
+go.setup            github.com/tektoncd/cli 0.13.0 v
 name                tektoncd-cli
 
 categories          devel
@@ -23,9 +23,9 @@ long_description    The Tekton Pipelines cli project provides a CLI for \
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  86d97709e1a302b47f9e5b928e9a884956ff9b47 \
-                    sha256  97edb0d51041dc97759f4b95c7b2df5b34b66b146c957d524c0fb25130cec8d4 \
-                    size    7378903
+checksums           rmd160  2f57c0946dd1c4ccb9f30e3afc9abf7efe1393c9 \
+                    sha256  d5bf1777ad82298d98c4fbd125d3887c452f08ec23f54d27ab4128f51f32794c \
+                    size    7658435
 
 if {${build_arch} eq "x86_64"} {
     set tektoncd_target amd64
@@ -34,6 +34,8 @@ if {${build_arch} eq "x86_64"} {
 }
 
 patchfiles          patch-Makefile.diff
+
+build.env-delete    GO111MODULE=off
 
 build.cmd           make
 build.pre_args      RELEASE_VERSION=${version}

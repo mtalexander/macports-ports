@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           python 1.0
+
+github.setup        gnebbia kb 0.1.4 v
+revision            0
+
+platforms           darwin
+license             GPL-3
+categories          office python
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+description         A minimalist knowledge base manager
+
+long_description    kb is a text-oriented minimalist command line knowledge \
+                    base manager. kb can be considered a quick note \
+                    collection and access tool oriented toward software \
+                    developers, penetration testers, hackers, students or \
+                    whoever has to collect and organize notes in a clean way. \
+                    Although kb is mainly targeted on text-based note \
+                    collection, it supports non-text files as well (e.g., \
+                    images, pdf, videos and others).
+
+checksums           rmd160  abb4dbb1720634e540629c89b3ca930adf86e359 \
+                    sha256  98daed013274545e4d11635f1020f899107730b880b873c745e261e7d719dc9b \
+                    size    14476111
+
+python.default_version  38
+
+depends_build-append    port:py${python.version}-setuptools
+
+depends_lib-append      port:py${python.version}-attr \
+                        port:py${python.version}-attrs \
+                        port:py${python.version}-colored \
+                        port:py${python.version}-toml

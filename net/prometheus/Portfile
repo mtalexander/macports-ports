@@ -1,8 +1,8 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        prometheus prometheus 2.20.1 v
-github.tarball_from archive
+github.setup        prometheus prometheus 2.22.0 v
+revision            0
 
 description         The Prometheus monitoring system and time series database
 
@@ -43,14 +43,15 @@ set prom_share_dir  ${prefix}/share/${name}
 set prom_log_dir    ${prefix}/var/log/${name}
 set prom_log_file   ${prom_log_dir}/${name}.log
 
-checksums   rmd160  2de218378987be49fd8d79d2ec5493858cb43c32 \
-            sha256  d8382b4847479ffe2a968827aa97b5d3167c57ff5a89766f2d4f8c9c9f97dce6 \
-            size    13764709
+checksums   rmd160  3b40fb59a6823678d246a423c846213d7ff60354 \
+            sha256  9390cbd338d253956184d0f0a6719d21cb5719f0319fc48ee08d5bd48fc87cc2 \
+            size    14140650
 
 add_users           ${prom_user} \
                     group=${prom_user} \
                     realname=Prometheus
 
+github.tarball_from archive
 
 # promu will fail if it cannot capture the current user using the USER
 # environment variable.  So if USER is not currently set in the environment,
@@ -95,7 +96,6 @@ destroot.keepdirs-append ${destroot}${prom_data_dir} \
 destroot {
     xinstall -m 755 ${worksrcpath}/${name}  ${destroot}${prefix}/bin/${name}
     xinstall -m 755 ${worksrcpath}/promtool ${destroot}${prefix}/bin/promtool
-    xinstall -m 755 ${worksrcpath}/tsdb/tsdb ${destroot}${prefix}/bin/tsdb
 
     xinstall -d -m 755 ${destroot}${prom_conf_dir}
     xinstall -d -m 755 ${destroot}${prom_doc_dir}

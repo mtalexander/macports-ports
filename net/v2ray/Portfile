@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/v2ray/v2ray-core 4.27.5 v
+go.setup            github.com/v2fly/v2ray-core 4.31.2 v
 name                v2ray
 categories          net security
 platforms           darwin
@@ -16,22 +16,130 @@ long_description    V2Ray supports many protocols, including Socks, HTTP, Shadow
                     mKCP, WebSocket, etc. Better yet, V2Ray has built in obfuscation \
                     to hide traffic in TLS, and can run in parallel with web servers.
 
-homepage            https://www.v2ray.com
+homepage            https://www.v2fly.org
 
-checksums           rmd160  b06fb7464d6f9bc5a08feba2c0290b85fa54be47 \
-                    sha256  15f783ed5c2f264e4f6f0ace5522fb40a811ed8e2142afd3b235bc5efa22cd41 \
-                    size    7842299
+go.package          v2ray.com/core
+
+checksums           ${distname}${extract.suffix} \
+                        rmd160  7d0a002ca6ee85f3df2b7661f5116eee14f7797e \
+                        sha256  317cb84fe4ed167364593ca508efcb2f3f9e64faa9a42ef6ce4e31d93ec7795f \
+                        size    7685023
+
+go.vendors          google.golang.org/protobuf \
+                        repo    github.com/protocolbuffers/protobuf-go \
+                        lock    v1.25.0 \
+                        rmd160  ca1a78077118747c660917e50c4273d69b0f04ea \
+                        sha256  5bc3eb5d7160ab9ae45255d6b718c1cf9e9ed80c244b7527bced50370ae18620 \
+                        size    1259096 \
+                    google.golang.org/grpc \
+                        repo    github.com/grpc/grpc-go \
+                        lock    v1.32.0 \
+                        rmd160  ea494e484e67262a731f974c6a5d688b0fc2e3bb \
+                        sha256  f4c4188a5d9588cd457030cfb8c6e47bc13e7a90d2e053390cee4350aa9f515d \
+                        size    1053473 \
+                    google.golang.org/genproto \
+                        repo    github.com/googleapis/go-genproto \
+                        lock    32ed001d685c \
+                        rmd160  10e348b343f05fdf89f5984d0fddc2a9e9e7281e \
+                        sha256  13b32da28ad6b4d7fde070b62a91c35d0e702c2d8e7813d24cc9de74d9c20278 \
+                        size    13366558 \
+                    golang.org/x/text \
+                        lock    v0.3.3 \
+                        rmd160  babfa547ba9a9dab7fe08fa5543f1d8e7ae00301 \
+                        sha256  1c4a8c12295d484e0360d8e010ebc4b8a9a05aa2a07c10c3d3e5b17aa063f0db \
+                        size    7745597 \
+                    golang.org/x/sys \
+                        lock    b09fb700fbb7 \
+                        rmd160  35d2983a7e33286b9993fdf8bd0fc7c713beb177 \
+                        sha256  083b63c7b07735dac86bab75e5586d1f440eba594f58f8ebff18a7be08bfdb71 \
+                        size    1068925 \
+                    golang.org/x/net \
+                        lock    7b1cca2348c0 \
+                        rmd160  51a165ecd246729a8f396216ca88c89cdb7c58b4 \
+                        sha256  e9747b0666265b918c92c2f7089a589a4486087659e892a46cd2e06ac2a865b2 \
+                        size    1177555 \
+                    golang.org/x/crypto \
+                        lock    9e8e0b390897 \
+                        rmd160  bd4738a1bbf4d94ec5f840e7425ffa473c6b97bd \
+                        sha256  1b740a92e71e7215af0a8c3651c5e4925eaaf0f49e718ffd2dc8310452894236 \
+                        size    1732591 \
+                    go.starlark.net \
+                        repo    github.com/google/starlark-go \
+                        lock    dff0ae5b4820 \
+                        rmd160  a7114a041c3547938c5e59f01bcd5bac4873bae9 \
+                        sha256  8cc81b9d33ac9dd0764638501bc03f8420ec56c5b658d015119502a0ff0d0f37 \
+                        size    233231 \
+                    github.com/xtls/go \
+                        lock    d42c13c57942 \
+                        rmd160  1bb907bd86669055bc10cc7a2e59f9327966ba9d \
+                        sha256  c5dac3bfbff6647a0e567b0745825e833fe1655e8283ba04c240971a210d1fb2 \
+                        size    79980 \
+                    github.com/xiaokangwang/VSign \
+                        lock    dc1c86b73fbf \
+                        rmd160  36f36164902def86598a3dd984c541bf4e601881 \
+                        sha256  a74d8701f45977c3480843d0dad7f923ccea5a2946bb037a95a042d5ebb15941 \
+                        size    8626 \
+                    github.com/seiflotfy/cuckoofilter \
+                        lock    afb285a456ab \
+                        rmd160  0a6bbc70aa29a55acedb1b4f4b8754e60b0e67c4 \
+                        sha256  5b4e5a1c51dcfc6c5d12155a98daf8062a2965f2c9164886ac0f58afe814916c \
+                        size    5297 \
+                    github.com/pires/go-proxyproto \
+                        lock    v0.2.0 \
+                        rmd160  b7d3e3aa450a25223d645de07dcea9893e9c90ca \
+                        sha256  4484302be4c4307b5a365f64aed3bb3f39527d7029929acb67809f62ec3a3438 \
+                        size    28415 \
+                    github.com/marten-seemann/qtls-go1-15 \
+                        lock    v0.1.0 \
+                        rmd160  d14038cf74ece3ff410b88f61a21c818e8b1e8aa \
+                        sha256  20a60b2f7f1f1c75dfcce4c784ed02c92a9a0698695c9be2ca3b9b1b6c4b6667 \
+                        size    413553 \
+                    github.com/lucas-clemente/quic-go \
+                        lock    v0.18.1 \
+                        rmd160  fa742ed3bfd5b74e7c8d8b86eb18a1313a9685e3 \
+                        sha256  de1608164707258a25fc9f7293068cb1b6f975b593834e71fa1327ed8d3086e6 \
+                        size    488876 \
+                    github.com/gorilla/websocket \
+                        lock    v1.4.2 \
+                        rmd160  784f79f05da87fc2f2af618ad4e1eb576d7c16d8 \
+                        sha256  7805b8fc2002f7d1a7acdaa98feee2d6746d9241db0c597e0ee256cf0ff93a0b \
+                        size    54121 \
+                    github.com/golang/protobuf \
+                        lock    v1.4.3 \
+                        rmd160  f07e841d9c9706e08d3ec3b6440a6b7e42d54392 \
+                        sha256  a53f353ad911974ab0483ae25d4f0cdb4f0ea508b69a786062e4743df2ab3959 \
+                        size    171996 \
+                    github.com/ebfe/bcrypt_pbkdf \
+                        lock    3c8d2dcb253a \
+                        rmd160  b705ef4caeebacbd1acaad342b6f4738474bfcef \
+                        sha256  ad6b7710f4b47c58f101b1958ce80a02e932b7e9217a52325b6664fa832281c9 \
+                        size    15165 \
+                    github.com/dgryski/go-metro \
+                        lock    85c65e2d0165 \
+                        rmd160  fbd65fabced91793fb7202c08ee7540837503ca6 \
+                        sha256  140bc38b19a344608113cceb764172a399930135b5bb1f51ad0deaceb5f2f706 \
+                        size    4475 \
+                    github.com/cheekybits/genny \
+                        lock    v1.0.0 \
+                        rmd160  c8f3f5af635b83ade08f9f8e08e7f2018cb5879c \
+                        sha256  528d149522e053aed14048608751da8ace5b44466038b1a8d47d04a050d81bdc \
+                        size    15585
+# Notes for updating this port:
+# Replace go.googlesource.com/protobuf with github.com/protocolbuffers/protobuf-go
+
+build.env-append    CGO_ENABLED=0
+build.post_args     -ldflags '-s -w'
 
 build {
-    system -W ${worksrcpath}/main "env CGO_ENABLED=0 go build -o ./v2ray -ldflags \"-s -w\""
-    system -W ${worksrcpath}/infra/control/main "env CGO_ENABLED=0 go build -o ./v2ctl -tags confonly -ldflags \"-s -w\""
+    system -W ${worksrcpath}/main "env ${build.env} ${build.cmd} -o ./v2ray ${build.post_args}"
+    system -W ${worksrcpath}/infra/control/main "env ${build.env} ${build.cmd} -o ./v2ctl -tags confonly ${build.post_args}"
 }
 
 destroot {
     xinstall -m 755 ${worksrcpath}/main/v2ray ${destroot}${prefix}/bin
     xinstall -m 755 ${worksrcpath}/infra/control/main/v2ctl ${destroot}${prefix}/bin
-    xinstall -m 755 ${worksrcpath}//release/config/geosite.dat ${destroot}${prefix}/bin
-    xinstall -m 755 ${worksrcpath}//release/config/geoip.dat ${destroot}${prefix}/bin
+    xinstall -m 755 ${worksrcpath}/release/config/geosite.dat ${destroot}${prefix}/bin
+    xinstall -m 755 ${worksrcpath}/release/config/geoip.dat ${destroot}${prefix}/bin
     xinstall -d ${destroot}${prefix}/etc/v2ray
     xinstall -m 640 ${worksrcpath}/release/config/config.json ${destroot}${prefix}/etc/v2ray
 }

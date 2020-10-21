@@ -36,7 +36,7 @@ Provides the release version, which is typically updated every month or so.
     # overload the github livecheck regex to look for versions that
     # are just numbers and '.', no letters (e.g., "3.7.3_rc2").
 
-    github.livecheck.regex {([0-9.]+)}
+    github.livecheck.regex {(3\.15\.[0-9.]+)}
 
     # temporary patch to disable Boost DIRS before internal DIRS
 
@@ -113,11 +113,11 @@ subport uhd-devel {
     long_description ${description}: \
 Provides the UHD GIT maint or master branch, depending on which is more advanced, and is typically updated every few days to week.
 
-    github.setup EttusResearch uhd 4c8ba5775286c4b1dee5ccd9e1493862e22d1862
-    version   20200819-[string range ${github.version} 0 7]
-    checksums rmd160 ee91a41736c234304beae08531956eba715a35b8 \
-              sha256 e2f0db70e377e3e0a4fbead12f8d738d0ca7caf02b98e439757137d48590e4a9 \
-              size   33933734
+    github.setup EttusResearch uhd 82e392442ca2531b33e622d8ddf37ee70bb5cb50
+    version   20201012-[string range ${github.version} 0 7]
+    checksums rmd160 0c45c5403fb9e8017b3511b9d2c5b21710235240 \
+              sha256 bdda8589efe532e39d4b306d37c6c8e38c415e5472e48f50f9f81f2e0c22cb1a \
+              size   33959217
     revision  0
 
     conflicts uhd uhd-39lts
