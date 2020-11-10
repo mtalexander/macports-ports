@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 
 perl5.branches      5.26 5.28 5.30
-perl5.setup         GraphViz2 2.58
+perl5.setup         GraphViz2 2.60
 license             {Artistic-1 GPL}
 maintainers         {ryandesign @ryandesign} openmaintainer
 description         GraphViz2 - An updated wrapper for AT&T's Graphviz that aims \
@@ -14,9 +14,9 @@ long_description    ${description}
 
 platforms           darwin
 
-checksums           rmd160  c3522b0aa839c241844898303900493995b94116 \
-                    sha256  0c971b9ad280eb05b883bb537c3b084c974bc48e77c0a1d6e64b70f645b661b1 \
-                    size    72874
+checksums           rmd160  a80e3307a728e1abcc09f8c5ec3c79af29616eb4 \
+                    sha256  84e5eec3f33e667b95b824f58dd188530117414e7cfc1f9df0a757dc6021305b \
+                    size    77157
 
 if {${perl5.major} != ""} {
     depends_build-append \
@@ -27,6 +27,7 @@ if {${perl5.major} != ""} {
                     path:bin/dot:graphviz \
                     port:p${perl5.major}-data-section-simple \
                     port:p${perl5.major}-file-which \
+                    port:p${perl5.major}-graph \
                     port:p${perl5.major}-ipc-run3 \
                     port:p${perl5.major}-moo \
                     port:p${perl5.major}-type-tiny

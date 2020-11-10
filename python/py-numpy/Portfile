@@ -14,10 +14,10 @@ maintainers             {michaelld @michaelld} openmaintainer
 description             The core utilities for the scientific library scipy for Python
 long_description        ${description}
 
-github.setup            numpy numpy 1.19.2 v
-checksums               rmd160  6156c9670206fd3bafaf47481062d14733256c17 \
-                        sha256  af61a862c693e7960f595ddecbf3b8b7898d805c39d4f16ad5ebc230112f9fa2 \
-                        size    7035423
+github.setup            numpy numpy 1.19.4 v
+checksums               rmd160 0d5e1ed882b762eec473e49bd734c395b8cf2b59 \
+                        sha256 33e8ad3dca41a517804d795ff03f40707bbc62efe5126f19e3c3cab3c48ecc53 \
+                        size   7036717
 revision                0
 
 if {${name} ne ${subport}} {

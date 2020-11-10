@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           makefile 1.0
 
-github.setup        tree-sitter tree-sitter 0.17.1
+github.setup        tree-sitter tree-sitter 0.17.3
 
 categories          devel
 platforms           darwin
@@ -29,8 +29,8 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
 checksums           ${distname}${extract.suffix} \
-                    rmd160  c462367817f557f5394443ea81a7c97675bae4c5 \
-                    sha256  e1da4d7b1fdb1fe8daa3954d3af6b929be12d9d471ec556ebaca3ab585bb5847 \
-                    size    514198
+                    rmd160  f42d1baac116681e6f16016e75787a71625e4aa0 \
+                    sha256  16b667d9934a7fe4c619e41049c4689d2dbb8149f33deff903720362e12c0372 \
+                    size    518992
 
 use_configure       no

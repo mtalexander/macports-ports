@@ -2,7 +2,6 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
-PortGroup           clang_dependency 1.0
 PortGroup           muniversal 1.0
 
 name                legacy-support
@@ -26,13 +25,13 @@ subport ${name} {
 
 subport ${name}-devel {
     conflicts           ${name}
-    github.setup        macports macports-legacy-support fea10a08147bdadcf5154b69e0352eef930550ec
-    version             20200919
+    github.setup        macports macports-legacy-support e1c04c318066c16df8371419eada1985dad62261
+    version             20201104
     revision            0
     livecheck.type      none
-    checksums           rmd160  8a0d07eb0cdd627a7cfea7c853248ee89e7607b3 \
-                        sha256  59719d12a4970928aaca9f09f2ecc371ea967218df169d46155135a6f9894083 \
-                        size    37130
+    checksums           rmd160  4099c92bf95f8b2e2f5122d15025fb86d354bb58 \
+                        sha256  689641b32fe87b5e02dfd6ddbd34166561f3c99ec6b7809e2e8d92ad55c8e4f5 \
+                        size    38102
 }
 
 use_configure       no
