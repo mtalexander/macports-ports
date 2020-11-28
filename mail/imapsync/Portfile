@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 PortGroup           github 1.0
 
-github.setup        imapsync imapsync 1709fee78f6d1b2f18f4e1e3fc4fef4a9971f3fa
+github.setup        mtalexander imapsync 87a4c89
 categories          mail perl
 platforms           darwin
 maintainers         nomaintainer
@@ -16,9 +16,9 @@ long_description    imapsync is an IMAP synchronization, copy or migration \
 
 homepage            https://imapsync.lamiral.info/
 
-checksums           rmd160  e4fc76ff7cdad26f7bf942722e3795bf415c1dbe \
-                    sha256  f12568ff675b95542174fcbeea7d75a5d8e904ca3db06d2939f47ebb2baf231f \
-                    size    1814687
+checksums           rmd160  e64177d5761f7efe9e1d3f73c03623623f9f5f4a \
+                    sha256  ba18e9bd759d3c2aa60fd1aec4dbd59b5081af97ae0564a82708e06d11f944f4 \
+                    size    1815458
 
 perl5.require_variant   yes
 perl5.conflict_variants yes
