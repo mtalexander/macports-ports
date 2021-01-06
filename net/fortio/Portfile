@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/fortio/fortio 1.10.1 v
+go.setup            github.com/fortio/fortio 1.11.5 v
+revision            0
 
 homepage            https://fortio.org
 
@@ -28,9 +29,9 @@ license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  6d8ebeadcfa0b99974315260c4a66e03c0726aef \
-                    sha256  4d799b84dc2f6f70e8fe343048667bd3aa3e5886c54735457cf87835f1dea2f0 \
-                    size    255896
+checksums           rmd160  e76b12aa7bdb15ff54998a0ddc5bb3ba138b820c \
+                    sha256  c7e4086cb1cb81fd24ccdfc388b4a81ba866a14db8c1c4fe3125319e7f6c3758 \
+                    size    256728
 
 # Allow fetching build dependencies at build time
 # See: http://trac.macports.org/ticket/61192

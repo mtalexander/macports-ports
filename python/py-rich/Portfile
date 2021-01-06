@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-rich
-version             9.2.0
+version             9.6.1
 platforms           darwin
 license             MIT
 supported_archs     noarch
@@ -21,9 +21,9 @@ long_description    {*}${description}. The Rich API makes it easy to add color \
 
 homepage            https://rich.readthedocs.io/en/latest/
 
-checksums           rmd160 78514b2e5ac580fd7aec9565a122ea672be21248 \
-                    sha256 7003a1cce3b79bf4d34a26099b00a4b67e208d4a6896a1c25368603d5f49f295 \
-                    size   151518
+checksums           rmd160 fb9bfaf2313644dfbe4519fda5cbc2c9330dc014 \
+                    sha256 5ac9f4f7f6b0e32e7e412de127f15b94144e22c9a7896551474d640143bbaa7b \
+                    size   167734
 
 python.versions     38 39
 
@@ -32,10 +32,14 @@ if {${name} ne ${subport}} {
     depends_build-append \
                         port:py${python.version}-setuptools
 
-    depends_lib-append  port:py${python.version}-colorama \
+    depends_run-append  port:py${python.version}-colorama \
                         port:py${python.version}-commonmark \
                         port:py${python.version}-typing_extensions \
                         port:py${python.version}-pygments
+
+    test.run            yes
+    test.cmd            ${python.bin}
+    test.target         -m rich
 
     livecheck.type      none
 }

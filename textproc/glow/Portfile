@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/charmbracelet/glow 1.1.0 v
+go.setup            github.com/charmbracelet/glow 1.3.0 v
 
 description         Render markdown on the CLI, with pizzazz!
 
@@ -31,9 +31,9 @@ destroot {
 }
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  20ca7ca1ceacff8d8161e861b9d07a4c5a81a4ba \
-                        sha256  d71b9c97742ea4aba2892a0dc6e7d8c78faf3d2b63164ac86a926a2bdd181423 \
-                        size    514575
+                        rmd160  17ee6663b1e193b9d275464a445ffe93a2b20d85 \
+                        sha256  e8b5ff947f7aeef80aa493ad18a31668d00377781421afbecfffb1d37039134e \
+                        size    524947
 
 go.vendors          gopkg.in/yaml.v3 \
                         lock    9f266ea9e77c \
@@ -135,6 +135,16 @@ go.vendors          gopkg.in/yaml.v3 \
                         rmd160  c5ac5f7253544101282f5477a71560d1fd6c3e58 \
                         sha256  147eecf13dff7c6715ada19e097d4c3b7d20b169b475861a98e41e27b891d062 \
                         size    41633 \
+                    github.com/segmentio/ksuid \
+                        lock    v1.0.3 \
+                        rmd160  b36c7fe77c914ebf2a7fea04339a531714c12c29 \
+                        sha256  821b87daaef65532a5de7cc896b832829f302190e8035d073beb44db52795fc1 \
+                        size    17876 \
+                    github.com/sahilm/fuzzy \
+                        lock    v0.1.0 \
+                        rmd160  04c7a48f6a77150939c0f6743844878cb3b70238 \
+                        sha256  ec0bcc7ae87bbd8d2fc28f237e498d13a0f629d52cd9671b02415a0939b5a5e1 \
+                        size    3353336 \
                     github.com/sabhiram/go-gitignore \
                         lock    d3107576ba94 \
                         rmd160  0ac0382d1570aa565b546ef0a0ac1e89779677ad \
@@ -145,11 +155,6 @@ go.vendors          gopkg.in/yaml.v3 \
                         rmd160  fc879bfbdef9e3ff50844def58404e2b5a613ab8 \
                         sha256  7cd492737641847266115f3060489a67f63581e521a8ec51efbc280c33fc991f \
                         size    11409 \
-                    github.com/pkg/term \
-                        lock    v1.1.0 \
-                        rmd160  70d5b9a3ac16e6bf98a186f167ca222c4287f179 \
-                        sha256  01a5bb1fd48025310d99ea9f3c5731ccf28c9eebe13cb75c9a18248ce4ee9d6e \
-                        size    10934 \
                     github.com/pkg/errors \
                         lock    v0.9.1 \
                         rmd160  dc065c655f8a24c6519b58f9d1202eb266ecda40 \
@@ -176,10 +181,10 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  502363c03b53f7e49e48c2bc2b44bb4119c51654112c9fee0482c24afddc53c0 \
                         size    16551 \
                     github.com/muesli/reflow \
-                        lock    v0.2.0 \
-                        rmd160  894785c3a7785b8d6084b711c4232d937e2629a2 \
-                        sha256  d489766d5878e78ec7e060dc6c2011a4af4acb1147f9b461052d0525cc06f4c0 \
-                        size    17977 \
+                        lock    3bcb929042f2 \
+                        rmd160  c3fc4875493378fb2550875df1c505f6cb9589e9 \
+                        sha256  c11f983e606aa33dcd8490c4d882a4e13a7cbcd77bde65ee496246344f33bebb \
+                        size    20934 \
                     github.com/muesli/go-app-paths \
                         lock    v0.2.1 \
                         rmd160  5a0a229d806182cb1ce75c85a73416f710cbe09b \
@@ -235,6 +240,11 @@ go.vendors          gopkg.in/yaml.v3 \
                         rmd160  0d0a283ba00c871d123c951efea0605a869951aa \
                         sha256  ecd902ddda5d05cc8a857873bf8b984a5cd2d7b75f1185edcfc2c472707958b3 \
                         size    430208 \
+                    github.com/kylelemons/godebug \
+                        lock    v1.1.0 \
+                        rmd160  917ada648e70d2e339b8ff36d2f86882d0d2efa1 \
+                        sha256  6151c487936ab72cffbf804626228083c9b3abfc908a2bb41b1160e1e5780aaf \
+                        size    17641 \
                     github.com/kr/text \
                         lock    v0.1.0 \
                         rmd160  0b3c78459e227170a3b80a0103d87a3eef77ed88 \
@@ -326,15 +336,15 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  e58866ed27663b333263ad34468911c1de2b63a8f196e259a78a14f32b7f9273 \
                         size    45829 \
                     github.com/charmbracelet/bubbletea \
-                        lock    v0.12.1 \
-                        rmd160  d171edf3040341126f7eb28c1d8ec390ed26e2a7 \
-                        sha256  0c59cf4717444d7ee455de20e7acf0d09571e9368187f700b6b6c978697fa33d \
-                        size    38407 \
+                        lock    v0.12.2 \
+                        rmd160  67c10570e3f6a8000d742395679aa3ef9ee3d9df \
+                        sha256  776d1f8fbe5bb9bd5b94447417ca45cebab5b7901021596d439e0e5bb24f20fa \
+                        size    39676 \
                     github.com/charmbracelet/bubbles \
-                        lock    v0.7.1 \
-                        rmd160  fcde9423b43f0aa828fe568509344b8333e972fa \
-                        sha256  d6159f13bf27fbb2b4c905b3cc57a9a6b3dcdb4b14417df22c76b636276befe9 \
-                        size    13106 \
+                        lock    11f56f9b6b3f \
+                        rmd160  fd3a0eb08a7a139e301cad03d4d5b9d177b94f4d \
+                        sha256  bd361fdcf13e9615319641f35d2558f2e6a7334f859b5db3e60c892db95400e6 \
+                        size    16989 \
                     github.com/calmh/randomart \
                         lock    v1.1.0 \
                         rmd160  cd52e02803e2f8a951e4714475d5eaff5b3781f2 \

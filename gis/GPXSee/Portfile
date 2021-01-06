@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           qmake5 1.0
 
-github.setup        tumic0 GPXSee 7.35
+github.setup        tumic0 GPXSee 8.0
 categories          gis graphics
 platforms           darwin
 license             GPL-3
@@ -16,9 +16,9 @@ long_description    GPXSee is a Qt-based GPS log file viewer and analyzer \
 
 homepage            https://www.gpxsee.org/
 
-checksums           rmd160  50f11cc66f3462846932f6295b3411627d64d69c \
-                    sha256  311362dc16c3359d4ee99c042612300b8df1c39685626255b09c845300e6d413 \
-                    size    5402951
+checksums           rmd160  c00ee6907ccb7475010e1dd58eaa3ec812375927 \
+                    sha256  c496cda4408cfd474515c77ff125a0bd0133f06b4da6e62ece8ef92be6507cb5 \
+                    size    7714526
 
 patchfiles          patch-src_GUI_app_cpp.diff
 

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-requests
-version             2.24.0
+version             2.25.1
 revision            0
 categories-append   devel
 platforms           darwin
@@ -27,9 +27,9 @@ long_description    Most existing Python modules for dealing HTTP \
 
 homepage            https://requests.readthedocs.io/
 
-checksums           rmd160  48f76a63e9f1e11ed97d0f51807692bd8b5a714e \
-                    sha256  b3559a131db72c33ee969480840fff4bb6dd111de7dd27c8ee1f820f4f00231b \
-                    size    115071
+checksums           rmd160  4a8a60da9b3619a53bd5a74245e58123702ae7e6 \
+                    sha256  27973dd4a904a4f13b263a19c866c13b92a39ed1c964655f025f3f8d3d75b804 \
+                    size    102161
 
 if {${name} ne ${subport}} {
     depends_build-append \

@@ -52,7 +52,10 @@ depends_run-append  port:p${perl5.major}-authen-sasl \
                     port:p${perl5.major}-cgi \
                     port:rsync
 
-patchfiles          patch-Makefile.diff patch-git-subtree.1.diff patch-sha1dc-older-apple-gcc-versions.diff
+patchfiles          patch-Makefile.diff \
+                    patch-git-gui-Makefile.diff \
+                    patch-git-subtree.1.diff \
+                    patch-sha1dc-older-apple-gcc-versions.diff
 patch.pre_args      -p1
 
 extract.only        git-${version}${extract.suffix} \
@@ -132,11 +135,6 @@ post-destroot {
 
     file delete -force ${share_path}/contrib
     copy ${worksrcpath}/contrib ${share_path}
-
-    xinstall -m 755 -d ${destroot}${prefix}/share/emacs/site-lisp/
-    xinstall -m 644 {*}[glob ${worksrcpath}/contrib/emacs/*.el] \
-        ${destroot}${prefix}/share/emacs/site-lisp/
-
 }
 
 variant pcre description {Use pcre} {

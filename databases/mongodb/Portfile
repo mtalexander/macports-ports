@@ -6,11 +6,11 @@ PortGroup           github 1.0
 PortGroup           muniversal 1.0
 
 epoch               1
-github.setup        mongodb mongo 4.4.1 r
+github.setup        mongodb mongo 4.4.3 r
 revision            0
-checksums           rmd160  d6d595b0bd80e30aaaddf48e754aeed6bfe91295 \
-                    sha256  5a2ee786c75f18545f62cd21bcb7a47dee5cd71bb357e066654283f199cd8751 \
-                    size    49644743
+checksums           rmd160  fc3a342a5beff701b099dca9e129f144f8e6491b \
+                    sha256  daab8e70911653c09157803dab616f3b1920a73c39b8791a6a67df0faa0e60f6 \
+                    size    49876077
 
 name                mongodb
 license             SSPL
@@ -106,6 +106,13 @@ foreach a ${supported_archs} {
                     CXXFLAGS="${configure.cxxflags} -arch ${a}" \
                     LINKFLAGS="${configure.ldflags} -arch ${a}" \
 }
+
+# An updated javascript engine with support for arm64 is not expected until mongodb 5.
+# https://jira.mongodb.org/browse/SERVER-50115
+if {[vercmp ${version} 5.0] < 0} {
+    lappend merger_build_args(arm64) --js-engine=none
+}
+
 if {![variant_isset universal] && [info exists merger_build_args(${build_arch})]} {
     build.args-append {*}$merger_build_args(${build_arch})
 }

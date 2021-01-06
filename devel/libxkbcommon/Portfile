@@ -4,10 +4,16 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           meson 1.0
 
-github.setup        xkbcommon libxkbcommon 1.0.1 xkbcommon-
-checksums           rmd160  2bbad312d88b4b7bc1f89490ef44b62f52634803 \
-                    sha256  ab68b25341c99f2218d7cf3dad459c1827f411219901ade05bbccbdb856b6c8d \
-                    size    432692
+# When building universal the meson test for unistd.h fails because
+# clang: error: cannot use 'cpp-output' output with multiple -arch options
+# leading to build failure later when unistd.h doesn't get included if
+# implicit function declarations are not allowed (Xcode 12+).
+PortGroup           muniversal 1.0
+
+github.setup        xkbcommon libxkbcommon 1.0.3 xkbcommon-
+checksums           rmd160  5667e388f01abe2f7d1e35e283b18bb8955595f1 \
+                    sha256  a2202f851e072b84e64a395212cbd976ee18a8ee602008b0bad02a13247dbc52 \
+                    size    432944
 
 categories          devel
 platforms           darwin

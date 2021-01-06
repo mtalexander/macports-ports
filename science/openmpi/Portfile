@@ -72,6 +72,7 @@ array set clist {
     clang70 {macports-clang-7.0}
     clang80 {macports-clang-8.0}
     clang90 {macports-clang-9.0}
+    clang10 {macports-clang-10}
     gcc5    {macports-gcc-5}
     gcc6    {macports-gcc-6}
     gcc7    {macports-gcc-7}
@@ -229,8 +230,8 @@ if {${subport} != ${name}} {
                                     --enable-mpi-fortran
             select.file             ${filespath}/${name}-${cname}-fortran
 
-            # at least currently, the Fortran variants gccX and g95 match the name of the ports
-            depends_lib-append      port:[fortran_variant_name]
+            # Get the dependent port for the active fortran variant
+            depends_lib-append      [fortran_variant_depends_port_name]
         }
     }
     set devnotes ""

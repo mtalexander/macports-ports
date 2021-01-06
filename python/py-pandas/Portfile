@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-pandas
-version             1.1.4
+version             1.1.5
 revision            0
 categories-append   science
 license             BSD
@@ -20,18 +20,21 @@ long_description    ${description}
 
 homepage            https://pandas.pydata.org
 
-checksums           rmd160  9a4be02e091abb6c15d92e90ad31f3a40f9012ae \
-                    sha256  a979d0404b135c63954dea79e6246c45dd45371a88631cdbb4877d844e6de3b6 \
-                    size    5226971
+checksums           rmd160  593ee2c082df6b4edc85670cd0221dfec5b51b30 \
+                    sha256  f10fc41ee3c75a474d3bdf68d396f10782d013d7f67db99c0efbfd0acb99701b \
+                    size    5229894
 
 if {${name} ne ${subport}} {
     if {${python.version} eq 27} {
         version             0.24.2
-        revision            0
+        revision            1
         distname            ${python.rootname}-${version}
         checksums           rmd160  a4b18e58b6be7bf13893dbccaf73542918dda1c8 \
                             sha256  4f919f409c433577a501e023943e582c57355d50a724c589e78bc1d551a535a2 \
                             size    11837693
+
+        # fix implicit declaration of tolower_ascii()
+        patchfiles-append   patch-a3c158dad2.diff
 
         depends_lib-append  port:py${python.version}-scipy \
                             port:py${python.version}-tables \

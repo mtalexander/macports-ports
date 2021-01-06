@@ -3,10 +3,10 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        denoland deno 1.5.2 v
+github.setup        denoland deno 1.6.3 v
 revision            0
 
-homepage            https://deno.land/
+homepage            https://deno.land
 
 description         Deno is a simple, modern and secure runtime for \
                     JavaScript and TypeScript that uses V8 and is built in \
@@ -29,9 +29,9 @@ supported_archs     x86_64
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  86e4298ab8406140ff3913625b89498f965579c0 \
-                    sha256  a5415a18258ebca98a3f754d9e48e22f04104b27be7b759c88c0f2936012c0ab \
-                    size    17192452
+checksums           rmd160  a005e336fe90b616d865d634d0e56575a47a620c \
+                    sha256  4921d973759d739581ac26421d1f8ffcfc526f06e95a6cb17c5291f3a9b076ba \
+                    size    18236171
 
 github.tarball_from releases
 distname            ${name}-x86_64-apple-darwin

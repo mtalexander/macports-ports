@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           bitbucket 1.0
 
 set emacs_version   27.1
-set emacs_mac_ver   8.0
+set emacs_mac_ver   8.1
 
 bitbucket.setup     mituharu emacs-mac emacs-${emacs_version}-mac-${emacs_mac_ver}
 name                emacs-mac-app
@@ -21,9 +21,9 @@ long_description    ${name} is "Mac port" addition to GNU Emacs ${emacs_version}
 platforms           darwin
 license             GPL-3+
 
-checksums           rmd160  e65ed9112432f5c54cc509b2b70705a42278a6d9 \
-                    sha256  b6a20eafb475a08d25213d475320f85d6acd438319cb7fe2a51e571d651975be \
-                    size    43577647
+checksums           rmd160  8c5f4110b4b541ab0b2117d79aa4d3249e70f33b \
+                    sha256  cae62f036be66ebcdada4d4563859b70825d2a8c91edd24e9e9794ece9f30dee \
+                    size    43579411
 
 depends_lib         port:ncurses \
                     port:libxml2 \
@@ -37,6 +37,9 @@ patchfiles          patch-src_emacs.c.diff
 
 if {${subport} eq ${name}} {
     conflicts       emacs-mac-app-devel
+
+    patchfiles-append \
+                    patch-apple-silicon.diff
 }
 
 post-patch {
@@ -69,19 +72,18 @@ if {${os.major} >= 11 && ${os.platform} eq "darwin"} {
 }
 
 subport ${name}-devel {
-    # set emacs_version   27.1
+    set emacs_version   27.1.90
 
-    bitbucket.setup mituharu emacs-mac 600b4216fef0b7c7d8e420916c167ba19b4f3552
-    version         20200811
+    version         20201223
     revision        0
 
     long_description \
         ${name} is "Mac port" addition to GNU Emacs ${emacs_version}. \
         This provides a native GUI support for Mac OS X 10.6 - macOS 10.14.
 
-    checksums       rmd160  ea0adf0e5f0b75b7ddc987aa744506241b7580b4 \
-                    sha256  6df0046aa9c321b5583c43d4991b0104e75c726685e6fcfc5b362cfaaa062960 \
-                    size    43577768
+    fetch.type      git
+    git.url         --depth=1000 --branch work https://bitbucket.org/mituharu/emacs-mac.git
+    git.branch      8b46c72a14cd2496486d1bb82a75c3e6e05c366b
 
     conflicts       emacs-mac-app
 

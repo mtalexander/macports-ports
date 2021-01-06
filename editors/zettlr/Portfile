@@ -1,0 +1,64 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        Zettlr Zettlr 1.8.4 v
+name                zettlr
+revision            0
+
+homepage            https://www.zettlr.com
+
+description         A Markdown Editor for the 21st century.
+
+long_description    Zettlr is a Markdown Editor for the 21st century. \
+                    Zettlr supercharges your writing experience and makes no \
+                    compromises.  It supports standard Markdown and does not \
+                    need any special handling.  Just pull in your existing \
+                    notes, Zettelkasten, and paper projects and start working \
+                    on them immediately.  Zettlr uses a WYSIWYM (What You See \
+                    Is What You Mean) approach and renders certain elements \
+                    such as links directly for your convenience.  Zettlr is \
+                    the first Markdown editor directly aimed at writing \
+                    professionally. Whether you are a college student, a \
+                    researcher, a journalist or an author -- Zettlr has the \
+                    right tools for you.
+
+categories          editors aqua
+license             GPL-3
+platforms           darwin
+
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+checksums           ${distname}${extract.suffix} \
+                    rmd160  7b644e9a5e2465f92dc5d1b9a4c78dbaf7b55f85 \
+                    sha256  a83f4dea8ead73ec2cb842f00cbf219af0488820a88da35f146b9e6e9f8752d4 \
+                    size    25067368
+
+depends_build       port:pandoc \
+                    port:yarn
+
+build.env-append    CSC_IDENTITY_AUTO_DISCOVERY=false
+
+use_configure       no
+use_xcode           yes
+
+build {
+    # Use pandoc from MacPorts and link it into place where the NPM build
+    # scripts expect (./resources).
+    ln -s ${prefix}/bin/pandoc ${worksrcpath}/resources/pandoc
+
+    # Fetch and build JS dependencies
+    system -W ${worksrcpath} "${build.env} yarn install --frozen-lockfile"
+
+    # Build electron app
+    system -W ${worksrcpath} "${build.env} yarn run release:mac --dir"
+}
+
+destroot {
+    copy ${worksrcpath}/out/Zettlr-darwin-x64/Zettlr.app \
+        ${destroot}${applications_dir}
+}
+
+github.livecheck.regex {([0-9.]+)}

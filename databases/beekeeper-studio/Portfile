@@ -3,10 +3,10 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        beekeeper-studio beekeeper-studio 1.8.7 v
+github.setup        beekeeper-studio beekeeper-studio 1.9.1 v
 revision            0
 
-homepage            https://beekeeperstudio.io/
+homepage            https://beekeeperstudio.io
 
 description         Cross platform SQL editor and database management app for \
                     Windows, Linux, and Mac.
@@ -29,9 +29,9 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
 checksums           ${distname}${extract.suffix} \
-                    rmd160  e8090971fb4b36f6f5aebc3915e1e85bdbb8887c \
-                    sha256  d466d7f844c9860c0717b116aa52b0cc42d901a43cc35687d4a1269e0a4b1bdf \
-                    size    42384874
+                    rmd160  b1b5ccca911261601e5925e231c25c3021eb8d21 \
+                    sha256  52b8fee28caa839b8a046c51acd1c83a4962a03752cb89fe83ea099a539bbef1 \
+                    size    42332130
 
 depends_build       port:yarn
 

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           legacysupport 1.1
 
-github.setup        cli cli 1.2.0 v
+github.setup        cli cli 1.4.0 v
 revision            0
 name                gh
 categories          devel
@@ -18,16 +18,16 @@ maintainers         {l2dy @l2dy} \
 description         The GitHub CLI
 long_description    gh is GitHub on the command line, and it's now available in beta.
 
-homepage            https://cli.github.com/
+homepage            https://cli.github.com
 
 # oauthClientID in the repository is meant for development
 # https://github.com/cli/cli/blob/v0.5.4/context/config_setup.go#L21
 github.tarball_from releases
 distname            gh_${version}_macOS_amd64
 
-checksums           rmd160  8789d0cc6980f0bded2a4dd6e697ca07a72f45b4 \
-                    sha256  e79a431fdf102b01c66dbdfa04db76deab4d177d71900496f84e37be1f0362f2 \
-                    size    5968117
+checksums           rmd160  5ed7d0cdf8985ca6e7a219bdf59f80de0bcbbc3e \
+                    sha256  9a9d0139267e91d06b5dff4f5947d3b89c98a4ae2534acd7beb8ac74baf8dde2 \
+                    size    6056461
 
 use_configure       no
 installs_libs       no
@@ -42,7 +42,7 @@ destroot {
     # a binary tarball ... have to tweak the binary to use the legacy
     # support library, which in turn uses the System.B library.
     if {${os.major} <= 13} {
-        system -W ${destroot}${prefix}/bin "install_name_tool -change /usr/lib/libSystem.B.dylib ${legacysupport.library_name} gh"
+        system -W ${destroot}${prefix}/bin "install_name_tool -change /usr/lib/libSystem.B.dylib ${prefix}/lib/libMacportsLegacySupport.dylib gh"
     }
 
     set docdir ${prefix}/share/doc/${name}

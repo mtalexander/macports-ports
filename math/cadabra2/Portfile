@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        kpeeters cadabra2 2.3.2
+github.setup        kpeeters cadabra2 2.3.6.2
 revision            0
 
 categories          math
@@ -24,9 +24,9 @@ long_description    Cadabra is a computer algebra system for the \
 
 homepage            http://cadabra.phi-sci.com/
 
-checksums           rmd160  b4b70c977551d0df9f6128faf90f4a432a12d3e4 \
-                    sha256  998f79567f6ffb58892b3475b350240e28c02435b0e0bcaab4f8e2bf30f02008 \
-                    size    24379473
+checksums           rmd160  fc43a85d256b913d3fc28b5132772c9293b98430 \
+                    sha256  4f521b82c4228e2cfb4152c9699f429ab4817850d69471e8f3dfa5e722afb1ce \
+                    size    24545401
 
 set python.version  38
 

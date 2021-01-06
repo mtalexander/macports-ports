@@ -15,7 +15,7 @@ PortGroup       muniversal 1.0
 
 name            texlive-bin
 version         2020.54632
-revision        2
+revision        3
 
 categories      tex
 maintainers     {dports @drkp}
@@ -94,7 +94,8 @@ patchfiles-append  \
                    patch-texk_texlive_linked_scripts_Makefile.in.diff \
                    patch-texk_kpathsea_Makefile.in.diff \
                    patch-texk_chktex_Makefile.in.diff \
-                   patch-texk_xdvik_xdvi-sh.in.diff
+                   patch-texk_xdvik_xdvi-sh.in.diff \
+                   patch-utils_texdoctk_Makefile.in.diff
 
 # patches to luajit/luajittex's config scripts to correctly detect
 # architecture in universal builds
@@ -105,12 +106,17 @@ patchfiles-append  patch-libs_luajit_configure.diff \
 # https://trac.macports.org/ticket/60963
 patchfiles-append  patch-texk_kpathsea_configure.diff
 
+# fix build on ARM64, which does not have "finite()"
+# https://trac.macports.org/ticket/61547
+patchfiles-append  patch-texk_web2c_luatexdir_luafontloader_fontforge_fontforge-fix_finite.diff
+
 post-patch {
     reinplace "s|@@TEXMFDIST@@|${texlive_texmfdist}|" ${worksrcpath}/texk/texlive/linked_scripts/Makefile.in
 #    reinplace "s|@@TEXMFDIST@@|${texlive_texmfdist}|" ${worksrcpath}/texk/texlive/tl_scripts/Makefile.in
     reinplace "s|@@TEXMFDIST@@|${texlive_texmfdist}|" ${worksrcpath}/texk/tex4htk/Makefile.in
     reinplace "s|@@TEXLIVE_BINDIR@@|${texlive_bindir}|" ${worksrcpath}/texk/xdvik/xdvi-sh.in
     reinplace "s|@@TEXMFDIST@@|${texlive_texmfdist}|" ${worksrcpath}/texk/chktex/Makefile.in
+    reinplace "s|@@TEXMFDIST@@|${texlive_texmfdist}|" ${worksrcpath}/utils/texdoctk/Makefile.in
 
     # Defaults for the texmf search paths need to be compiled into
     # libkpathsea -- really, just the location of texmf.cnf, which

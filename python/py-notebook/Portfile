@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-notebook
-version             6.1.4
+version             6.1.6
 revision            0
 categories-append   devel science
 platforms           darwin
@@ -20,9 +20,9 @@ long_description    ${description}
 
 homepage            https://jupyter.org
 
-checksums           rmd160  54dff066c6927be01e57a5082ca6a01b3803a3fb \
-                    sha256  687d01f963ea20360c0b904ee7a37c3d8cda553858c8d6e33fd0afd13e89de32 \
-                    size    13933373
+checksums           rmd160  11db3c343b4f1d0f3e5cd9091e108bb838ec7d5a \
+                    sha256  cf40d4f81541401db5a2fda1707ca7877157abd41f04ef7b88f02b67f3c61791 \
+                    size    13926673
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-setuptools \

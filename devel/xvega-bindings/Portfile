@@ -1,0 +1,20 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        jupyter-xeus xvega-bindings 0.0.4
+revision            0
+categories          devel graphics
+license             BSD
+maintainers         {mps @Schamschula} openmaintainer
+description         Bindings from xvega to xeus.
+long_description    ${description}
+platforms           darwin
+
+checksums           rmd160  7f8ec5afbddc28384a8976c423af3c54ced47ed6 \
+                    sha256  a92770b7172b0d88bb8d4b3f0a8b0dcb4b8725d0c9a3c9884f9e463a55a91aa4 \
+                    size    8093
+
+depends_lib         port:xvega

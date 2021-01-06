@@ -1,15 +1,14 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           github 1.0
 PortGroup           python 1.0
 
-name                youtube-dl
-version             2020.11.01.1
+github.setup        ytdl-org youtube-dl 2020.12.31
 revision            0
-
-checksums           rmd160  55dd100d3f2204a11e0cedd3e1700d58804ad484 \
-                    sha256  7a62187bc9f91af42eb5c9c95652e350170a72dbbdac8c7d71a6aeb4885a901a \
-                    size    3190146
+checksums           rmd160  1afb3e59ea7c98ab78668339d29b3805ae496061 \
+                    sha256  094ef8b000a9e9fcaf624eb316ac8d52643224604fdf841a14aa69a5fe9f9859 \
+                    size    3252801
 
 categories          net
 platforms           darwin
@@ -22,7 +21,7 @@ description         command-line program to download videos from YouTube.com and
 long_description    ${name} is a small {*}${description}.
 
 homepage            https://youtube-dl.org
-master_sites        ${homepage}/downloads/latest/
+github.tarball_from releases
 
 worksrcdir          ${name}
 
@@ -89,9 +88,9 @@ variant python39 conflicts python27 python35 python36 python37 python38 descript
 }
 
 if {![variant_isset python27] && ![variant_isset python35] && ![variant_isset python36] && ![variant_isset python37] && ![variant_isset python38] && ![variant_isset python39]} {
-    default_variants +python38
+    default_variants +python39
 }
 
 livecheck.type              regex
-livecheck.url               ${homepage}
-livecheck.regex             {youtube-dl-([0-9.]+)\.tar}
+livecheck.url               ${homepage}/update/LATEST_VERSION
+livecheck.regex             {^([0-9.]+)$}

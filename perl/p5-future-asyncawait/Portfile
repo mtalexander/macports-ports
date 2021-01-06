@@ -4,18 +4,18 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 
 perl5.branches      5.26 5.28 5.30
-perl5.setup         Future-AsyncAwait 0.45 ../../authors/id/P/PE/PEVANS
+perl5.setup         Future-AsyncAwait 0.47 ../../authors/id/P/PE/PEVANS
 revision            0
 license             {Artistic-1 GPL}
-maintainers         {devans @dbevans} openmaintainer
+maintainers         nomaintainer
 description         Future::AsyncAwait - deferred subroutine syntax for futures
 long_description    ${description}
 
 platforms           darwin
 
-checksums           rmd160  57974af923cb5853338c4444220ba94b53272478 \
-                    sha256  336535f1232ef6c3d009a074fd2d234398d06d8e60e7d96b6024a61cc44a01ab \
-                    size    73436
+checksums           rmd160  ea8147f34ac9f792f930c062ef23f8ef1432951b \
+                    sha256  23b60a293b9cd612fff53786acb3f7c2055289c7722bcf6694da0cfa3f2c48c9 \
+                    size    75464
 
 if {${perl5.major} != ""} {
     depends_build-append \

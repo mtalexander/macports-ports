@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/ultralist/ultralist 1.6.2
+go.setup            github.com/ultralist/ultralist 1.7.0
 revision            0
 
 homepage            https://ultralist.io
@@ -30,9 +30,9 @@ destroot {
 }
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  05b7878ca2f77885b48f05cdc8e44d6a5de0b57f \
-                        sha256  07f8136eb898d47e69668e88c2933f63b71615e3b8ec00b5e5ada35bf00b9aea \
-                        size    2138257
+                        rmd160  41ed95ec49be20132fa180a1d18ce821324e3bdc \
+                        sha256  abd375f83acb7235434bbf9ae8266113ec79d98d6d1e5d92d3224bdcbe7aa3c6 \
+                        size    2138720
 
 go.vendors          gopkg.in/yaml.v3 \
                         lock    9f266ea9e77c \

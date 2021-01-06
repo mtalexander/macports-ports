@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                SilentKnight
-version             1.12
+version             1.15
 categories          sysutils aqua
 platforms           darwin
 supported_archs     x86_64
@@ -23,9 +23,9 @@ master_sites        https://eclecticlightdotcom.files.wordpress.com/2020/11/
 distname            [strsed [string tolower ${name}${version}] {g/[.]//}]
 use_zip             yes
 
-checksums           rmd160  766743d7baa06b4874889b5318023aaaa2c67297 \
-                    sha256  3ce5c42606d6237b9c8b036da73a9842118f0929d478f86f458f07aa8e2dc384 \
-                    size    9486059
+checksums           rmd160  2798a738bef31d56456da8308fcdb1f3bad1b80b \
+                    sha256  cfab760bd693713d7f38aaac20809fe0327b41de799c94614595d88c05d6393c \
+                    size    9585874
 
 use_configure       no
 
