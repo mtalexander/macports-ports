@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        TorstenDittmann OmniaWrite 1.2.0 v
+github.setup        TorstenDittmann OmniaWrite 1.3.2 v
 name                omniawrite
 revision            0
 
@@ -30,9 +30,9 @@ platforms           darwin
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  44c39864bf1e4a657d5e35ee75b87577659c1540 \
-                    sha256  17084665cf20e89e277cf93a543b00b7d128e010d44f3d6a895f9a7fe4bb2a91 \
-                    size    1683773
+checksums           rmd160  ea352c17848bd668d0f928fe5efde5787f2dd401 \
+                    sha256  b161dd9771ff1daa093ccaf4ba55133688c8b4bc6a7e0a1a5305636dc64f8a52 \
+                    size    1714655
 
 depends_build       port:yarn
 

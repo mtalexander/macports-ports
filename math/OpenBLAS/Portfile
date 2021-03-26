@@ -30,9 +30,14 @@ if {${os.major} >= 11 && ${os.major} <= 17} {
     set blas_arch "CORE2"
 }
 #OS 10.14 supports down to Mac Pro 5,1 that has Nehalem architecture
-if {${os.major} >= 18} { 
-    set blas_arch "NEHALEM"
-} 
+if {${os.major} >= 18} {
+    if {${os.arch} eq "arm"} {
+        # FIXME use correct arch name
+        #set blas_arch "???"
+    } else {
+        set blas_arch "NEHALEM"
+    }
+}
 if {![info exists blas_arch]} {
     #For older versions, we force native variant as there is no PPCG3 target in OpenBLAS
     default_variants-append +native
@@ -41,11 +46,11 @@ if {![info exists blas_arch]} {
 subport OpenBLAS-devel {}
 if {[string first "-devel" $subport] > 0} {
 
-    github.setup    xianyi OpenBLAS 3559c5d7a2250d9d89105d0ff411348c035e33be
-    version         20201221-[string range ${github.version} 0 7]
-    checksums       rmd160  1e7fefbf999b91e8487fe2dce28cbfd1df94e354 \
-                    sha256  6dbc6252226b700cb8362602f496d9b7f8503bedd9a70b2a58ef9460f986d1ef \
-                    size    12442927
+    github.setup    xianyi OpenBLAS 1caa44bea999e196918afc095d26ad418db4ba19
+    version         20210219-[string range ${github.version} 0 7]
+    checksums       rmd160  9ec75a885fc4fc0fc5bd8f37f72aec4d6b6931cb \
+                    sha256  f397bfafb0babe40a38270c7eaf966428fe331b6ff71c91f1b7ecd076f312130 \
+                    size    12456354
     revision        0
 
     name            ${github.project}-devel
@@ -61,10 +66,10 @@ if {[string first "-devel" $subport] > 0} {
 
 } else {
 
-    github.setup    xianyi OpenBLAS 0.3.13 v
-    checksums       rmd160  ac0847547d4d1ca21c1e8bb1a681a3680826907c \
-                    sha256  9223b504b90ddf854339f6fdd9e89755feeb9efbdbfbd09ae61411a5fc183d27 \
-                    size    12442494
+    github.setup    xianyi OpenBLAS 0.3.14 v
+    checksums       rmd160  e31fe7529ddd03d8734768bf2806c41885826195 \
+                    sha256  865fb970401b3cb0d1ccd0242230b4728c869ca6c06507995df59657cdf25e5b \
+                    size    12465281
     revision        0
 
     conflicts       OpenBLAS-devel
@@ -100,7 +105,7 @@ xcode_workaround.fixed_xcode_version 11.2
 xcode_workaround.type append_to_compiler_name
 
 pre-build {
-    if {[variant_isset universal]} {
+    if {[variant_exists universal] && [variant_isset universal]} {
         foreach arch ${universal_archs_to_use} {
             set makeINC [open ${worksrcpath}-${arch}/Makefile.rule "w"]
             puts $makeINC "VERSION = 1"
@@ -109,7 +114,7 @@ pre-build {
             puts $makeINC "CC = ${configure.cc}"
             puts $makeINC "FC = ${configure.fc}"
 
-            if {${arch} eq "x86_64" || ${arch} eq "ppc64"} {
+            if {${arch} in [list arm64 ppc64 x86_64]} {
                 puts $makeINC "BINARY = 64"
             } else {
                 puts $makeINC "BINARY = 32"
@@ -131,8 +136,8 @@ pre-build {
                 }
             }
 
-            if {${build_arch} eq "ppc" || ${build_arch} eq "ppc64"} {
-                # on a PPC of some sort; just disable AVX
+            if {${build_arch} ni [list i386 x86_64]} {
+                # not on x86 of some sort; just disable AVX
                 puts $makeINC "NO_AVX = 1"
                 puts $makeINC "NO_AVX2 = 1"
                 puts $makeINC "NO_AVX512 = 1"
@@ -168,7 +173,7 @@ pre-build {
         puts $makeINC "CC = ${configure.cc}"
         puts $makeINC "FC = ${configure.fc}"
 
-        if {${build_arch} eq "x86_64" || ${build_arch} eq "ppc64"} {
+        if {${build_arch} in [list arm64 ppc64 x86_64]} {
             puts $makeINC "BINARY = 64"
         } else {
             puts $makeINC "BINARY = 32"
@@ -187,8 +192,8 @@ pre-build {
         }
 
         #Setting up build flags
-        if {${build_arch} eq "ppc" || ${build_arch} eq "ppc64"} {
-            # on a PPC of some sort; just disable AVX
+        if {${build_arch} ni [list i386 x86_64]} {
+            # not on x86 of some sort; just disable AVX
             puts $makeINC "NO_AVX = 1"
             puts $makeINC "NO_AVX2 = 1"
             puts $makeINC "NO_AVX512 = 1"
@@ -235,7 +240,10 @@ platform darwin 8 {
 
 destroot.args       "PREFIX=${prefix}"
 
-if {[variant_isset universal]} {
+if {![info exists universal_possible]} {
+    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
+}
+if {${universal_possible} && [variant_isset universal]} {
     merger-post-destroot {
         foreach arch ${universal_archs_to_use} {
             if {${arch} ne ${build_arch}} {

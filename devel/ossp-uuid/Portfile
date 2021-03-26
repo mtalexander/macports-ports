@@ -6,7 +6,7 @@ PortGroup               perl5 1.0
 
 name                    ossp-uuid
 version                 1.6.2
-revision                11
+revision                12
 categories              devel
 license                 MIT
 platforms               darwin
@@ -39,6 +39,7 @@ configure.args          --without-perl \
                         --without-pgsql \
                         --includedir=${prefix}/include/ossp
 
+
 if {[variant_isset universal]} {
     if { ${os.arch} eq "i386" } {
         if { ${os.major} >= 10 } {
@@ -49,8 +50,10 @@ if {[variant_isset universal]} {
         set merger_configure_env(i386)    ac_cv_va_copy=yes
         set merger_configure_env(x86_64)  ac_cv_va_copy=yes
     }
+}
 
-    post-configure {
+post-configure {
+    if {[variant_exists universal] && [variant_isset universal]} {
         set all_archs ""
         foreach arch ${universal_archs_to_use} {
             lappend all_archs -arch ${arch}
@@ -89,7 +92,7 @@ foreach branch ${perl5.branches} {
     license_noconflict perl${branch}
 }
 
-if {[variant_isset perl5_26] || [variant_isset perl5_28] || [variant_isset perl5_30]} {
+if {[variant_isset perl5_26] || [variant_isset perl5_28] || [variant_isset perl5_30] || [variant_isset perl5_32]} {
     configure.perl          ${perl5.bin}
     configure.args-delete   --without-perl
     configure.args-append   --with-perl --with-perl-compat

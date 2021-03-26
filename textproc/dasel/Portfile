@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/TomWright/dasel 1.12.1 v
+go.setup            github.com/TomWright/dasel 1.13.5 v
 revision            0
 
 go.package          github.com/tomwright/dasel
@@ -34,9 +34,9 @@ destroot {
 }
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  fef5491441999db1bd741825f8969c47323bf095 \
-                        sha256  afe20b00848c7bbf34c7ab5849846e4b681c68d4defa6aaa20613ecbf3e7abdb \
-                        size    2922861
+                        rmd160  866751ca4c915a06956282c2a54fa0e5f1142860 \
+                        sha256  011703e204444bb2cb44222e137f1e0867e69c9fd53ab782d089eb812d89951d \
+                        size    2913639
 
 go.vendors          gopkg.in/yaml.v2 \
                         lock    v2.2.2 \

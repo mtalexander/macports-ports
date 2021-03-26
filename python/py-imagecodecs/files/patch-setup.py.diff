@@ -1,30 +1,11 @@
---- setup.py.orig	2020-12-25 09:29:15.000000000 -0600
-+++ setup.py	2020-12-25 09:29:41.000000000 -0600
-@@ -381,16 +381,17 @@
- try:
-     from imagecodecs_distributor_setup import customize_build
- except ImportError:
--    if os.environ.get('COMPUTERNAME', '').startswith('CG-'):
--        customize_build = customize_build_cg
--    elif os.environ.get('CONDA_BUILD', ''):
--        customize_build = customize_build_cf
--    elif os.environ.get('LD_LIBRARY_PATH', os.environ.get('LIBRARY_PATH', '')):
--        customize_build = customize_build_ci
--    elif shutil.which('port'):
--        customize_build = customize_build_macports
--    else:
--        customize_build = customize_build_default
-+#     if os.environ.get('COMPUTERNAME', '').startswith('CG-'):
-+#         customize_build = customize_build_cg
-+#     elif os.environ.get('CONDA_BUILD', ''):
-+#         customize_build = customize_build_cf
-+#     elif os.environ.get('LD_LIBRARY_PATH', os.environ.get('LIBRARY_PATH', '')):
-+#         customize_build = customize_build_ci
-+#     elif shutil.which('port'):
-+#         customize_build = customize_build_macports
-+#     else:
-+#         customize_build = customize_build_default
-+	customize_build = customize_build_macports
+--- setup.py.orig	2021-01-27 22:24:36.000000000 -0600
++++ setup.py	2021-01-28 07:37:40.000000000 -0600
+@@ -401,7 +401,7 @@
+     EXTENSIONS['jpeg2k']['include_dirs'].extend(
+         ('%PREFIX%/include/openjpeg-2.3', '%PREFIX%/include/openjpeg-2.4')
+     )
+-    EXTENSIONS['jpeg8']['cython_compile_env']['HAVE_LIBJPEG_TURBO'] = False
++#    EXTENSIONS['jpeg8']['cython_compile_env']['HAVE_LIBJPEG_TURBO'] = False
+     OPTIONS['cythonize'] = True
  
- customize_build(EXTENSIONS, OPTIONS)
  

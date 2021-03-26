@@ -14,11 +14,14 @@ name                molden
 # as well as checksums should be updated each time this happens.
 # See https://trac.macports.org/wiki/PortfileRecipes#stealth-updates
 epoch               1
-version             6.6-20201209130200
+version             6.7-20210202142200
 revision            0
-checksums           rmd160  dd66a2105fb76f8781e63967cd3bf8597cb908b2 \
-                    sha256  2a2a7a116a336b607b50e8135bc2cca764c50e4a6896013ee3c6f582b741ee72 \
-                    size    6008344
+checksums           rmd160  dfa7e0421d5b0991bf7f954715423004bb7539a4 \
+                    sha256  ebd73e8d95271eb82a1464a7eab28a042662483bbff6e6dcc7db0d1c9b2e4432 \
+                    size    11600372
+
+# Not arm64 compatible because the makefile relies on -Wno-implicit-function-declaration
+supported_archs     i386 ppc ppc64 x86_64
 
 set version_number  [lindex [split ${version} -] 0]
 set branch          [join [lrange [split ${version_number} .] 0 1] .]
@@ -62,7 +65,7 @@ post-extract {
     # Copy "group" permission to "others", which is empty.
     fs-traverse item ${worksrcpath} {
         set p [file attributes ${item} -permissions]
-        file attributes ${item} -permissions [format {0%o} [expr {(${p} >> 3 & 7) + ${p}}]]
+        file attributes ${item} -permissions [format {0%o} [expr {(${p} >> 3 & 7) | ${p}}]]
     }
 }
 
@@ -75,6 +78,12 @@ compilers.setup     require_fortran -gcc10
 #compilers.allow_arguments_mismatch  yes
 # The argument mismatch problem has been reported to the developer by email.
 minimum_xcodeversions {9 3.1}
+
+pre-configure {
+    # Delete compiled objects which were included in the 6.7-20210202142200 distfile.
+    # This problem has been reported to the developer by email; no response yet.
+    system -W ${worksrcpath} "${build.cmd} clean"
+}
 
 use_configure       no
 

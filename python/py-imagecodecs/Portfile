@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-imagecodecs
-version             2020.12.24
+version             2021.2.26
 revision            0
 
 categories-append   graphics
@@ -13,13 +13,13 @@ license             BSD
 maintainers         {mps @Schamschula} openmaintainer
 
 description         Image transformation, compression, and decompression codecs
-long_description    ${description}
+long_description    {*}${description}
 
 homepage            https://www.lfd.uci.edu/~gohlke/
 
-checksums           rmd160  5ff061523f8d3f8e29e65b3c5421fbbd4c21a2ce \
-                    sha256  bcfb909c38fc0460f24ab75f58c643f2c50a10d0fa49ac07d5ea7b780765e7bd \
-                    size    9271204
+checksums           rmd160  1e56c75b7a2f80498e4edf9b75cd6df80c0addc0 \
+                    sha256  b479064983ea963b520dbd63b388f69ec8ddc4b12a8c77142d868982f17f400b \
+                    size    9419303
 
 python.versions     37 38 39
 
@@ -34,7 +34,7 @@ if {${name} ne ${subport}} {
                     port:bzip2 \
                     port:charls \
                     port:giflib5 \
-                    port:jpeg \
+                    path:include/turbojpeg.h:libjpeg-turbo \
                     port:libaec \
                     port:openjpeg \
                     port:py${python.version}-cython \
@@ -46,8 +46,7 @@ if {${name} ne ${subport}} {
                     port:zopfli \
                     port:zstd
 
-    patchfiles      patch-imagecodecs-zopfli.diff \
-                    patch-setup.py.diff
+    patchfiles      patch-setup.py.diff
 
     post-patch {
         reinplace "s|%PREFIX%|${prefix}|g" \

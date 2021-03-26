@@ -214,18 +214,20 @@ post-extract {
 proc cargo.translate_arch_name {arch} {
     if {${arch} eq "i386"} {
         return "i686"
+    } elseif {${arch} eq "arm64"} {
+        return "aarch64"
     } else {
         return ${arch}
     }
 }
 
 proc cargo.rust_platform {{arch ""}} {
-    global os.platform build_arch muniversal.current_arch
+    global os.platform configure.build_arch muniversal.current_arch
     if {${arch} eq ""} {
         if {[info exists muniversal.current_arch]} {
             set arch ${muniversal.current_arch}
         } else {
-            set arch ${build_arch}
+            set arch ${configure.build_arch}
         }
     }
     return [cargo.translate_arch_name ${arch}]-apple-${os.platform}
@@ -243,7 +245,7 @@ foreach stage {configure build destroot} {
 
 # do not force all Portfiles to switch from ${stage}.env to ${stage}.env-append
 proc cargo.environments {} {
-    global configure.cc configure.cxx subport build_arch universal_archs merger_configure_env merger_build_env merger_destroot_env worksrcpath
+    global configure.cc configure.cxx subport configure.build_arch configure.universal_archs merger_configure_env merger_build_env merger_destroot_env worksrcpath
     foreach stage {build destroot} {
         ${stage}.env-delete CC=${configure.cc} \
                             CXX=${configure.cxx}
@@ -262,13 +264,13 @@ proc cargo.environments {} {
         if {![variant_exists universal] || ![variant_isset universal]} {
             foreach stage {configure build destroot} {
                 ${stage}.env-delete \
-                    CARGO_BUILD_TARGET=[cargo.rust_platform ${build_arch}]
+                    CARGO_BUILD_TARGET=[cargo.rust_platform ${configure.build_arch}]
                 ${stage}.env-append \
-                    CARGO_BUILD_TARGET=[cargo.rust_platform ${build_arch}]
+                    CARGO_BUILD_TARGET=[cargo.rust_platform ${configure.build_arch}]
             }
         } else {
             foreach stage {configure build destroot} {
-                foreach arch ${universal_archs} {
+                foreach arch ${configure.universal_archs} {
                     lappend merger_${stage}_env(${arch}) \
                         CARGO_BUILD_TARGET=[cargo.rust_platform ${arch}]
                 }
@@ -278,21 +280,5 @@ proc cargo.environments {} {
 }
 port::register_callback cargo.environments
 
-# override universal_setup found in portutil.tcl so it uses muniversal PortGroup
 # see https://trac.macports.org/ticket/51643 for a similar case
-proc universal_setup {args} {
-    if {[variant_exists universal]} {
-        ui_debug "universal variant already exists, so not adding the default one"
-    } elseif {[exists universal_variant] && ![option universal_variant]} {
-        ui_debug "universal_variant is false, so not adding the default universal variant"
-    } elseif {[exists use_xmkmf] && [option use_xmkmf]} {
-        ui_debug "using xmkmf, so not adding the default universal variant"
-    } elseif {![exists os.universal_supported] || ![option os.universal_supported]} {
-        ui_debug "OS doesn't support universal builds, so not adding the default universal variant"
-    } elseif {[llength [option supported_archs]] == 1} {
-        ui_debug "only one arch supported, so not adding the default universal variant"
-    } else {
-        ui_debug "adding universal variant via PortGroup muniversal"
-        uplevel "PortGroup muniversal 1.0"
-    }
-}
+PortGroup muniversal 1.0

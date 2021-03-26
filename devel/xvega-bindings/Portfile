@@ -4,17 +4,17 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        jupyter-xeus xvega-bindings 0.0.4
+github.setup        jupyter-xeus xvega-bindings 0.0.10
 revision            0
 categories          devel graphics
 license             BSD
 maintainers         {mps @Schamschula} openmaintainer
 description         Bindings from xvega to xeus.
-long_description    ${description}
+long_description    {*}${description}
 platforms           darwin
 
-checksums           rmd160  7f8ec5afbddc28384a8976c423af3c54ced47ed6 \
-                    sha256  a92770b7172b0d88bb8d4b3f0a8b0dcb4b8725d0c9a3c9884f9e463a55a91aa4 \
-                    size    8093
+checksums           rmd160  f6c19c56b5bffc2aea0763e6cc5738c9cea1528e \
+                    sha256  2745eed87ba8139b92a55ea987a2ad830e309e6ac9acfba760385e0706bc7d83 \
+                    size    7969
 
 depends_lib         port:xvega

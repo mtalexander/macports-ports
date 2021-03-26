@@ -4,14 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-alembic
-version             1.4.3
+version             1.5.7
 revision            0
 categories-append   databases
 platforms           darwin
 license             MIT
 supported_archs     noarch
 
-python.versions     27 35 36 37 38
+python.versions     27 35 36 37 38 39
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -20,9 +20,9 @@ long_description    ${description}
 
 homepage            http://bitbucket.org/zzzeek/alembic
 
-checksums           rmd160  92c8b575588299afdc351beb28971b9995f98c8b \
-                    sha256  5334f32314fb2a56d86b4c4dd1ae34b08c03cae4cb888bc699942104d66bc245 \
-                    size    1108131
+checksums           rmd160  d54c9a645ece253b944f25d6f44fb0b33d6863e7 \
+                    sha256  66bbb0e7d6277b007dfe7e27237093c79b76cf4f94e6fbd0f7af6f9409546fe6 \
+                    size    1154141
 
 if {${name} ne ${subport}} {
 

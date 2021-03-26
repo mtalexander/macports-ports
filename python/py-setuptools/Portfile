@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-setuptools
-version             50.3.1
+version             54.2.0
 categories-append   devel
 # License status is murky. The current maintainer decided to relicense as
 # MIT, but he doesn't appear to have obtained the permission of previous
@@ -23,17 +23,32 @@ platforms           darwin
 supported_archs     noarch
 
 homepage            https://pypi.org/project/setuptools/
-use_zip             yes
 
-checksums           md5 6a323319a1d3b7d1939ddc0f6bc7dbe9 \
-                    rmd160 7f42ab7c6305d5c01180fe8d3946bc0d57b6c718 \
-                    sha256 0e9772768fa6e9d3cf818a3e6e24dd2236f319d2c478312995edcb30ddeb8343
+checksums           md5 09f693b5d5ca8bf4fdb1da82f8110a9c \
+                    rmd160 ae5bb69994c6a1772959c764f061621d6c9fa2f4 \
+                    sha256 aa9c24fb83a9116b8d425e53bec24c7bfdbffc313c2159f9ed036d4a6dd32d7d
 
 python.versions     26 27 33 34 35 36 37 38 39
 python.link_binaries no
 
 if {$subport ne $name} {
-    if {${python.version} == 27} {
+
+    if {${python.version} <= 35} {
+        use_zip     yes
+        post-destroot {
+            ln -s ${python.prefix}/bin/easy_install-${python.branch} ${destroot}${prefix}/bin
+        }
+    } else {
+        patchfiles-append   _distutils_spawn.py.patch
+    }
+
+    if {${python.version} == 35} {
+        version     50.3.1
+        revision    0
+        checksums   md5 6a323319a1d3b7d1939ddc0f6bc7dbe9 \
+                    rmd160 7f42ab7c6305d5c01180fe8d3946bc0d57b6c718 \
+                    sha256 0e9772768fa6e9d3cf818a3e6e24dd2236f319d2c478312995edcb30ddeb8343
+    } elseif {${python.version} == 27} {
         version     44.1.1
         revision    0
         checksums   md5 2c41f19cfd1f16a7d7bb23689921ac1b \
@@ -65,7 +80,6 @@ if {$subport ne $name} {
        xinstall -m 755 -d ${destroot}${prefix}/share/doc/${subport}
        xinstall -m 644 -W ${worksrcpath} CHANGES.rst README.rst \
           ${destroot}${prefix}/share/doc/${subport}
-       ln -s ${python.prefix}/bin/easy_install-${python.branch} ${destroot}${prefix}/bin
     }
     livecheck.type      none
 }

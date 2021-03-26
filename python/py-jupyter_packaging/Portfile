@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim: fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-jupyter_packaging
+version             0.7.12
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     36 37 38 39
+
+maintainers         {stromnov @stromnov} openmaintainer
+
+description         Utilities for making Python packages with and without accompanying JavaScript packages.
+long_description    ${description}
+
+homepage            https://jupyter.org/
+
+distname            jupyter-packaging-${version}
+
+checksums           rmd160  da7f28a5154c2753c6e9aba24f39aeaeaa183d7a \
+                    sha256  b140325771881a7df7b7f2d14997b619063fe75ae756b9025852e4346000bbb8 \
+                    size    15492
+
+if {${name} ne ${subport}} {
+    depends_lib-append  port:py${python.version}-setuptools
+
+    livecheck.type      none
+}

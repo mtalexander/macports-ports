@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/syncthing/syncthing 1.12.0 v
+go.setup            github.com/syncthing/syncthing 1.14.0 v
 categories          net
 platforms           darwin
 license             MPL-2
@@ -18,9 +18,9 @@ long_description    Syncthing replaces proprietary sync and cloud services \
 homepage            https://syncthing.net
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  174051bb18728ed6a47aabd75129ca96b8f6ddad \
-                        sha256  8288a94a8a0ed62d3b7b07607cff7540f30ee9d016db39a658384c6bce6d2385 \
-                        size    5002452
+                        rmd160  63cf92d80710cd751b7a2f2fa6158fe64403b7f0 \
+                        sha256  496591f73c4a25dac1444389631bd342a3540ca412b9aeb5a0db14fc63b8aa68 \
+                        size    5072193
 
 go.vendors          gopkg.in/yaml.v3 \
                         lock    9f266ea9e77c \
@@ -99,10 +99,10 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  9fb936ce779314cfa755bd208b8a5ba7e4f41c23bd7a1d61bda6facb5d13052b \
                         size    151087 \
                     github.com/syncthing/notify \
-                        lock    9a0e44181151 \
-                        rmd160  44aaebc5bfd99c236bd39a067b72bacd197c8d98 \
-                        sha256  a445d3ffc362cb2a96f2601cfed00a831be9d75db47f11be7df8be433112e88d \
-                        size    57446 \
+                        lock    17de26665ddc \
+                        rmd160  2b1328b56d6cba0fe3717963115dfa6274b1a8a7 \
+                        sha256  fc0ed5b0fe3a4b81e776381368dffbaa7d93621403c8bc7d2027c823073a6b4c \
+                        size    57687 \
                     github.com/stretchr/testify \
                         lock    v1.6.1 \
                         rmd160  7e5b798212a8f15cd58a63985ae0b928eede8e6b \
@@ -119,10 +119,10 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  ed9418de8c92acfbbd8608745855ebfc67fa686c0a0a5245cf8eece8f540baa9 \
                         size    2144 \
                     github.com/shirou/gopsutil \
-                        lock    v3.20.10 \
-                        rmd160  a805ad80e2bc80782911443c0726ae653a90dde8 \
-                        sha256  6e30413c9644817d228e258aeea6134ef01dcac80fadfa9f5175a1910cb561c7 \
-                        size    278035 \
+                        lock    v3.20.11 \
+                        rmd160  60f9e1f1df95377b0600872e7be6553b69787b8b \
+                        sha256  ef56a4256848df47f3c22adba3c6baf13fbf42525920b23e6949851b575c04f3 \
+                        size    284015 \
                     github.com/sasha-s/go-deadlock \
                         lock    v0.2.0 \
                         rmd160  e9a7e7a4994c375c6fbf1a2773e37e1cd3bf2325 \
@@ -224,20 +224,20 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  903a5fd94d31df7ec39c3482926ff69182e0fd9ae5891850d7fb26570eb73f41 \
                         size    1219072 \
                     github.com/marten-seemann/qtls-go1-15 \
-                        lock    v0.1.0 \
-                        rmd160  d14038cf74ece3ff410b88f61a21c818e8b1e8aa \
-                        sha256  20a60b2f7f1f1c75dfcce4c784ed02c92a9a0698695c9be2ca3b9b1b6c4b6667 \
-                        size    413553 \
+                        lock    v0.1.1 \
+                        rmd160  a292bd4cc78e1f395ec65180d3e47e85b6aa55a1 \
+                        sha256  dca45a0ba054751a908de41055d292b0020e9ccbc959b52231b1f8027fe17da1 \
+                        size    413727 \
                     github.com/marten-seemann/qtls \
                         lock    v0.10.0 \
                         rmd160  560c030e5cd2045dc65345b67ce0257ec709ac65 \
                         sha256  9db255f013988eee87447b47a3510b56cfb3e0acb1e4f0af13215b971a82f6b4 \
                         size    403908 \
                     github.com/lucas-clemente/quic-go \
-                        lock    v0.18.1 \
-                        rmd160  fa742ed3bfd5b74e7c8d8b86eb18a1313a9685e3 \
-                        sha256  de1608164707258a25fc9f7293068cb1b6f975b593834e71fa1327ed8d3086e6 \
-                        size    488876 \
+                        lock    v0.19.3 \
+                        rmd160  d34abe8d7dc661b7deaf5e39fbbe88747314d662 \
+                        sha256  2589e82385f612cc4b45ab0bad5ae105d36d823a137245520d71e90009f4f17f \
+                        size    495534 \
                     github.com/lib/pq \
                         lock    v1.8.0 \
                         rmd160  3bdbb0bd8abc244e2a17318be93ca6e9ba11d982 \
@@ -273,6 +273,11 @@ go.vendors          gopkg.in/yaml.v3 \
                         rmd160  3b78ee895c6d3d02bbc65ad2ed24aee73020815f \
                         sha256  9ccb9f16909c0a992b2b0f319937d73778c7b97eae57fd6a0a1aa0faf0b11d41 \
                         size    4907 \
+                    github.com/hashicorp/golang-lru \
+                        lock    v0.5.1 \
+                        rmd160  dd02645a94c90ef435ed1662531754761e4a4d8b \
+                        sha256  d9393f70b3fcd62d078e0ceefe9f6605d5086a986ba6cd7ed268b980eb1b6bf4 \
+                        size    12986 \
                     github.com/greatroar/blobloom \
                         lock    v0.5.0 \
                         rmd160  57f4c4fbc0679178345214eb6eea91fb81743434 \
@@ -449,10 +454,10 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  6ead3d46eebdc505730eeeb67f1f51db8f5685a289a21bb8652ded419e98355c \
                         size    12375 \
                     github.com/AudriusButkevicius/pfilter \
-                        lock    c55ef6137fc6 \
-                        rmd160  f4a19907214e15e2460a0279c02950a5d21dc1c4 \
-                        sha256  bd4daa7fdd0212753aefbef8818eedb38bbec97b43a3e5465a1891b5f0deb5cc \
-                        size    3244
+                        lock    7468b85d810a \
+                        rmd160  ae256c2bccf0a0ad889cee14e8244ffe4635c501 \
+                        sha256  1676b316eb16e30a5cdff9e3ca4115ade3b1da9d15d23ff68dd12629d56ab80b \
+                        size    3280
 
 build.cmd           ${go.bin} run build.go
 build.target        install syncthing

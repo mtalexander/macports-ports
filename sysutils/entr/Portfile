@@ -2,14 +2,12 @@
 
 PortSystem          1.0
 PortGroup           makefile 1.0
-PortGroup           github 1.0
+PortGroup           github   1.0
 
-github.setup        eradman entr 4.6
-categories          sysutils
-license             ISC
-platforms           darwin
-maintainers         {gmail.com:herby.gillot @herbygillot} \
-                    openmaintainer
+github.setup        eradman entr 4.8
+revision            0
+
+homepage            https://eradman.com/entrproject
 
 description         a utility for running arbitrary commands when files change.
 
@@ -18,11 +16,16 @@ long_description    a utility for running arbitrary commands when \
                     entr responds to file system events by executing \
                     command line arguments.
 
-homepage            https://eradman.com/entrproject/
+categories          sysutils
+license             ISC
+platforms           darwin
 
-checksums           rmd160  6565c13f5fddf8df5dde0025002c16e52ea5e650 \
-                    sha256  5de842a205013194f51fa9f5bc85a5f0ca994b8b62aa4c05d5900701a70ca319 \
-                    size    24918
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+
+checksums           rmd160  1d491c6057883ac6d13fda1b5213a4e950e5062a \
+                    sha256  ff028124ef9a5a4c58fad2c677d2682522babb3c8745152635c57af430bfe852 \
+                    size    25417
 
 test.run            yes
 

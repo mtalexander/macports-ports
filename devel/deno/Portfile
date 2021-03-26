@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        denoland deno 1.6.3 v
+github.setup        denoland deno 1.8.2 v
 revision            0
 
 homepage            https://deno.land
@@ -24,17 +24,28 @@ long_description    Deno is a a secure runtime for JavaScript and TypeScript. \
 categories          devel
 license             MIT
 platforms           darwin
-supported_archs     x86_64
+supported_archs     arm64 x86_64
 
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  a005e336fe90b616d865d634d0e56575a47a620c \
-                    sha256  4921d973759d739581ac26421d1f8ffcfc526f06e95a6cb17c5291f3a9b076ba \
-                    size    18236171
+checksums           ${name}-x86_64-apple-darwin.zip \
+                    rmd160  1441cf02a66ea022e6103dbdfe250c1cee8db9d3 \
+                    sha256  35f8a13736c5a52144c720866c450d2fc0910f6a456d188fd7ff37e8147ccaba \
+                    size    27410648 \
+                    ${name}-aarch64-apple-darwin.zip \
+                    rmd160  9a73576fc6aa9c209ba250c939e6dd80bba28ce9 \
+                    sha256  fd564d242a4b4de81b449fe341598f3394de18bd25d793b74c44012eb7b0358a \
+                    size    27648667
+
+if {${build_arch} eq "arm64"} {
+    set release_arch aarch64
+} else {
+    set release_arch x86_64
+}
 
 github.tarball_from releases
-distname            ${name}-x86_64-apple-darwin
+distname            ${name}-${release_arch}-apple-darwin
 dist_subdir         ${name}/${version}
 extract.mkdir       yes
 

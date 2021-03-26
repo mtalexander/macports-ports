@@ -31,6 +31,8 @@
 # c_variant_isset {}: is a C variant set
 # fortran_active_variant_name {depspec}: which Fortran variant a dependency has set
 # fortran_variant_name {}: which Fortran variant is set
+# fortran_depends_port_name {arg}: gets the compiler port name for the given fortran variant
+# fortran_variant_depends {}: gets the depspec to use to depend on the compiler for the active fortran variant
 # fortran_compiler_name {arg}:  converts gfortran into the actual Fortran compiler name; otherwise returns arg
 # clang_variant_isset {}: is a clang variant set
 # clang_variant_name {}: which clang variant is set
@@ -93,7 +95,11 @@ if {${os.major} < 10} {
 set compilers.list {cc cxx cpp objc fc f77 f90}
 
 # build database of gcc compiler attributes
-set gcc_versions {4.4 4.5 4.6 4.7 4.8 4.9 5 6 7 8 9 10 devel}
+if { ${os.arch} eq "arm" } {
+    set gcc_versions {devel}
+} else {
+    set gcc_versions {4.4 4.5 4.6 4.7 4.8 4.9 5 6 7 8 9 10 devel}
+}
 foreach ver ${gcc_versions} {
     # Remove dot from version if present
     set ver_nodot [string map {. {}} ${ver}]
@@ -130,7 +136,11 @@ foreach ver ${gcc_versions} {
     set cdb(gcc$ver_nodot,cxx_stdlib) libstdc++
 }
 
-set clang_versions {3.3 3.4 3.7 5.0 6.0 7.0 8.0 9.0 10 11}
+if { ${os.arch} eq "arm" } {
+    set clang_versions {10 11 devel}
+} else {
+    set clang_versions {3.3 3.4 3.7 5.0 6.0 7.0 8.0 9.0 10 11 devel}
+}
 foreach ver ${clang_versions} {
     # Remove dot from version if present
     set ver_nodot [string map {. {}} ${ver}]
@@ -384,7 +394,7 @@ proc fortran_depends_port_name {var} {
     }
 }
 
-proc fortran_variant_depends_port_name {} {
+proc fortran_variant_depends {} {
     global cdb
     set var_name [fortran_variant_name]
     if { ${var_name} ne "" } {
@@ -576,7 +586,8 @@ proc compilers.action_enforce_some_f {ports} {
 proc compilers.setup {args} {
     global cdb compilers.variants compilers.clang_variants compilers.gcc_variants \
         compilers.my_fortran_variants compilers.require_fortran compilers.default_fortran \
-        compilers.setup_done compilers.list compilers.gcc_default compiler.blacklist
+        compilers.setup_done compilers.list compilers.gcc_default compiler.blacklist \
+        os.major os.arch
 
     if {!${compilers.setup_done}} {
         set add_list {}
@@ -629,9 +640,15 @@ proc compilers.setup {args} {
                 }
                 default {
                     if {[info exists cdb($v,variant)] == 0} {
-                        return -code error "no such compiler: $v"
+                        # If removing an already not available compiler just warn, otherwise hard error
+                        if { ${mode} eq "add" } {
+                            return -code error "Compiler ${v} not available for Darwin${os.major} ${os.arch}"
+                        } else {
+                            ui_warn "Compiler ${v} not available for Darwin${os.major} ${os.arch}"
+                        }
+                    } else {
+                        set ${mode}_list [${mode}_from_list [set ${mode}_list] $cdb($v,variant)]
                     }
-                    set ${mode}_list [${mode}_from_list [set ${mode}_list] $cdb($v,variant)]
                 }
             }
         }
@@ -726,7 +743,7 @@ proc compilers::add_fortran_legacy_support {} {
         } else {
             set fortran_compiler    [fortran_variant_name]
         }
-        if {${fortran_compiler} eq "gcc10"} {
+        if {${fortran_compiler} in "gcc10 gccdevel"} {
             configure.fflags-delete     -fallow-argument-mismatch
             configure.fcflags-delete    -fallow-argument-mismatch
             configure.f90flags-delete   -fallow-argument-mismatch

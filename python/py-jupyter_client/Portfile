@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-jupyter_client
-version             6.1.7
+version             6.1.12
 revision            0
 platforms           darwin
 license             BSD
@@ -19,9 +19,9 @@ long_description    ${description}
 
 homepage            https://jupyter.org
 
-checksums           rmd160  642ad87a30d9923939caeb51f321d433a47564ea \
-                    sha256  49e390b36fe4b4226724704ea28d9fb903f1a3601b6882ce3105221cd09377a1 \
-                    size    293252
+checksums           rmd160  1e2bf8a6a8ec37e0744a7d5cb85895224636b43e \
+                    sha256  c4bca1d0846186ca8be97f4d2fa6d2bae889cce4892a167ffa1ba6bd1f73e782 \
+                    size    301499
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-setuptools \

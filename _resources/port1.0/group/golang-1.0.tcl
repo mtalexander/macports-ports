@@ -126,10 +126,11 @@ default go.bin          {${prefix}/bin/go}
 default go.vendors      {}
 
 platforms               darwin freebsd linux
-supported_archs         i386 x86_64
+supported_archs         arm64 i386 x86_64
 set goos                ${os.platform}
 
-switch ${build_arch} {
+switch ${configure.build_arch} {
+    arm64   { set goarch arm64 }
     i386    { set goarch 386 }
     x86_64  { set goarch amd64 }
     default { set goarch {} }
@@ -277,7 +278,7 @@ post-extract {
         # as the result will not be accurate when go.package has been
         # customized.
         file mkdir [file dirname ${worksrcpath}]
-        if [file exists [glob -nocomplain ${workpath}/${go.author}-${go.project}-*]] {
+        if {[file exists [glob -nocomplain ${workpath}/${go.author}-${go.project}-*]]} {
             # GitHub and Bitbucket follow this path
             move [glob ${workpath}/${go.author}-${go.project}-*] ${worksrcpath}
         } else {

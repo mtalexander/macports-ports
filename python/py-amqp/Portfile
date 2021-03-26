@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-amqp
-version             5.0.2
+version             5.0.5
 revision            0
 categories-append   devel
 platforms           darwin
@@ -20,9 +20,9 @@ long_description    ${description}
 
 homepage            https://github.com/celery/py-amqp
 
-checksums           rmd160  c3f6e65bdbcdd913628a1004433ea84d75d71828 \
-                    sha256  fcd5b3baeeb7fc19b3486ff6d10543099d40ae1f5c9196eae695d1cde1b2f784 \
-                    size    120518
+checksums           rmd160  74b8fea2b8e15362645dd0389e8789891d4a13b0 \
+                    sha256  affdd263d8b8eb3c98170b78bf83867cdb6a14901d586e00ddb65bfe2f0c4e60 \
+                    size    122289
 
 if {${name} ne ${subport}} {
     depends_build-append \

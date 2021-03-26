@@ -3,11 +3,11 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        maxmind libmaxminddb 1.4.3
+github.setup        maxmind libmaxminddb 1.5.2
 revision            0
-checksums           rmd160  e3800097029380ec0651036d37c56aab57522d61 \
-                    sha256  a5fdf6c7b4880fdc7620f8ace5bd5cbe9f65650c9493034b5b9fc7d83551a439 \
-                    size    602272
+checksums           rmd160  183c003b20dbfbebd6815e45660157f852fa0c70 \
+                    sha256  5237076d250a5f7c297e331c35a433eeaaf0dc205e070e4db353c9ba10f340a2 \
+                    size    604683
 
 categories          devel net
 platforms           darwin

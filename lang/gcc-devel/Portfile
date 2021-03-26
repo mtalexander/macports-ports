@@ -29,27 +29,27 @@ if { ${build_arch} eq "arm64" } {
     # Arm machines can use same snapshots as Intel.
     PortGroup github 1.0
 
-    github.setup    iains gcc-darwin-arm64 6be7a45e8ace6a06e80c135e6682b46230c7a884
+    github.setup    iains gcc-darwin-arm64 3d132a12726b3a23febe5d13d7f288e6f7c10da5
 
     # Version must follow same scheme as with GCC snapshots below <version>-<commit-date>
-    version         11-20201227
+    version         11-20210314
     revision        0
     subport         libgcc-devel { revision 0 }
 
-    checksums       rmd160  45b881864c25b2440406017ab1788135a6800694 \
-                    sha256  7bf8929a5f84ebaef409b5e73b284fa3af0e093303441f490ba9315710666144 \
-                    size    123992922
+    checksums       rmd160  dacf9c1f494134a5d3a9cf887b8903dbac86a14c \
+                    sha256  76f7e3e376622a45dbd1fbb39a1763c3fabe68aa765a771b1e5e373ac0be08f6 \
+                    size    125146839
 
 } else {
     # Use regular GCC releases and snapshsots
 
-    version         11-20201129
+    version         11-20210314
     revision        0
     subport         libgcc-devel { revision 0 }
 
-    checksums       rmd160  7c8f97225c6b61b6c6a34ee2cf50210615c1ff27 \
-                    sha256  5d144a6b913afae03be32555e9b41fcf110b2002ebdaaf18fa2def7d3de457f7 \
-                    size    73048724
+    checksums       rmd160  7d88f7c92028815a3c98ccae4cf3be8155dd9fda \
+                    sha256  818b45406ca1340263101f1f480572856f5b53f7a169c92fb89d0ca44b7d9701 \
+                    size    75280648
 
     # Primary releases
     master_sites    https://ftpmirror.gnu.org/gcc/gcc-${version}/ \
@@ -166,7 +166,9 @@ pre-configure {
         #
         # https://trac.macports.org/ticket/53726
         # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=79885
-        configure.args-append --with-sysroot="${configure.sdkroot}"
+
+        # if the sdkroot is one of the current, rapidly changing SDKS, use the generic one
+        configure.args-append --with-sysroot="[regsub {MacOSX1[1-9]\.[0-9]+\.sdk} ${configure.sdkroot} {MacOSX.sdk}]"
     }
 
 }
@@ -177,9 +179,9 @@ pre-configure {
 # https://trac.macports.org/ticket/58493
 compiler.blacklist-append {clang < 800} gcc-4.0 *gcc-4.2 {llvm-gcc-4.2 < 2336.1} {macports-clang-3.[4-7]}
 
-# at present, clang-9.0+ can't build gcc devel
-# https://trac.macports.org/ticket/59253
-# compiler.blacklist-append macports-clang-9.0 macports-clang-10
+# https://build.macports.org/builders/ports-10.13_x86_64-builder/builds/105513/steps/install-port/logs/stdio
+# c++/v1/functional:1408:2: error: no member named 'fancy_abort' in namespace 'std::__1'; did you mean simply 'fancy_abort'?
+compiler.blacklist-append {clang < 1000}
 
 # "-stdlib" would be passed on to the bootstrap compiler if present
 configure.cxx_stdlib
@@ -272,7 +274,7 @@ if {${subport} eq "libgcc-devel"} {
             }
 
             move ${destroot}${prefix}/lib/libgcc/${dylib} ${destroot}${prefix}/lib/libgcc.merged
-            if {[variant_isset universal]} {
+            if {[variant_exists universal] && [variant_isset universal]} {
                 foreach archdir [glob ${destroot}${prefix}/lib/libgcc/*/] {
                     set archdir_nodestroot [string map "${destroot}/ /" ${archdir}]
                     if {[file exists ${archdir}/${dylib}]} {
@@ -330,7 +332,7 @@ if {${subport} eq "libgcc-devel"} {
                 delete ${destroot}${prefix}/lib/${name}/${dylib}
                 ln -s ${prefix}/lib/libgcc/${dylib} ${destroot}${prefix}/lib/${name}/${dylib}
             }
-            if {[variant_isset universal]} {
+            if {[variant_exists universal] && [variant_isset universal]} {
                 foreach archdir [glob ${destroot}${prefix}/lib/${name}/*/] {
                     if {[file exists ${archdir}/${dylib}]} {
                         delete ${archdir}/${dylib}

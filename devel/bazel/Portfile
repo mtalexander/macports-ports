@@ -8,7 +8,7 @@ PortGroup             compiler_blacklist_versions     1.0
 epoch                 1
 
 # List of all bazel sub-ports ( e.g. as required by tensorflow )
-set bazel_subports {bazel-0.25 bazel-2.0 bazel-3.5}
+set bazel_subports {bazel-0.25 bazel-2.0 bazel-3.1 bazel-3.5 bazel-3.7}
 set all_bazels ${bazel_subports}
 lappend all_bazels bazel
 
@@ -24,15 +24,42 @@ foreach b [lsearch -inline -all -not -exact $all_bazels ${subport}] {
 # Min supported Darwin version
 set min_darwin 16
 
+# The oldest Xcode version to use default Xcode compiler
+# Note setting here should be in sync with that in py-tensorflow
+set bazel_min_xcode 9.0
+
+# Extra args for bazel command
+set extra_args ""
+
 if { ${name} eq ${subport} } {
 
     # Main port
+    github.setup      bazelbuild ${name} 4.0.0
+    revision          0
+
+    checksums         rmd160  38aeaae4a1f6a5970fe72e892928f5842b9ba29a \
+                      sha256  d350f80e70654932db252db380d2ec0144a00e86f8d9f2b4c799ffdb48e9cdd1 \
+                      size    274505338
+
+    set bazel_min_xcode 12.0
+    compiler.blacklist-append {clang < 1200}
+    compiler.blacklist-append {macports-clang-[5-9].0}
+
+} elseif { "bazel-3.7" eq ${subport} } {
+
+    # Specific version for py-tensorflow - DO NOT CHANGE
     github.setup      bazelbuild ${name} 3.7.2
     revision          0
+
+    # livecheck none is correct here, see above.
+    livecheck.type    none
 
     checksums         rmd160  abf23b277194854bbd4e4390ab6b3f971d26826c \
                       sha256  de255bb42163a915312df9f4b86e5b874b46d9e8d4b72604b5123c3a845ed9b1 \
                       size    313677756
+
+    compiler.blacklist-append {clang < 710}
+    compiler.blacklist-append {macports-clang-[7-9].0}
 
 } elseif { "bazel-3.5" eq ${subport} } {
 
@@ -47,6 +74,28 @@ if { ${name} eq ${subport} } {
                       sha256  67eae714578b22d24192b0eb3a2d35b07578bbd57a33c50f1e74f8acd6378b3c \
                       size    307982168
 
+    compiler.blacklist-append {clang < 710}
+    compiler.blacklist-append {macports-clang-[7-9].0}
+
+} elseif { "bazel-3.1" eq ${subport} } {
+
+    # Specific version for py-tensorflow - DO NOT CHANGE
+    github.setup      bazelbuild ${name} 3.1.0
+    revision          0
+
+    # livecheck none is correct here, see above.
+    livecheck.type    none
+
+    checksums         rmd160  b3238d0539e757a2a7b07f2e4475f1cefdc6307c \
+                      sha256  d7f40d0cac95a06cea6cb5b7f7769085257caebc3ee84269dd9298da760d5615 \
+                      size    269384742
+
+    compiler.blacklist-append {clang < 710}
+    compiler.blacklist-append {macports-clang-[7-9].0}
+
+    # https://trac.macports.org/ticket/62551
+    set extra_args "--host_javabase=@local_jdk//:jdk"
+
 } elseif { "bazel-2.0" eq ${subport} } {
     
     # Specific version for py-tensorflow - DO NOT CHANGE
@@ -59,6 +108,9 @@ if { ${name} eq ${subport} } {
     checksums         rmd160  acf9b886d2ec69f2c7019037e3aeba6de48cb011 \
                       sha256  724da3c656f68e787a86ebb9844773aa1c2e3a873cc39462a8f1b336153d6cbb \
                       size    259625808
+
+    compiler.blacklist-append {clang < 710}
+    compiler.blacklist-append {macports-clang-[7-9].0}
 
 } elseif { "bazel-0.25" eq ${subport} } {
 
@@ -75,6 +127,8 @@ if { ${name} eq ${subport} } {
 
     # min OS
     set min_darwin 14
+    compiler.blacklist-append {clang < 710}
+    compiler.blacklist-append {macports-clang-[7-9].0}
 
 }
 
@@ -119,22 +173,10 @@ use_configure         no
 
 patch.pre_args        -p1
 
-# The oldest Xcode version to use default Xcode compiler
-# Note setting here should be in sync with that in py-tensorflow
-set bazel_min_xcode   9.0
-
 # Even though bazel can build without Xcode, mark use Xcode for now since it fails to
 # build with tracemode on latest master if both CLT and Xcode are available.
 # Better solution is to respect MacPorts environment configure.developer_dir
 use_xcode             yes
-
-# Blacklist too old system compilers
-compiler.blacklist-append {clang < 710}
-
-# Clang 7, 8 and 9 fail with missing libarclite on older systems (e.g. 10.10)
-# ../usr/bin/xcrun /opt/local/bin/clang-mp-8.0 -fobjc-arc -framework CoreServices -framework Foundation -o /opt/local/var/macports/build/_opt_bblocal_var_buildworker_ports_build_ports_devel_bazel/bazel26/work/.tmp/bazel_4sKHinCP/archive/_embedded_binaries/xcode-locator tools/osx/xcode_locator.m
-# ld: file not found: /opt/local/libexec/llvm-8.0/lib/arc/libarclite_macosx.a
-compiler.blacklist-append {macports-clang-[7-9].0}
 
 compiler.cxx_standard 2011
 
@@ -200,7 +242,13 @@ set use_mp_clang [ expr ( [ string match macports-clang-* ${configure.compiler} 
 # Disable Xcode detection on older OSes, as we want the
 # MP provided commandline utilities to be used instead.
 if { ${use_mp_clang} } {
-    build.env-append BAZEL_USE_CPP_ONLY_TOOLCHAIN=1
+    set extra_args "--action_env=CC=${configure.cc} --action_env=CXX=${configure.cxx} ${extra_args}"
+    build.env-append     "BAZEL_USE_CPP_ONLY_TOOLCHAIN=1"
+    configure.env-append "BAZEL_USE_CPP_ONLY_TOOLCHAIN=1"
+}
+
+if { ${extra_args} ne "" } {
+    build.env-append "EXTRA_BAZEL_ARGS=${extra_args}"
 }
 
 variant bash_completion {
@@ -221,7 +269,15 @@ build {
     }
 
     # Build bazel
-    system -W ${worksrcpath} "PATH=${workpath}/bin:\$PATH JAVA_HOME=${java.home} VERBOSE=yes BAZEL_WRKDIR=${workpath} ./compile.sh"
+    set bazel_cmd "PATH=${workpath}/bin:\$PATH JAVA_HOME=${java.home} VERBOSE=yes BAZEL_WRKDIR=${workpath} ./compile.sh"
+    # If using MP toolchain pass options to enforce this
+    if { ${use_mp_clang} } {
+        set bazel_cmd "BAZEL_USE_CPP_ONLY_TOOLCHAIN=1 ${bazel_cmd}"
+    }
+    if { ${extra_args} ne "" } {
+        set bazel_cmd "EXTRA_BAZEL_ARGS='${extra_args}' ${bazel_cmd}"
+    }
+    system -W ${worksrcpath} "${bazel_cmd}"
 
     # Put executable in main working folder
     xinstall -m 755 -W ${worksrcpath}/output ${name} ${worksrcpath}
@@ -233,7 +289,7 @@ build {
         file delete -force /var/tmp/_${name}_root
 
         # Build the bash completion script
-        system -W ${worksrcpath} "./${name} --max_idle_secs=60 --output_user_root=${workpath} build -s --javabase //:jdk10 --host_javabase //:jdk10 //scripts:${name}-complete.bash"
+        system -W ${worksrcpath} "./${name} --max_idle_secs=30 --output_user_root=${workpath} build -s //scripts:${name}-complete.bash"
 
     }
 }

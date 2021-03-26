@@ -24,12 +24,16 @@ build.target
 build.pre_args      --release --frozen -v -j${build.jobs}
 build.args
 
+if {${configure.build_arch} eq "arm64" && ${os.platform} eq "darwin"} {
+    build.pre_args-append   --target="aarch64-apple-darwin"
+}
+
 destroot {
     ui_error "No destroot phase in the Portfile!"
     ui_msg "Here is an example destroot phase:"
     ui_msg
     ui_msg "destroot {"
-    ui_msg {    xinstall -m 0755 ${worksrcpath}/target/release/${name} ${destroot}${prefix}/bin/}
+    ui_msg {    xinstall -m 0755 ${worksrcpath}/target/[cargo.rust_platform]/release/${name} ${destroot}${prefix}/bin/}
     ui_msg {    xinstall -m 0444 ${worksrcpath}/doc/${name}.1 ${destroot}${prefix}/share/man/man1/}
     ui_msg "}"
     ui_msg

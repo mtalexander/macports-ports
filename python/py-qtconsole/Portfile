@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-qtconsole
-version             5.0.1
+version             5.0.3
 revision            0
 
 categories-append   devel
@@ -21,9 +21,9 @@ long_description    ${description}
 
 homepage            https://jupyter.org
 
-checksums           rmd160  cc1bf77c510b9ce9e1bedb097eef471be8a71c4c \
-                    sha256  4d7dd4eae8a90d0b2b19b31794b30f137238463998989734a3acb8a53b506bab \
-                    size    424682
+checksums           rmd160  15a5c461c819880ed573496fcc5f022463a9090b \
+                    sha256  c091a35607d2a2432e004c4a112d241ce908086570cf68594176dd52ccaa212d \
+                    size    428599
 
 if {${name} ne ${subport}} {
     if {${python.version} in "27 35"} {

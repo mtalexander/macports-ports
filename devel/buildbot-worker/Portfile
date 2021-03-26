@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                buildbot-worker
-version             2.8.4
+version             3.0.2
 revision            0
-checksums           rmd160  7f50f450e1b687b387346bb12ab36eebf00d02d5 \
-                    sha256  2bce1d528005c1101f31cec71d66c370cfa7524d4bde027506e95f5205632bec \
-                    size    101175
+checksums           rmd160  7566b301807854ff5a43f27c5ce9fbc385efbb75 \
+                    sha256  f7904a74cdc9ffe34a90cdd07c75b7d947a418b143d3a64bcdeecbb8510576f7 \
+                    size    96923
 
 categories          devel
 platforms           darwin
@@ -26,7 +26,7 @@ long_description    Buildbot is a system to automate the compile/test \
 homepage            https://buildbot.net
 
 python.default_version \
-                    38
+                    39
 
 depends_build-append \
                     port:py${python.version}-setuptools

@@ -35,7 +35,7 @@ if {${subport} eq ${name}} {
     checksums    rmd160 564a331014629299574925c43c1efb03da1a9ed1 \
                  sha256 49d03ea050a9d1c88be7d91a52ef5e4381cf34c65078742da78e47a3cb305f56 \
                  size   5099236
-    revision     0
+    revision     1
 
     patchfiles-append \
         patch-fluid-Makefile.release.diff
@@ -51,17 +51,17 @@ if {${subport} eq ${name}} {
     long_description ${long_description} \
         This port provides the snapshot released of FLTK, typically updated a few times a month.
 
-    github.setup    fltk fltk 67bb631bd9d3b32e83fabe254a7a413034a13a96
-    version         20201130-[string range ${github.version} 0 7]
-    checksums       rmd160  1d2300a1cc1555095e6159dff213b48ec012b0b2 \
-                    sha256  add56b9857d4006952db58305df8103543f149663661addb366d013637727b52 \
-                    size    6191636
+    github.setup    fltk fltk dd75da6351c3e08618df3fd46a30d06582ae3163
+    version         20210221-[string range ${github.version} 0 7]
+    checksums       rmd160  14d0643de27ceecec2b97b9e6d3f58e582d9597e \
+                    sha256  c3ae6f014fdec1568c0fe5490d2fe15e9fd703e32366b409844b218ada2219fe \
+                    size    6225114
     revision        0
 
 }
 
 depends_build   port:autoconf
-depends_lib     port:jpeg \
+depends_lib     path:include/turbojpeg.h:libjpeg-turbo \
                 port:libpng \
                 port:zlib
 

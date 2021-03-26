@@ -7,7 +7,7 @@ PortGroup               legacysupport 1.0
 
 # Please revbump mpv whenever ffmpeg{,-devel} is updated!
 github.setup            mpv-player mpv 0.33.0 v
-revision                0
+revision                2
 categories              multimedia
 license                 GPL-2+
 maintainers             {ionic @Ionic} {i0ntempest @i0ntempest} openmaintainer
@@ -223,8 +223,8 @@ platform darwin {
     # C11 atomics is mandatory from version 0.33.0
     compiler.c_standard 2011
 
-    # Fix for building on 10.15
-    if {[vercmp ${xcodeversion} 11] >= 0 || ${os.major} >= 19} {
+    # Should eliminate most swift (module) related problems
+    if {[vercmp ${xcodeversion} 9.1] >= 0 || ${os.major} >= 16} {
         use_xcode yes
     }
 
@@ -425,7 +425,7 @@ variant bundle description {Enable the optional macOS bundle of mpv} {
 }
 
 variant screenshot description {Enable optional screenshot support} {
-    depends_lib-append      path:lib/libjpeg.dylib:jpeg
+    depends_lib-append      path:include/turbojpeg.h:libjpeg-turbo
     configure.args-replace  --disable-jpeg \
                             --enable-jpeg
 }

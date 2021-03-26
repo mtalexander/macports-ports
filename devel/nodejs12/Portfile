@@ -11,7 +11,7 @@ configure.cxx_stdlib    libc++
 compiler.cxx_standard   2011
 
 name                    nodejs12
-version                 12.20.0
+version                 12.21.0
 
 categories              devel net
 platforms               darwin
@@ -31,9 +31,9 @@ homepage                https://nodejs.org/
 master_sites            ${homepage}dist/v${version}
 use_xz                  yes
 
-checksums               rmd160  9447f01a99b5c649cd13802ae78f48a24f8132d6 \
-                        sha256  61e3fd5c9af565e8d25403ce56b2c0097e2e3270381f2d4216573d48b3dc428b \
-                        size    23868796
+checksums               rmd160  1e024ad17c8d0ef941d889e953cbae47e8ef7812 \
+                        sha256  052f37ace6f569b513b5a1154b2a45d3c4d8b07d7d7c807b79f1566db61e979d \
+                        size    23650552
 
 distname                node-v${version}
 
@@ -82,7 +82,7 @@ configure.args-append   --shared-openssl-includes=${prefix}/include/openssl
 configure.args-append   --shared-openssl-libpath=${prefix}/lib
 
 # V8 only supports ARM and IA-32 processors
-supported_archs         i386 x86_64
+supported_archs         i386 x86_64 arm64
 
 universal_variant       no
 
@@ -98,6 +98,9 @@ switch $build_arch {
     }
     x86_64 {
         configure.args-append   --dest-cpu=x64
+    }
+    arm64 {
+        configure.args-append   --dest-cpu=arm64
     }
 }
 

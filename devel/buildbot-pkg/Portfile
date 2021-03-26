@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                buildbot-pkg
-version             2.8.4
+version             3.0.2
 revision            0
-checksums           rmd160  3c49c9a782580d33dd6f058c2e4cb65233afdeea \
-                    sha256  0c3fb99d2acd944efcbc300d98c9fbc7d3f874e4773dae6096c48bd371b638dd \
-                    size    4772
+checksums           rmd160  d4ccaf087a6ae40592d6f4aeff19f5519518621b \
+                    sha256  8028a1a6e2b9ae9a7acb2ce27e922e2228c97d80cd55fdb2c089dab775ec2aef \
+                    size    4780
 
 categories          devel
 platforms           darwin
@@ -22,7 +22,7 @@ long_description    {*}${description}
 homepage            https://buildbot.net
 
 python.default_version \
-                    38
+                    39
 
 depends_lib-append  port:py${python.version}-setuptools
 

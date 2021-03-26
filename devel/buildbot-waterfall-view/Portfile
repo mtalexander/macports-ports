@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                buildbot-waterfall-view
-version             2.8.4
+version             3.0.2
 revision            0
-checksums           rmd160  0e1746ad5f5f7308268cd5b0588278031a58fefd \
-                    sha256  f2897908eb44ac8a0327ee503d9cb7fbe92c895e27fa5e6634d52c976ab8246d \
-                    size    191026
+checksums           rmd160  4e9a4b818d5b56a1326bea106942e0105a4ce11c \
+                    sha256  ba326a92fe6c88be2fd8ff59756bb6b69be129c661b3912a70cc87131f7295f0 \
+                    size    192453
 
 categories          devel
 platforms           darwin
@@ -22,7 +22,7 @@ long_description    {*}${description}
 homepage            https://buildbot.net
 
 python.default_version \
-                    38
+                    39
 
 depends_build-append \
                     port:buildbot-pkg

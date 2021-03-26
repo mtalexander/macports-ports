@@ -1,8 +1,12 @@
-PortSystem          1.0
-PortGroup           github 1.0
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
-github.setup        prometheus prometheus 2.23.0 v
+PortSystem          1.0
+PortGroup           golang 1.0
+
+go.setup            github.com/prometheus/prometheus 2.25.2 v
 revision            0
+
+homepage            https://prometheus.io
 
 description         The Prometheus monitoring system and time series database
 
@@ -12,8 +16,6 @@ long_description    Prometheus is an open-source systems monitoring and \
                     have adopted Prometheus, and the project has a very \
                     active developer and user community.
 
-homepage            https://prometheus.io
-
 platforms           darwin
 categories          sysutils
 license             Apache-2
@@ -21,18 +23,21 @@ license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-depends_build       port:go \
+depends_build-append \
+                    port:nodejs15 \
+                    port:npm6 \
                     port:promu \
                     port:yarn
 
-build.env           GOPATH=${workpath} \
-                    PATH=${workpath}/bin:$env(PATH)
+build.env           PATH=${workpath}/bin:$env(PATH)
 
+build.cmd           make
 build.target        build
 
-use_configure       no
+
 installs_libs       no
 use_parallel_build  no
+use_xcode           yes
 
 set prom_user       ${name}
 set prom_conf_dir   ${prefix}/etc/${name}
@@ -43,9 +48,9 @@ set prom_share_dir  ${prefix}/share/${name}
 set prom_log_dir    ${prefix}/var/log/${name}
 set prom_log_file   ${prom_log_dir}/${name}.log
 
-checksums           rmd160  1839944d9607f3b046eee995381e1dee64220747 \
-                    sha256  7ef1d61052fe3dace20b89ab287a6a0e835f8f111ab41584aa39b80f6093842b \
-                    size    14470328
+checksums           rmd160  a800b005afa71016d263a20da4f5d428d6399479 \
+                    sha256  85f50c0cfb4db206a59d2c3301e02d685c3fe4b451b41ca943a4eb94935cf4d4 \
+                    size    5535881
 
 add_users           ${prom_user} \
                     group=${prom_user} \

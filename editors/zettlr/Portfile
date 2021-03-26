@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        Zettlr Zettlr 1.8.4 v
+github.setup        Zettlr Zettlr 1.8.7 v
 name                zettlr
 revision            0
 
@@ -27,17 +27,17 @@ long_description    Zettlr is a Markdown Editor for the 21st century. \
 categories          editors aqua
 license             GPL-3
 platforms           darwin
+supported_archs     x86_64 arm64
 
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
 checksums           ${distname}${extract.suffix} \
-                    rmd160  7b644e9a5e2465f92dc5d1b9a4c78dbaf7b55f85 \
-                    sha256  a83f4dea8ead73ec2cb842f00cbf219af0488820a88da35f146b9e6e9f8752d4 \
-                    size    25067368
+                    rmd160  58fd25b4b57c4ecdc2ebff68bb32539c4e950acd \
+                    sha256  04db4b72792a7293da610eebe365924ba61b6731666b17a13308f555a46e919b \
+                    size    25086459
 
-depends_build       port:pandoc \
-                    port:yarn
+depends_build       port:yarn
 
 build.env-append    CSC_IDENTITY_AUTO_DISCOVERY=false
 
@@ -45,15 +45,29 @@ use_configure       no
 use_xcode           yes
 
 build {
-    # Use pandoc from MacPorts and link it into place where the NPM build
-    # scripts expect (./resources).
-    ln -s ${prefix}/bin/pandoc ${worksrcpath}/resources/pandoc
+    switch $build_arch {
+        x86_64 {
+            set package_target {mac-x64}
+        }
+       arm64 {
+            set package_target {mac-arm}
+        }
+    }
 
     # Fetch and build JS dependencies
     system -W ${worksrcpath} "${build.env} yarn install --frozen-lockfile"
 
+    # Build reveal.js templates
+    system -W ${worksrcpath} "${build.env} yarn reveal:build"
+
+    # We allow Zettlr to download its own Pandoc bin, as:
+    # a) It seeks a more recent version than the one MacPorts provides
+    # a) It will be embedded into the .app bundle and not affect the ports
+    #    tree.
+    system -W ${worksrcpath} "./scripts/get-pandoc.sh darwin"
+
     # Build electron app
-    system -W ${worksrcpath} "${build.env} yarn run release:mac --dir"
+    system -W ${worksrcpath} "${build.env} yarn package:${package_target}"
 }
 
 destroot {

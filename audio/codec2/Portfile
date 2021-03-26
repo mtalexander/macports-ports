@@ -22,11 +22,11 @@ long_description    Codec 2 is an open source speech codec designed for \
     designed for digital voice over HF radio.
 homepage            http://www.rowetel.com/codec2.html
 
-github.setup        drowe67 codec2 ba29350f5fcea115cec50d6f44b18e9ac9b4ea20
-version             20210103-[string range ${github.version} 0 7]
-checksums           rmd160  59a91ce408649f53788d98a1144384115b8ed449 \
-                    sha256  59780f22c742f049780808b8a5c3aca082e385f935aa0c79b6ef82b2a8f73b4a \
-                    size    12779484
+github.setup        drowe67 codec2 ddd9ae8a8db98d7e5b7d502a3673b34c188ac7b5
+version             20210213-[string range ${github.version} 0 7]
+checksums           rmd160  2645b0ca2fee72cdc99afcb575028d58bd8bb232 \
+                    sha256  309ea3b15dd90efff68ee0ad921690648ab6cab2b6dfc255f07d2edc9cde706b \
+                    size    13347175
 revision            0
 
 epoch               1
@@ -34,6 +34,9 @@ epoch               1
 depends_lib-append \
     port:libsamplerate \
     port:speex
+
+configure.args-append \
+    -DCMAKE_BUILD_TYPE="Release"
 
 variant lpcnet description {Enable lpcnet support (FreeDV 2020 codec)} {
     depends_lib-append \

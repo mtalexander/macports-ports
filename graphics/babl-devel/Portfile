@@ -31,8 +31,7 @@ configure.args-append \
                     -Dwith-docs=false
 
 depends_build-append \
-                    port:pkgconfig \
-                    port:librsvg
+                    port:pkgconfig
 
 depends_lib-append  port:lcms2 \
                     port:gobject-introspection
@@ -51,8 +50,11 @@ compiler.blacklist-append *gcc-3.* *gcc-4.*
 #                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 compiler.blacklist-append {clang > 700 < 800}
 
+if {![info exists universal_possible]} {
+    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
+}
 # gobject-introspection uses g-ir-scanner, which uses $CC from env
-if {[variant_isset universal]} {
+if {${universal_possible} && [variant_isset universal]} {
     foreach arch ${configure.universal_archs} {
         lappend merger_build_env(${arch})  "CC=${configure.cc} -arch ${arch}"
         lappend merger_destroot_env(${arch})  "CC=${configure.cc} -arch ${arch}"
@@ -63,7 +65,8 @@ if {[variant_isset universal]} {
 }
 
 variant docs description {Generate optional docs} {
-    depends_build-append   port:w3m
+    depends_build-append   port:w3m \
+                           port:librsvg
 
     configure.args-delete  -Dwith-docs=false
     configure.args-append  -Dwith-docs=true

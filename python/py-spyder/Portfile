@@ -6,9 +6,10 @@ PortGroup           python 1.0
 PortGroup           qt5 1.0
 PortGroup           select 1.0
 
-github.setup        spyder-ide spyder 4.1.4 v
+github.setup        spyder-ide spyder 4.2.4 v
+github.tarball_from archive
 name                py-spyder
-revision            1
+revision            0
 # the epoch is here for historical reasons and cannot be removed
 epoch               20111202
 
@@ -30,14 +31,14 @@ long_description    ${description}. \
 
 homepage            https://www.spyder-ide.org/
 
-checksums           rmd160  242636922d9c864fbc7c4095b8b39f32dd593cf8 \
-                    sha256  233c82c6f17f85eb82b8341607c39b60731e14969558d58e7597772357cc45a9 \
-                    size    11699349
+checksums           rmd160  814babed61bbc82a8f48027d09b6db88ee0a5c10 \
+                    sha256  a2fe577e16d91cbe31abcdf28a1ce0b37c5231ca027b866873a2397231a1a23b \
+                    size    11538634
 
-python.versions     27 35 36 37 38
+python.versions     27 35 36 37 38 39
 
 if {${name} ne ${subport}} {
-    if {${python.version} in "36 37 38"} {
+    if {${python.version} >= 36} {
         conflicts   py${python.version}-spyder-devel
     }
 
@@ -48,6 +49,8 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-cloudpickle \
                     port:py${python.version}-diff-match-patch \
                     port:py${python.version}-intervaltree \
+                    port:py${python.version}-ipython \
+                    port:py${python.version}-jsonschema \
                     port:py${python.version}-keyring \
                     port:py${python.version}-language-server \
                     port:py${python.version}-nbconvert \
@@ -55,6 +58,8 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-pexpect \
                     port:py${python.version}-pickleshare \
                     port:py${python.version}-psutil \
+                    port:py${python.version}-pyls-black \
+                    port:py${python.version}-pyls-spyder \
                     port:py${python.version}-pygments \
                     port:py${python.version}-pylint \
                     port:py${python.version}-pyqt5 \
@@ -63,10 +68,30 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-qtawesome \
                     port:py${python.version}-qtconsole \
                     port:py${python.version}-qtpy \
+                    port:py${python.version}-setuptools \
                     port:py${python.version}-sphinx \
                     port:py${python.version}-spyder-kernels \
+                    port:py${python.version}-textdistance \
+                    port:py${python.version}-three-merge \
                     port:py${python.version}-watchdog \
                     port:py${python.version}-zmq
+
+    if {${python.version} in "27 35"} {
+        github.setup    spyder-ide spyder 4.1.6 v
+        github.tarball_from archive
+        revision        0
+        checksums       rmd160  8979fc5d6884b40eaad38690e062e6d2f4384fd0 \
+                        sha256  0e467dd48e13f2ecc34d3bf0eb62509d5be8419662eaa141a6737fd069480e21 \
+                        size    11705916
+
+        depends_lib-delete \
+                        port:py${python.version}-jsonschema \
+                        port:py${python.version}-pyls-black \
+                        port:py${python.version}-pyls-spyder \
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-textdistance \
+                        port:py${python.version}-three-merge
+    }
 
     variant small description "Remove all optional dependencies." {}
 
@@ -96,7 +121,8 @@ if {${name} ne ${subport}} {
                     patch-spyder_plugins_editor_plugin.py.diff \
                     patch-spyder_app_start.py.diff \
                     patch-spyder_app_utils.py.diff \
-                    patch-spyder_utils_programs.py.diff
+                    patch-spyder_utils_programs.py.diff \
+                    patch-spyder_config_lsp.py.diff
 
     set WINPDB_BIN_NAME winpdb-${python.branch}
     set PYLS_BIN_NAME   pyls-${python.branch}
@@ -114,9 +140,13 @@ if {${name} ne ${subport}} {
             ${worksrcpath}/spyder/app/utils.py
         reinplace "s|@@APPS_DIR@@|${applications_dir}/Qt5|g" \
             ${worksrcpath}/spyder/utils/programs.py
+        reinplace "s|@@PYLS_BIN_NAME@@|${PYLS_BIN_NAME}|g" \
+            ${worksrcpath}/spyder/config/lsp.py
 
-        # temporary workaround for jedi version restriction
-        reinplace {s|JEDI_REQVER = '=0\.17\.1'|JEDI_REQVER = '>=0.17.1'|g} \
+        # temporary workaround for parso/jedi version restrictions
+        reinplace {s|PARSO_REQVER = '=0\.7\.0'|PARSO_REQVER = '>=0.7.0'|g} \
+            ${worksrcpath}/spyder/dependencies.py
+        reinplace {s|JEDI_REQVER = '=0\.17\.2'|JEDI_REQVER = '>=0.17.2'|g} \
             ${worksrcpath}/spyder/dependencies.py
     }
 
@@ -128,7 +158,7 @@ if {${name} ne ${subport}} {
         xinstall -d ${destroot}${docdir}
         xinstall -m 0644 -W ${worksrcpath} AUTHORS.txt Announcements.md \
             CHANGELOG.md CONTRIBUTING.md LICENSE.txt README.md RELEASE.md \
-            TROUBLESHOOTING.md ${destroot}${docdir}
+            ${destroot}${docdir}
     }
 
     depends_run-append \
