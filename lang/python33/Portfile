@@ -9,7 +9,7 @@ name                python33
 epoch               20141012
 # Remember to keep py33-tkinter and py33-gdbm's versions sync'd with this
 version             3.3.7
-revision            3
+revision            4
 
 deprecated.eol_version  yes
 
