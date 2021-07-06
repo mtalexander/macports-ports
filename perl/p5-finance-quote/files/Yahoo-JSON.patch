@@ -1,0 +1,15 @@
+--- lib/Finance/Quote/YahooJSON.pm
++++ lib/Finance/Quote/YahooJSON.pm
+@@ -157,10 +157,12 @@
+                 $info{ $stocks, "eps"} =
+                     $json_resources->{'epsTrailingTwelveMonths'};
+                 $info{ $stocks, "pe"} = $json_resources->{'trailingPE'};
++                if (defined($json_resources->{"fiftyTwoWeekLow"})) {
+                 $info{ $stocks, "year_range"} =
+                     sprintf("%12s - %s",
+                         $json_resources->{"fiftyTwoWeekLow"},
+                         $json_resources->{'fiftyTwoWeekHigh'});
++                }
+                 $info{ $stocks, "open"} =
+                     $json_resources->{'regularMarketOpen'};
+                 $info{ $stocks, "high"} =

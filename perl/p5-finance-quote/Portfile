@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 
 perl5.branches      5.26 5.28 5.30
-perl5.setup         Finance-Quote 1.49
+perl5.setup         Finance-Quote 1.51
 revision            2
 categories          perl
 maintainers         nomaintainer
@@ -16,13 +16,31 @@ long_description    Finance::Quote is a perl module which can be used to \
 platforms           darwin
 license             GPL-2+
 
-checksums           rmd160  cfabb132502a4d84c1d5d884036932fd897ea1e8 \
-                    sha256  95dbc4443ba656320b363c56625d04f379c943e202f60f40a2a35152b54bbf53 \
-                    size    274659
+checksums           rmd160  2fe8a8dc9ae75eb265f1a0bd985f18e40e8fe524 \
+                    sha256  f441edd47772adfd1880af74fc87228bd704e273954c0fadc7006844254a8956 \
+                    size    231156
 
-patchfiles          AlphaVantage.patch
+patchfiles          Yahoo-JSON.patch
 
 if {${perl5.major} != ""} {
+
+# From dist.init:
+# [Prereqs / TestRequires] 
+# Date::Range = 0 
+# Date::Simple = 0 
+# DateTime::Format::ISO8601 = 0 
+# HTML::TokeParser::Simple = 0 
+# HTML::TreeBuilder::XPath = 0 
+# Spreadsheet::XLSX = 0 
+# Test::Kwalitee = 0 
+# Test::More = 0 
+# Test::Perl::Critic = 0 
+# Test::Pod = 0 
+# Test::Pod::Coverage = 0 
+# Time::Piece = 0 
+# Scalar::Util = 0 
+# Web::Scraper = 0 
+
     depends_lib-append  \
                     port:p${perl5.major}-cgi \
                     port:p${perl5.major}-datetime \
@@ -41,7 +59,10 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-string-util \
                     port:p${perl5.major}-text-template \
                     port:p${perl5.major}-time-piece \
-                    port:p${perl5.major}-uri
-
-    supported_archs noarch
+                    port:p${perl5.major}-uri \
+                    port:p${perl5.major}-web-scraper \
+                    port:p${perl5.major}-html-treebuilder-xpath \
+                    port:p${perl5.major}-html-tokeparser-simple \
+                    port:p${perl5.major}-spreadsheet-XLSX
+     supported_archs noarch
 }
