@@ -20,7 +20,8 @@ checksums           rmd160  2fe8a8dc9ae75eb265f1a0bd985f18e40e8fe524 \
                     sha256  f441edd47772adfd1880af74fc87228bd704e273954c0fadc7006844254a8956 \
                     size    231156
 
-patchfiles          Yahoo-JSON.patch
+patchfiles          Yahoo-JSON.patch \
+                    Alphavantage-Currency.patch
 
 if {${perl5.major} != ""} {
 
