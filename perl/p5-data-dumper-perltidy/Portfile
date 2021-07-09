@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.26 5.28 5.30
+perl5.setup         Data-Dumper-Perltidy 0.03
+license             {Perl}
+maintainers         nomaintainer
+description         Prettyprint data dumper output.
+long_description    Data::Dumper::Perltidy encapsulates both Data::Dumper \
+                    and Perl::Tidy to provide a function that stringifies  \
+                    a Perl data structure in a pretty printed format.
+
+platforms           darwin
+
+checksums           rmd160  2dcd722aba9c58bb0372f439d9bae1fb25696f62 \
+                    sha256  88bfe0f33c9b8bbca40188b3b582c798dd14071bee6583f001b2be2082d61787 \
+                    size    3815
+
+if {${perl5.major} != ""} {
+    depends_lib-append  \
+                    port:p${perl5.major}-data-dumper \
+                    port:p${perl5.major}-perl-tidy
+
+supported_archs     noarch
+}
