@@ -23,7 +23,7 @@ checksums           rmd160  d8fcf42592ba29daa3c5d1f7e20c48bf25e6095a \
 if {${perl5.major} != ""} {
     depends_lib-append  \
                     port:p${perl5.major}-spreadsheet-parseexcel \
-                    port:p${perl5.major}-p5-archive-zip
+                    port:p${perl5.major}-archive-zip
 
 supported_archs     noarch
 }
