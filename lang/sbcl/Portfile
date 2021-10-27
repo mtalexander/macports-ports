@@ -8,14 +8,14 @@ name            sbcl
 #
 # Please bump the revision of math/maxima (and when it exists
 # math/maxima-devel) when this port changes.
-version         2.1.2
+version         2.1.9
 revision        0
 
 categories      lang
 license         BSD
 maintainers     {easieste @easye} openmaintainer
 platforms       darwin
-supported_archs i386 x86_64
+supported_archs i386 x86_64 arm64
 description     The Steel Bank Common Lisp system
 
 long_description \
@@ -35,15 +35,15 @@ use_bzip2       yes
 patchfiles \
     patch-contrib-sb-posix-posix-tests.lisp.diff \
     patch-use-right-gcc.diff \
-    patch-sbcl-realtime.diff
+    patch-sbcl-realtime.diff 
 
 distfiles       ${name}-${version}-source${extract.suffix}:sbcl
 worksrcdir      ${name}-${version}
 
 checksums       ${name}-${version}-source${extract.suffix} \
-    rmd160  b3c893992a7fc751bda56d219f2389e5529bbd5c \
-    sha256  b7710550939855ed49598c4a014483ed120b6991658a2a3b6afa47713dce4c0b \
-    size    6539563 
+    rmd160  812f6455b782958d9ed3292fe21dd91f10f45d23 \
+    sha256  9e746ff12c4f78d2deabd95e48169b552f9472808cf8b8fc801d84df3e962fa1 \
+    size    6664915 
 
 # Since SBCL is written in lisp, it requires a running lisp binary to
 # bootstrap from.
@@ -64,6 +64,17 @@ if {${build_arch} eq "x86_64"} {
         size    10038928
     global host_lisp
     set host_lisp "\"${workpath}/${name}-${bootversion}-x86-64-darwin/src/runtime/sbcl --core ${workpath}/${name}-${bootversion}-x86-64-darwin/output/sbcl.core --disable-debugger --sysinit /dev/null --userinit /dev/null\" "
+}
+if {${build_arch} eq "arm64"} {
+    set bootversion 2.1.2
+    master_sites-append sourceforge:project/sbcl/sbcl/${bootversion}:sbcl_arm64
+    distfiles-append    ${name}-${bootversion}-arm64-darwin-binary${extract.suffix}:sbcl_arm64
+    checksums-append    ${name}-${bootversion}-arm64-darwin-binary${extract.suffix} \
+        rmd160  ce5856a0e1f0040e95c9d79ef0a6199a0f932ab3 \
+        sha256  1f400b8a05dc588ca9740f9f4dfee3111b1cc1b6fb40801f728c42b460e1d115 \
+        size    9204605
+    global host_lisp
+    set host_lisp "\"${workpath}/${name}-${bootversion}-arm64-darwin/src/runtime/sbcl --core ${workpath}/${name}-${bootversion}-arm64-darwin/output/sbcl.core --disable-debugger --sysinit /dev/null --userinit /dev/null\" "
 }
 # Note that i386 support is currently untested; build reports welcome
 if {${build_arch} eq "i386"} {

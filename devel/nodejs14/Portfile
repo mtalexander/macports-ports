@@ -2,7 +2,7 @@
 
 PortSystem              1.0
 PortGroup               compiler_blacklist_versions 1.0
-PortGroup               legacysupport 1.0
+PortGroup               legacysupport 1.1
 
 # on macOS nodejs only builds against libc++
 # this force is OK as node does not link against any other c++ libs
@@ -11,7 +11,7 @@ configure.cxx_stdlib    libc++
 compiler.cxx_standard   2014
 
 name                    nodejs14
-version                 14.16.0
+version                 14.18.1
 
 categories              devel net
 platforms               darwin
@@ -25,22 +25,22 @@ long_description        Node's goal is to provide an easy way to build scalable 
                         Machine or Python's Twisted. Node takes the event model a bit further-it \
                         presents the event loop as a language construct instead of as a library.
 
-conflicts               nodejs8 nodejs10 nodejs12 nodejs13 nodejs15
+conflicts               nodejs8 nodejs10 nodejs12 nodejs13 nodejs15 nodejs16
 
 homepage                https://nodejs.org/
 master_sites            ${homepage}dist/v${version}
 use_xz                  yes
 
-checksums               rmd160  17eaeca8d358432e3b9e149d0eb26ba71fdf7545 \
-                        sha256  4e7648a617f79b459d583f7dbdd31fbbac5b846d41598f3b54331a5b6115dfa6 \
-                        size    33301140
+checksums               rmd160  b05b1189139ba2d60d7f8d9370c1fc37f2ca37e7 \
+                        sha256  3fa1d71adddfab2f5e3e41874b4eddbdf92b65cade4a43922fb1e437afcf89ed \
+                        size    33693816
 
 distname                node-v${version}
 
-depends_build           port:pkgconfig
+depends_build-append    port:pkgconfig
 
-depends_lib             port:icu \
-                        port:python38 \
+depends_lib-append      port:icu \
+                        port:python39 \
                         path:lib/libssl.dylib:openssl
 
 use_xcode               yes
@@ -53,7 +53,7 @@ proc rec_glob {basedir pattern} {
     return $files
 }
 
-configure.python ${prefix}/bin/python3.8
+configure.python ${prefix}/bin/python3.9
 
 patchfiles              patch-common.gypi.diff
 
@@ -62,9 +62,11 @@ post-patch {
                    ${worksrcpath}/tools/gyp/gyp \
                    ${worksrcpath}/deps/v8/tools/objdump-v8 \
                    [rec_glob ${worksrcpath} *.py]] {
+        reinplace -q "s|/usr/bin/env python3|${configure.python}|" ${f}
         reinplace -q "s|/usr/bin/env python|${configure.python}|" ${f}
     }
     foreach gypfile [rec_glob ${worksrcpath} *.gyp*] {
+        reinplace -q "s|'python3'|'${configure.python}'|" ${gypfile}
         reinplace -q "s|'python'|'${configure.python}'|" ${gypfile}
     }
 }

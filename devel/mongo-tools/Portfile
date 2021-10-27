@@ -15,11 +15,11 @@ post-extract {
 
 PortGroup           golang 1.0
 
-go.setup            github.com/mongodb/mongo-tools 100.2.1
+go.setup            github.com/mongodb/mongo-tools 100.4.1
 revision            0
-checksums           rmd160  f657e9de3a72d8f2c39c19a7bfe86c248f8cec13 \
-                    sha256  b97a8731c422d5cfbc3d50c41129416b1cfa96a267621b07c8f71d2a13f6600c \
-                    size    27442485
+checksums           rmd160  2fff2567393f5eb003d16c8ffdc3d4753e86f57c \
+                    sha256  b2a9b90a7901a201588bb20aa8db0347893711b3c5f2938092a60a2cdc65b283 \
+                    size    3793753
 
 categories          devel
 platforms           darwin
@@ -45,14 +45,7 @@ long_description    mongo-tools is a collection of utilities for working with \
 
 dist_subdir         ${name}
 
-depends_build-append \
-                    port:pkgconfig
-
-depends_lib         port:cyrus-sasl2 \
-                    port:libpcap \
-                    path:lib/libssl.dylib:openssl
-
-patchfiles          openssl.patch \
+patchfiles          deployment_target.patch \
                     version.patch
 
 post-patch {

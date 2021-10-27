@@ -8,7 +8,6 @@ version         2.4.6
 revision        2
 categories-append     graphics
 license         PSF
-platforms       darwin
 maintainers     nomaintainer
 description     Python bindings to the Tk widget set
 long_description \
@@ -93,49 +92,61 @@ subport py35-tkinter {
 subport py36-tkinter {
     maintainers {jmr @jmroot}
     epoch       20170717
-    version     3.6.13
+    version     3.6.15
     revision    0
     homepage    https://docs.python.org/release/${version}/library/tkinter.html
     use_xz      yes
-    checksums   md5 1c04330ffff21cd777dc38e2310fc452 \
-                rmd160 129f0f49c2db86c17f768f320484f116bd61cf2c \
-                sha256 a47a43a53abb42286a2c11965343ff56711b9e64e8d11bf2c6701a4fb8ce1a0f
+    checksums   md5 bc04aa6c2a1a172a35012abd668538cd \
+                rmd160 eb84f49be5de3e2cc93059b9e90d3d42c971a90f \
+                sha256 6e28d7cdd6dd513dd190e49bca3972e20fcf455090ccf2ef3f1a227614135d91
     append extract_files " Modules/tkinter.h Modules/clinic/_tkinter.c.h"
     set module_name tkinter
 }
 subport py37-tkinter {
     maintainers {jmr @jmroot}
-    version     3.7.10
+    version     3.7.12
     revision    0
     homepage    https://docs.python.org/release/${version}/library/tkinter.html
     use_xz      yes
-    checksums   md5 9e34914bc804ab2e7d955b49c5e1e391 \
-                rmd160 ae83786be55bf99889d9fe25826e7b4333dd8a52 \
-                sha256 f8d82e7572c86ec9d55c8627aae5040124fd2203af400c383c821b980306ee6b
+    checksums   md5 352ea082224121a8b7bc4d6d06e5de39 \
+                rmd160 585bc667eb2995727dd97a392b073adbf84b3a40 \
+                sha256 f77bf7fb47839f213e5cbf7827281078ea90de7e72b44f10d7ef385ea8c43210
     append extract_files " Modules/tkinter.h Modules/clinic/_tkinter.c.h"
     set module_name tkinter
 }
 subport py38-tkinter {
     maintainers nomaintainer
-    version     3.8.8
+    version     3.8.12
     revision    0
     homepage    https://docs.python.org/release/${version}/library/tkinter.html
     use_xz      yes
-    checksums   rmd160  18e8c2584915068a9d7a69df9a64311337802d1a \
-                sha256  7c664249ff77e443d6ea0e4cf0e587eae918ca3c48d081d1915fe2a1f1bcc5cc \
-                size    18271736
+    checksums   rmd160  3453c1e5cacbc2cb506c8a98b2310fda9ade3ea8 \
+                sha256  b1d3a76420375343b5e8a22fceb1ac65b77193e9ed27146524f0a9db058728ea \
+                size    18443568
     append extract_files " Modules/tkinter.h Modules/clinic/_tkinter.c.h"
     set module_name tkinter
 }
 subport py39-tkinter {
     maintainers {jmr @jmroot}
-    version     3.9.2
+    version     3.9.7
     revision    0
     homepage    https://docs.python.org/release/${version}/library/tkinter.html
     use_xz      yes
-    checksums   md5 f0dc9000312abeb16de4eccce9a870ab \
-                rmd160 fc9045875edfa50ec5238872296fa894d4f09129 \
-                sha256 3c2034c54f811448f516668dce09d24008a0716c3a794dd8639b5388cbde247d
+    checksums   md5 fddb060b483bc01850a3f412eea1d954 \
+                rmd160 8746b224a6be990a131543b23e881d8ab274b5e3 \
+                sha256 f8145616e68c00041d1a6399b76387390388f8359581abc24432bb969b5e3c57
+    append extract_files " Modules/tkinter.h Modules/clinic/_tkinter.c.h"
+    set module_name tkinter
+}
+subport py310-tkinter {
+    maintainers {jmr @jmroot}
+    version     3.10.0
+    revision    0
+    homepage    https://docs.python.org/release/${version}/library/tkinter.html
+    use_xz      yes
+    checksums   md5 3e7035d272680f80e3ce4e8eb492d580 \
+                rmd160 5cae2a14ca2d88278b487acb55488d288f474bd8 \
+                sha256 5a99f8e7a6a11a7b98b4e75e0d1303d3832cada5534068f69c7b6222a7b1b002
     append extract_files " Modules/tkinter.h Modules/clinic/_tkinter.c.h"
     set module_name tkinter
 }

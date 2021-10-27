@@ -4,33 +4,43 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           cargo 1.0
 
-github.setup        vi websocat 1.7.0 v
+github.setup        vi websocat 1.8.1 v
 revision            0
-
-categories          net
-license             MIT
-platforms           darwin
-maintainers         {gmail.com:herby.gillot @herbygillot} openmaintainer
 
 description         Netcat, curl and socat for WebSockets.
 long_description    Command-line client for web sockets, like \
                     netcat/curl/socat for ws://.
 
+categories          net
+license             MIT
+platforms           darwin
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+installs_libs       no
+
+checksums           ${distname}${extract.suffix} \
+                    rmd160  92b643cd0e3fadbd3791279161a047736be36514 \
+                    sha256  ed4ac1aa2605c5985482002d201114f30b4998b8ba247aee86103f59386a4aed \
+                    size    119176
+
 depends_lib-append  path:lib/libssl.dylib:openssl
 build.args          --features=ssl
 
 destroot {
-    xinstall -m 755 ${worksrcpath}/target/[cargo.rust_platform]/release/${name} ${destroot}${prefix}/bin/
+    xinstall -m 755 \
+        ${worksrcpath}/target/[cargo.rust_platform]/release/${name} \
+        ${destroot}${prefix}/bin/
+
     xinstall -d -m 755 ${destroot}${prefix}/share/doc/${name}
-    xinstall -m 644 ${worksrcpath}/doc.md ${destroot}${prefix}/share/doc/${name}/
+
+    xinstall -m 644 \
+        ${worksrcpath}/doc.md ${destroot}${prefix}/share/doc/${name}/
 }
 
 github.livecheck.regex {([0-9.]+)}
 
-checksums           ${distname}${extract.suffix} \
-                    rmd160  a08cb1e4575b8c360ccb746cd1924590d2de26b6 \
-                    sha256  2450295c70d0ee95ca4c6692913c816969e4720d386e143524ba6afdaf85c81c \
-                    size    116177
+github.tarball_from archive
+
 cargo.crates \
     anymap                          0.12.1  33954243bd79057c2de7338850b85983a44588021f8a5fee574a8888c6de4344 \
     arc-swap                         0.4.3  f1a1eca3195b729bbd64e292ef2f5fff6b1c28504fed762ce2b1013dde4d8e92 \

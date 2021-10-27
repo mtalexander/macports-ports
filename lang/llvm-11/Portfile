@@ -24,17 +24,17 @@ checksums               rmd160  f566b4b75c8f30418f19069a9a84864ead766401 \
                         size    84065492
 
 name                    llvm-${llvm_version}
-revision                0
-subport                 clang-${llvm_version} { revision 0 }
-subport                 flang-${llvm_version} { revision 0 }
-subport                 lldb-${llvm_version} { revision 0 }
+revision                2
+subport                 clang-${llvm_version} { revision 3 }
+subport                 flang-${llvm_version} { revision 1 }
+subport                 lldb-${llvm_version} { revision 1 }
 set suffix              mp-${llvm_version}
 set sub_prefix          ${prefix}/libexec/llvm-${llvm_version}
 dist_subdir             llvm
 categories              lang
 platforms               darwin
 license                 NCSA
-maintainers             {jeremyhu @jeremyhu} {kencu @kencu}
+maintainers             {jeremyhu @jeremyhu}
 
 if {${subport} eq "llvm-${llvm_version}"} {
     homepage            https://llvm.org/
@@ -66,7 +66,10 @@ if {${subport} eq "llvm-${llvm_version}"} {
     depends_run         port:clang_select port:ld64
     depends_skip_archcheck-append ld64 subversion
 
-    default_variants-append +analyzer
+    # Avoid requiring a bootstrap version of perl5 on 10.6.
+    if {${os.major} >= 11} {
+        default_variants    +analyzer
+    }
 
 } elseif {${subport} eq "flang-${llvm_version}"} {
     homepage            https://flang.llvm.org/
@@ -84,7 +87,7 @@ if {${subport} eq "llvm-${llvm_version}"} {
         if {${os.major} <= 10} {
             depends_run-append  port:gcc8
         } else {
-            depends_run-append  port:gcc10
+            depends_run-append  port:gcc11
         }
     }
 
@@ -115,6 +118,7 @@ post-extract {
         ln -s ${workpath}/llvm-project/compiler-rt                      ${worksrcpath}/projects/compiler-rt
         ln -s ${workpath}/llvm-project/libcxx                           ${worksrcpath}/projects/libcxx
         ln -s ${workpath}/llvm-project/libcxxabi                        ${worksrcpath}/projects/libcxxabi
+        ln -s ${workpath}/llvm-project/lld                              ${worksrcpath}/projects/lld
         ln -s ${workpath}/llvm-project/clang-tools-extra                ${worksrcpath}/tools/clang/tools/extra
     } elseif {${subport} eq "flang-${llvm_version}"} {
         ln -s ${workpath}/llvm-project/mlir                             ${worksrcpath}/tools/mlir
@@ -150,7 +154,8 @@ if {${subport} eq "clang-${llvm_version}"} {
         openmp-locations.patch \
         leopard-no-asan.patch \
         5000-patch-compilerrtdarwinutils-find-macosxsdkversion.diff \
-        5002-patch-toolchains-darwin-add-back-pre-10.6-link-libs.diff
+        5002-patch-toolchains-darwin-add-back-pre-10.6-link-libs.diff \
+        patch-clang-fix-include-next-sysroot-cpp-headers.diff
 }
 
 if {${subport} eq "flang-${llvm_version}"} {
@@ -331,11 +336,6 @@ platform darwin {
             configure.args-append    -DCOMPILER_RT_BUILD_SANITIZERS=OFF
         }
 
-        if {${os.major} <= 10} {
-            # needs thread_local_storage enabled
-            require_active_variants port:libcxx emulated_tls
-        }
-
         if {${os.major} <= 11} {
             # xpc.h available 10.7 but doesn't support nullable features
             # xpc.h works currently on 10.8+
@@ -344,6 +344,10 @@ platform darwin {
         }
 
         if {${os.major} <= 10} {
+            # avoid need for thread_local_storage
+            configure.args-append -DCLANG_ENABLE_CLANGD=OFF
+            configure.args-append -DLLVM_ENABLE_BACKTRACES=OFF
+
             # the directorywatcher code is currently 10.7+
             patchfiles-append 5003-patch-no-directory-watcher-on-snowleopard.diff
 
@@ -382,6 +386,7 @@ if {${subport} eq "clang-${llvm_version}"} {
         system "cd ${destroot.dir}/projects/compiler-rt && ${destroot.cmd} ${destroot.pre_args} ${destroot.target} ${destroot.post_args}"
         system "cd ${destroot.dir}/projects/libcxx && ${destroot.cmd} ${destroot.pre_args} ${destroot.target} ${destroot.post_args}"
         system "cd ${destroot.dir}/projects/libcxxabi && ${destroot.cmd} ${destroot.pre_args} ${destroot.target} ${destroot.post_args}"
+        system "cd ${destroot.dir}/projects/lld && ${destroot.cmd} ${destroot.pre_args} ${destroot.target} ${destroot.post_args}"
 
         delete ${destroot}${sub_prefix}/bin/clang
         file rename ${destroot}${sub_prefix}/bin/clang-${clang_executable_version} ${destroot}${sub_prefix}/bin/clang

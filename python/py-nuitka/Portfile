@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 name                py-nuitka
 python.rootname     Nuitka
-version             0.6.12.3
+version             0.6.17.3
 revision            0
 categories-append   devel
 platforms           darwin
@@ -20,14 +20,13 @@ long_description    ${description}
 
 homepage            http://nuitka.net/
 
-checksums           rmd160  a95881ec623d0a9abb13876502e39a009a3761db \
-                    sha256  acbbe824293412cc414371430aec88eddf7da823095ef0e6abe270be8b6010e8 \
-                    size    2637940
+checksums           rmd160  a39a01bd453d3632f7e36aaf8b494489d48031bd \
+                    sha256  cdfe078860b204ce8b0f255e9a3e3e4d2023d03decfa5cad37a28d62ebc3a854 \
+                    size    3152904
 
 if {${name} ne ${subport}} {
 
-    depends_build-append \
-                    port:py${python.version}-setuptools
+    depends_lib-append  port:py${python.version}-setuptools
 
     # Fix permissions
     post-extract {

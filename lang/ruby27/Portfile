@@ -4,8 +4,8 @@ PortSystem          1.0
 PortGroup           select 1.0
 
 name                ruby27
-version             2.7.2
-revision            2
+version             2.7.4
+revision            1
 
 categories          lang ruby
 maintainers         {kimuraw @kimuraw} openmaintainer
@@ -26,10 +26,10 @@ use_bzip2           yes
 distname            ruby-${version}
 dist_subdir         ruby27
 
-checksums           md5 a8acc9c24708fe29dfc287823ecaae65 \
-                    rmd160 a07403393a576b8b5a01dd07af95d0a529a6908c \
-                    sha1 7e30ca324464eab2f4c2a56d8ab4a37174998062 \
-                    sha256 65a590313d244d48dc2ef9a9ad015dd8bc6faf821621bbb269aa7462829c75ed
+checksums           md5 52705d799ed851dd3bfd5634265cde46 \
+                    rmd160 a58a1eb4e605bcc9691144c09f0917dfeb8a6086 \
+                    sha1 f5bdecded2d68e4f2f0ab1d20137e8b4b0614e52 \
+                    sha256 bffa8aec9da392eda98f1c561071bb6e71d217d541c617fc6e3282d79f4e7d48
 
 use_parallel_build  no
 
@@ -105,6 +105,12 @@ post-destroot {
     destroot.keepdirs-append ${destroot}${prefix}/libexec/ruby2.7
 }
 
+notes "
+To make this the default Ruby (i.e., the version run by\
+the 'ruby', 'gem' or 'bundle' commands), run:
+    sudo port select --set ruby $name
+"
+
 variant doc description "Install rdoc indexes and C API documents" {
         configure.args-delete   --disable-install-doc
 }
@@ -118,6 +124,16 @@ variant jemalloc description "use jemalloc" {
         configure.args-delete   --without-jemalloc
         configure.args-append   --with-jemalloc
         depends_lib-append      port:jemalloc
+}
+
+variant universal {
+        # use ruby built-in universal mechanism.
+        configure.args-append   --with-arch=[join ${universal_archs} ,]
+        # clear macports' universal flags
+        configure.universal_cflags
+        configure.universal_cppflags
+        configure.universal_cxxflags
+        configure.universal_ldflags
 }
 
 variant relative description "Enable relative loading of libraries to allow for relocation of binaries." {

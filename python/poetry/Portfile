@@ -4,8 +4,8 @@ PortSystem              1.0
 PortGroup               python 1.0
 
 name                    poetry
-version                 1.1.4
-revision                2
+version                 1.1.11
+revision                0
 categories-append       devel
 platforms               darwin
 license                 MIT
@@ -15,7 +15,7 @@ maintainers             {gmail.com:davidgilman1 @dgilman} openmaintainer
 
 description             Python dependency management and packaging made easy.
 
-long_description        Poetry: Dependency Management for Python \
+long_description        Poetry: Dependency Management for Python. \
                         \
                         Poetry helps you declare, manage and install \
                         dependencies of Python projects, ensuring you have \
@@ -23,16 +23,16 @@ long_description        Poetry: Dependency Management for Python \
 
 homepage                https://python-poetry.org/
 
-checksums               rmd160  0d56b1b878872fcea5d9aa3a1e4ddc7b2e912a9e \
-                        sha256  946a5a1173be607c7c5c593358a0fb0c0d6af4400c978929ecdb19c3a37b53a8 \
-                        size    132207
+checksums               rmd160  341856b46f96107aa4ea0b157e3c2d05e448c426 \
+                        sha256  7d7d22f55fbebb830cc85b1c69cd7a91fd85f49e5396e7a14b953645a470f69e \
+                        size    135723
 
 variant python37 conflicts python38 python39 description {Use Python 3.7} {}
 variant python38 conflicts python37 python39 description {Use Python 3.8} {}
 variant python39 conflicts python37 python38 description {Use Python 3.9} {}
 
-if {![variant_isset python37] && ![variant_isset python39]} {
-    default_variants +python38
+if {![variant_isset python37] && ![variant_isset python38] && ![variant_isset python39]} {
+    default_variants +python39
 }
 
 foreach pv {39 38 37} {
@@ -41,6 +41,9 @@ foreach pv {39 38 37} {
         break
     }
 }
+
+depends_build-append \
+    port:py${python.version}-setuptools
 
 # These are in pyproject.toml order
 depends_lib-append \
@@ -60,6 +63,11 @@ depends_lib-append \
     port:py${python.version}-packaging \
     port:py${python.version}-virtualenv \
     port:py${python.version}-keyring
+
+if {${python.version} < 38} {
+    depends_lib-append \
+        port:py${python.version}-importlib-metadata
+}
 
 # Needed for the filecache extra of the cachecontrol dependency
 depends_lib-append \

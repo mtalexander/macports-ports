@@ -3,12 +3,17 @@
 PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
 PortGroup           meson 1.0
-PortGroup           legacysupport 1.0
+PortGroup           legacysupport 1.1
+PortGroup           boost 1.0
 
 name                mpd
 
-version             0.22.6
-revision            2
+version             0.22.9
+revision            0
+checksums           rmd160  603af5318b4814003f97f4e5b8bce05bb007d6d3 \
+                    sha256  f937403297c2240bd4a569f4b937ee7ab17398a5284ba9df4d6d4c3a0512bc64 \
+                    size    738432
+
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          audio
 maintainers         nomaintainer
@@ -25,11 +30,7 @@ master_sites        https://www.musicpd.org/download/${name}/${branch}/
 license             GPL-2+ LGPL-2.1
 use_xz              yes
 
-checksums           rmd160  90fbf971481bcddfcdaad9c6b41718169145b62c \
-                    sha256  2be149a4895c3cb613477f8cf1193593e3d8a1d38a75ffa7d32da8c8316a4d5e \
-                    size    730524
-
-set python_branch   3.8
+set python_branch   3.9
 set python_version  [string map {. {}} ${python_branch}]
 
 depends_build-append \
@@ -39,11 +40,12 @@ depends_build-append \
 # this port only uses boost headers during build
 # and does not link with any boost libraries
 # no need to rebuild due to boost library ABI changes
-depends_build-append \
-    port:boost
+#boost.version 1.71
+boost.depends_type build
 
 depends_lib \
     port:audiofile \
+    port:bzip2 \
     port:curl \
     port:faad2 \
     port:flac \
@@ -51,12 +53,12 @@ depends_lib \
     port:icu \
     port:libao \
     port:libcdio-paranoia \
-    port:libcue \
     port:libiconv \
     port:libid3tag \
     port:libogg \
     port:libopus \
     port:libvorbis \
+    port:libzzip \
     port:pcre2 \
     port:wavpack \
     port:zlib
@@ -66,6 +68,7 @@ configure.args \
     -Ddocumentation=enabled \
     -Dlibmpdclient=disabled \
     -Dwebdav=disabled \
+    -Dbzip2=enabled \
     -Dcue=true \
     -Dcdio_paranoia=enabled \
     -Dcurl=enabled \
@@ -125,6 +128,7 @@ configure.args \
     -Dyajl=disabled \
     -Dzeroconf=auto \
     -Dzlib=enabled \
+    -Dzzip=enabled \
     -Dupnp=disabled
 
 configure.cflags-append -I${prefix}/include
@@ -263,6 +267,12 @@ post-destroot {
         ${destroot}${prefix}/etc/mpd.conf.default
 }
 post-activate {
+    # Lift resource limits
+    reinplace \
+        "s|^<key>ProgramArguments</key>|<key>ProcessType</key><string>Interactive</string>\\
+&|" \
+        ${prefix}/etc/${startupitem.location}/org.macports.${name}/org.macports.${name}.plist
+
     if {![file exists ${prefix}/etc/mpd.conf]} {
         copy ${prefix}/etc/mpd.conf.default ${prefix}/etc/mpd.conf
     }

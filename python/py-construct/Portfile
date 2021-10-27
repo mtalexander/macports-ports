@@ -5,10 +5,10 @@ PortGroup           python 1.0
 
 name                py-construct
 
-version             2.10.63
-checksums           rmd160  808d1b98d277cea0a46bee08e1bb565dd2a7a9fc \
-                    sha256  b33a0ecf1fcc51360d263792b44fea658d588ec329eba32c4bfedb20fb680ce4 \
-                    size    55803
+version             2.10.67
+checksums           rmd160  49705948bf830a103b2520e813985bafa835182a \
+                    sha256  730235fedf4f2fee5cfadda1d14b83ef1bf23790fb1cc579073e10f70a050883 \
+                    size    57697
 revision            0
 
 categories-append   devel

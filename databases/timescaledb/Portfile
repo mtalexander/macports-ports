@@ -3,8 +3,9 @@
 PortSystem      1.0
 PortGroup       compiler_blacklist_versions 1.0
 PortGroup       github    1.0
+PortGroup       perl5     1.0
 
-github.setup    timescale timescaledb 2.1.0
+github.setup    timescale timescaledb 2.4.2
 revision        0
 license         Apache-2
 description     A time-series database that integrates with PostreSQL.
@@ -22,15 +23,18 @@ long_description \
                 as well as full SQL support. TimescaleDB is packaged \
                 as a PostgreSQL extension.
 
-checksums       rmd160  f41def01dc5a66ed4164d2974474343759d688ac \
-                sha256  71ea800d50f08fb08de85c022b274e995e14403be404b08f8f768665ce572b29 \
-                size    2526380
+checksums       rmd160  91903a6002af9679c66c47346805c4bd550ae1a0 \
+                sha256  f7f254a0201819e23dd63ebaa9c3d3c98005fc600c5402a736c51399c7ae4e67 \
+                size    2410163
 
-depends_build   path:bin/cmake:cmake
+depends_build   path:bin/cmake:cmake \
+                port:perl${perl5.major} \
+                port:p${perl5.major}-ipc-run
 
 variant postgresql11 conflicts postgresql12 postgresql13 description {Support for PostgreSQL 11.x} {
-    depends_lib-append      port:postgresql11
-    configure.env-append    PATH=${prefix}/lib/postgresql11/bin:$::env(PATH)
+    known_fail              yes
+    ui_error                "+postgresql11 variant is not supported in TimescaleDB 2.4.0 or greater"
+    return -code error      "Unsupported variant +postgresql11"
 }
 
 variant postgresql12 conflicts postgresql11 postgresql13 description {Support for PostgreSQL 12.x} {
@@ -48,9 +52,6 @@ if {![variant_isset postgresql11] && \
     ![variant_isset postgresql13] } {
     default_variants +postgresql13
 }
-
-patch.pre_args          -p1
-patchfiles-append       test-CMakeLists.txt.patch
 
 compiler.c_standard     2011
 # Work around MacPorts base C11 compiler selection bug.

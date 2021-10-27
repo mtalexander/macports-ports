@@ -1,14 +1,16 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
-PortSystem 1.0
-PortGroup python 1.0
-PortGroup github 1.0
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
 
 name                py-astropy-healpix
 version             0.6
+revision            1
+
 distname            astropy_healpix-${version}
 categories-append   science
-python.versions     27 35 36 37 38 39
+python.versions     37 38 39
 license             BSD
 platforms           darwin
 maintainers         {aronnax @lpsinger} openmaintainer
@@ -20,24 +22,9 @@ checksums           rmd160  4812dc4877abe809543f25a94c1b8694bfbcbf78 \
                     size    104224
 
 if {${name} ne ${subport}} {
-    if {${python.version} <= 35} {
-        github.setup astropy astropy-healpix 0.4 v
-
-        checksums   rmd160  c1fd460298029d8624908bc8bcf0a793afaa158b \
-                    sha256  69ef64ce4a88539b04fef918eaf5a8f41b3e5b36acb9022bd92df5154b060cc3 \
-                    size    113042
-
-        depends_build-append \
-                    port:py${python.version}-astropy-helpers \
-                    port:py${python.version}-setuptools
-
-        # By default, astropy downloads an astropy-helpers package for setup.py.
-        # The --offline and --no-git flags prevent this and use a bundled version.
-        build.cmd  ${python.bin} setup.py --no-user-cfg --use-system-astropy-helpers
-        destroot.cmd  ${python.bin} setup.py --no-user-cfg --use-system-astropy-helpers
-    } else {
-        depends_build-append port:py${python.version}-extension-helpers
-    }
+    depends_build-append \
+                    port:py${python.version}-extension-helpers \
+                    port:py${python.version}-setuptools_scm
 
     depends_lib-append \
                     port:py${python.version}-astropy \

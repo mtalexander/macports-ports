@@ -14,11 +14,11 @@ cmake.generator     Ninja
 name                webkit2-gtk
 conflicts           webkit2-gtk-devel
 version             2.28.2
-revision            1
+revision            2
 
 description         Apple's WebKit2 HTML rendering library for GTK+3
 long_description    ${description}
-maintainers         {devans @dbevans} {kencu @kencu}
+maintainers         {devans @dbevans}
 categories          www gnome
 platforms           darwin freebsd
 license             LGPL-2+ BSD
@@ -58,10 +58,11 @@ depends_lib-append  port:atk \
                     port:gstreamer1-gst-plugins-bad \
                     port:gstreamer1-gst-plugins-base \
                     port:gstreamer1-gst-plugins-good \
-                    port:gtk3 \
-                    port:harfbuzz-icu \
+                    path:lib/pkgconfig/gtk+-3.0.pc:gtk3 \
+                    path:lib/pkgconfig/harfbuzz-icu.pc:harfbuzz-icu \
                     port:hyphen \
                     port:icu \
+                    path:include/turbojpeg.h:libjpeg-turbo \
                     port:libnotify \
                     port:libpng \
                     port:libsecret \
@@ -103,6 +104,10 @@ patchfiles-append    patch-bundle-link-webcore.diff
 # https://bugs.webkit.org/show_bug.cgi?id=207871
 patchfiles-append    patch-WTF-wtf-getVTablePointer.diff
 
+# Fix build errors due to -WWc++11-narrowing
+# https://bugs.webkit.org/show_bug.cgi?id=211193
+patchfiles-append    patch-bool_narrowed.diff
+
 # it is preferred to use the WebKit built in bmalloc if it builds on a given os.
 # it has improved security features, but not all systems can build it at present.
 
@@ -128,7 +133,7 @@ if {![variant_isset quartz]} {
 default_variants-append +minibrowser
 
 variant quartz conflicts x11 {
-    require_active_variants port:gtk3 quartz
+    require_active_variants path:lib/pkgconfig/gtk+-3.0.pc:gtk3 quartz
 
     configure.args-append \
         -DENABLE_QUARTZ_TARGET=ON \
@@ -143,7 +148,7 @@ variant quartz conflicts x11 {
 }
 
 variant x11 conflicts quartz {
-    require_active_variants port:gtk3 x11
+    require_active_variants path:lib/pkgconfig/gtk+-3.0.pc:gtk3 x11
 
     configure.args-append \
         -DENABLE_QUARTZ_TARGET=OFF \
@@ -168,6 +173,11 @@ variant minibrowser description {Build and install MiniBrowser (for testing)} {
 # help wanted, if suitably motivated
 universal_variant   no
 
+# Fix builds if ccache happens to be installed when configure.ccache=no
+if {![option configure.ccache]} {
+    build.env-append        CCACHE_DIR=${workpath}/.ccache
+}
+
 # the above code presently builds as-in on 10.13 and up
 if {${os.platform} eq "darwin" && ${os.major} <= 16} {
 
@@ -176,7 +186,7 @@ if {${os.platform} eq "darwin" && ${os.major} <= 16} {
     patchfiles-append       patch-ramsize.diff
 
     # Source/WTF/wtf/unix/CPUTimeUnix.cpp : add back a previous Darwin compat version
-     patchfiles-append      patch-source-wtf-wtf-unix-cputimeunix-cpp-darwin-version-restore.diff
+    patchfiles-append       patch-source-wtf-wtf-unix-cputimeunix-cpp-darwin-version-restore.diff
 
     # some Darwin versions don't have MAP_JIT; only use it if available
     patchfiles-append       patch-source-wtf-wtf-osallocatorposix-cpp-map-jit.diff

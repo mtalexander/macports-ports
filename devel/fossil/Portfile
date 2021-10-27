@@ -3,8 +3,8 @@
 PortSystem          1.0
 
 name                fossil
-version             2.13
-revision            1
+version             2.15.2
+revision            0
 epoch               20110901182519
 categories          devel
 platforms           darwin
@@ -19,16 +19,13 @@ long_description    Fossil is a distributed software configuration management wh
                     an easy-to-use web interface to access and administrate projects over the \
                     built-in webserver or CGI.
 
-homepage            https://www.fossil-scm.org/
+homepage            https://fossil-scm.org/home/
 
-master_sites        ${homepage}index.html/uv
-distname            ${name}-src-${version}
+master_sites        ${homepage}tarball/version-${version}/
 
-worksrcdir          ${name}-${version}
-
-checksums           rmd160  2f9aa5461af25381ec017f4027fc2286b46b5278 \
-                    sha256  d933d3e0710eed3de5ee23bf8d2677419c4d4a8cd30b61f7161d9071d63a73f5 \
-                    size    6121223
+checksums           rmd160  cbdbc3f64904bb424b3370d15ad54e989cc79f9c \
+                    sha256  39f5a3960ebaa4984fcc953c3307ead5c0f21da4f66ecad516872f89843fcf79 \
+                    size    6223232
 
 test.run            yes
 
@@ -66,5 +63,5 @@ not harm the integrity of a repository.
 "
 
 livecheck.type      regex
-livecheck.url       ${homepage}home/juvlist
-livecheck.regex     {fossil-src-([\d.]+).tar.gz}
+livecheck.url       ${homepage}
+livecheck.regex     {Latest Release: ([\d.]+)}

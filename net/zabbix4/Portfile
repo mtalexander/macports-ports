@@ -1,4 +1,5 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
 PortSystem          1.0
 PortGroup           active_variants 1.1
 
@@ -17,13 +18,13 @@ long_description    Zabbix is the ultimate open source availability and \
                     performance monitoring solution. Zabbix offers advanced \
                     monitoring, alerting, and visualization features today \
                     which are missing in other monitoring systems, even some \
-                    of the best commercial ones. 
+                    of the best commercial ones.
 
 array set VERSIONS {
-    4  4.0.29
+    4  4.0.34
     42 4.2.8
     44 4.4.10
-    5  5.0.9
+    5  5.0.16
 }
 
 set zver            [regsub -all {[^\d]} ${subport} {}]
@@ -44,15 +45,16 @@ dist_subdir         zabbix${zver}
 if {$zver == 4} {
     livecheck.regex     "zabbix-(4\\.0\\.\[0-9\]+).tar.gz"
     checksums \
-        rmd160  f44e99d8bbc7bc615ad066e03e1dc559aa5754c2 \
-        sha256  3e65574407d4579bdb9fcd7d83ac73a809cdb12b796b57d351deaf7cf2e9f061 \
-        size    17411987
+        rmd160  1eb17c6bfeb9e8eeda2ee74717cf0b4b49a138b9 \
+        sha256  57773c6fb02c42452f39d17fbd3f0a5af1a00162db2a727396b2261e3c015807 \
+        size    17614409
 }
 
 if {$zver == 42 || $zver == 44} {
     # REMOVE JANUARY 2022
     revision        1
     PortGroup       obsolete 1.0
+
     replaced_by     zabbix5
     livecheck.type  none
 }
@@ -60,9 +62,9 @@ if {$zver == 42 || $zver == 44} {
 if {$zver == 5} {
     livecheck.regex     "zabbix-(5\\.0\\.\[0-9\]+).tar.gz"
     checksums \
-        rmd160  ea9bbb429941a34290348b47a4ed79282ab03de9 \
-        sha256  2985a710ac8d1273464345b5b3cf6c9eaff1abde019f361e4eb0760a03807c9b \
-        size    19513312
+        rmd160  85e4adca20421a88565e7caafa6a91b1a6617b32 \
+        sha256  c458f62ed4349abcb558263efc5c6292b397a7cf4d3c506a43d5b7cf876a36d8 \
+        size    21312183
 }
 
 patchfiles          log_and_pid_locations.patch
@@ -165,7 +167,7 @@ if {[isFlavor agent ${subport}]} {
     destroot {}
 } else {
     long_description-append "This port provides the central server component."
-    conflicts-append        zabbix zabbix2 zabbix3
+    conflicts-append        zabbix3
 
     depends_lib-append      port:curl \
                             port:OpenIPMI \
@@ -195,6 +197,11 @@ if {[isFlavor agent ${subport}]} {
          do sleep 1; let x--; \[ \$x -le 0 \] && break; done"
     startupitem.logfile     ${prefix}/var/log/zabbix/zabbix_server.launch
     startupitem.netchange   yes
+
+    # This *increases* the values if needed, but otherwise leaves them alone.
+    startupitem.init \
+        {bump() { [ `sysctl -n $1` -lt $2 ] && sysctl $1=$2 ; } } \
+        "bump kern.sysv.shmall 32768 && bump kern.sysv.shmmax 134217728"
 
     destroot.keepdirs \
         ${destroot}${prefix}/etc/zabbix${zver}/zabbix_server.conf.d \
@@ -346,7 +353,7 @@ post-destroot {
         #file copy ${worksrcpath}/upgrades \
         #    ${destroot}${prefix}/share/zabbix/
 
-        # Set permissions for etc (protect passwords) 
+        # Set permissions for etc (protect passwords)
         system "chmod ug+rwX,o-rwx ${destroot}${prefix}/etc/zabbix${zver}/*"
         system "chown -R zabbix:zabbix ${destroot}${prefix}/etc/zabbix${zver}"
     }
@@ -416,6 +423,11 @@ if {[isFlavor agent ${subport}]} {
     notes "
 ####
 #### Begin ZABBIX${zver} local server installation section ####
+
+  !! LOADING ZABBIX${zver} WILL *INCREASE* THESE sysctl VALUES TO BE AT LEAST:
+    kern.sysv.shmall=32768 kern.sysv.shmmax=134217728
+  This can be adjusted in the file below, but resets after an upgrade:
+    ${prefix}/etc/LaunchDaemons/org.macports.zabbix${zver}-server/zabbix${zver}-server.wrapper
 
  (Installing with +full_server will add all of the dependants; configuration
   will still be required.)

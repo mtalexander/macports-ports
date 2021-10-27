@@ -3,10 +3,14 @@
 PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
 PortGroup           xcode_workaround 1.0
+PortGroup           github 1.0
+PortGroup           legacysupport 1.1
 
+# Revert to master_sites on new release, see https://github.com/LuaJIT/LuaJIT/issues/563
+github.setup        LuaJIT LuaJIT e4b4d9451402be704d5b47a359f640a29db4977f
 name                luajit
 version             2.1.0-beta3
-revision            1
+revision            4
 categories          lang
 platforms           darwin
 license             BSD
@@ -15,15 +19,13 @@ maintainers         nomaintainer
 
 description         a Just-In-Time Compiler for Lua
 long_description    LuaJIT is a Just-In-Time Compiler for the Lua programming language.
+homepage            https://luajit.org
 
-homepage            http://luajit.org
-master_sites        ${homepage}/download
+conflicts           luajit-openresty
 
-distname            LuaJIT-${version}
-
-checksums           rmd160  5f41b0b6e3bfe1f1e033f7464171d474ca497235 \
-                    sha256  1ad2e34b111c802f9d0cdf019e986909123237a28c746b21295b63c9e785d9c3 \
-                    size    1025180
+checksums           rmd160  e8b339efa1e93cefc3b971089a3a9bf04e1a1481 \
+                    sha256  247da49e0c658ca5ac73dcea06ac84ccce6eabdf0b2bb7a06571d0221c868a4d \
+                    size    1071529
 
 post-patch {
     reinplace "s|/usr/local|${prefix}|" ${worksrcpath}/etc/luajit.pc

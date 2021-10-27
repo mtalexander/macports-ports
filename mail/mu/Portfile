@@ -3,11 +3,12 @@
 PortSystem          1.0
 PortGroup           elisp 1.0
 PortGroup           github 1.0
+PortGroup           compiler_blacklist_versions 1.0
 
-github.setup        djcb mu 1.4.15
-checksums           rmd160  b32d18cdb03e1764927c05f1e6b54c6cf0fcea73 \
-                    sha256  0e8785a9c91416fcdb0bf3e43d3c0ca53398d00b7aa1721466763081137f3703 \
-                    size    2309860
+github.setup        djcb mu 1.6.7
+checksums           rmd160  8ad2fbfcba185ddc025a277d3549e13b7978d612 \
+                    sha256  fd4dabd4cf6520396b060002584888aa8ae478d94d6a3afb03e02b5350df0c83 \
+                    size    2336003
 revision            0
 platforms           darwin
 categories          mail
@@ -26,6 +27,9 @@ homepage            https://www.djcbsoftware.nl/code/mu/
 compiler.c_standard   1999
 compiler.cxx_standard 2014
 
+# https://trac.macports.org/ticket/63364
+compiler.blacklist {clang < 900}
+
 depends_build-append \
     port:pkgconfig
 
@@ -39,7 +43,9 @@ configure.args  \
     --with-gui=none \
     --disable-mu4e \
     --disable-webkit \
-    --disable-guile
+    --disable-guile \
+    --disable-gtk \
+    --disable-readline
 
 variant emacs description {Build with emacs bindings} {
     depends_lib-append     path:${emacs_binary}:${emacs_binary_provider}

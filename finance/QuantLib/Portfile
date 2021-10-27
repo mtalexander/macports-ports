@@ -2,12 +2,14 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
+PortGroup           compiler_blacklist_versions 1.0
+PortGroup           boost 1.0
 
-github.setup        lballabio QuantLib 1.21 QuantLib-v
+github.setup        lballabio QuantLib 1.23 QuantLib-v
 revision            0
-checksums           rmd160  5db1cc472ec7b67cf46929240366bd1e6232325f \
-                    sha256  3d3296fb13f822de6b980692604e2b1ba0d1b45e0e32d67d80b4cc9725b87d1b \
-                    size    9234526
+checksums           rmd160  c5cff95fa9e77612f9a242fc2d161fde6424a962 \
+                    sha256  f6c648dd0f8989e9afde31587bca7b04680fba78d692e626227047c6868420d8 \
+                    size    9277653
 
 categories          finance
 platforms           darwin
@@ -24,7 +26,16 @@ long_description    The QuantLib project is aimed at providing a \
 homepage            https://www.quantlib.org
 github.tarball_from releases
 
-depends_lib         port:boost
+compiler.cxx_standard \
+                    2011
 
-configure.args      --with-boost-include=${prefix}/include \
-                    --with-boost-lib=${prefix}/lib
+# https://github.com/lballabio/QuantLib/issues/1090
+configure.cxxflags-append \
+                    -std=c++11
+
+# https://github.com/lballabio/QuantLib/issues/1091
+# error: default initialization of an object of const type 'const ext::function<Real (Real)>' (aka 'const function<double (double)>') without a user-provided default constructor
+compiler.blacklist-append {clang < 900}
+
+configure.args      --with-boost-include=[boost::include_dir] \
+                    --with-boost-lib=[boost::lib_dir]

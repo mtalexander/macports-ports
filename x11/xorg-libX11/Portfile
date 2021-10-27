@@ -4,7 +4,7 @@ PortSystem  1.0
 PortGroup   compiler_blacklist_versions 1.0
 
 name        xorg-libX11
-version     1.7.0
+version     1.7.2
 categories  x11 devel
 license     X11
 maintainers {jeremyhu @jeremyhu} openmaintainer
@@ -12,13 +12,13 @@ description X.org libX11
 homepage    https://www.x.org
 platforms   darwin macosx
 long_description libX11 is the main library used by X Window System applications to communicate with the X server.
-master_sites     xorg:individual/lib/
+master_sites xorg:individual/lib/
 
 distname    libX11-${version}
 
-checksums   rmd160  a3df61054babc200de47e0d5dc416461f64f8981 \
-            sha256  36c8f93b6595437c8cfbc9f08618bcb3041cbd303e140a0013f88e4c2977cb54 \
-            size    2409144
+checksums   rmd160  ea685d299dc697d81747c2abcbd018d3d523796f \
+            sha256  1cfa35e37aaabbe4792e9bb690468efefbfbf6b147d9c69d6f90d13c3092ea6c \
+            size    2392982
 
 # move pragmas outside functions to keep old gcc compilers happy
 patchfiles  patch-xorg-libX11-pragmas-inside-functions.diff

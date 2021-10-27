@@ -2,10 +2,11 @@
 
 PortSystem          1.0
 PortGroup           select 1.0
+PortGroup           compiler_blacklist_versions 1.0
 
 name                ruby30
-version             3.0.0
-revision            0
+version             3.0.2
+revision            2
 
 categories          lang ruby
 maintainers         {kimuraw @kimuraw} openmaintainer
@@ -25,13 +26,14 @@ master_sites        ruby:3.0
 distname            ruby-${version}
 dist_subdir         ruby30
 
-checksums           md5 d6af36269a1b0bc278236d371543ad97 \
-                    rmd160 8351564472580096adadce10e67856ac646eab12 \
-                    sha1 233873708c1ce9fdc295e0ef1c25e64f9b98b062 \
-                    sha256 a13ed141a1c18eb967aac1e33f4d6ad5f21be1ac543c344e0d6feeee54af8e28 \
-					size 19539509
+checksums           md5 b973af486291a1e17ad50d88472bfa86 \
+                    rmd160 e8d512f1948dc4d59c0ee3a0ef4a2288492b9620 \
+                    sha1 e00784956ed2083a40e269d8b14e571b8fae9a0f \
+                    sha256 5085dee0ad9f06996a8acec7ebea4a8735e6fac22f22e2d98c3f2bc3bef7e6f1 \
+					size 19941179
 
 use_parallel_build  no
+universal_variant   no
 
 depends_lib         port:readline \
                     path:lib/libssl.dylib:openssl \
@@ -40,11 +42,20 @@ depends_lib         port:readline \
                     port:libffi \
                     port:gdbm
 depends_run         port:ruby_select
-depends_build       port:pkgconfig
+depends_build       port:pkgconfig port:cctools
 depends_skip_archcheck pkgconfig
 
 select.group        ruby
 select.file         ${filespath}/ruby30
+
+# patch-random.c.diff: fix build error at Lion (#63571)
+patchfiles          patch-random.c.diff
+#----------------------------------------------------------------------------------------
+# Fix compilation on buildbots for 10.12 and earlier.
+# Issue: 62183: error: use of undeclared identifier 'fmt'; did you mean 'fma'?
+#----------------------------------------------------------------------------------------
+compiler.blacklist-append \
+                    { clang < 901 }
 
 configure.args      --enable-shared \
                     --enable-install-static-library \
@@ -56,6 +67,8 @@ configure.args      --enable-shared \
                     --program-suffix=3.0 \
                     --with-rubylibprefix="${prefix}/lib/ruby3.0" \
                     --without-baseruby
+# prefer Apple cctools to GNU binutils, build with binutils may fail.
+configure.args-append   AR=${prefix}/bin/ar RANLIB=${prefix}/bin/ranlib
 
 # [NOTE] workaround for mismatch of sdk versions on macOS 11.x,
 # such as MacOSX11.0.sdk (buildbot) <=> MacOSX11.1.sdk (user's Mac).
@@ -101,6 +114,12 @@ post-destroot {
     xinstall -m 0755 -d ${destroot}${prefix}/libexec/ruby3.0
     destroot.keepdirs-append ${destroot}${prefix}/libexec/ruby3.0
 }
+
+notes "
+To make this the default Ruby (i.e., the version run by\
+the 'ruby', 'gem' or 'bundle' commands), run:
+    sudo port select --set ruby $name
+"
 
 variant doc description "Install rdoc indexes and C API documents" {
         configure.args-delete   --disable-install-doc

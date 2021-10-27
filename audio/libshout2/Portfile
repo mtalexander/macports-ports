@@ -14,7 +14,6 @@ categories      audio net
 license         LGPL
 platforms       darwin
 maintainers     nomaintainer
-conflicts       libshout
 
 description     Data and connectivity lib for the icecast server
 
@@ -26,7 +25,7 @@ long_description \
     focus on feature sets instead of implementation details.
 
 homepage        https://www.icecast.org/
-master_sites    https://downloads.xiph.org/releases/libshout/
+master_sites    https://ftp.osuosl.org/pub/xiph/releases/libshout/
 distname        ${my_name}-${version}
 
 depends_build-append   \

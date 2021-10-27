@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                libmwaw
-version             0.3.17
+version             0.3.20
 homepage            https://sourceforge.net/p/libmwaw/wiki/Home/
 master_sites        sourceforge:project/${name}/${name}/${name}-${version}/
 use_xz              yes
@@ -16,9 +16,9 @@ maintainers         {gmail.com:audvare @Tatsh} openmaintainer
 description         Library parsing many pre-OS X MAC text formats.
 long_description    ${description}
 
-checksums           rmd160  bb92b16e03bab3ec37e8c514341678e6e5a2837c \
-                    sha256  8e1537eb1de1b4714f4bf0a20478f342c5d71a65bf99307a694b1e9e30bb911c \
-                    size    1349700
+checksums           rmd160  2bfdcf64a279296a5c4b51f8586fa00b6b18698f \
+                    sha256  14c38b06214f277ccd1450e22e6e32648955018d7695896bc560165748c8cd21 \
+                    size    1425812
 
 depends_build       port:pkgconfig \
                     port:libtool

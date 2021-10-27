@@ -8,12 +8,12 @@ PortGroup           gobject_introspection 1.0
 name                gegl-0.3
 set gname           gegl
 version             0.3.34
-revision            9
+revision            10
 set branch          [join [lrange [split ${version} .] 0 1] .]
 conflicts           gegl-devel
 license             {GPL-3+ LGPL-3+}
 categories          graphics
-maintainers         {devans @dbevans} openmaintainer
+maintainers         {devans @dbevans} {mascguy @mascguy} openmaintainer
 platforms           darwin
 
 description         GEGL is a graph based image processing framework.
@@ -33,13 +33,15 @@ checksums           rmd160  d9f4ffbb1be827a8dbd4fc10e828325b4b85e384 \
                     sha256  5ca2227655ebf1ab2e252cee3eede219c758336394288ef301b93264b9411304 \
                     size    6707964
 
-depends_build       port:pkgconfig \
+depends_build-append \
+                    port:gtk-doc \
+                    port:pkgconfig \
                     port:w3m \
                     port:python27
 
-depends_lib         port:babl \
+depends_lib-append  port:babl \
                     port:gdk-pixbuf2 \
-                    port:gtk2 \
+                    path:lib/pkgconfig/gtk+-2.0.pc:gtk2 \
                     path:include/turbojpeg.h:libjpeg-turbo \
                     port:lua \
                     path:bin/dot:graphviz \
@@ -75,7 +77,7 @@ post-patch {
 gobject_introspection yes
 
 # blacklist compilers that do not support C11 (redefinition of typedef 'GeglDownscale2x2Fun' in gegl-algorithms.h at line 51)
-# tweak gcc blacklisting for 10.5 ppc per kencu
+# tweak gcc blacklisting for 10.5 ppc
 compiler.blacklist  *gcc-3.* *gcc-4.* {clang < 300}
 
 use_autoreconf      yes

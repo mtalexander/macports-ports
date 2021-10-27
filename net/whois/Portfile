@@ -13,11 +13,11 @@ PortGroup                   compiler_blacklist_versions 1.0
 PortGroup                   github 1.0
 PortGroup                   perl5 1.0
 
-github.setup                rfc1036 whois 5.5.8 v
+github.setup                rfc1036 whois 5.5.10 v
 revision                    0
-checksums                   rmd160  d8d2f6697fadde768b01b5314113db614056dd38 \
-                            sha256  cd9e7bad3b6968182bfcc311e22be3aec9a974397377d748845147884ce07547 \
-                            size    85352
+checksums                   rmd160  2e4edad312cf10a2bb47f2dc559b4ed24233530b \
+                            sha256  2391037b079695d0e9fd3c85ab021809a539cf093d25b6c51ca65019a54158dd \
+                            size    85168
 
 conflicts                   bahamut expect ripe-whois
 categories                  net

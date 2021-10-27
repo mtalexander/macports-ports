@@ -42,11 +42,12 @@ notes-append "\
 compiler.cxx_standard 2011
 
 if {${subport} eq ${name}} {
-    version         2.22.0
+    version         2.22.1
+    revision        3
     conflicts       lilypond-devel
-    checksums       rmd160  5acae84e89af061b5462b891308b7cd9e41737f7 \
-                    sha256  64ddd03171d247adc243e01a3be3ec2610d97c62b893c253ad02ac50694b0f4e \
-                    size    18023031
+    checksums       rmd160  efb911332e0b96011340d7a21ad091881aae9cd0 \
+                    sha256  72ac2d54c310c3141c0b782d4e0bef9002d5519cf46632759b1f03ef6969cc30 \
+                    size    18033161
 
     set livecheck_url "source.html"
 
@@ -55,16 +56,15 @@ if {${subport} eq ${name}} {
         configure.ldflags-append -stdlib=${configure.cxx_stdlib}
     }
 } else {
-    version         2.23.0
-    revision        0
+    version         2.23.3
+    revision        3
     conflicts       lilypond
-    checksums       rmd160  503f1c8b716ba60916aae82c9e7617f3769cd70c \
-                    sha256  b2c795278ecef7e7b4383be6d9ad64b735dd826e790ccf791e656fa16a135fd3 \
-                    size    17047610
+    checksums       rmd160  1321f179f97471b6b62834c387c426e4580620b5 \
+                    sha256  8a833696f7c6d2d4b4ae162ffd0836216c63c3765ea14069d6632d320d6bc308 \
+                    size    17109789
 
     set livecheck_url "development.html"
 }
-
 
 set branch          [join [lrange [split ${version} .] 0 1] .]
 homepage            https://lilypond.org
@@ -198,6 +198,20 @@ configure.env-append    LTDL_LIBRARY_PATH=${prefix}/lib
 build.env-append        LTDL_LIBRARY_PATH=${prefix}/lib
 destroot.env-append     LTDL_LIBRARY_PATH=${prefix}/lib
 
+configure.args-append   --with-flexlexer-dir=${worksrcpath}/flex
+
+pre-patch {
+    file mkdir ${worksrcpath}/flex
+    copy ${prefix}/include/FlexLexer.h ${worksrcpath}/flex/FlexLexer.h
+}
+
+patchfiles              patch-fix-missing-override.diff
+
+if {${subport} eq ${name}} {
+    patchfiles-append       patch-add-flex-to-include.diff
+} else {
+    patchfiles-append       patch-add-flex-to-include-devel.diff
+}
 
 post-patch {
     # Use guile18 header files.
@@ -214,7 +228,6 @@ post-patch {
     # Correct python shebang.
     reinplace -W ${worksrcpath} -E \
         s|/usr/bin/(env\\\ )?python|${configure.python}|g \
-        python/auxiliar/manuals_definitions.py \
         scripts/auxiliar/check_texi_refs.py \
         scripts/auxiliar/check_translation.py \
         scripts/auxiliar/fixcc.py \

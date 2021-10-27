@@ -14,7 +14,7 @@ if {${subport} ne "gmic" && ${subport} ne "gmic-clib"} {
 }
 
 name                gmic
-version             2.9.6
+version             2.9.9
 revision            0
 license             CeCILL
 categories          science graphics
@@ -38,13 +38,11 @@ master_sites        https://gmic.eu/files/source/
 # gmic will pick up include files from opencv, opencv3 dods not conflict
 conflicts_build     opencv
 
-use_parallel_build  no
-
 distfiles           ${name}_${version}${extract.suffix}
 
-checksums           rmd160  6ab8fa61a3c3bfc36104a84848edacb91e258bc0 \
-                    sha256  d22fe8515af16dcd050d09a0bc7127ec29f4795ce732a0c6c3eaf839356bc11a \
-                    size    7304588
+checksums           rmd160  b784f86851f7ba337de81f86dcbd186932d01c82 \
+                    sha256  9f053338752ec96a6b619718037767682c5fd58e2471c08f3740fdb070605bc0 \
+                    size    7325061
 
 depends_lib         port:curl \
                     path:lib/libavcodec.dylib:ffmpeg \
@@ -53,7 +51,6 @@ depends_lib         port:curl \
                     port:ilmbase \
                     path:include/turbojpeg.h:libjpeg-turbo \
                     port:libpng \
-                    port:opencv4 \
                     port:openexr \
                     port:tiff \
                     port:zlib
@@ -63,15 +60,21 @@ patchfiles          patch-CMakeLists.txt.diff \
 
 compiler.cxx_standard           2011
 
+# Uses more memory per compile process than we can accommodate on our
+# automated build system. See https://github.com/dtschump/gmic/issues/325
+use_parallel_build              no
+
 subport ${name}-qt {
-    configure.args-append       -DGMIC_QT_HOST=none
     description-append          (GUI application)
+
+    configure.args-append       -DGMIC_QT_HOST=none
 }
 
 subport ${name}-gimp {
+    description-append          (GIMP plug-in).
+
     configure.args-append       -DGMIC_QT_HOST=gimp
     depends_lib-append          port:gimp2
-    description-append          (GIMP plug-in).
 }
 
 subport ${name}-clib {
@@ -95,11 +98,14 @@ if {${subport} eq ${name}} {
                                 -DENABLE_OPENMP=OFF \
                                 -DENABLE_X=OFF
 
-    # insert path to opencv4 libraries, as cmake fails to do so
-    post-configure {
-        reinplace  "s|-lopencv_gapi.4.5.0|-L${prefix}/lib/opencv4 -lopencv_gapi.4.5.0|g" \
-                   ${build.dir}/CMakeFiles/gmic.dir/link.txt \
-                   ${build.dir}/CMakeFiles/libgmic.dir/link.txt
+    variant opencv4 description {compile with OpenCV support} {
+        configure.args-append   -DENABLE_OPENCV=ON
+        configure.ldflags-append \
+                                -L${prefix}/lib/opencv4
+        configure.pkg_config_path-append \
+                                ${prefix}/lib/opencv4/pkgconfig
+
+        depends_lib-append      port:opencv4
     }
 
     variant x11 {
@@ -164,10 +170,8 @@ if {${subport} eq ${name}} {
         cmake.build_type        Release
     }
 
-    depends_lib-append          port:${name}
-    require_active_variants     ${name} x11
-
     cmake.source_dir            ${worksrcpath}/gmic-qt
+
     configure.args-append       -DENABLE_DYNAMIC_LINKING=ON \
                                 -DENABLE_LTO=OFF \
                                 -DENABLE_OPENMP=OFF \
@@ -175,8 +179,11 @@ if {${subport} eq ${name}} {
 
     qt5.depends_build_component qttools
 
-    depends_lib-append          port:xorg-libX11 \
+    depends_lib-append          port:${name} \
+                                port:xorg-libX11 \
                                 port:xorg-libXext \
                                 port:xorg-libice \
                                 port:xorg-libsm
+
+    require_active_variants     ${name} x11
 }

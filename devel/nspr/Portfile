@@ -4,7 +4,7 @@ PortSystem  1.0
 PortGroup           muniversal 1.0
 
 name                nspr
-version             4.29
+version             4.32
 revision            0
 categories          devel
 maintainers         nomaintainer
@@ -18,9 +18,9 @@ homepage            http://www.mozilla.org/projects/nspr
 master_sites        http://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${version}/src/ \
                     ftp://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${version}/src/
 
-checksums           rmd160  074d63926d7c2fcaeadd5521e7be4ce17f8fdfbf \
-                    sha256  22286bdb8059d74632cc7c2865c139e63953ecfb33bf4362ab58827e86e92582 \
-                    size    1078192
+checksums           rmd160  e7b4a6903ac891161149b59142fccf29c11eb58f \
+                    sha256  bb6bf4f534b9559cf123dcdc6f9cd8167de950314a90a88b2a329c16836e7f6c \
+                    size    1079004
 
 worksrcdir          ${worksrcdir}/nspr
 
@@ -36,9 +36,6 @@ configure.args \
     --enable-optimize='${configure.optflags}' \
     --libdir=${prefix}/lib/nspr
 
-if {![info exists universal_possible]} {
-    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
-}
 if {(!${universal_possible} || ![variant_isset universal]) && ${configure.build_arch} in [list arm64 ppc64 x86_64]} {
     configure.args-append --enable-64bit
 }

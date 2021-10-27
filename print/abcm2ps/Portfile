@@ -3,11 +3,11 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        leesavide abcm2ps 8.14.9 v
+github.setup        leesavide abcm2ps 8.14.12 v
 revision            0
-checksums           rmd160  19ac97f1eeddb38b00700383028ec6ba15a7e317 \
-                    sha256  9d91c215d59bb3704fe174ba0729f634e656ab42210cfabf02f0c5c4e0c9d877 \
-                    size    259238
+checksums           rmd160  b07239af0397b819cc38ac3bc9d7b60a53df6fbf \
+                    sha256  f98701bc25f52e98a9283d0cef04591351b62ff8dc80fa54bb21467d60886feb \
+                    size    259618
 
 categories          print audio
 platforms           darwin

@@ -8,13 +8,17 @@ PortGroup           compiler_blacklist_versions 1.0
 PortGroup           legacysupport 1.1
 
 name                gtk3
-set real_name       gtk+
-epoch               1
+conflicts           gtk3-devel
+set my_name         gtk3
 version             3.24.23
+revision            0
+epoch               1
+
+set proj_name       gtk+
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          gnome x11
 license             LGPL-2.1+
-maintainers         {devans @dbevans} openmaintainer
+maintainers         {devans @dbevans} {mascguy @mascguy} openmaintainer
 platforms           darwin
 
 description         GTK+ widget toolkit
@@ -25,10 +29,10 @@ long_description    GTK+ is a highly usable, feature-rich toolkit for creating g
                     programming languages, such as C++, Python and C#, among others.
 
 homepage            http://www.gtk.org/
-distname            ${real_name}-${version}
+distname            ${proj_name}-${version}
+dist_subdir         ${my_name}
 use_xz              yes
-
-master_sites        gnome:sources/gtk+/${branch}/
+master_sites        gnome:sources/${proj_name}/${branch}/
 
 checksums           rmd160  d00da1f7f1fb620c7fac28d95858bb734db78bed \
                     sha256  5d864d248357a2251545b3387b35942de5f66e4c66013f0962eb5cb6f8dae2b1 \
@@ -36,8 +40,9 @@ checksums           rmd160  d00da1f7f1fb620c7fac28d95858bb734db78bed \
 
 minimum_xcodeversions {9 3.1}
 
-depends_build       port:pkgconfig \
-                    port:xar
+depends_build       port:gtk-doc \
+                    port:xar \
+                    path:bin/pkg-config:pkgconfig
 
 depends_lib         port:atk \
                     path:lib/pkgconfig/pango.pc:pango \
@@ -59,6 +64,9 @@ legacysupport.newest_darwin_requires_legacy 10
 use_autoreconf      yes
 autoreconf.args     -fvi
 
+# OS X 10.11 and earlier does not have NSEventTypeTabletProximity and the version check macro is broken
+# see https://gitlab.gnome.org/GNOME/gtk/-/issues/3592
+patchfiles   patch-gdk_quartz-10.11_compat.diff
 
 # gtk3 +quartz uses instancetype which is not available
 # before approximately Xcode 4.6 (#49391)
@@ -150,6 +158,9 @@ platform darwin {
         if {[variant_isset quartz] || ![variant_isset x11]} {
             configure.ldflags-append  -framework Cocoa -framework Carbon
         }
+
+        # https://trac.macports.org/ticket/63151
+        configure.args-append --disable-dependency-tracking
     }
 
     if {${os.major} <= 10} {
@@ -242,7 +253,6 @@ if {${universal_possible} && [variant_isset universal]} {
 variant quartz conflicts x11 {
     require_active_variants path:lib/pkgconfig/cairo.pc:cairo quartz
     require_active_variants path:lib/pkgconfig/pango.pc:pango quartz
-    require_active_variants port:gdk-pixbuf2 "" x11
 
     configure.args-append   --enable-quartz-backend
 }

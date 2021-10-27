@@ -3,7 +3,7 @@
 PortSystem              1.0
 PortGroup               github 1.0
 
-github.setup            liberfa erfa 1.7.2 v
+github.setup            liberfa erfa 2.0.0 v
 revision                0
 categories              science
 maintainers             {mps @Schamschula} openmaintainer
@@ -15,6 +15,6 @@ long_description        {*}${description}
 
 github.tarball_from     releases
 
-checksums               rmd160  d0e7e01e112b1ab344f6a0c35ab9ef2ab1a00322 \
-                        sha256  b85ee6f723c8c01a7da85982a5f53838e8133f65ebf98ddf70a454e95cbaf96e \
-                        size    723450
+checksums               rmd160  c546408e7844a4b7c13859bc37c586660d7d2935 \
+                        sha256  75cb0a2cc1561d24203d9d0e67c21f105e45a70181d57f158e64a46a50ccd515 \
+                        size    729292

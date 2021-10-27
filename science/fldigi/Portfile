@@ -4,10 +4,10 @@ PortSystem          1.0
 PortGroup           muniversal 1.0
 
 name                fldigi
-version             4.1.18
+version             4.1.20
 revision            0
 # same sources but with different version
-set version_flarq   4.3.7
+set version_flarq   4.3.8
 categories          science
 platforms           darwin macosx
 license             GPL-3
@@ -20,9 +20,9 @@ long_description    Fldigi (Fast Light Digital Modem Application), is a \
 homepage            http://www.w1hkj.com
 master_sites        http://www.w1hkj.com/files/${name}/
 
-checksums           rmd160  cc8cb2d3c8595f83ddfac5cdcc6282e791872713 \
-                    sha256  3c7fd84ab3a84ba4525b251e9d56120daee626a3831684a974fdad476f90270d \
-                    size    4847091
+checksums           rmd160  9e12d5bdefafc91d2092f794f716a6f1b21a7d54 \
+                    sha256  5030900a0f6905eb86dbe68e41fff0be781eecee6d42007675540e2a23bec438 \
+                    size    4906451
 
 depends_build-append \
     port:pkgconfig \

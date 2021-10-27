@@ -5,22 +5,22 @@ PortGroup           python 1.0
 
 name                py-metpy
 python.rootname     MetPy
-version             1.0
+version             1.1.0
 revision            0
 categories          python science
 license             BSD
 maintainers         {mps @Schamschula} openmaintainer
 description         MetPy is a collection of tools in Python for reading, visualizing \
                     and performing calculations with weather data.
-long_description    ${description}
+long_description    {*}${description}
 platforms           darwin
 homepage            https://github.com/Unidata/MetPy
 
 python.versions     37 38 39
 
-checksums           rmd160  aabccb9fa85b5d5f4ddc3e6382b5687f773798c9 \
-                    sha256  11b043aaa4e3d35db319e96bb9967eb9f73da653e155bca2d62f838108b100dc \
-                    size    7011681
+checksums           rmd160  5e98c450277a28de8a8681ebf1ee83e694b96f60 \
+                    sha256  e5ef6967a0721cccc92d6aeae27768bbc9eac66db252c36be6e233f43f228e53 \
+                    size    8277970
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -36,4 +36,6 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-scipy \
                     port:py${python.version}-traitlets \
                     port:py${python.version}-xarray
+
+    livecheck.type  none
 }

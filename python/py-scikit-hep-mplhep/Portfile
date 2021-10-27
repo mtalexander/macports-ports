@@ -4,17 +4,16 @@ PortSystem                           1.0
 PortGroup           python           1.0
 PortGroup           github           1.0
 
+github.setup        scikit-hep mplhep 0.3.12 v
 name                py-scikit-hep-mplhep
-
-github.setup        scikit-hep mplhep 0.2.18 v
 revision            0
 
-checksums           rmd160  8902fe16dda95b69196ae863e0b226206fbba86b \
-                    sha256  47926615bd48100ac9a582a0b5ccda09193efbd6e57700a33fbca38f95f27d08 \
-                    size    6630608
+checksums           rmd160  014878ca40f47c3022bb30d4e2a8c0cd6b8d77d2 \
+                    sha256  1abe5e49153fa6cdabac3233316eaaa652535900492a2aa8049d53dfa09da84f \
+                    size    1209086
 
 platforms           darwin
-
+supported_archs     noarch
 license             MIT
 
 maintainers         {jonesc @cjones051073} openmaintainer
@@ -23,17 +22,20 @@ description         A set of helpers for matplotlib to more easily produce plots
 long_description    {*}${description}
 
 # Supported python versions
-python.versions     36 37 38 39
+python.versions     37 38 39
 
 if {${name} ne ${subport}} {
 
     depends_build-append \
         port:py${python.version}-setuptools
 
+    depends_lib-append \
+        port:py${python.version}-scikit-hep-mplhep_data
+
     depends_test-append \
         port:py${python.version}-pytest
 
-    livecheck.type none 
+    livecheck.type none
 
 }
 

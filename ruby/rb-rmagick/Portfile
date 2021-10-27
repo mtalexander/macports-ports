@@ -2,16 +2,13 @@
 
 PortSystem              1.0
 PortGroup               ruby 1.0
-PortGroup               github 1.0
-PortGroup               active_variants 1.1
 
-github.setup            rmagick rmagick 2-13-3 RMagick_
-version                 [string map {- .} ${github.version}]
-revision                2
-ruby.setup              RMagick ${version} setup.rb {README examples}
+ruby.branches           3.0 2.7 2.6 2.5 2.4 2.3
+ruby.setup              rmagick 4.2.3 gem
+revision                0
 categories-append       graphics
 platforms               darwin
-maintainers             nomaintainer
+maintainers             {judaew @judaew} openmaintainer
 license                 MIT
 
 description             The Ruby interface to ImageMagick
@@ -22,21 +19,8 @@ long_description        RMagick is an interface between the Ruby programming \
 
 homepage                https://rmagick.github.io
 
-checksums               rmd160  84f99ad91fbc6ba4973b4e97e3ca8adbc6a508da \
-                        sha256  cc883db1591c5caea6c7be15841509e65d1231cf5b1adc936b2fe6126ed4bb2f
+checksums               rmd160  cb22806133074a9e833715fe43555069898f3f0c \
+                        sha256  cf0fc037606937d243e54c5c3ebd10062896b642e534cc0000aa7e14629a387c \
+                        size    233472
 
 depends_lib-append      port:ImageMagick
-require_active_variants ImageMagick wmf
-
-pre-configure {
-    foreach exe {wmf2eps gs} {
-        if {[catch {set found [binaryInPath ${exe}]}] != 0} {
-            ui_warn "${exe} is not installed, some RMagick examples will fail."
-        } else {
-            ui_info "${exe} found: ${found}"
-        }
-    }
-}
-
-configure.args          --doc-dir=${prefix}/share/doc/${name}/userguide \
-                        --allow-example-errors

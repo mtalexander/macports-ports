@@ -15,35 +15,48 @@ maintainers             {emcrisostomo @emcrisostomo} \
                         openmaintainer
 
 # *NOTE* Remember to update `latestVersion` on a version upgrade.
-set latestVersion       terraform-0.14
+set latestVersion       terraform-1.0
+
+subport terraform-1.0 {
+    set patchNumber     9
+    checksums           rmd160  87630a213482a7a5fee585bed1cff950d36c02b0 \
+                        sha256  fb791c3efa323c5f0c2c36d14b9230deb1dc37f096a8159e718e8a9efa49a879 \
+                        size    33017665
+}
+
+subport terraform-0.15 {
+    set patchNumber     5
+    checksums           rmd160  d57fbd764112a5cc7d46b04c8d17d220eb5fddc8 \
+                        sha256  27d5ae2431240dff928e6483170b570782a8dd1a2b7c32ce1793097af1acb9bd \
+                        size    33803323
+}
 
 subport terraform-0.14 {
-    set patchNumber     9
-    checksums           rmd160  d4c566a7105bbbdd6915bf919cae184c113c9c52 \
-                        sha256  96d0b1c807415ba295a70e8afed04e233778673103587f321164ebb96be123d8 \
-                        size    34593800
+    set patchNumber     11
+    checksums           rmd160  9c9236549e343f402e3617cea6f5773f2695b06b \
+                        sha256  5c0110a4dc44ec01edd159c69bf60cebd18540eaf168aacd8b37d828b70e265d \
+                        size    34597577
 }
 
 subport terraform-0.13 {
-    set patchNumber     6
-    checksums           rmd160  176420032b96c10dbfe51f71f399a77bf196d359 \
-                        sha256  cbb76aed9c01a8c0fbee4e3a10112ab7836440fa63d93414a1dc45ef59bc0ea2 \
-                        size    35671246
+    set patchNumber     7
+    checksums           rmd160  aa35c4f8d1d03fb05736fb1dcabc3a243b8a72d6 \
+                        sha256  d5fbb589bc35c2655d0705c26117135cbb25e4259f120415009e0e6427ea97c8 \
+                        size    35672990
 }
 
 subport terraform-0.12 {
-    set patchNumber     30
-    checksums           rmd160  b737e35e82ff6de8da919c841010f7be1fe86587 \
-                        sha256  f107ed316be1b86a63df4e47a1fb8ab8c9ffdbbc606dcdf90043f91bdb21826d \
-                        size    29172646
-
+    set patchNumber     31
+    checksums           rmd160  3b275cfdfa5adbe8834bf3b1eaf3a9352f1e2389 \
+                        sha256  c1a6ca04026cebe7849610037ebc960609484c25f47a58344efaa7fcd5be1e56 \
+                        size    29180819
 }
 
 subport terraform-0.11 {
-    set patchNumber     14
-    checksums           rmd160  830e133976923d63ffe2ef6292eb37569e88a801 \
-                        sha256  829bdba148afbd61eab4aafbc6087838f0333d8876624fe2ebc023920cfc2ad5 \
-                        size    13141311
+    set patchNumber     15
+    checksums           rmd160  0887b1812921fce1135170c23a9faf1775f5db5f \
+                        sha256  b0d2c9f9068be007f9b8eff211a679e1f07368b640245871bb02a6c2cdf28c07 \
+                        size    21882476
 }
 
 subport terraform_select {}
@@ -52,7 +65,7 @@ if {${subport} eq ${name}} {
     PortGroup           obsolete 1.0
 
     replaced_by         ${latestVersion}
-    version             0.14.9
+    version             1.0.9
     revision            0
 
 } elseif {${subport} eq "terraform_select"} {

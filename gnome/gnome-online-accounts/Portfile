@@ -5,7 +5,7 @@ PortGroup           gobject_introspection 1.0
 
 name                gnome-online-accounts
 version             3.36.0
-revision            0
+revision            1
 license             LGPL-2
 set branch          [join [lrange [split ${version} .] 0 1] .]
 description         Single sign-on framework for GNOME
@@ -26,7 +26,7 @@ depends_build       port:pkgconfig \
                     port:gtk-doc
 
 depends_lib         port:gdk-pixbuf2 \
-                    port:gtk3 \
+                    path:lib/pkgconfig/gtk+-3.0.pc:gtk3 \
                     port:libsoup \
                     port:json-glib \
                     port:kerberos5 \

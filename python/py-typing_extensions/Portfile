@@ -4,7 +4,7 @@ PortSystem 1.0
 PortGroup python 1.0
 
 name                py-typing_extensions
-version             3.7.4.3
+version             3.10.0.2
 license             PSF
 platforms           darwin
 maintainers         {toby @tobypeterson} openmaintainer
@@ -22,11 +22,11 @@ homepage            https://github.com/python/typing/blob/master/typing_extensio
 master_sites        pypi:t/typing_extensions
 distname            typing_extensions-${version}
 
-checksums           rmd160  be0b72be8594b4141fa0a463fca6aa39ec67a7a5 \
-                    sha256  99d4073b617d30288f569d3f13d2bd7548c3a7e4c8de87db09a9d29bb3a4a60c \
-                    size    38979
+checksums           rmd160  b9ba0200913df912b7cb026177a7dc428880b180 \
+                    sha256  49f75d16ff11f1cd258e1b988ccff82a3ca5570217d7ad8c5f48205dd99a677e \
+                    size    46048
 
-python.versions     36 37 38 39
+python.versions     36 37 38 39 310
 
 if {${name} ne ${subport}} {
     depends_build-append    port:py${python.version}-setuptools

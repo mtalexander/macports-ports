@@ -2,16 +2,16 @@
 
 PortSystem              1.0
 PortGroup               compiler_blacklist_versions 1.0
-PortGroup               legacysupport 1.0
+PortGroup               legacysupport 1.1
 
 # on macOS nodejs only builds against libc++
 # this force is OK as node does not link against any other c++ libs
 depends_lib-append      port:libcxx
 configure.cxx_stdlib    libc++
-compiler.cxx_standard   2011
+compiler.cxx_standard   2014
 
 name                    nodejs12
-version                 12.21.0
+version                 12.22.7
 
 categories              devel net
 platforms               darwin
@@ -25,21 +25,21 @@ long_description        Node's goal is to provide an easy way to build scalable 
                         Machine or Python's Twisted. Node takes the event model a bit further-it \
                         presents the event loop as a language construct instead of as a library.
 
-conflicts               nodejs8 nodejs10 nodejs13 nodejs14 nodejs15
+conflicts               nodejs8 nodejs10 nodejs13 nodejs14 nodejs15 nodejs16
 
 homepage                https://nodejs.org/
 master_sites            ${homepage}dist/v${version}
 use_xz                  yes
 
-checksums               rmd160  1e024ad17c8d0ef941d889e953cbae47e8ef7812 \
-                        sha256  052f37ace6f569b513b5a1154b2a45d3c4d8b07d7d7c807b79f1566db61e979d \
-                        size    23650552
+checksums               rmd160  3ac959f37af003d7ab8bbf845609bdbc02c6024f \
+                        sha256  cc6a23b44870679a94bd8f3c8d4e1f4b77bb2712a36888ab87463459e6785f6b \
+                        size    23661696
 
 distname                node-v${version}
 
-depends_build           port:pkgconfig
+depends_build-append    port:pkgconfig
 
-depends_lib             port:icu \
+depends_lib-append      port:icu \
                         port:python38 \
                         path:lib/libssl.dylib:openssl
 
@@ -62,9 +62,11 @@ post-patch {
                    ${worksrcpath}/tools/gyp/gyp \
                    ${worksrcpath}/deps/v8/tools/objdump-v8 \
                    [rec_glob ${worksrcpath} *.py]] {
+        reinplace -q "s|/usr/bin/env python3|${configure.python}|" ${f}
         reinplace -q "s|/usr/bin/env python|${configure.python}|" ${f}
     }
     foreach gypfile [rec_glob ${worksrcpath} *.gyp*] {
+        reinplace -q "s|'python3'|'${configure.python}'|" ${gypfile}
         reinplace -q "s|'python'|'${configure.python}'|" ${gypfile}
     }
 }

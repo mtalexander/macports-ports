@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                drupal7
-version             7.78
+version             7.82
 revision            0
 categories          www php
 license             GPL-2
@@ -23,18 +23,18 @@ homepage            https://drupal.org
 distname            drupal-${version}
 master_sites        https://ftp.drupal.org/files/projects/
 
-checksums           rmd160  cc2b2334d2f253aee904b3ba649e401a5f685f6d \
-                    sha256  ceaa9d67f1f755a7b936c8e1aa5a8074fac1fe6f101cea2ea116a6e3a657eca9 \
-                    size    3335651
+checksums           rmd160  0b3ad916831c65b38008f80916f5461de7028361 \
+                    sha256  1ff7d44e0d52ed52e6309fca0b131b7148bf466c6d48a3921099754a5e3cfa29 \
+                    size    3348407
 
 depends_lib         port:apache2 \
-                    port:php54 \
+                    port:php74 \
                     path:bin/mysql_config5:mysql57 \
-                    port:php54-gd \
-                    port:php54-mbstring
+                    port:php74-gd \
+                    port:php74-mbstring
 
 variant sqlite conflicts postgresql postgresql83 description "use sqlite instead of mysql5" {
-    depends_lib-append      port:php54-sqlite
+    depends_lib-append      port:php74-sqlite
     depends_lib-delete      path:bin/mysql_config5:mysql57
 }
 

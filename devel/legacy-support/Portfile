@@ -9,39 +9,56 @@ name                legacy-support
 categories          devel
 platforms           darwin
 
-maintainers         {jonesc @cjones051073} {kencu @kencu} openmaintainer
+maintainers         {jonesc @cjones051073} openmaintainer
 license             MIT
 
 description         Installs wrapper headers to add missing functionality to legacy OSX versions.
 long_description    {*}${description}
 
+# Primary release version
+set release_ver     1.0.4
+
+# Binary compatibility version
+set compat_ver      1.0.0
+
 subport ${name} {
     conflicts           ${name}-devel
-    github.setup        macports macports-legacy-support 0.13 v
+    github.setup        macports macports-legacy-support ${release_ver} v
     revision            0
-    checksums           rmd160  8a0d07eb0cdd627a7cfea7c853248ee89e7607b3 \
-                        sha256  59719d12a4970928aaca9f09f2ecc371ea967218df169d46155135a6f9894083 \
-                        size    37130
+    checksums           rmd160  b5d1b0ab3baf42c519bb62055b4721b4de9c3e85 \
+                        sha256  75c0b80f036e559e9aafd51c609b7638cbfdd1a05a05a183e6c0b604e897798e \
+                        size    50744
 }
 
 subport ${name}-devel {
     conflicts           ${name}
-    github.setup        macports macports-legacy-support 81d0629163bbce76abe60ea7158fb0feb6c1ef3a
-    version             20210317
+    github.setup        macports macports-legacy-support f912da57bae55c5cad50fd661a3656ab87df2a41
+    version             20211012
     revision            0
     livecheck.type      none
-    checksums           rmd160  68af7bf330eb808cc2d720c21ffc6002ec96d4b0 \
-                        sha256  f2eaa4d24a85b8d82a9673b30ae088c749cf04eb5fb7863fc9dc60064dd4674e \
-                        size    45502
+    checksums           rmd160  b5d1b0ab3baf42c519bb62055b4721b4de9c3e85 \
+                        sha256  75c0b80f036e559e9aafd51c609b7638cbfdd1a05a05a183e6c0b604e897798e \
+                        size    50744
+    set v_split         [split ${release_ver} .]
+    set release_ver     [lindex ${v_split} 0].[lindex ${v_split} 1].99
 }
 
 use_configure       no
 
-build.env           CXX=${configure.cxx} \
+# Until this can be fixed disable parallel builds...
+# https://build.macports.org/builders/ports-10.10_x86_64-builder/builds/141962/steps/install-port/logs/stdio
+use_parallel_build  no
+
+set max_darwin_reexport 19
+
+build.env-append    CXX=${configure.cxx} \
                     CC=${configure.cc} \
                     PREFIX=${prefix} \
                     "LIPO=/usr/bin/lipo" \
-                    PLATFORM=${os.major}
+                    PLATFORM=${os.major} \
+                    MAX_DARWIN_REEXPORT=${max_darwin_reexport} \
+                    SOCURVERSION=${release_ver} \
+                    SOCOMPATVERSION=${compat_ver}
 
 destroot.env        PREFIX=${prefix}
 
@@ -66,14 +83,45 @@ test.env            {*}${build.env}
 test.run            yes
 test.target         test
 
-post-destroot {
-  platform darwin 8 {
-    # install Tiger-specific fixes
+platform darwin 8 {
+    post-destroot {
 
-    # very slightly modified which command to match behaviour of 10.5+
-    copy ${worksrcpath}/tiger_only/bin/which \
-         ${destroot}${prefix}/bin/which
-  }
+        # install Tiger-specific fixes
+
+        # slightly modified which command to match behaviour of 10.5+
+        copy ${worksrcpath}/tiger_only/bin/which ${destroot}${prefix}/bin/which
+
+    # NB: these copied-in headers for Tiger will overwrite any similarly-named headers
+    # that we add to the include folder in legacysupport. We will have to watch for that.
+
+        # add suitable Availability*.h headers for Tiger
+        copy ${worksrcpath}/tiger_only/include/Availability.h         ${destroot}${prefix}/include/LegacySupport/
+        copy ${worksrcpath}/tiger_only/include/AvailabilityInternal.h ${destroot}${prefix}/include/LegacySupport/
+
+    if {${subport} eq "${name}-devel"} {
+        # copyfile exists in libSystem, just needs the header from 10.5 to work
+        copy ${worksrcpath}/tiger_only/include/copyfile.h             ${destroot}${prefix}/include/LegacySupport/
+    }
+
+    }
+}
+
+# The legacy-support build cannot create the LegacySupportSystem library directly
+# on newer systems as the reexport link option to /usr/lib/libSystem.B.dylib
+# does not work, due to the file system library cache added in macOS11.
+# Fallback to using optool here. Optool also currently not working on arm.
+if { ${build_arch} ne "arm64" && ${os.major} > ${max_darwin_reexport} } {
+    depends_build-append port:optool
+    post-destroot {
+        set legSupp   ${prefix}/lib/libMacportsLegacySupport.dylib
+        set legSystem ${prefix}/lib/libMacportsLegacySystem.B.dylib
+        if {![file exists ${destroot}${legSystem}]} {
+            copy ${destroot}${legSupp} ${destroot}${legSystem}
+            system "${prefix}/bin/optool install -c reexport -p /usr/lib/libSystem.B.dylib -t ${destroot}${legSystem}"
+        } else {
+            ui_warn "${destroot}${legSystem} already exists."
+        }
+    }
 }
 
 if {![file exists ${prefix}/libexec/mpstats]} {

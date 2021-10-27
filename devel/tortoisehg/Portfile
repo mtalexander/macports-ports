@@ -6,7 +6,8 @@ PortGroup           app 1.0
 PortGroup           gitlab 1.0
 
 gitlab.instance     https://foss.heptapod.net
-gitlab.setup        mercurial/tortoisehg thg 5.5.2
+gitlab.setup        mercurial/tortoisehg thg 5.9
+revision            1
 
 name                tortoisehg
 
@@ -21,14 +22,11 @@ description         A set of graphical tools for Mercurial
 long_description    A set of graphical tools for the Mercurial distributed \
                     source control management system.
 
-checksums           rmd160  40511f206fd4da0944d54a07ebc9e0cec67029c9 \
-                    sha256  990c45172894595c921f0287f1c1391f8b5ee400274a570d7929a3d90e7d8565 \
-                    size    7486809
+checksums           rmd160  7ec861b069c919ef4678dcd0da2b14b7a7e4a382 \
+                    sha256  ff1d7a68c9fb7edc7cdcf674ccd6f0e1cd78f079202a00d7970e19460566de0c \
+                    size    7524522
 
-# in preparation of a future default change
-patchfiles         patch-python39
-
-python.default_version 38
+python.default_version 39
 
 # we use qt5 only if macOS is 10.12 or later
 # as defined on qt5 port
@@ -41,7 +39,14 @@ if { ${os.major} < 16 } {
 depends_lib-append  port:mercurial \
                     port:py${python.version}-iniparse \
                     port:py${python.version}-pyqt${qt_version} \
-                    port:py${python.version}-qscintilla-qt${qt_version}
+
+if {${qt_version} == 4} {
+    depends_lib-append \
+                    port:py${python.version}-qscintilla-qt4
+} else {
+    depends_lib-append \
+                    port:py${python.version}-pyqt5-scintilla
+}
 
 depends_build-append port:py${python.version}-sphinx
 
@@ -69,7 +74,7 @@ post-patch {
     reinplace "s|{prefix}|${prefix}|" ${worksrcpath}/tortoisehg/util/config.py
     reinplace "s|{python.prefix}|${python.prefix}|" ${worksrcpath}/tortoisehg/util/config.py
 
-    foreach f [glob -type f \
+    foreach f [glob -types {f x} \
                    ${worksrcpath}/thg \
                    ${worksrcpath}/contrib/hg \
                    ${worksrcpath}/contrib/*.py \
@@ -93,3 +98,7 @@ post-destroot {
 app.name            TortoiseHg
 app.executable      ${python.prefix}/bin/thg
 app.icon            icons/svg/thg_logo.svg
+
+# suppress release candidates
+gitlab.livecheck.regex \
+    (\[0-9.]+)

@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/junegunn/fzf 0.26.0
+go.setup            github.com/junegunn/fzf 0.27.3
 revision            0
 
 categories          sysutils
@@ -14,65 +14,60 @@ description         A command-line fuzzy finder written in Go
 long_description    ${description}
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  178443ccd0f8d2a73f58f45e5943b3fd59fae10d \
-                        sha256  8acc2e2ab53750bbfbca62cd286063303e18b404914d83d1c0cf21a2d333c034 \
-                        size    182289
+                        rmd160  958a1925d32233f51fe9b271dd94863062b39de8 \
+                        sha256  7845d581e94497a529eb0626ef74f360833ae0bc1769e9a4bb44bbd762c066c1 \
+                        size    202800 \
 
-go.vendors          golang.org/x/tools \
-                        lock    90fa682c2a6e \
-                        rmd160  afeef309693d107de47d23c8ec5b52df037b9905 \
-                        sha256  7b9c5ab345041195f6ca303f14c528ed19fd1b52ca6d0402679c64023d07dc85 \
-                        size    2332207 \
-                    golang.org/x/text \
-                        lock    v0.3.3 \
-                        rmd160  babfa547ba9a9dab7fe08fa5543f1d8e7ae00301 \
-                        sha256  1c4a8c12295d484e0360d8e010ebc4b8a9a05aa2a07c10c3d3e5b17aa063f0db \
-                        size    7745597 \
+go.vendors          golang.org/x/text \
+                        lock    v0.3.6 \
+                        rmd160  e3da48fcc60d98e202458228188bf6dac408e309 \
+                        sha256  6b2d69df22b5ba1634bc6730c3f03404db499536a96c48b8016da80ced804450 \
+                        size    8356058 \
+                    golang.org/x/term \
+                        lock    de623e64d2a6 \
+                        rmd160  8f8c61baa39ab9af01714065975f9c1b41c3baf5 \
+                        sha256  ea781a5a35d70ed6f86287db5296e3b438625120be22bd9e208432dca8fd8f18 \
+                        size    15357 \
                     golang.org/x/sys \
-                        lock    119d4633e4d1 \
-                        rmd160  ff96c15036f10cb4c2e209003e8c0368eaba3197 \
-                        sha256  442977a4c5259a8f9b2327d127f8da6eaaa02cdcbcbfe7b573e9f57570f208bc \
-                        size    1072778 \
+                        lock    0f9fa26af87c \
+                        rmd160  b5e5b546cddec0ad97bccbc3a19fe3630792097b \
+                        sha256  e9ff4a07a3cc01341990da0d8ecd1cfa05643a2db423bb1efcf62f577901ea77 \
+                        size    1202158 \
                     golang.org/x/sync \
-                        lock    67f06af15bc9 \
-                        rmd160  1975599ab89b8c6a6b7fbca131efb1b705f7f022 \
-                        sha256  78883bdc5e24128ee3700bfe03eddb759dbaabdeb99eeda2826bf95a2784d18e \
-                        size    18695 \
-                    golang.org/x/net \
-                        lock    eb5bcb51f2a3 \
-                        rmd160  cb943e35e512e30b1a1ee9a9af23e200de7fc2fd \
-                        sha256  50ba342bcc50da4b4590ee91a6586f9d0aab43907596c2a0995e6f0868353e7a \
-                        size    976956 \
-                    golang.org/x/crypto \
-                        lock    9e8e0b390897 \
-                        rmd160  bd4738a1bbf4d94ec5f840e7425ffa473c6b97bd \
-                        sha256  1b740a92e71e7215af0a8c3651c5e4925eaaf0f49e718ffd2dc8310452894236 \
-                        size    1732591 \
+                        lock    036812b2e83c \
+                        rmd160  f42be6eb3565d2ed3d1066ea1a7f69437c8bb1e6 \
+                        sha256  6f1daceb16cd75bdbf35da6c50aa352d1995d68ccd0049851d27686f451fad92 \
+                        size    18756 \
                     github.com/saracen/walker \
-                        lock    v0.1.1 \
-                        rmd160  e67c5be594fe7f19d8ad45b89675095604b51888 \
-                        sha256  c6d2759f59c616980eb6afe86cbc1adb615b8ab56bf52cf428afcffb0a718910 \
-                        size    10718 \
+                        lock    v0.1.2 \
+                        rmd160  1b55e475639f6a540a5470caf2e0517e1394e2d8 \
+                        sha256  4d4c83c864f8300ff7576195ac7a1056b01005c2a6742414a6385d5c64d6b3c9 \
+                        size    11298 \
+                    github.com/rivo/uniseg \
+                        lock    v0.2.0 \
+                        rmd160  33577def583aa2db50b69ca601e5d29ab201ebc4 \
+                        sha256  2832965221246272462a03ffc8e159c94d8f534827f660f1ac4fc77e5ccd644c \
+                        size    44037 \
                     github.com/mattn/go-shellwords \
-                        lock    v1.0.10 \
-                        rmd160  5cd8df0280d795cc159d4be9039b193418375f4c \
-                        sha256  3691f606a48a973e02cb57e1ce724500a29cff5cad229dae24179ee3094561ae \
-                        size    5149 \
+                        lock    v1.0.12 \
+                        rmd160  966c28bc678d710bb7f052842378462c800f24d7 \
+                        sha256  317db0f9d20370e4dc274495c7ecd409f8cefc84d4629df65f62ecd558c417ed \
+                        size    6326 \
                     github.com/mattn/go-runewidth \
-                        lock    v0.0.9 \
-                        rmd160  412c0e508e55f4fe437be0f71d7d22eca2b4366f \
-                        sha256  4f0f4a22257ccecfb6beae88052d850380ecc0e806d6bcc92d3656ebcac3b638 \
-                        size    16716 \
+                        lock    v0.0.13 \
+                        rmd160  e177edb4dc4702ae2b23704934ff31cc6561bbd0 \
+                        sha256  dcd3ccbd956a6f53bc106b79489d0303a237c21d858d23250e3e1d7284b72b86 \
+                        size    17363 \
                     github.com/mattn/go-isatty \
-                        lock    v0.0.12 \
-                        rmd160  4f55aecbddbee6089cbac8456d2932bce2cb57e7 \
-                        sha256  d4d1912998d401389e06ee1dbed06e32a8db95350416f227fbe6a59ac84f0651 \
-                        size    4549 \
+                        lock    v0.0.14 \
+                        rmd160  8ebfd3a6f2898a729e41dff6b5359e88959c46e1 \
+                        sha256  dc141c207a7f4eb83992df90ca087841a0a3aab5a4f2b528bf81d42a186bcc1e \
+                        size    4705 \
                     github.com/lucasb-eyer/go-colorful \
-                        lock    v1.0.3 \
-                        rmd160  0d0a283ba00c871d123c951efea0605a869951aa \
-                        sha256  ecd902ddda5d05cc8a857873bf8b984a5cd2d7b75f1185edcfc2c472707958b3 \
-                        size    430208 \
+                        lock    v1.2.0 \
+                        rmd160  a4183d0625e6c94474942cdc544c1061d35c4e34 \
+                        sha256  fbad1aade4444bf51409f5b6a008cc14c7a7cdd1af856841fc1170605fae3914 \
+                        size    970841 \
                     github.com/gdamore/tcell \
                         lock    v1.4.0 \
                         rmd160  479ce3d189ac02a4de5219054f537cc173c28b43 \
@@ -108,7 +103,7 @@ post-destroot {
     xinstall -d ${destroot}${prefix}/share/bash-completion/completions/
     xinstall -m 644 ${worksrcpath}/shell/completion.bash ${destroot}${prefix}/share/bash-completion/completions/${name}
     xinstall -d ${destroot}${prefix}/share/zsh/site-functions/
-    xinstall -m 644 ${worksrcpath}/shell/completion.zsh ${destroot}${prefix}/share/zsh/site-functions/${name}
+    xinstall -m 644 ${worksrcpath}/shell/completion.zsh ${destroot}${prefix}/share/zsh/site-functions/_${name}
 
     # make other files available, but not enabled
     xinstall -d ${destroot}${prefix}/share/fzf/shell/

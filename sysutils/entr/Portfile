@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           makefile 1.0
 PortGroup           github   1.0
 
-github.setup        eradman entr 4.8
+github.setup        eradman entr 5.0
 revision            0
 
 homepage            https://eradman.com/entrproject
@@ -23,11 +23,13 @@ platforms           darwin
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  1d491c6057883ac6d13fda1b5213a4e950e5062a \
-                    sha256  ff028124ef9a5a4c58fad2c677d2682522babb3c8745152635c57af430bfe852 \
-                    size    25417
+checksums           rmd160  af7a3c0ca54abd09347cb0abac73c80d92e9bd3b \
+                    sha256  2a87bb7d9e5e89b6f614495937b557dbb8144ea53d0c1fa1812388982cd41ebb \
+                    size    25480
 
 test.run            yes
+
+github.tarball_from archive
 
 build.pre_args-append    -f Makefile.macos
 destroot.pre_args-append -f Makefile.macos

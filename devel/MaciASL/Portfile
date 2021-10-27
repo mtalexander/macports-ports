@@ -4,8 +4,8 @@ PortSystem      1.0
 PortGroup       github 1.0
 PortGroup       xcode 1.0
 
-github.setup    acidanthera MaciASL 1.5.9
-revision        0
+github.setup    acidanthera MaciASL 1.6.2
+revision        1
 categories      devel aqua
 maintainers     {i0ntempest @i0ntempest} openmaintainer
 license         GPL-3
@@ -16,9 +16,9 @@ long_description \
                 online patch file repositories, and iASL binary updates. Written entirely \
                 in Cocoa, conforms to macOS guidelines.
 
-checksums       rmd160  278d6a29ca89aa66396c1ed76010ba89eb08be88 \
-                sha256  1803f3d8a82b45a2acee37a3e813f86b2e985d9a0b5ca7d7fd8593a89ea98488 \
-                size    3807248
+checksums       rmd160  c80bf9600d5b2cc7b81079a4453c2dc179c9c735 \
+                sha256  790248cc0f373a220a02cd9b29a2ae060ef0e6a2a8a3ef76b5cf5dc30457c700 \
+                size    5699452
 
 platforms       macosx
 

@@ -5,7 +5,7 @@ PortGroup           cmake       1.1
 PortGroup           github      1.0
 
 github.setup        PDAL PDAL 2.2.0
-revision            0
+revision            1
 categories          gis
 license             BSD
 platforms           darwin
@@ -54,7 +54,7 @@ eval ${def_py_var}
 
 foreach suffix ${python_suffixes} {
     set vrt         python${suffix}
-    set pyversion   [string index ${suffix} 0].[string index ${suffix} 1]
+    set pyversion   [string index ${suffix} 0].[string range ${suffix} 1 end]
     set index       [lsearch -exact ${python_variants} ${vrt}]
     set conf        [lreplace ${python_variants} ${index} ${index}]
     set pyfw        ${frameworks_dir}/Python.framework/Versions/${pyversion}

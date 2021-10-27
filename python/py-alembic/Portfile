@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-alembic
-version             1.5.7
+version             1.7.4
 revision            0
 categories-append   databases
 platforms           darwin
@@ -18,11 +18,11 @@ maintainers         {stromnov @stromnov} openmaintainer
 description         A database migration tool for SQLAlchemy.
 long_description    ${description}
 
-homepage            http://bitbucket.org/zzzeek/alembic
+homepage            https://alembic.sqlalchemy.org/
 
-checksums           rmd160  d54c9a645ece253b944f25d6f44fb0b33d6863e7 \
-                    sha256  66bbb0e7d6277b007dfe7e27237093c79b76cf4f94e6fbd0f7af6f9409546fe6 \
-                    size    1154141
+checksums           rmd160  4ef2d14a9572d858f00b4342b6fa8490649b0886 \
+                    sha256  9d33f3ff1488c4bfab1e1a6dfebbf085e8a8e1a3e047a43ad29ad1f67f012a1d \
+                    size    1227696
 
 if {${name} ne ${subport}} {
 
@@ -33,6 +33,13 @@ if {${name} ne ${subport}} {
         checksums           rmd160  e42a3a976700ea2d457599b06f039ed5429d7402 \
                             sha256  d412982920653db6e5a44bfd13b1d0db5685cbaaccaf226195749c706e1e862a \
                             size    1072775
+    } else {
+        if {${python.version} <= 38} {
+            depends_lib-append  port:py${python.version}-importlib-metadata
+        }
+        if {${python.version} <= 39} {
+            depends_lib-append  port:py${python.version}-importlib-resources
+        }
     }
 
     depends_lib-append  port:py${python.version}-setuptools \

@@ -3,8 +3,7 @@
 PortSystem          1.0
 
 name                alpine
-version             2.23
-revision            0
+version             2.25
 categories          mail
 license             Apache-2
 maintainers         netpurgatory.com:john gmail.com:jerryyhom openmaintainer
@@ -18,9 +17,9 @@ long_description    Alpine is a tool for reading, sending, and \
 
 master_sites        http://alpine.x10host.com/alpine/release/src
 use_xz              yes
-checksums           rmd160 e26cb9da9484b0d95daf0375553053b9210aaa2a \
-                    sha256 793a61215c005b5fcffb48f642f125915276b7ec7827508dd9e83d4c4da91f7b \
-                    size 6330784
+checksums           rmd160  3035891df0de21d15adc0b1665fcb4127b9b5ffd \
+                    sha256  658a150982f6740bb4128e6dd81188eaa1212ca0bf689b83c2093bb518ecf776 \
+                    size    7495372
 
 depends_lib         port:gettext \
                     port:libiconv \

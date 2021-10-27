@@ -5,9 +5,13 @@ PortGroup                   mpi 1.0
 PortGroup                   github 1.0
 PortGroup                   cmake 1.0
 PortGroup                   muniversal 1.0
+PortGroup                   legacysupport 1.1
 
-github.setup                Unidata netcdf-c 4.7.4 v
-revision                    2
+# strnlen
+legacysupport.newest_darwin_requires_legacy 10
+
+github.setup                Unidata netcdf-c 4.8.1 v
+revision                    0
 epoch                       3
 name                        netcdf
 maintainers                 {takeshi @tenomoto} openmaintainer
@@ -23,9 +27,9 @@ long_description \
 
 homepage                    http://www.unidata.ucar.edu/software/netcdf/
 
-checksums           rmd160  4868d5967aeb879caeee2beb48043871539639b1 \
-                    sha256  06944a1799c662fa27c571a3c48a5d1a5be1bdda692efbc6125dc23117676ba9 \
-                    size    19716465
+checksums           rmd160  d22da52d674c852d4a8126bdd12c86a4e8a111be \
+                    sha256  18836c8ceab3bf5f04c78dbd0f6ba2d957e51c97fd44955fa464b18b49022d21 \
+                    size    18959550
 
 compilers.choose            cc cpp
 mpi.setup

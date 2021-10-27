@@ -4,8 +4,9 @@ PortSystem          1.0
 PortGroup           clang_dependency 1.0
 
 name                gdbm
-version             1.19
+version             1.21
 revision            0
+
 categories          databases
 platforms           darwin
 license             GPL-3+
@@ -24,14 +25,20 @@ depends_lib         port:gettext \
 
 master_sites        gnu
 
-checksums           rmd160  f0dda04ed1c25eacb1da96a887c0157d66993fee \
-                    sha256  37ed12214122b972e18a0d94995039e57748191939ef74115b1d41d8811364bc \
-                    size    967861
+checksums           rmd160  0a39c460bc85e271cac4d7fe08f6b38bf9426e6a \
+                    sha256  b0b7dbdefd798de7ddccdd8edf6693a30494f7789777838042991ef107339cc2 \
+                    size    1005982
 
 if {${os.platform} eq "darwin" && ${os.major} < 11 && ${cxx_stdlib} eq "libc++"} {
     # This port is in the dependency chain for clang 3.7 and later
     clang_dependency.extra_versions 3.7
 }
+
+# https://trac.macports.org/ticket/63393
+patchfiles-append   patch-gdbm.h-tiger-stdio-no-offt.diff
+
+# https://puszcza.gnu.org.ua/bugs/index.php?521
+patchfiles-append   patch-fix-st_mtim.diff
 
 configure.ccache    no
 
@@ -49,6 +56,9 @@ post-install {
         }
     }
 }
+
+test.run        yes
+test.target     check
 
 variant compat description {Install dbm/ndbm compatibility files} {
     configure.args-append --enable-libgdbm-compat

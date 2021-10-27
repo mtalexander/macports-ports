@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/go-acme/lego 4.3.1 v
+go.setup            github.com/go-acme/lego 4.5.3 v
 revision            0
 
 homepage            https://go-acme.github.io/lego
@@ -31,9 +31,11 @@ build.args          build
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  2f9851f2d101743fd7b71fdfac940c79a379d601 \
-                    sha256  5f57c34b6142baf5cc7dfcc3e4ea382ac1a8a29e23a9acad310740d4e0985db8 \
-                    size    458203
+checksums           rmd160  070ab8efbd39a499181cd1359daa5c6ecc500fbc \
+                    sha256  82778a122e98225b55e1e6c102a06948747263533d88284216f0cce238b897c9 \
+                    size    516241
+
+github.tarball_from archive
 
 destroot {
     xinstall -m 755 ${worksrcpath}/dist/${name} ${destroot}${prefix}/bin/

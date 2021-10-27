@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 name                py-fiona
 python.rootname     Fiona
-version             1.8.18
+version             1.8.20
 revision            0
 categories-append   gis
 platforms           darwin
@@ -23,9 +23,9 @@ long_description    Fiona provides uncomplicated Python interfaces \
 
 homepage            https://github.com/Toblerity/Fiona
 
-checksums           rmd160  bca2ab8d5cedd1c725662108160b26c8d3e3048d \
-                    sha256  b732ece0ff8886a29c439723a3e1fc382718804bb057519d537a81308854967a \
-                    size    1286269
+checksums           rmd160  bb2dbb802e08f280ca92b66cb579dd7586df106d \
+                    sha256  a70502d2857b82f749c09cb0dea3726787747933a2a1599b5ab787d74e3c143b \
+                    size    1286810
 
 if {${name} ne ${subport}} {
     depends_build-append \

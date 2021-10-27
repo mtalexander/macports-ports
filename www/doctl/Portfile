@@ -3,17 +3,19 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/digitalocean/doctl 1.56.0 v
+go.setup            github.com/digitalocean/doctl 1.65.0 v
 revision            0
 
-checksums           rmd160  4fa8f2ac39f2899972520109525ec4d412fdc060 \
-                    sha256  fc5b3b148962f098d4f5bd90b67c06fd9ad3c184d7305b14181aeea1d2bac7c0 \
-                    size    5164863
+checksums           rmd160  c5422ad5aa107e6b773e99003de4427871b8d202 \
+                    sha256  3f6415d2654edfa6505986c0ed96291a6ec9b8e92071c8b25629617d067bdb65 \
+                    size    5431512
 
 categories          www devel
 platforms           darwin
 license             Apache-2
-maintainers         {@kritr gmail.com:krdevmail} openmaintainer
+maintainers         {@kritr gmail.com:krdevmail} \
+                    {@judaew judaew} \
+                    openmaintainer
 description         A command line interface for the DigitalOcean API
 long_description    ${description}
 
@@ -39,26 +41,19 @@ build.target        ${worksrcpath}/cmd/${name}
 
 destroot {
     xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin
-}
 
-variant bash_completion {
-    depends_run-append path:etc/bash_completion:bash-completion
-    post-destroot {
-        set completions_path ${destroot}${prefix}/share/bash-completion/completions
-        xinstall -d ${completions_path}
-        set completion-file [open ${completions_path}/${name} "w"]
-        puts ${completion-file} [exec ${destroot}${prefix}/bin/${name} completion bash]
-        close ${completion-file}
-    }
-}
+    set bash_completion ${prefix}/share/bash-completion/completions
+    xinstall -d ${destroot}${bash_completion}
+    exec ${destroot}${prefix}/bin/${name} completion bash >> \
+        ${destroot}${bash_completion}/${name}
+    
+    set zsh_completion ${prefix}/share/zsh/site-functions
+    xinstall -d ${destroot}${zsh_completion}
+    exec ${destroot}${prefix}/bin/${name} completion zsh >> \
+        ${destroot}${zsh_completion}/_${name}
 
-variant zsh_completion description {Install zsh completion} {
-    depends_run-append path:${prefix}/bin/zsh:zsh
-    post-destroot {
-        set site-functions ${destroot}${prefix}/share/zsh/site-functions
-        xinstall -d ${site-functions}
-        set completion-file [open ${site-functions}/_${name} "w"]
-        puts ${completion-file} [exec ${destroot}${prefix}/bin/${name} completion zsh]
-        close ${completion-file}
-    }
+    set fish_completion ${prefix}/share/fish/vendor_completions.d
+    xinstall -d ${destroot}${fish_completion}
+    exec ${destroot}${prefix}/bin/${name} completion fish >> \
+        ${destroot}${fish_completion}/${name}.fish
 }

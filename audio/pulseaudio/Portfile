@@ -8,7 +8,7 @@ PortGroup           active_variants 1.1
 
 name                pulseaudio
 version             14.2
-revision            0
+revision            1
 license             LGPL-2.1+ MIT BSD
 categories          audio
 maintainers         {ionic @Ionic} openmaintainer
@@ -76,6 +76,10 @@ patchfiles          patch-man-Makefile.am.diff \
                     patch-src_modules_macosx_module_coreaudio_device.c-respect-PA_NAME_MAX.diff \
                     patch-src_daemon_default.pa.in-skip-consolekit-and-systemdlogin.diff \
                     patch-configure.ac-no-Werror.diff
+
+platform darwin 8 {
+    patchfiles-append   patch-src_modules_macosx_module_coreaudio_device.c-tiger-compat.diff
+}
 
 # reconfigure using upstream autogen.sh for intltool 0.51 compatibility
 post-patch {

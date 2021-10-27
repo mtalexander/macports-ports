@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/wtfutil/wtf 0.36.0 v
+go.setup            github.com/wtfutil/wtf 0.39.2 v
 name                wtfutil
 revision            0
 
@@ -16,20 +16,19 @@ description         A personal terminal-based dashboard utility, designed for \
 long_description    {*}${description}
 
 categories          sysutils
+installs_libs       no
 platforms           darwin
 license             MPL-2
 
-checksums           rmd160  b6ca3eeea0154fde3fc2dd6a084aa038db5b260b \
-                    sha256  c8cb29af61d0d3c3ef7dc3f9752a12840a3457f7a5852092b2ccc29fce5e28d3 \
-                    size    2265566
+checksums           rmd160  1e8a34622792f47c558c93b46f9fda7d4fa475cb \
+                    sha256  6719bea25bd775a1f155729c13b2fc4e143eec32736b13f1240dcbb969528ac5 \
+                    size    2272674
 
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-set build_date      [exec date +%FT%T%z]
-
-build.args          -o ${name} -ldflags \
-                        '-X main.version=${version} -X main.date=${build_date}'
+build.args          -o ${name} \
+                    -ldflags '-X main.version=${version} -X main.date='
 
 # FIXME: This port currently can't be built without allowing go mod to fetch
 # dependencies during the build phase. See
@@ -44,6 +43,8 @@ destroot {
     xinstall -m 644 {*}[glob ${worksrcpath}/_sample_configs/*] \
                       ${destroot}${prefix}/share/${name}/sample_configs
 }
+
+github.tarball_from archive
 
 notes "
 Examples of configuration for wtfutil can be found in:

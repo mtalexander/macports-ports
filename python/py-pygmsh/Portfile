@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-pygmsh
-version             7.1.8
+version             7.1.12
 revision            0
 supported_archs     noarch
 license             MIT
@@ -20,9 +20,9 @@ python.versions     27 36 37 38 39
 
 platforms           darwin
 
-checksums           rmd160  8d7d9b37e59e37e08799b2b63d45f710a531b3e2 \
-                    sha256  6cd3832aa407f9fd64b6777019c1073aa2940407275a028707329cdab5e3ef5e \
-                    size    41008
+checksums           rmd160  0c48cf818f5b6b3b4067d0ef4173408064321e4d \
+                    sha256  eb10f73872178261ac34529db25043bf14515adb6e4abbcb983c38ae1f955026 \
+                    size    39532
 
 if {${name} ne ${subport}} {
     if {${python.version} < 37} {

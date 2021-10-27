@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                goaccess
-version             1.4.6
+version             1.5.2
 revision            0
 categories          www
 license             MIT
@@ -15,9 +15,9 @@ platforms           darwin
 homepage            https://goaccess.io/
 master_sites        http://tar.goaccess.io/
 
-checksums           rmd160  a73dde93a6d4edf89b4fa6ed7dafb99edbe174e8 \
-                    sha256  1d0f27c3382b3fb834b6cc419389a87e100d874a71e343403cd19eb5491c72d0 \
-                    size    635609
+checksums           rmd160  9a42b4e8f32ab33adc8856dbd5e99dc64ffceb8f \
+                    sha256  a0ce2f9393b2622484e469e95a809dfd52ade4d4200491e43ede1fcb52ab1c8a \
+                    size    642912
 
 configure.args      --enable-tcb \
                     --enable-utf8 \

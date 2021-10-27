@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/ivaaaan/smug 0.2 v
+go.setup            github.com/ivaaaan/smug 0.2.4 v
 revision            0
 
 description         A session manager for tmux written in Go
@@ -23,14 +23,32 @@ build.cmd           make
 build.pre_args      VERSION=${version}
 build.args          build
 
+github.tarball_from archive
+
 destroot {
     xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+
+    xinstall -d ${destroot}${prefix}/share/man/man1
+    xinstall -m 0644 ${worksrcpath}/man/man1/${name}.1 \
+        ${destroot}${prefix}/share/man/man1/
+
+    set bash_comp_dir ${prefix}/share/bash-completion/completions
+    set fish_comp_dir ${prefix}/share/fish/vendor_completions.d
+
+    xinstall -d ${destroot}${bash_comp_dir}
+    xinstall -d ${destroot}${fish_comp_dir}
+
+    xinstall -m 0755 ${worksrcpath}/completion/${name}.bash \
+        ${destroot}${bash_comp_dir}/
+
+    xinstall -m 0644 ${worksrcpath}/completion/${name}.fish \
+        ${destroot}${fish_comp_dir}/
 }
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  642861c344ff1c047c31979284b0299dfb6fbb6b \
-                        sha256  ee9843b49f529478223ce8452e7c7f4d2f4f4c28478f8447b4ebb1ebdd734ab8 \
-                        size    12714
+                        rmd160  e10c0745a50e0015c0df22aea4b38c4ecab42fa0 \
+                        sha256  6417a3abcc2c8d6a30fd4f365421a314581100ba97b32e57c244a001d4617c90 \
+                        size    14881
 
 go.vendors          gopkg.in/yaml.v2 \
                         lock    v2.4.0 \

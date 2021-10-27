@@ -4,11 +4,23 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           clang_dependency 1.0
 
-github.setup        facebook zstd 1.4.9 v
+github.setup        facebook zstd 1.5.0 v
+revision            0
+checksums           rmd160  0edbe1beaf89e9b565daa75cf96e3a8428064af3 \
+                    sha256  5194fbfa781fcf45b98c5e849651aa7b3b0a008c6b72d4a0db760f3002291e94 \
+                    size    1851389
 
-checksums           rmd160  7094ac7e00bf5d8551ced0cfcfd6ed66bc327836 \
-                    sha256  29ac74e19ea28659017361976240c4b5c5c24db3b89338731a6feb97c038d293 \
-                    size    1821109
+platform darwin 20 {
+    if {${version} eq "1.5.0"} {
+        incr revision
+    }
+    pre-configure {
+        if {[vercmp [macports_version] 2.7.0] < 0} {
+            ui_error "${subport} @${version} requires MacPorts 2.7.0 or greater"
+            return -code error "incompatible MacPorts version"
+        }
+    }
+}
 
 categories          archivers devel
 platforms           darwin
@@ -45,10 +57,6 @@ platform darwin 8 {
     depends_build-append port:gmake
     build.cmd    gmake
 }
-
-# https://github.com/facebook/zstd/issues/2169
-# https://trac.macports.org/ticket/60542
-use_parallel_build  no
 
 build.target        allmost
 build.post_args     V=1

@@ -2,9 +2,10 @@
 
 PortSystem          1.0
 PortGroup           python 1.0
+PortGroup           compiler_blacklist_versions 1.0
 
 name                py-pikepdf
-version             2.9.2
+version             3.2.0
 revision            0
 categories-append   graphics
 license             MPL-2
@@ -18,9 +19,9 @@ homepage            https://github.com/pikepdf/pikepdf
 
 python.versions     37 38 39
 
-checksums           rmd160  5f8a50111b8ba457dcedda00261282ab214f9408 \
-                    sha256  7dd6bad55da7b41b37f678058fa586b73d9052f46aa0ba78ad7b1bc61e854088 \
-                    size    2384856
+checksums           rmd160  a7ee4d5958626dec368de125c83659568a2edd86 \
+                    sha256  a0582f00440668c07edb8403e82724961c7812c8e6c30655e34825b2645f15cd \
+                    size    2345076
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -35,6 +36,8 @@ if {${name} ne ${subport}} {
 
     compiler.cxx_standard \
                     2014
+    # error: no matching constructor for initialization of 'match_replace'
+    compiler.blacklist-append {clang < 900}
 
     livecheck.type  none
 }

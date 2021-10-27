@@ -18,15 +18,17 @@ license             Apache-2
 maintainers         {emcrisostomo @emcrisostomo} {jonesc @cjones051073} openmaintainer
 
 description         TensorFlow helps the tensors flow
-long_description    ${description}
+long_description    {*}${description}
 
 homepage            https://www.tensorflow.org/
 
-github.livecheck.regex  {(1\.[0-9.]+)}
+livecheck.type      none
 
 checksums           rmd160  1807544e59cb25028af0bfec45ddffd1f861cc4e \
                     sha256  2430b0a48e049078e249190d31d354ecdf565b9e1fb39bde3b50a4c06ac2f3fa \
                     size    46213601
+
+supported_archs     x86_64
 
 set min_darwin 14
 if { ${os.major} < ${min_darwin} } {
@@ -38,7 +40,7 @@ if { ${os.major} < ${min_darwin} } {
     }
 }
 
-compiler.blacklist-append {clang < 840}
+compiler.blacklist-append {clang < 1200.0.32.27} {macports-clang-[4-9].0}
 compiler.cxx_standard 2014
 
 patch.pre_args      -p1
@@ -55,17 +57,21 @@ if {${os.major} < 16} {
 # https://github.com/tensorflow/tensorflow/issues/40688
 patchfiles-append patch-numpy-1.19-fix.diff
 
-# Support python versions
-python.versions  36 37 38 39
+# Supported python versions
+python.versions  37 38 39
 
 if {${name} ne ${subport}} {
 
     PortGroup bazel 1.0
     bazel.version   "0.25"
-    bazel.min_xcode 9.0
 
     # TF versions 1 and 2 cannot be installed at once
     conflicts py${python.version}-tensorflow
+
+    # Conflicts with tensorflow_macos
+    if {${python.version} eq 38} {
+        conflicts-append py${python.version}-tensorflow_macos
+    }
 
     depends_build-append \
         port:py${python.version}-future \
@@ -90,9 +96,13 @@ if {${name} ne ${subport}} {
         port:py${python.version}-wrapt
 
     use_configure yes
+
     # Options passed to configure script via env vars
-    configure.env-append PYTHON_LIB_PATH=${python.prefix}/lib/python${python.branch}/site-packages
-    configure.env-append PYTHON_BIN_PATH=${prefix}/bin/python${python.branch}
+    bazel::add_to_envs PYTHON_LIB_PATH=${python.prefix}/lib/python${python.branch}/site-packages
+    bazel::add_to_envs PYTHON_BIN_PATH=${prefix}/bin/python${python.branch}
+
+    # Use correct python in bazel build
+    bazel.python_version ${python.branch}
 
     bazel.build_target     "//tensorflow/tools/pip_package:build_pip_package"
     bazel.post_build_cmd   ./bazel-bin/tensorflow/tools/pip_package/build_pip_package [list $workpath]

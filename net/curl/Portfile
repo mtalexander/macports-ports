@@ -4,7 +4,7 @@ PortSystem                      1.0
 PortGroup                       clang_dependency 1.0
 
 name                            curl
-version                         7.75.0
+version                         7.78.0
 categories                      net www
 platforms                       darwin freebsd
 maintainers                     {ryandesign @ryandesign}
@@ -17,7 +17,7 @@ long_description                curl is a client to get documents/files from ser
                                 designed to work without user interaction or any kind \
                                 of interactivity.
 
-homepage                        https://curl.haxx.se
+homepage                        https://curl.se
 master_sites                    ${homepage}/download/:curl \
                                 https://curl.askapache.com/:curl
 
@@ -26,9 +26,9 @@ set curl_distfile               ${distfiles}
 distfiles                       ${curl_distfile}:curl
 
 checksums                       ${curl_distfile} \
-                                rmd160  3b94b99c85e0cc61784f31d08b34f167d45e452c \
-                                sha256  fe0c49d8468249000bda75bcfdf9e30ff7e9a86d35f1a21f428d79c389d55675 \
-                                size    2418816
+                                rmd160  a3c6639da7482c5ed9aac36a16d1daa253e4a9d1 \
+                                sha256  be42766d5664a739c3974ee3dfbbcbe978a4ccb1fe628bb1d9b59ac79e445fb5 \
+                                size    2440640
 
 if {${name} eq ${subport}} {
     PortGroup                   muniversal 1.0
@@ -52,14 +52,14 @@ if {${name} eq ${subport}} {
                                 --without-cyassl \
                                 --without-gnutls \
                                 --without-gssapi \
-                                --without-libmetalink \
+                                --without-libgsasl \
                                 --without-librtmp \
                                 --without-libssh2 \
+                                --without-mbedtls \
                                 --without-nghttp2 \
                                 --without-nss \
-                                --without-polarssl \
                                 --without-ssl \
-                                --without-darwinssl \
+                                --without-secure-transport \
                                 --disable-ares \
                                 --disable-ldap \
                                 --disable-ldaps \
@@ -145,23 +145,35 @@ if {${name} eq ${subport}} {
         configure.args-replace  --disable-ares --enable-ares
     }
 
-    variant darwinssl conflicts ssl gnutls wolfssl description {Allow secure connections using Apple OS native TLS} {
-        configure.args-replace  --without-darwinssl --with-darwinssl
+    variant darwinssl conflicts gnutls mbedtls ssl wolfssl description {Allow secure connections using Apple OS native TLS} {
+        configure.args-replace  --without-secure-transport --with-secure-transport
         configure.args-append   --without-ca-bundle
     }
 
-    variant gnutls conflicts ssl wolfssl darwinssl description {Allow secure connections using GNU TLS} {
+    variant gnutls conflicts darwinssl mbedtls ssl wolfssl description {Allow secure connections using GNU TLS} {
         depends_lib-append      port:gnutls \
                                 path:share/curl/curl-ca-bundle.crt:curl-ca-bundle
         configure.args-replace  --without-gnutls --with-gnutls
         configure.args-append   --with-ca-bundle=${prefix}/share/curl/curl-ca-bundle.crt
     }
 
-    variant wolfssl conflicts ssl gnutls darwinssl description {Allow secure connections using wolfSSL, formerly CyaSSL} {
+    variant mbedtls conflicts darwinssl gnutls ssl wolfssl description {Allow secure connections using mbed TLS (formerly PolarSSL)} {
+        depends_lib-append      port:mbedtls \
+                                path:share/curl/curl-ca-bundle.crt:curl-ca-bundle
+        configure.args-replace  --without-mbedtls --with-mbedtls
+        configure.args-append   --with-ca-bundle=${prefix}/share/curl/curl-ca-bundle.crt
+    }
+
+    variant wolfssl conflicts darwinssl mbedtls gnutls ssl description {Allow secure connections using wolfSSL (formerly CyaSSL)} {
         depends_lib-append      port:wolfssl \
                                 path:share/curl/curl-ca-bundle.crt:curl-ca-bundle
         configure.args-replace  --without-cyassl --with-cyassl
         configure.args-append   --with-ca-bundle=${prefix}/share/curl/curl-ca-bundle.crt
+    }
+
+    variant gsasl description {Support SCRAM-SHA-1 and SCRAM-SHA-256 with libgsasl} {
+        depends_lib-append      port:libgsasl
+        configure.args-replace  --without-libgsasl --with-libgsasl
     }
 
     variant gss description {Support the Generic Security Service API} {
@@ -175,11 +187,6 @@ if {${name} eq ${subport}} {
         configure.args-replace  --without-nghttp2 --with-nghttp2
     }
 
-    variant metalink description {Support Metalink XML download description files} {
-        depends_lib-append      port:libmetalink
-        configure.args-replace  --without-libmetalink --with-libmetalink=${prefix}
-    }
-
     variant openldap description {Support performing Lightweight Directory Access Protocol queries with OpenLDAP} {
         depends_lib-append      port:openldap
         configure.args-replace  --disable-ldap --enable-ldap
@@ -191,14 +198,14 @@ if {${name} eq ${subport}} {
         configure.args-replace  --without-libssh2 --with-libssh2
     }
 
-    variant ssl conflicts gnutls wolfssl darwinssl description {Allow secure connections using OpenSSL} {
+    variant ssl conflicts darwinssl gnutls mbedtls wolfssl description {Allow secure connections using OpenSSL} {
         depends_lib-append      path:lib/libssl.dylib:openssl \
                                 path:share/curl/curl-ca-bundle.crt:curl-ca-bundle
-        configure.args-replace  --without-ssl --with-ssl=${prefix}
+        configure.args-replace  --without-ssl --with-openssl=${prefix}
         configure.args-append   --with-ca-bundle=${prefix}/share/curl/curl-ca-bundle.crt
     }
 
-    if {![variant_isset gnutls] && ![variant_isset darwinssl] && ![variant_isset wolfssl]} {
+    if {![variant_isset darwinssl] && ![variant_isset gnutls] && ![variant_isset mbedtls] && ![variant_isset wolfssl]} {
         default_variants +ssl
     }
 
@@ -229,11 +236,11 @@ subport curl-ca-bundle {
 
     # The approximate time (in seconds since the epoch) when the port maintainer
     # updated the certdata.txt file in this port. (The output of "date +%s".)
-    set certdata_updated        1608271043
+    set certdata_updated        1625220659
     # The upstream commit in which certdata.txt was last updated.
-    set certdata_commit         bc61343b5d6809a99d3ca2daf25708f069b042c2
+    set certdata_commit         4d343134c8a3a46520e41d31e7cb26f718d9daec
     # The date (in YYYYMMDD format) that commit was pushed.
-    set certdata_date           20201204
+    set certdata_date           20210526
     set certdata_file           certdata.txt
     # Using tar.bz2 would be preferable because it's smaller but upstream has
     # disabled the creation of all but zip archives:
@@ -254,9 +261,9 @@ subport curl-ca-bundle {
     distfiles-append            ${certdata_distfile}:certdata
 
     checksums-append            ${certdata_distfile} \
-                                rmd160  1ba9db91d55bbe003f05807fa1c898a0df505736 \
-                                sha256  0fbccbcef01e66a38511725f74f49d6c9e1fe83ba8d5e74c47b59feb055d8b30 \
-                                size    240576
+                                rmd160  763c2ffbbc521d7cafb5644ff5d2692b5543197d \
+                                sha256  d3d290e88c6781ba81105205036a5da320d5eb5f58fd14561afee07c344d185d \
+                                size    248478
 
     extract.only                ${curl_distfile}
     extract.post_args-append    ${worksrcdir}/Makefile \

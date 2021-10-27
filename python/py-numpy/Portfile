@@ -14,10 +14,10 @@ maintainers             {michaelld @michaelld} openmaintainer
 description             The core utilities for the scientific library scipy for Python
 long_description        ${description}
 
-github.setup            numpy numpy 1.20.1 v
-checksums               rmd160 19f693d834469568718be963137f12071888bd47 \
-                        sha256 706902760aea4323a7014797cd9b0f0e1b16efa49d2f95e63b1b19c102b894fb \
-                        size   7350977
+github.setup            numpy numpy 1.21.2 v
+checksums               rmd160  4e8866ddb8f4dd4cb4ccc5316c47d82e9f91fd66 \
+                        sha256  6034778c48db37e8b0f3aaec5a89ad209c85b5fed8758e038caa4bb02a7bdedd \
+                        size    8536042
 revision                0
 
 if {${name} ne ${subport}} {
@@ -96,7 +96,6 @@ if {${name} ne ${subport}} {
                             -gcc46 -gcc47 -gcc48 -g95
 
     depends_lib-append      port:fftw-3 \
-                            port:py${python.version}-nose \
                             port:py${python.version}-cython
 
     pre-build {

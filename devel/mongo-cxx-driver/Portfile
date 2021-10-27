@@ -6,11 +6,11 @@ PortGroup           github 1.0
 PortGroup           compiler_blacklist_versions 1.0
 
 epoch               1
-github.setup        mongodb mongo-cxx-driver 3.6.2 r
+github.setup        mongodb mongo-cxx-driver 3.6.6 r
 revision            0
-checksums           rmd160  83e15a0b923fe91165f0bb0069be44a99e13287c \
-                    sha256  24325dce74723f7632da76d0eeb5f5020828498cc5bc1a624c6d7117efb2b7cf \
-                    size    1395487
+checksums           rmd160  5092a9704db4edad12733b451c053d395d4572ef \
+                    sha256  d5906b9e308a8a353a2ef92b699c9b27ae28ec6b34fdda94e15d2981b27e64ca \
+                    size    1394871
 
 license             Apache-2
 categories          devel databases

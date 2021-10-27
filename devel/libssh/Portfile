@@ -5,15 +5,15 @@ PortGroup           cmake 1.1
 
 name                libssh
 epoch               1
-version             0.8.9
+version             0.9.6
 revision            0
 set major           [join [lrange [split ${version} .] 0 1] .]
 master_sites        https://www.libssh.org/files/${major}
 use_xz              yes
 
-checksums           rmd160  a9192aef56b6b4113bdcc1ec657f9cce83f96e38 \
-                    sha256  8559e19da0c40b6f93482b6160219ad77a4d9f1dc190bf174757455c6ae26825 \
-                    size    432084
+checksums           rmd160  b5fdb28700a6f592fc612693eed6b39988265432 \
+                    sha256  86bcf885bd9b80466fe0e05453c58b877df61afa8ba947a58c356d7f0fab829b \
+                    size    1053056
 
 categories          devel security net
 platforms           darwin
@@ -34,8 +34,6 @@ depends_build-append \
 
 depends_lib         path:lib/libssl.dylib:openssl \
                     port:zlib
-
-patchfiles-append   support-older-ssh-agent.patch
 
 default_variants    +kerberos5
 

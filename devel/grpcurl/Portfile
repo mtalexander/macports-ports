@@ -3,11 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/fullstorydev/grpcurl 1.8.0 v
+go.setup            github.com/fullstorydev/grpcurl 1.8.5 v
 revision            0
-
-categories          devel net
-license             MIT
 
 description         Like cURL, but for gRPC: Command-line tool for \
                     interacting with gRPC servers
@@ -22,12 +19,14 @@ long_description    {*}${description}. The main purpose for this tool is to \
                     accepts messages using JSON encoding, which is much more \
                     friendly for both humans and scripts.
 
+categories          devel net
+license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  6d50cdb49edb8d4757af41a7cc598ee773d430b6 \
-                    sha256  75d8916de92e90074d123e3cc8a75be932ca5a9f8bc53e56114854a41e5a5b3d \
-                    size    134892
+checksums           rmd160  9b248b56e67ae405d827cac292c50bb40338ae4e \
+                    sha256  1a9612560b2da18d50f0a46e9f2f5a7e5a13c4bb1ccef15ba65cb0c37335342b \
+                    size    126464
 
 build.pre_args      -ldflags \"-X 'main.version=${version}'\"
 build.args          ./cmd/grpcurl
@@ -42,4 +41,5 @@ destroot {
     xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
 }
 
-github.livecheck.regex {([0-9.]+)}
+github.livecheck.regex  {([0-9.]+)}
+github.tarball_from     archive

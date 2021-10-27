@@ -4,8 +4,8 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                upt
-version             0.11
-revision            2
+version             0.12
+revision            0
 
 categories-prepend  sysutils
 platforms           darwin
@@ -18,9 +18,9 @@ long_description    ${description}
 
 homepage            https://framagit.org/upt/upt
 
-checksums           rmd160  c0cfd7c4121eb87beef442957b471f589c7d224d \
-                    sha256  65ef84ec7d8ba5f563bd6e2d522f055b80b143063f7cd96663bf8ad2c424df79 \
-                    size    29366
+checksums           rmd160  78dbb0c3a26ff4062ae1b2f735ce2fe54e2d10f6 \
+                    sha256  9bd23c7f7c277f2efab3d6ffcaffbfcb47c696dbfb4fe41eea4ae2dc58e774c2 \
+                    size    32410
 
 python.default_version  39
 

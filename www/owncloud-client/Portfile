@@ -20,12 +20,10 @@ if {${os.platform} eq "darwin"} {
     if {${os.major} < 16} {
         version             2.6.3
         set build_id        14058
-        set version_id      14058
+        revision            0
 
-        master_sites        https://download.owncloud.com/desktop/stable
+        master_sites        {}
         distname            owncloudclient-${version}.${build_id}
-
-        use_xz              yes
 
         checksums           rmd160  effe036ca72c8714b80947430b4aa9bdea7dff2f \
                             sha256  e3d38de31e041f0e1836b2b74acfc1fc76eea4955968952a65643cbf36a493f5 \
@@ -34,20 +32,22 @@ if {${os.platform} eq "darwin"} {
         patchfiles-append   patch-use-system-sqlite.diff
 
         qt5.min_version     5.6
-    } else {
-        PortGroup           github 1.0
 
-        # Check https://github.com/owncloud/client/tags
+        livecheck.type      none
+    } else {
+        # Check https://download.owncloud.com/desktop/ownCloud/stable/
         # to find the build_id in the source tarball:
         # ownCloud-${version}.${build_id}.tar.xz
-        github.setup        owncloud client 2.7.6 v
-        set build_id        3261
-        version             ${version}.${build_id}
+        set build_id        5500
+        version             2.9.1.${build_id}
         revision            0
 
-        checksums           rmd160  df616953970baacf4301bd9764687efc525bfaa2 \
-                            sha256  7be321674b39e462ad0dfc2796f0b201fe3d181916824a2f6aca4456e601c60f \
-                            size    19232966
+        master_sites        https://download.owncloud.com/desktop/ownCloud/stable/${version}/source/
+        distname            ownCloud-${version}
+
+        checksums           rmd160  9375f951bad7857632d0ef209c6ab87c4a16c332 \
+                            sha256  9bd0b0d0ad60886b62338cbc0a30411c7b48cdf87d731446afb04e933b658d40 \
+                            size    5787048
 
         depends_build-append \
                             port:kde-extra-cmake-modules
@@ -58,15 +58,21 @@ if {${os.platform} eq "darwin"} {
 
         configure.args-append \
                             -DKDE_INSTALL_BUNDLEDIR:PATH=${applications_dir}
+
+        livecheck.type      regex
+        livecheck.url       https://download.owncloud.com/desktop/ownCloud/stable/
+        livecheck.regex     {\/(2(\.\d+)*)\/}
     }
 
     if {${os.major} < 13} {
         # Finder extension does not compile on 10.8
         configure.pre_args-append   -DBUILD_SHELL_INTEGRATION=OFF
     }
-
-    use_xcode               yes
 }
+
+use_xz                  yes
+
+use_xcode               yes
 
 compiler.cpath
 compiler.library_path

@@ -50,14 +50,23 @@ set mpidb(openmpi,descrip)  "OpenMPI"
 set mpidb(openmpi,name)     openmpi
 set mpidb(openmpi,conflict) ""
 
-# NOTE: Uncomment these if/when we re-enable openmpi-devel-* subports
-#set mpidb(openmpi_devel,variant)  openmpi_devel
-#set mpidb(openmpi_devel,descrip)  "OpenMPI-devel"
-#set mpidb(openmpi_devel,name)     openmpi-devel
-#set mpidb(openmpi_devel,conflict) ""
-
 foreach mpiname [array names mpidb *,variant] {
     lappend mpi.variants $mpidb($mpiname)
+}
+unset mpiname
+
+proc mpi.get_default_mpi_compiler {} {
+    # No MPI variant has been selected.
+    # Attempt to select the MPI port that is consistent with the compiler being used.
+    lassign [split [option configure.compiler] "-"] ismacports type ver
+    if {${ismacports} ne "macports"} {
+        # system compiler is being used, so use {mpich,openmpi}-default
+        return {mp default}
+    } else {
+        # macports compiler is being used, so use the corresponding MPI port
+        set mpiver [join [split ${ver} "."] ""]
+        return "${type}${mpiver} ${type}${mpiver}"
+    }
 }
 
 proc mpi.setup_variants {variants} {
@@ -84,8 +93,7 @@ proc mpi.setup_variants {variants} {
                 set p_name \$c_name
                 set d_name \$c_name
                 if {\$c_name eq {}} {
-                    set p_name mp
-                    set d_name default
+                    lassign \[mpi.get_default_mpi_compiler\] p_name d_name
                 } elseif {\[string match gcc* \$c_name\]} {
                     configure.cxx_stdlib macports-libstdc++
                 }
@@ -271,7 +279,7 @@ proc mpi.setup {args} {
                         if { ${mode} eq "add" } {
                             return -code error "MPI package ${v} not available for Darwin${os.major} ${os.arch}"
                         } else {
-                            ui_warn "MPI package ${v} not available for Darwin${os.major} ${os.arch}"
+                            ui_debug "MPI package ${v} not available for Darwin${os.major} ${os.arch}"
                         }
                     }
                 } else {
@@ -292,35 +300,38 @@ proc mpi.setup {args} {
     set disabled [list]
     if {$cur_variant ne ""} {
         set is_mpich [expr {$cur_variant in {mpich}}]
-        lappend disabled -gcc44 -gcc45 -gcc46 -gcc47 -gcc48
-        # gcc   4.x     not supported on macOS 10.12 (Darwin16) or newer
-        # clang 3.{3,4} not supported on macOS 10.12 (Darwin16) or newer
-        if {${os.major} >= 16} {
-            lappend disabled -gcc49
-        }
-        if {${os.major} >= 16 || $is_mpich} {
-            lappend disabled -clang33 -clang34
-        }
-        # clang 3.7,4.0 not supported on macOS 10.14 (Darwin18) or newer
-        if {${os.major} >= 18 || $is_mpich} {
-            lappend disabled -clang37
-        }
+
+        lappend disabled \
+            -gcc43 -gcc44 -gcc45 -gcc46 -gcc47 -gcc48
+
+        # All of the following are now obsolete for openmpi/mpich
+        lappend disabled \
+            -clang33 -clang34 -clang35 -clang37 \
+            -clang50 -clang60 -clang70 -clang80 \
+            -clangdevel \
+            -gcc49 -gcc5 -gcc6 -gcc8 \
+            -gccdevel
+
+        # Disable clang-12 unconditionally, as not yet supported for openmpi/mpich
+        lappend disabled \
+            -clang12
+
         # gcc 9+ only available on OS X 10.7 (Darwin11) and newer
-        if {${os.major} <= 10} {
-            lappend disabled -gcc9 -gcc10
-        }
-        if {${os.major} <= 10 || !$is_mpich} {
-            lappend disabled -gccdevel
+        # However, gcc9+ subports fail to build on 10.7, for both openmpi and mpich.
+        # So only enable for 10.8+.
+        if {${os.major} < 12} {
+            lappend disabled -gcc9 -gcc10 -gcc11
+        } elseif {$is_mpich} {
+            # mpich: gcc11 subport currently disabled across-the-board
+            lappend disabled -gcc11
         }
 
-        # this should probably be changed in mpich but we have to match it
-        if {${os.major} <= 12 && $is_mpich} {
-            lappend disabled -clang60 -clang70 -clang80 -clang90 -clang10 -clang11
-        }
-        # Disable compilers not support on arm
-        if {${os.arch} eq "arm" || !$is_mpich} {
-            lappend disabled -gcc5 -gcc6 -gcc7 -gcc8 -gcc9 -gcc10
-            lappend disabled -clang60 -clang70 -clang80 -clang90 -clang10
+        if {${os.arch} eq "arm"} {
+            # Disable compilers not well supported on arm. Note: clang 9 and 10
+            # build on arm, but are not reliable so skip; use clang 11 instead.
+            lappend disabled \
+                -gcc7 -gcc9 \
+                -clang90 -clang10
         }
     }
 

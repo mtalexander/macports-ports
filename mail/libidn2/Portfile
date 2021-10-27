@@ -4,12 +4,12 @@ PortSystem          1.0
 PortGroup           clang_dependency 1.0
 
 name                libidn2
-version             2.3.0
+version             2.3.2
 revision            0
 categories          mail
 license             {LGPL-2.1+ GPL-3+}
 description         GNU International Domain Name Library (current version 2)
-long_description    ${description}.\
+long_description    {*}${description}.\
                     GNU Libidn2 is an implementation of the IDNA2008 + TR46 \
                     specifications (RFC 5890, RFC 5891, RFC 5892, RFC 5893, TR 46). \
                     Libidn2 is a standalone library, without any dependency on Libidn. \
@@ -19,9 +19,9 @@ platforms           darwin
 maintainers         {mps @Schamschula} openmaintainer
 master_sites        gnu:libidn
 
-checksums           rmd160  b14992e57a02ed507f11c8f169370c9c98ea0e08 \
-                    sha256  e1cb1db3d2e249a6a3eb6f0946777c2e892d5c5dc7bd91c74394fc3a01cab8b5 \
-                    size    2164993
+checksums           rmd160  ca4f5a6f7d0b0117796ac9832a8c6069ec6fd1ff \
+                    sha256  76940cd4e778e8093579a9d195b25fff5e936e9dc6242068528b437a76764f91 \
+                    size    2169556
 
 depends_build       port:pkgconfig
 

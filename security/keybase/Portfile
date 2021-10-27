@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/keybase/client 5.5.2 v
+go.setup            github.com/keybase/client 5.8.1 v
 name                keybase
 categories          security
 license             BSD
@@ -13,9 +13,9 @@ long_description    ${description}
 
 depends_run         path:bin/gpg:gnupg2
 
-checksums           rmd160  0f21d5dfa3f4e4ab0a9f6220aa209a96076effda \
-                    sha256  b502fbdedefc3f85af72c695e66dfb38faf6f8a28f921096263c9023cc454cff \
-                    size    79438696
+checksums           rmd160  0b5ad228679679dba7a7910e00039c41d0641455 \
+                    sha256  6afdaab5621d8c801ce7a351c9c02dcffac68bc7e17360320741af11b746636d \
+                    size    81055333
 
 build.args          -tags production ${go.package}/go/keybase
 

@@ -5,8 +5,8 @@ PortGroup           github  1.0
 PortGroup           cmake   1.1
 
 epoch               3
-github.setup        FreeRDP FreeRDP 2.1.0
-revision            2
+github.setup        FreeRDP FreeRDP 2.4.0
+revision            0
 categories          net
 platforms           darwin
 license             Apache
@@ -17,9 +17,9 @@ long_description    FreeRDP is a free implementation of the Remote Desktop Proto
 
 homepage            http://www.freerdp.com
 
-checksums           rmd160  7e178b199c8dd059bde53dcca29fa159ea47ac1a \
-                    sha256  c2696220a30fcbb3d0a605a8bc244dc070308ab8e6d29f963d494a0837c50021 \
-                    size    6826257
+checksums           rmd160  de05f073216aac61c47b6fcbfb9f432f446d34a1 \
+                    sha256  37af9c98b2f096120a8f1c5d0c1023ca3e80cc5737b9e76fa1e4d8308aef339b \
+                    size    7245098
 
 depends_build-append \
                     port:pkgconfig
@@ -41,8 +41,6 @@ depends_lib-append  port:xorg-libX11 \
 
 # Mac has 64bit filesystem too
 patchfiles-append   patch-64bitfs.diff
-
-patchfiles-append   cocoa.patch
 
 # disable rdpsnd on macOS < 10.10 since
 # AVAudioBuffer was introduced in 10.10

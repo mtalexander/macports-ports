@@ -17,11 +17,11 @@ long_description    CubicSDR is the software portion of Software Defined \
     functions in software instead of traditional hardwre.
 homepage            https://www.cubicsdr.com
 
-github.setup        cjcliffe CubicSDR bdf31ebf767fd446d7e2803a15be32c4682722e3
-version             20210223-[string range ${github.version} 0 7]
-checksums           rmd160  577c5fa25e8dff9a3d0f7c93f9620e2476891b11 \
-                    sha256  3e1539c0067b1418b78305e5f3aabea1a4282be431fd40f630d0613c56bf82bc \
-                    size    35913693
+github.setup        cjcliffe CubicSDR 0248e5aeac4a113efa4a1328aa057de12a175591
+version             20210814-[string range ${github.version} 0 7]
+checksums           rmd160  2d482ae2b55e2c92d932082bbf9cdc4a4e852384 \
+                    sha256  42ca22c2c50f32f1a3cd105084eb999d93fde0787b08e751259cdd18fd29452c \
+                    size    37102363
 revision            0
 
 compiler.cxx_standard 2011
@@ -30,13 +30,6 @@ compiler.cxx_standard 2011
 # by the wxWidgets PG -- which is what this provides. selecting 3.0
 # does not work.
 wxWidgets.use       wxWidgets-3.2
-
-# CHECK if upstream has merged it
-# enable out-of-tree patch the fix retina display
-patchfiles-append \
-    enable-highdpi.patch
-configure.args-append \
-    -DUSE_OSX_RETINA=1
 
 depends_lib-append \
     port:liquid-dsp \

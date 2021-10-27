@@ -11,7 +11,7 @@ legacysupport.newest_darwin_requires_legacy 10
 
 name                evince
 version             3.36.7
-revision            1
+revision            2
 license             GPL-2+
 set branch          [join [lrange [split ${version} .] 0 1] .]
 description         Evince is a document viewer for multiple document formats like pdf, and many others.
@@ -41,7 +41,7 @@ depends_lib         port:desktop-file-utils \
                     port:gdk-pixbuf2 \
                     port:gsettings-desktop-schemas \
                     port:gspell \
-                    port:gtk3 \
+                    path:lib/pkgconfig/gtk+-3.0.pc:gtk3 \
                     port:libxml2 \
                     port:libsecret \
                     port:poppler \

@@ -4,7 +4,7 @@ PortSystem      1.0
 
 name            swig3
 version         3.0.12
-revision        2
+revision        3
 checksums       rmd160  41877e9de3ff598731ef36161f77fa66dec3c301 \
                 sha256  7cf9f447ae7ed1c51722efc45e7f14418d15d7a1e143ac9f09a668999f4fc94d \
                 size    8149820
@@ -97,14 +97,8 @@ subport swig3-java {
     PortGroup               java 1.0
 
     java.version            1.4+
-    if { ${build_arch} eq "arm64"   } {
-        # Set fallback to an LTS Java version
-        java.fallback           zulu-jdk8
-    } else {
-        # Set fallback to an LTS Java version
-        java.fallback           openjdk8
-
-    }
+    # Set fallback to an LTS Java version
+    java.fallback           openjdk8
 }
 
 subport swig3-php {
@@ -316,8 +310,8 @@ if {${swig.lang} eq ""} {
 
     # rename the swig binary to avoid conflict
     post-destroot {
-        move ${destroot}${prefix}/bin/swig        ${destroot}${prefix}/bin/swig3
-        move ${destroot}${prefix}/bin/ccache-swig ${destroot}${prefix}/bin/ccache-swig3
+        copy ${destroot}${prefix}/bin/swig        ${destroot}${prefix}/bin/swig3
+        copy ${destroot}${prefix}/bin/ccache-swig ${destroot}${prefix}/bin/ccache-swig3
     }
 
     livecheck.type      regex
@@ -331,7 +325,7 @@ if {${swig.lang} eq ""} {
         SWIG is a software development tool that connects programs written in C \
         and C++ with a variety of high-level programming languages. This is the \
         $prettynames(${swig.lang}) binding.
-    depends_lib-append  port:swig
+    depends_lib-append  port:swig3
     livecheck.type      none
     post-destroot {
         delete ${destroot}${prefix}/bin

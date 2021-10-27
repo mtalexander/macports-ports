@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-prompt_toolkit
-version             3.0.10
+version             3.0.20
 revision            0
 
 license             BSD
@@ -18,9 +18,9 @@ python.versions     27 35 36 37 38 39
 
 homepage            https://github.com/prompt-toolkit/python-prompt-toolkit
 
-checksums           rmd160  f5af10a25a16d36490f08e9523aac0dd6d0dede3 \
-                    sha256  b8b3d0bde65da350290c46a8f54f336b3cbf5464a4ac11239668d986852e79d5 \
-                    size    3020391
+checksums           rmd160  69b0ee0261552ddb50a7271b38a523689c01ff26 \
+                    sha256  eb71d5a6b72ce6db177af4a7d4d7085b99756bf656d98ffcc4fecd36850eea6c \
+                    size    3037349
 
 if {${name} ne ${subport}} {
     if {${python.version} eq 27} {

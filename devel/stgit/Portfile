@@ -4,15 +4,15 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        stacked-git stgit 1.0 v
+github.setup        stacked-git stgit 1.3 v
 github.tarball_from releases
-revision            1
+revision            0
 
 categories          devel python
 platforms           darwin
 supported_archs     noarch
 license             GPL-2
-maintainers         {outlook.de:judaew @judaew} openmaintainer
+maintainers         {judaew @judaew} openmaintainer
 
 description         Push/pop utility on top of GIT
 long_description    StGIT is a Python application providing similar \
@@ -31,76 +31,58 @@ long_description    StGIT is a Python application providing similar \
 
 homepage            https://stacked-git.github.io
 
-checksums           rmd160  106d3f89ffffeaf617bcf6a43f847bf63103aed9 \
-                    sha256  c2a26b2e6a8fe2eb9c8aa4ade6d6dd35858137c381448b6142c4d2c142b47b94 \
-                    size    313176
+checksums           rmd160  cb2b6d387a2e5e9dc5defaee46c1414e8239b7fb \
+                    sha256  44819a9809dba10ee9664f59f43fd40e5a338c99cb1181667b0a1e6428157e2b \
+                    size    403348
 
-python.default_version 38
+python.default_version 39
+depends_build       port:py${python.version}-setuptools \
+                    port:asciidoc \
+                    port:xmlto
 depends_run         port:git
 
-set stgdocs         "${worksrcpath}/Documentation/stg.txt"
-set stgman          ""
-
 post-build {
-    system -W ${worksrcpath} "PYTHON=${python.bin} make all"
+    system -W ${worksrcpath} "PYTHON=${python.bin} make all doc"
 }
 
 post-destroot {
-    move ${destroot}${python.prefix}/share/stgit/ \
-        ${destroot}${prefix}/share/
+    # Install shell completion (bash, zsh, fish)
+    set bash-completion ${prefix}/share/bash-completion/completions
+    xinstall -d ${destroot}${bash-completion}
+    xinstall -m 0644 ${worksrcpath}/completion/stgit.bash \
+        ${destroot}${bash-completion}/stg
 
-    # Install what little documentation there is
-    xinstall -m 644 -W ${worksrcpath} COPYING \
-        ${destroot}${prefix}/share/doc/${name}
-    xinstall -m 644 {*}[glob ${stgdocs}] \
-        ${destroot}${prefix}/share/doc/${name}
-    if {${stgman} != ""} {
-        xinstall -m 644 {*}[glob ${stgman}] \
-            ${destroot}${prefix}/share/man/man1
-    }
+    set zsh-completion ${prefix}/share/zsh/site-functions
+    xinstall -d ${destroot}${zsh-completion}
+    xinstall -m 0644 ${worksrcpath}/completion/stgit.zsh \
+        ${destroot}${zsh-completion}/_stg
+
+    set fish-completion ${prefix}/share/fish/vendor_completions.d
+    xinstall -d ${destroot}${fish-completion}
+    xinstall -m 0644 ${worksrcpath}/completion/stg.fish \
+        ${destroot}${fish-completion}/stg.fish
+
+    # Install vim and emacs plugin
+    xinstall -d ${destroot}${prefix}/share/vim/vimfiles/ftdetect
+    xinstall -m 644 ${worksrcpath}/contrib/vim/ftdetect/stg.vim \
+        ${destroot}${prefix}/share/vim/vimfiles/ftdetect
+    xinstall -d ${destroot}${prefix}/share/vim/vimfiles/syntax
+    xinstall -m 644 {*}[glob ${worksrcpath}/contrib/vim/syntax/*.vim] \
+        ${destroot}${prefix}/share/vim/vimfiles/syntax
+
+    xinstall -d ${destroot}${prefix}/share/emacs/site-lisp
+    xinstall -m 644 ${worksrcpath}/contrib/stgit.el \
+        ${destroot}${prefix}/share/emacs/site-lisp
+
+    xinstall -m 0644 {*}[glob ${worksrcpath}/Documentation/*.1] \
+        ${destroot}${prefix}/share/man/man1
+
 }
 
-default_variants +bash_completion
+variant docs \
+    description {Install documentation in HTML format} {
 
-variant bash_completion {
-    post-destroot {
-        set bash_compl_path ${prefix}/share/bash-completion/completions
-        xinstall -d ${destroot}${bash_compl_path}
-        move ${destroot}${prefix}/share/stgit/completion/stgit.bash \
-                 ${destroot}${bash_compl_path}/stg
-    }
+    xinstall -d ${destroot}${prefix}/share/${name}
+    xinstall -m 0644 {*}[glob ${worksrcpath}/Documentation/*.html] \
+        ${destroot}${prefix}/share/${name}
 }
-
-variant zsh_completion {
-    post-destroot {
-        set zsh_compl_path ${prefix}/share/zsh/site-functions
-        xinstall -d ${destroot}${zsh_compl_path}
-        move ${destroot}${prefix}/share/stgit/completion/stgit.zsh \
-                 ${destroot}${zsh_compl_path}/_stg
-    }
-}
-
-variant fish_completion \
-    description {Enable completion support for Fish} {
-    post-destroot {
-        set fish_compl_path ${prefix}/share/fish/completions
-        xinstall -d ${destroot}${fish_compl_path}
-        move ${destroot}${prefix}/share/stgit/completion/stgit.fish \
-                 ${destroot}${fish_compl_path}/stg.fish
-    }
-}
-
-variant html_man_docs \
-    description {Build and install documentation in HTML and manpage format} {
-    # Need to add post-destroot addition of extra docs...
-    lappend stgdocs ${worksrcpath}/Documentation/*.html
-    lappend stgman ${worksrcpath}/Documentation/*.1
-    depends_build-append    port:asciidoc port:xmlto
-    post-build {
-        system -W ${worksrcpath} "PYTHON=${python.bin} make doc -j${build.jobs} V=1"
-    }
-}
-
-livecheck.type      regex
-livecheck.url       ${homepage}
-livecheck.regex     "${name}-(\\d+\\.\\d+\\.\\d+)"

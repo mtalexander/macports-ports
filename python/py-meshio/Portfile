@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-meshio
-version             4.3.11
+version             5.0.2
 revision            0
 categories          python
 license             MIT
@@ -21,9 +21,9 @@ long_description    {*}${description} meshio can read and write all of the follo
 homepage            https://github.com/nschloe/meshio
 platforms           darwin
 
-checksums           rmd160  fad89cdd9596fa3da78b4b61231289895d418201 \
-                    sha256  7cd3d7c4140a2f693ec3c76a0868a48fe342f11d53e508ed4d24afbf50b3e8ed \
-                    size    471165
+checksums           rmd160  9daeef6b06f3a3bfdee659b3c15d146f3f8f4968 \
+                    sha256  8632ff61ada588059d33f474a5c6af6d7d2d9b1fc76a2bb8d7836b30d62a08d9 \
+                    size    490673
 
 python.versions     37 38 39
 

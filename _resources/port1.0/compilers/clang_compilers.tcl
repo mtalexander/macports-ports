@@ -32,21 +32,24 @@ if { ${os.arch} ne "arm" && ${os.major} >= 9 && ${os.major} < 20 } {
                       macports-clang-5.0
 }
 
-# Add 10 and 11 as defaults *after* 9.0 - 5.0
-if { ${os.major} >= 10} {
+# Add 10+ as defaults *after* 9.0 - 5.0
+if { ${os.major} >= 11 } {
+    lappend compilers macports-clang-12
+}
+if { ${os.major} >= 10 } {
     lappend compilers macports-clang-11 
     if { ${os.arch} ne "arm" } {
         lappend compilers macports-clang-10
     }
 }
 
-if {${os.major} < 16} {
+if { ${os.major} < 16 } {
     # The Sierra SDK requires a toolchain that supports class properties
-    if {${os.major} >= 9} {
+    if { ${os.major} >= 9 } {
         lappend compilers macports-clang-3.7
     }
     lappend compilers macports-clang-3.4
-    if {${os.major} < 9} {
+    if { ${os.major} < 9 } {
         lappend compilers macports-clang-3.3
     }
 }

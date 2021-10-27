@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 name                py-discordpy
 python.rootname     discord.py
-version             1.6.0
+version             1.7.3
 license             MIT
 platforms           darwin
 maintainers         {toby @tobypeterson} openmaintainer
@@ -15,9 +15,9 @@ long_description    discord.py is an API wrapper for Discord written in Python. 
 
 homepage            https://github.com/Rapptz/discord.py
 
-checksums           rmd160 e51bfc4f6d4f1ae477c841314925a1c4e7a08d5f \
-                    sha256 ba8be99ff1b8c616f7b6dcb700460d0222b29d4c11048e74366954c465fdd05f \
-                    size 720447
+checksums           rmd160 a740af44c110672199ac8ded6e2cf30ff05b3135 \
+                    sha256 462cd0fe307aef8b29cbfa8dd613e548ae4b2cb581d46da9ac0d46fb6ea19408 \
+                    size 730988
 
 python.versions     37 38 39
 

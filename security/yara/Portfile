@@ -7,7 +7,7 @@ PortGroup               github 1.0
 PortGroup               legacysupport 1.0
 legacysupport.newest_darwin_requires_legacy 10
 
-github.setup            VirusTotal yara 4.0.5 v
+github.setup            VirusTotal yara 4.1.2 v
 revision                0
 
 categories              security
@@ -16,27 +16,25 @@ platforms               darwin
 maintainers             nomaintainer
 
 description             Malware identification and classification tool
-long_description \
-    YARA is a tool aimed at helping malware researchers to identify and \
-    classify malware samples.
+long_description        YARA is a tool aimed at helping malware researchers to identify \
+                        and classify malware samples.
 
-checksums               rmd160  3f86fd4e72c9655c60b32459c47e541703d483ef \
-                        sha256  274a53e581060ccb16228c709df005c6bec1b1ec8f183e0ceb2a5cba729a273b \
-                        size    890468
+checksums               rmd160  d2eb6f9b7f787630fe626a48917c8bd143d11406 \
+                        sha256  d25dfe6d14c23fe0496010f01acab8717c355380cfe6ff98565afba784923761 \
+                        size    936849
 
 if {${subport} eq ${name}} {
-    depends_build       port:autoconf \
+    depends_build-append \
+                        port:autoconf \
                         port:automake \
                         port:libtool \
                         port:pkgconfig
 
-    depends_lib         port:libmagic \
+    depends_lib-append  port:libmagic \
                         port:jansson \
                         path:lib/libssl.dylib:openssl \
                         port:pcre \
                         port:protobuf-c
-
-    patchfiles          patch-loop_declarations.diff
 
     pre-configure {
         reinplace "s|/usr/local/opt/openssl/include|${prefix}/include/openssl|" ${worksrcpath}/configure.ac
@@ -53,35 +51,38 @@ if {${subport} eq ${name}} {
             reinplace "s|\t\$(AM_CFLAGS) \$(CFLAGS)|\t\$(AM_CFLAGS) \$(CPPFLAGS)|" ${worksrcpath}/Makefile
     }
 
-    configure.cflags-append -std=gnu89
+    configure.cflags-append -std=gnu99
     configure.args-append   --with-crypto \
                             --disable-silent-rules \
+                            --disable-dependency-tracking \
                             --enable-cuckoo \
                             --enable-magic
 
     test.run            yes
     test.target         check
+
+    github.livecheck.regex (\[0-9a-z.\]+)
 }
 
-set python.versions {27 35 36 37 38 39}
+set python.branches [list 3.7 3.8 3.9]
 
-foreach v ${python.versions} {
-    set python.version         ${v}
-    set python.branch          [string range ${python.version} 0 end-1].[string index ${python.version} end]
+foreach b ${python.branches} {
+    set python.branch          ${b}
+    set python.version         [join [split ${python.branch} "."] ""]
     set python.bin             ${prefix}/bin/python${python.branch}
     set python.prefix          ${frameworks_dir}/Python.framework/Versions/${python.branch}
 
     subport py${python.version}-${name} {
-        github.setup            VirusTotal yara-python 4.0.4 v
+        github.setup            VirusTotal yara-python 4.1.2 v
         revision                0
         categories              security python
         description             ${name} bindings for python ${python.branch}
         long_description        Malware identification and classification tool. \
-                                    This subport provides bindings for python ${python.branch}
+                                This subport provides bindings for python ${python.branch}
 
-        checksums               rmd160  44ecc51f2069b7b3da9ceece0f9dca31bcaff831 \
-                                sha256  9e955b7b6c5146e8684fb31b32cb077c59d099e67bbe1889ddaeef6e435439ff \
-                                size    32318
+        checksums               rmd160  6d98961a552c366782c962e9bd41ff7a170f6448 \
+                                sha256  f3b519cf59387208e0f50acf2253e4aa79bf0a6b2a9b7ea7c4d9c8dfb2f9946a \
+                                size    33737
 
         depends_build-append    port:py${python.version}-setuptools
         depends_lib-append      port:${name} \
@@ -96,7 +97,7 @@ foreach v ${python.versions} {
         destroot.destdir        --prefix=${python.prefix} --root=${destroot}
 
         pre-test {
-            test.env            PYTHONPATH=[glob -nocomplain ${worksrcpath}/build/lib*]
+            test.env-append     PYTHONPATH=[glob -nocomplain ${worksrcpath}/build/lib*]
         }
 
         test.run                yes

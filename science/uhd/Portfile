@@ -5,6 +5,7 @@ PortGroup   cmake 1.1
 PortGroup   github 1.0
 PortGroup   muniversal 1.0
 PortGroup   active_variants 1.1
+PortGroup   boost 1.0
 
 name        uhd
 categories  science comms
@@ -16,6 +17,8 @@ platforms   darwin
 compiler.c_standard   2011
 compiler.cxx_standard 2011
 
+boost.version 1.71
+
 if {${subport} eq ${name}} {
 
     long_description ${description}: \
@@ -25,7 +28,7 @@ Provides the release version, which is typically updated every month or so.
     checksums rmd160 ac9ef6473cd5b034650e3979236d2535f398dec2 \
               sha256 fe385e826b8fbf4e869b4b919b7b7b8f01fba283bc0b8ffb954947f819b9c07b \
               size   12896898
-    revision  4
+    revision  6
 
     conflicts uhd-devel uhd-39lts
 
@@ -57,8 +60,9 @@ Provides the release version, which is typically updated every month or so.
 
 subport uhd-39lts {
 
-    long_description ${description}: \
-Provides UHD 3.9 Long-Term Service \(LTS\) branch. This branch is not updated except for compatibility with OSs released after it was finalized.
+    long_description ${description}: Provides UHD 3.9 Long-Term Service \(LTS\) branch. \
+                     This branch is not updated except for compatibility with OSs released \
+                     after it was finalized.
 
     name         uhd-39lts
     conflicts    uhd uhd-devel
@@ -67,7 +71,7 @@ Provides UHD 3.9 Long-Term Service \(LTS\) branch. This branch is not updated ex
     checksums    rmd160 0765543ffdc36df568012640422fda8c70809f62 \
                  sha256 a6b4055c5d2d007c978c6577d87151ce9d505d6f5c116f0d20f176497424147e \
                  size   2463897
-    revision     3
+    revision     5
 
     # set the version override string
 
@@ -110,17 +114,17 @@ Provides UHD 3.9 Long-Term Service \(LTS\) branch. This branch is not updated ex
 
 subport uhd-devel {
 
-    long_description ${description}: \
-Provides the UHD GIT maint or master branch, depending on which is more advanced, and is typically updated every few days to week.
+    long_description ${description}: Provides the UHD GIT maint or master branch, depending \
+                     on which is more advanced, and is typically updated every few days to week.
 
-    github.setup EttusResearch uhd 3b9ced8f07c068faf1f494ce170cb44edaa47075
-    version   20201218-[string range ${github.version} 0 7]
-    checksums rmd160 a37be4e8c61a001960ccb17241db789812b023a7 \
-              sha256 df2d19a372159af5dd3cc12d9d61bb9870ffa2233eddbb03c3776c7dc219bfae \
-              size   33972899
-    revision  2
+    github.setup    EttusResearch uhd f3d3b071fd193bf8685c86e74f32b7b96b5e3be2
+    version         20210625-[string range ${github.version} 0 7]
+    checksums       rmd160  6479143964a0a530fb1f61cd41ba0cd1c6ccc36b \
+                    sha256  c0d1cf1abe7135e6c8a843ae786cf8ab0d464f3f4ab9ba1eaab62f09b4cb0ea6 \
+                    size    37910703
+    revision        0
 
-    conflicts uhd uhd-39lts
+    conflicts       uhd uhd-39lts
 
     # set the version override string
 
@@ -130,10 +134,6 @@ Provides the UHD GIT maint or master branch, depending on which is more advanced
 
     patchfiles-append patch-host_CMakeLists.txt.devel.diff
     patch.pre_args -p1
-
-    # temporary patch to fix build on some systems
-
-    patchfiles-append patch-fix-APPLE-build.devel.diff
 
     # set the variable UHD_VERSION_DEVEL to TRUE, no matter its
     # current setting (so, quietly)
@@ -162,7 +162,7 @@ if {${subport} ne "uhd-39lts"} {
 
 }
 
-depends_lib-append port:boost port:ncurses
+depends_lib-append port:ncurses
 
 depends_build-append port:pkgconfig
 
@@ -255,23 +255,24 @@ default_variants +docs +examples +libusb +manual +test +manpages
 # specify the Python dependencies; these are checked for at configure,
 # then used for building, but not at runtime.
 
-set pythons_suffixes {27 35 36 37 38}
+set pythons_versions {2.7 3.5 3.6 3.7 3.8 3.9}
 
 set pythons_ports {}
-foreach s ${pythons_suffixes} {
-    lappend pythons_ports python${s}
+foreach s ${pythons_versions} {
+    lappend pythons_ports python[string map {. {}} ${s}]
 }
 
-foreach s ${pythons_suffixes} {
+foreach v ${pythons_versions} {
+    set s [string map {. {}} ${v}]
     set p python${s}
-    set v [string index ${s} 0].[string index ${s} 1]
     set i [lsearch -exact ${pythons_ports} ${p}]
     set c [lreplace ${pythons_ports} ${i} ${i}]
     variant ${p} description "Build ${name} using Python ${v}" conflicts {*}${c} ""
 }
 
-set selected_python_no_dot 38
-foreach s ${pythons_suffixes} {
+set selected_python_no_dot 39
+foreach v ${pythons_versions} {
+    set s [string map {. {}} ${v}]
     if {[variant_isset python${s}]} {
         set selected_python_no_dot ${s}
     }
@@ -281,7 +282,8 @@ default_variants +python${selected_python_no_dot}
 # make sure the default python variant wasn't
 # deselected without selecting another one
 set selected_python_no_dot ""
-foreach s ${pythons_suffixes} {
+foreach v ${pythons_versions} {
+    set s [string map {. {}} ${v}]
     if {[variant_isset python${s}]} {
         set selected_python_no_dot ${s}
     }
@@ -289,7 +291,7 @@ foreach s ${pythons_suffixes} {
 
 if {${selected_python_no_dot} eq ""} {
     set py_vars ""
-    set final_s [lindex ${pythons_suffixes} end]
+    set final_s [string map {. {}} [lindex ${pythons_versions} end]]
     foreach s ${pythons_suffixes} {
         if {${s} eq ${final_s}} {
             set py_vars "${py_vars}or "

@@ -4,11 +4,11 @@ PortSystem 1.0
 PortGroup select 1.0
 
 name            scala2.12
-version         2.12.13
+version         2.12.15
 set branch      [join [lrange [split ${version} .] 0 1] .]
 categories      lang java
-license         BSD
-maintainers     nomaintainer
+license         Apache-2
+maintainers     {@catap korins.ky:kirill} openmaintainer
 description     The Scala Programming Language
 long_description \
                 Scala is a modern multi-paradigm programming language \
@@ -37,11 +37,11 @@ if {$subport == $name} {
 
     distname        scala-${version}
     extract.suffix  .tgz
-    checksums       md5     04d06bb0a4f22e7e5a429bb22a7371c4 \
-                    sha1    d497baf897bd2e0540fc9d11495f520a1831d88d \
-                    rmd160  df6f9e0a1fb716adfc0fafabdde45cf114ed0741 \
-                    sha256  8c5dd265a5daa3e7791517a2266a82eb707179954ae1889b9a53477aba46a49c \
-                    size    20998710
+    checksums       md5     4594520417061c7b18aa5b1e0f5c00cd \
+                    sha1    2f52c728d38fc800c4a01de4f582c5890de46478 \
+                    rmd160  64f1b980c34a420e3f5b000c6c62d299dfa442a7 \
+                    sha256  17945e3ca9478d06a8436056aac6b9afdf60deafdc3e382c6c08b603921b7ab6 \
+                    size    21087658
 
     destroot {
         set man1dir ${sharedir}/man/man1
@@ -75,11 +75,11 @@ subport ${name}-docs {
     distname        scala-docs-${version}
     use_xz          yes
     extract.suffix  .txz
-    checksums       md5     282b44b1766416d5a1b28376adfd90d3 \
-                    sha1    3299756e880f36b5f7919d35e653965853511ddb \
-                    rmd160  367602abe119ea95fc8755e04b87bc0dbd89df26 \
-                    sha256  449cc48bcd56d872069ac9f17ce2630d2170c48f3ad8d635bb5d19c20d4bcef5 \
-                    size    56224100
+    checksums       md5     6cb7f31d2e94ce54bbe618e9e94113c5 \
+                    sha1    146136fe7545f0311ee7258b224678597ac8ac55 \
+                    rmd160  658b751beca10be9a53bfb30f14c5c4b6066d81a \
+                    sha256  0ad295ca577fb16b342848e9dbff1eee2960e7fde2be191e14e85063ffab691d \
+                    size    56178748
 
     worksrcdir      scala-${version}
 

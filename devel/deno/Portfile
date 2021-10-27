@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        denoland deno 1.8.2 v
+github.setup        denoland deno 1.15.2 v
 revision            0
 
 homepage            https://deno.land
@@ -12,7 +12,7 @@ description         Deno is a simple, modern and secure runtime for \
                     JavaScript and TypeScript that uses V8 and is built in \
                     Rust.
 
-long_description    Deno is a a secure runtime for JavaScript and TypeScript. \
+long_description    Deno is a secure runtime for JavaScript and TypeScript. \
                     It is secure by default, performs no file, network, or \
                     environment access, unless explicitly enabled, and \
                     supports TypeScript out of the box. Deno has built-in \
@@ -30,13 +30,13 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
 checksums           ${name}-x86_64-apple-darwin.zip \
-                    rmd160  1441cf02a66ea022e6103dbdfe250c1cee8db9d3 \
-                    sha256  35f8a13736c5a52144c720866c450d2fc0910f6a456d188fd7ff37e8147ccaba \
-                    size    27410648 \
+                    rmd160  695cc27fe1fc666228bb09075ddf6ef0484535b0 \
+                    sha256  7eead3d9ecebd08048657805028d744ae87a2d341f18f4c2db76213dead0931d \
+                    size    29962951 \
                     ${name}-aarch64-apple-darwin.zip \
-                    rmd160  9a73576fc6aa9c209ba250c939e6dd80bba28ce9 \
-                    sha256  fd564d242a4b4de81b449fe341598f3394de18bd25d793b74c44012eb7b0358a \
-                    size    27648667
+                    rmd160  051f35719e4d0959abbf49ff25a191c0cddec792 \
+                    sha256  97708e41c4d918c336a60eb74cccfc4441ded1aa54c33c81faea80d760035643 \
+                    size    28776777
 
 if {${build_arch} eq "arm64"} {
     set release_arch aarch64

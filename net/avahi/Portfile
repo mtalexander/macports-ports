@@ -6,7 +6,7 @@ PortGroup           github 1.0
 PortGroup           gobject_introspection 1.0
 
 github.setup        lathiat avahi 0.8 v
-revision            1
+revision            2
 categories          net devel
 maintainers         {i0ntempest @i0ntempest} openmaintainer
 license             LGPL-2.1+
@@ -91,6 +91,9 @@ configure.args      --disable-autoipd \
 # __APPLE_USE_RFC_2292 should be removed once avahi is updated to support RFC 3542
 configure.cppflags-append   -L${prefix}/lib -D__APPLE_USE_RFC_2292
 
+# libevent-watch.c:285: error: 'for' loop initial declaration used outside C99 mode
+configure.cflags-append     -std=c99
+
 set daemon_uniquename   org.freedesktop.avahi-daemon
 set dnsconfd_uniquename org.freedesktop.avahi-dnsconfd
 
@@ -148,13 +151,13 @@ variant test description {Build tests} {
 }
 
 variant gtk description {Build with GTK2} {
-    depends_lib-append      port:gtk2 \
+    depends_lib-append      path:lib/pkgconfig/gtk+-2.0.pc:gtk2 \
                             port:libglade2
     configure.args-replace  --disable-gtk --enable-gtk
 }
 
 variant gtk3 description {Build with GTK3} {
-    depends_lib-append      port:gtk3
+    depends_lib-append      path:lib/pkgconfig/gtk+-3.0.pc:gtk3
     configure.args-delete   --disable-gtk3
     # Enable manpages that are built with gtk variant but not with gtk3
     pre-configure {

@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           cmake 1.1
+PortGroup           github 1.0
+
+github.setup        BelledonneCommunications ortp 5.0.35
+github.tarball_from archive
+revision            0
+
+categories          devel
+platforms           darwin
+license             GPL-3
+maintainers         {judaew @judaew} openmaintainer
+
+description         A Real-time Transport Protocol (RTP) library
+long_description    \
+    oRTP is a C library implementing the RTP protocol (rfc3550). It is \
+    available for most unix clones (primilarly Linux and HP-UX), and \
+    Microsoft Windows.
+
+checksums           rmd160 d09a419eeef7acaef105f97b62a2072af0d54bc8 \
+                    sha256 e9ff6b8b8bfb79c070ec773a79f88697e29f659cf47932b92e61d63a909cd65b \
+                    size 234274
+
+depends_lib         port:bctoolbox
+
+patchfiles          patch-fix-Frameworks-path.diff
+
+configure.args-append \
+                    -DENABLE_STATIC=NO \
+                    -DENABLE_DOC=NO
+
+variant docs description {Build and install documentation in HTML format} {
+    depends_build-append \
+                    port:doxygen
+
+    configure.args-replace \
+                    -DENABLE_DOC=NO -DENABLE_DOC=YES
+
+    post-destroot {
+        move ${destroot}${prefix}/share/doc/ortp-5.0.0/html \
+            ${destroot}${prefix}/share/doc/ortp
+    }
+}
+
+github.livecheck.regex  {([0-9.]+)}

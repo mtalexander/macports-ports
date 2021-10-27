@@ -6,8 +6,7 @@ PortGroup select 1.0
 name                python39
 
 # Remember to keep py39-tkinter and py39-gdbm's versions sync'd with this
-version             3.9.2
-revision            1
+version             3.9.7
 
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          lang
@@ -24,9 +23,9 @@ master_sites        ${homepage}ftp/python/${version}/
 
 distname            Python-${version}
 use_xz              yes
-checksums           md5 f0dc9000312abeb16de4eccce9a870ab \
-                    rmd160 fc9045875edfa50ec5238872296fa894d4f09129 \
-                    sha256 3c2034c54f811448f516668dce09d24008a0716c3a794dd8639b5388cbde247d
+checksums           md5 fddb060b483bc01850a3f412eea1d954 \
+                    rmd160 8746b224a6be990a131543b23e881d8ab274b5e3 \
+                    sha256 f8145616e68c00041d1a6399b76387390388f8359581abc24432bb969b5e3c57
 
 patchfiles          patch-setup.py.diff \
                     patch-Lib-cgi.py.diff \
@@ -176,8 +175,9 @@ variant universal {
         set universal_arch_flags {}
         set arch_run_32bit {}
         set lipo_32bit_flags {}
+        set lipo_intel64_flags {}
         set any64 no
-        foreach arch ${universal_archs} {
+        foreach arch ${configure.universal_archs} {
             lappend universal_arch_flags -arch ${arch}
             if {${arch} in {i386 ppc}} {
                 lappend arch_run_32bit -${arch}
@@ -194,6 +194,9 @@ variant universal {
                 set arch_run_32bit "/usr/bin/arch $arch_run_32bit"
                 #lipo_32bit_flags already correct
             }
+            if {"arm64" in ${configure.universal_archs} && "x86_64" in ${configure.universal_archs}} {
+                set lipo_intel64_flags "-extract x86_64"
+            }
         } else {
             set arch_run_32bit ""
             set lipo_32bit_flags ""
@@ -205,27 +208,44 @@ variant universal {
             "s|@@LIPO_32BIT_FLAGS@@|${lipo_32bit_flags}|" \
             ${worksrcpath}/configure
         reinplace \
+            "s|@@LIPO_INTEL64_FLAGS@@|${lipo_intel64_flags}|" \
+            ${worksrcpath}/configure
+        reinplace \
             "s|@@ARCH_RUN_32BIT@@|${arch_run_32bit}|" \
             ${worksrcpath}/configure
     }
-    if {${configure.sdkroot} ne ""} {
-        configure.args-append   --enable-universalsdk=${configure.sdkroot}
-    } else {
-        configure.args-append   --enable-universalsdk=/
-    }
+    configure.args-append   --enable-universalsdk=${configure.sysroot}
     post-configure {
         system -W ${worksrcpath} "ed - pyconfig.h < ${filespath}/pyconfig.h-universal.ed"
     }
 
     post-destroot {
-        foreach unversioned {python3-32} {
+        foreach unversioned {python3-32 python3-intel64} {
             delete ${destroot}${prefix}/bin/${unversioned}
         }
     }
 }
 
-variant optimizations description {Compile with LTO and PGO. Build time greatly increased} {
+variant optimizations description {enable expensive, stable optimizations (including PGO)} {
     configure.args-append   --enable-optimizations
+}
+
+variant lto description {enable Link-Time Optimization} {
+    configure.args-append   --with-lto
+}
+
+platform darwin {
+    # Build failures on 10.9 and older
+    if {${os.major} > 11} {
+        default_variants +lto
+        if {${os.major} > 13} {
+            default_variants-append +optimizations
+        }
+    }
+}
+
+variant dtrace description {enable DTrace support} {
+    configure.args-append   --with-dtrace
 }
 
 livecheck.type      regex

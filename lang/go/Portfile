@@ -2,14 +2,17 @@
 
 PortSystem          1.0
 
-PortGroup           legacysupport 1.0
+PortGroup           legacysupport 1.1
 
-legacysupport.newest_darwin_requires_legacy 13
+legacysupport.newest_darwin_requires_legacy 15
 
 name                go
 epoch               2
-version             1.16.2
+
+version             1.17.2
 revision            0
+
+homepage            https://golang.org
 
 categories          lang
 platforms           darwin freebsd linux
@@ -28,21 +31,25 @@ long_description    \
     language that feels like a dynamically typed, interpreted language. Go \
     is developed by Google Inc.
 
-homepage            https://golang.org
+set go_src_dist     ${name}${version}.src${extract.suffix}
+set go_armbin_dist  ${name}${version}.darwin-arm64${extract.suffix}
+
+checksums           ${go_src_dist} \
+                    rmd160  746baea495791be0e9f4ed6a162cc4466d4ce4cd \
+                    sha256  2255eb3e4e824dd7d5fcdc2e7f84534371c186312e546fb1086a34c17752f431 \
+                    size    22182111 \
+                    ${go_armbin_dist} \
+                    rmd160  fee842e0a9f3e35c5f092e4a3a00baa3a187e0fb \
+                    sha256  ce8771bd3edfb5b28104084b56bbb532eeb47fbb7769c3e664c6223712c30904 \
+                    size    129424944
+
 master_sites        https://storage.googleapis.com/golang/
-distfiles           ${name}${version}.src.tar.gz
+distfiles           ${go_src_dist}
 worksrcdir          ${name}
 
 maintainers         {ciserlohn @ci42} \
                     {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
-
-set go_src_dist     ${name}${version}.src${extract.suffix}
-
-checksums           ${go_src_dist} \
-                    rmd160  0f667e1fd0691890eb282d921ac46c442df62c69 \
-                    sha256  37ca14287a23cb8ba2ac3f5c3dd8adbc1f7a54b9701a57824bf19a0b271f83ea \
-                    size    20905135
 
 extract.only        ${go_src_dist}
 
@@ -76,6 +83,9 @@ build.env           GOROOT=${GOROOT} \
                     GOOS=darwin \
                     GOROOT_FINAL=${GOROOT_FINAL} \
                     CC=${configure.cc}
+# Set build.jobs to -1 to disable MacPorts from adding the -j flag for
+# parallel builds, since the build.cmd contains "make".
+build.jobs          -1
 
 if {${os.platform} eq "darwin" && ${os.major} <= ${legacysupport.newest_darwin_requires_legacy}} {
     # The legacy support PG will not actually change anything in this port directly,
@@ -112,8 +122,8 @@ if {${os.platform} eq "darwin" && ${os.major} <= ${legacysupport.newest_darwin_r
                     so make sure change your environment to use the following variables:
                       * GO_EXTLINK_ENABLED="1"
                     to always force go to use the external gcc or clang linker and
-                      * GO_LDFLAGS="\\\"-extldflags=${configure.ldflags}\\\""
-                      * CGO_LDFLAGS="-g -O2 ${configure.ldflags}"
+                      * GO_LDFLAGS="\\\"-extldflags=\${configure.ldflags}\\\""
+                      * CGO_LDFLAGS="-g -O2 \${configure.ldflags}"
                     to force-link any binary against the legacy support library.\
                     Use exactly the quoting provided here, even if it may look odd,\
                     or compilation will fail.
@@ -130,24 +140,16 @@ if {${configure.build_arch} eq "arm64"} {
 
     # Use a temporary installation of the binary ARM64 Go distribution to
     # build Go for ARM64
-    set bootstrap_version   1.16.1
-
-    set go_bin_dist         ${name}${bootstrap_version}.darwin-arm64${extract.suffix}
     set go_bin_path         ${workpath}/go_prebuilt
 
     build.env-append        GOROOT_BOOTSTRAP=${go_bin_path}/go
 
-    distfiles-append        ${go_bin_dist}
-
-    checksums-append        ${go_bin_dist} \
-                            rmd160  10e42535c6d6130aed6a6c1eb35faa41e6afd4e1 \
-                            sha256  de2847f49faac2d0608b4afc324cbb3029a496c946db616c294d26082e45f32d \
-                            size    125667833
+    distfiles-append        ${go_armbin_dist}
 
     post-extract {
         xinstall -d ${go_bin_path}
         system -W ${go_bin_path} \
-            "${extract.cmd} ${extract.pre_args} ${distpath}/${go_bin_dist} ${extract.post_args}"
+            "${extract.cmd} ${extract.pre_args} ${distpath}/${go_armbin_dist} ${extract.post_args}"
     }
 
 } else {

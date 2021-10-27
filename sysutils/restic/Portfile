@@ -3,12 +3,10 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/restic/restic 0.11.0 v
-revision            0
+go.setup            github.com/restic/restic 0.12.1 v
+revision            1
 
-categories          sysutils
-license             BSD
-maintainers         nomaintainer
+homepage            https://restic.net
 
 description         Fast, secure, efficient backup program.
 
@@ -16,12 +14,17 @@ long_description    Restic is a program that does backups right. Its design \
                     goals are: Easy, Fast, Verifiable, Secure, Efficient and \
                     Free.
 
-homepage            https://restic.net
+categories          sysutils
+license             BSD
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
+installs_libs       no
 
-checksums           ${distname}${extract.suffix} \
-                        rmd160  89c0647a53dcb1333371734ce8c57cb26d91ffb8 \
-                        sha256  3fee12f2bf405e28cc35e8fe8379d9d73345a79ee8347f4928701158495bb266 \
-                        size    23760697
+checksums           rmd160  b3d51ecfd28c90c4407e6ef8793e9b66828110ee \
+                    sha256  a9c88d5288ce04a6cc78afcda7590d3124966dab3daa9908de9b3e492e2925fb \
+                    size    23829887
+
+github.tarball_from archive
 
 # FIXME: This port currently can't be built without allowing go mod to fetch
 # dependencies during the build phase. See
@@ -73,6 +76,26 @@ test {
 
 destroot {
     xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+
+    set mandir ${prefix}/share/man/man1
+    xinstall -m 755 -d ${destroot}${mandir}
+    xinstall -m 644 {*}[glob ${worksrcpath}/doc/man/*.1 ] \
+        ${destroot}${mandir}/
+
+    set bash_compl ${prefix}/share/bash-completion/completions
+    xinstall -m 755 -d ${destroot}${bash_compl}
+    xinstall -m 644 ${worksrcpath}/doc/bash-completion.sh \
+        ${destroot}${bash_compl}/${name}
+
+    set fish_compl ${prefix}/share/fish/vendor_completions.d
+    xinstall -m 755 -d ${destroot}${fish_compl}
+    xinstall -m 644 ${worksrcpath}/doc/fish-completion.fish \
+        ${destroot}${fish_compl}/${name}.fish
+
+    set zsh_compl ${prefix}/share/zsh/site-functions
+    xinstall -m 755 -d ${destroot}${zsh_compl}
+    xinstall -m 644 ${worksrcpath}/doc/zsh-completion.zsh \
+        ${destroot}${zsh_compl}/_${name}
 
     set docdir ${prefix}/share/doc/${name}
     xinstall -m 755 -d ${destroot}${docdir}

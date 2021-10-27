@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                buildbot-pkg
-version             3.0.2
+version             3.3.0
 revision            0
-checksums           rmd160  d4ccaf087a6ae40592d6f4aeff19f5519518621b \
-                    sha256  8028a1a6e2b9ae9a7acb2ce27e922e2228c97d80cd55fdb2c089dab775ec2aef \
-                    size    4780
+checksums           rmd160  ae7befba64c40e7fcbf6fef6395f74241f49563b \
+                    sha256  3d598324ddff3ccb2f66baf048d6945102cf90e3163ba79d20411f652c2ca53b \
+                    size    4778
 
 categories          devel
 platforms           darwin

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-prometheus_client
-version             0.9.0
+version             0.11.0
 revision            0
 categories-append   devel
 platforms           darwin
@@ -20,9 +20,9 @@ long_description    ${description}
 
 homepage            https://github.com/prometheus/client_python
 
-checksums           rmd160  3a8c8738a2bd842a439c7b0f85f61bedccf74222 \
-                    sha256  9da7b32f02439d8c04f7777021c304ed51d9ec180604700c1ba72a4d44dceb03 \
-                    size    68253
+checksums           rmd160  433abad4b6afb4c0e5c5727d2cc8d592049b171e \
+                    sha256  3a8baade6cb80bcfe43297e33e7623f3118d660d41387593758e2fb1ea173a86 \
+                    size    91886
 
 if {${name} ne ${subport}} {
     depends_build-append \

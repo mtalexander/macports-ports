@@ -13,11 +13,11 @@ description         GUI Application for FreeDV - an open source digital \
     voice protocol that integrates the modems, codecs, and FEC
 long_description    ${description}
 
-github.setup        drowe67 freedv-gui 4409e66540c9d76012b77fc6dbc53df272f85e31
-version             20210215-[string range ${github.version} 0 7]
-checksums           rmd160  cea42631e7043169957dfb9df84a1ca18b632202 \
-                    sha256  070b4093af58c34c2d49f7eabc345023447e40be4d95ab25b0929bb0ff869101 \
-                    size    9423936
+github.setup        drowe67 freedv-gui 5e9f5c3b06b0358be6ba5ad99809eec752b1a3d3
+version             20210919-[string range ${github.version} 0 7]
+checksums           rmd160  eb3c317f0f476be59faeaf26282bf23fd28047f1 \
+                    sha256  d1f285cadee1608ba4a9184423a4ac277c2fd9fbd99df57c3d5608e52b947cee \
+                    size    9448428
 revision            0
 
 # move from commit to version
@@ -67,4 +67,7 @@ destroot {
         ${destroot}${applications_dir}/FreeDV.app/Contents/Info.plist
     ln -s ${applications_dir}/FreeDV.app/Contents/MacOS/FreeDV \
         ${destroot}${prefix}/bin/freedv
+    xinstall -d -m 0755 ${destroot}${prefix}/share/doc/freedv-gui
+    xinstall -m 0644 ${worksrcpath}/USER_MANUAL.pdf \
+        ${destroot}${prefix}/share/doc/freedv-gui
 }

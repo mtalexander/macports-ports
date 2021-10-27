@@ -4,23 +4,25 @@ PortSystem              1.0
 PortGroup               github 1.0
 PortGroup               java 1.0
 
-github.setup            plantuml plantuml 1.2020.11 v
+github.setup            plantuml plantuml 1.2021.12 v
+github.tarball_from     archive
 revision                0
 categories              java editors
 platforms               darwin
 supported_archs         noarch
 license                 GPL-3+
-maintainers             nomaintainer
+maintainers             {judaew @judaew} openmaintainer
 description             PlantUML is a tool for generating UML diagrams from textual \
                         description.
 long_description        ${description}
-homepage                http://plantuml.com/
+homepage                https://plantuml.com/
 
-checksums               rmd160  6d71695902455be81b7cab879af07c51feb07876 \
-                        sha256  038bbc9df6f94f33fb609456806f8e161e4b1ebbe03547f325989495ab6a4091 \
-                        size    5310503
+checksums               rmd160  4e2aa3b65bc4114cceeba9905257acc0514472bc \
+                        sha256  2191a21dbecb854a21049f7ee2575f00ed03db228d3c5c093ecb29f3de552340 \
+                        size    4825233
 
-depends_build           bin:ant:apache-ant
+depends_build           bin:ant:apache-ant \
+                        port:jlatexmath
 
 java.version            1.7+
 java.fallback           openjdk11
@@ -37,6 +39,8 @@ post-extract {
     copy ${filespath}/${name}.in ${worksrcpath}/${name}
 }
 
+patchfiles              patch-jlatexmath-name.diff
+
 post-patch {
     reinplace "s|__PLANTUML_LAUNCHER_PATH__|${prefix}/share/java/${jarname}|g" \
         ${worksrcpath}/${name}
@@ -47,3 +51,10 @@ destroot {
     xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin
     xinstall -m 0644 ${worksrcpath}/${jarname} ${javadir}
 }
+
+notes "
+graphviz port is optional -- you don't need this if you only need sequence
+and activity diagrams. Otherwise, install with
+
+    sudo port install graphviz
+"

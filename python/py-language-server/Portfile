@@ -4,11 +4,16 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 PortGroup           select 1.0
+PortGroup           deprecated 1.0
+
+# palantir/python-language-server is unmaintained and has been forked
+# to python-lsp/python-lsp-server
+deprecated.upstream_support no
 
 name                py-language-server
 github.setup        palantir python-language-server 0.36.2
 github.tarball_from archive
-revision            1
+revision            2
 
 # stealth update, remove when updating to new version
 dist_subdir          ${name}/${version}
@@ -59,8 +64,10 @@ if {${subport} ne ${name}} {
         reinplace "s|@@FLAKE8_BIN@@|flake8-${python.branch}|g" ${worksrcpath}/test/plugins/test_flake8_lint.py
         reinplace "s|@@PYTHON_BIN@@|${python.bin}|g" ${worksrcpath}/pyls/plugins/flake8_lint.py
 
-        # temporary reinplace to remove version cap on jedi
+        # temporary reinplace to remove version cap on jedi, pyflakes, and pycodestyle
         reinplace {s|'jedi>=0\.17\.2,<0\.18\.0'|'jedi>=0\.17\.2,<0.19.0'|g} ${worksrcpath}/setup.py
+        reinplace {s|'pyflakes>=2\.2\.0,<2\.3\.0'|'pyflakes>=2.2.0,<2.4.0'|g} ${worksrcpath}/setup.py
+        reinplace {s|'pycodestyle>=2\.6\.0,<2\.7\.0'|'pycodestyle>=2.6.0,<2.8.0'|g} ${worksrcpath}/setup.py
     }
 
     depends_test-append \
@@ -88,11 +95,13 @@ if {${subport} ne ${name}} {
     select.file     ${filespath}/py${python.version}-pyls
 
     notes "
-To make the Python ${python.branch} version of python language server the one \
-that is run when you execute the commands without a version suffix, e.g. \
+To make the Python ${python.branch} version of python language server the one\
+that is run when you execute the commands without a version suffix, e.g.\
 'pyls', run:
 
 port select --set ${select.group} [file tail ${select.file}]
+
+This port is deprecated. Please consider using py${python.version}-python-lsp-server instead.
 "
 
     livecheck.type  none

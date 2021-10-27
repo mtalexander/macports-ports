@@ -1,4 +1,4 @@
-kencu@macports.org - add back runtime libraries used on 10.4 and 10.5
+add back runtime libraries used on 10.4 and 10.5
 removed in https://github.com/llvm/llvm-project/commit/3434ade2b7ca351b61522f7da4b55070d811b83f
 
 related, the following code used to add libclang_rt_10.4.a to Tiger, but this library
@@ -15,7 +15,7 @@ diff --git a/tools/clang/lib/Driver/ToolChains/Darwin.cpp b/tools/clang/lib/Driv
 index bea877ae9..26f1ad714 100644
 --- a/tools/clang/lib/Driver/ToolChains/Darwin.cpp
 +++ b/tools/clang/lib/Driver/ToolChains/Darwin.cpp
-@@ -1140,6 +1140,12 @@ void DarwinClang::AddLinkRuntimeLibArgs(const ArgList &Args,
+@@ -1334,6 +1334,12 @@ void DarwinClang::AddLinkRuntimeLibArgs(const ArgList &Args,
          getTriple().getArch() != llvm::Triple::aarch64)
        CmdArgs.push_back("-lgcc_s.1");
    }

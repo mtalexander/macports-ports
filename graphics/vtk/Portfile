@@ -15,7 +15,7 @@ compiler.blacklist-append {clang < 900}
 
 name                vtk
 version             8.2.0
-revision            6
+revision            8
 categories          graphics devel
 platforms           darwin
 license             BSD
@@ -115,7 +115,7 @@ variant qt5 description {Add Qt5 support.} {
 }
 
 # Supported pythons
-set python_versions {27 36 37 38}
+set python_versions {27 36 37 38 39}
 
 foreach pyver ${python_versions} {
     # Conflicting python versions
@@ -129,7 +129,7 @@ foreach pyver ${python_versions} {
     }
 
     # Get python branch
-    set python_branch  "[string range ${pyver} 0 end-1].[string index ${pyver} end]"
+    set python_branch  "[string index ${pyver} 0].[string range ${pyver} 1 end]"
 
     variant python${pyver} conflicts {*}${other_python_versions} description "Add Python ${python_branch} support" "
             depends_lib-append  port:python${pyver}
@@ -176,6 +176,14 @@ if {[mpi_variant_isset]} {
     configure.args-append \
         -DVTK_Group_MPI:BOOL=ON
 
+}
+
+if {${os.platform} eq "darwin" && ${os.major} < 11} {
+    known_fail yes
+    pre-fetch {
+        ui_error "${name} @${version} requires macOS 10.7 or greater."
+        return -code error "incompatible macOS X version"
+    }
 }
 
 livecheck.type      regex

@@ -8,25 +8,27 @@ PortGroup           compiler_blacklist_versions    1.0
 PortGroup           xcode_workaround               1.0
 
 name                py-tensorflow
-version             2.4.1
+version             2.6.0
 revision            0
 github.setup        tensorflow tensorflow ${version} v
 platforms           darwin
-supported_archs     x86_64
 
 license             Apache-2
 maintainers         {emcrisostomo @emcrisostomo} {jonesc @cjones051073} openmaintainer
 
 description         TensorFlow helps the tensors flow
-long_description    ${description}
+long_description    {*}${description}
 
 homepage            https://www.tensorflow.org/
 
 github.livecheck.regex  {([0-9.]+)}
 
-checksums           rmd160  f322fcdc8ba71e48a33bec80a84f47e6f8b6c314 \
-                    sha256  69ab8a0ab585dd7d8d489227f0c0dd9dacf96f3e8eb844aa27f1198884773ebe \
-                    size    53266547
+checksums           rmd160  5a7cf86116fb585f08ed119dd758709e2a675b2e \
+                    sha256  3acc1fbb93013f4a8686b0eeb05c8884b35db3480a052b10f49ff07da44d6fd9 \
+                    size    59094790
+
+# Not yet ready for arm
+supported_archs     x86_64
 
 set min_darwin 16
 if { ${os.major} < ${min_darwin} } {
@@ -39,24 +41,38 @@ if { ${os.major} < ${min_darwin} } {
 }
 
 compiler.cxx_standard 2014
-compiler.blacklist-append {clang < 1001}
+compiler.blacklist-append {clang < 1200.0.32.27} {macports-clang-[4-9].0}
 
 # https://trac.macports.org/ticket/59192
 xcode_workaround.type                  avoid_xcode_compiler
 xcode_workaround.os_versions           18 19
 xcode_workaround.fixed_xcode_version   11.4
 
-# Support python versions
+# Supported python versions
 python.versions  37 38 39
 
 if {${name} ne ${subport}} {
 
     PortGroup bazel 1.0
     # See https://www.tensorflow.org/install/source#macos for tested bazel versions.
-    bazel.version  "3.1"
+    bazel.version   3.7
 
     # TF versions 1 and 2 cannot be installed at once
     conflicts py${python.version}-tensorflow1
+
+    # Conflicts with tensorflow_macos
+    if {${python.version} eq 38} {
+        conflicts-append py${python.version}-tensorflow_macos
+    }
+
+    variant mkl description {Enable Intel Math Kernel Library support} {
+        bazel.extra_build_opts-append --config=mkl
+        depends_lib-append port:py${python.version}-mkl
+    }
+    # Enable MKL by default on 10.15 and newer.
+    #if {${os.major} >= 19} {
+    #    default_variants-append +mkl
+    #}
 
     depends_build-append \
         port:py${python.version}-future \
@@ -68,6 +84,7 @@ if {${name} ne ${subport}} {
         port:py${python.version}-absl \
         port:py${python.version}-astor \
         port:py${python.version}-astunparse \
+        port:py${python.version}-flatbuffers \
         port:py${python.version}-gast \
         port:py${python.version}-google-pasta \
         port:py${python.version}-grpcio \
@@ -84,12 +101,15 @@ if {${name} ne ${subport}} {
 
     use_configure yes
     # Options passed to configure script via env vars
-    configure.env-append PYTHON_LIB_PATH=${python.prefix}/lib/python${python.branch}/site-packages
-    configure.env-append PYTHON_BIN_PATH=${prefix}/bin/python${python.branch}
+    bazel::add_to_envs PYTHON_LIB_PATH=${python.prefix}/lib/python${python.branch}/site-packages
+    bazel::add_to_envs PYTHON_BIN_PATH=${prefix}/bin/python${python.branch}
+
+    # Use correct python in bazel build
+    bazel.python_version ${python.branch}
 
     bazel.build_target     "//tensorflow/tools/pip_package:build_pip_package"
     bazel.post_build_cmd   ./bazel-bin/tensorflow/tools/pip_package/build_pip_package [list $workpath]
-    bazel.extra_build_opts --config=opt
+    bazel.extra_build_opts-append --config=opt
 
     #bazel.limit_build_jobs no
 
@@ -108,5 +128,15 @@ if {${name} ne ${subport}} {
     }
 
     livecheck.type  none
+
+    # If tensorflow_macos is available for this OS + python version advertise it
+    if { ${os.major} > 19 && ${python.branch} == 3.8 } {
+        notes "
+A hardware accelerated MacOS optimised port of tensorflow from Apple 
+is available as an alternative to ${subport}. To use run :-
+    sudo port uninstall -f ${subport} ${subport}-addons
+    sudo port install ${subport}_macos
+"
+    }
 
 }

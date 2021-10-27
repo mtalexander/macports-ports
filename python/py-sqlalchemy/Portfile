@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 name                py-sqlalchemy
 python.rootname     SQLAlchemy
-version             1.4.1
+version             1.4.25
 revision            0
 categories-append   databases
 platforms           darwin
@@ -23,9 +23,9 @@ long_description    SQLAlchemy is the Python SQL toolkit and Object \
 
 homepage            http://www.sqlalchemy.org/
 
-checksums           rmd160  e301a314dda653b439e1d6cb2d6f252ad960bdb7 \
-                    sha256  a6afdab2d70ef9f9905eba5ba93cf78ed9ed188cde3abda3231cdb8fce005a84 \
-                    size    7450731
+checksums           rmd160  1bbcdb016e29f4900d76563dd75502830b3377bc \
+                    sha256  1adf3d25e2e33afbcd48cfad8076f9378793be43e7fec3e4334306cac6bec138 \
+                    size    7776002
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -38,6 +38,13 @@ if {${name} ne ${subport}} {
         checksums           rmd160  edd24330178b399aa5061b8eedb5ddb61d75c82d \
                             sha256  6fca33672578666f657c131552c4ef8979c1606e494f78cd5199742dfb26918b \
                             size    6313652
+    } else {
+        if {${python.version} < 38} {
+            depends_lib-append  port:py${python.version}-importlib-metadata
+        }
+        if {${python.version} >= 36} {
+            depends_lib-append  port:py${python.version}-greenlet
+        }
     }
 
     post-destroot {

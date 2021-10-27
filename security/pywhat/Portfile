@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                pywhat
+version             4.3.0
+revision            0
+categories-prepend  security
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+python.default_version \
+                    39
+
+maintainers         {@harens gmail.com:harensdeveloper} \
+                    openmaintainer
+
+description         pyWhat easily lets you identify emails, IP addresses, and more
+long_description    {*}${description}. Feed it a .pcap file or some text and it'll tell \
+                    you what it is!
+
+homepage            https://github.com/bee-san/pyWhat
+
+checksums           rmd160 d1f0db2b12dd497027943a7c629e8bd36e4caf96 \
+                    sha256 8106f18be8ebd42185231ae0e336412ba04cb031b14961fea74348a15e0b8abc \
+                    size   578345
+
+# 'what' binary conflicts with developer_cmds
+# 'pywhat' binary does the same thing and is still available
+# See https://trac.macports.org/ticket/63286
+patchfiles          patch-pywhat-bin.diff
+
+depends_lib-append  port:py${python.version}-setuptools
+
+depends_run-append  port:py${python.version}-click \
+                    port:py${python.version}-rich

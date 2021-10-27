@@ -62,19 +62,19 @@ if {${g_mame_os_major} >= 18} {
 
 if {${g_mame_latest}} {
     set g_mame_release \
-                    "0229"
+                    "0236"
 
     revision        0
 
-    checksums       \
-                    rmd160  785ca63ce613fe79d3b33e1178730c47fc96b93e \
-                    sha256  414921771ada0804a8c7f3540e33338e8495e16a3bca78a5a2b355abafa51e6a \
-                    size    195637912
+    checksums       rmd160  a4fe0b38229d796fbca0b03bb46ed54e89bc37e4 \
+                    sha256  c76b973d786311f86922101ab0050dac90af9b0fd614a33c20231e3451c7b2dd \
+                    size    185713006
+
 } else {
     set g_mame_release \
                     "0226"
 
-    revision        5
+    revision        6
 
     # Mame 0.226: Fix errors during translation build phase.
     # Merged into Mame releases from 0.227 onward. Tracked by issue:
@@ -109,6 +109,18 @@ github.tarball_from archive
 # Note: Version declaration must occur after 'github.setup', as the latter
 # sets our version whether we want it or not.
 version             ${g_mame_version_string}
+
+if {!${g_mame_latest}} {
+    # Disable livecheck for older version
+    livecheck.type  none
+}
+
+#------------------------------------------------------------------------------
+# Python Version
+#------------------------------------------------------------------------------
+
+set g_mame_pyver_major     3
+set g_mame_pyver_minor     9
 
 #------------------------------------------------------------------------------
 # Port-Specific Globals
@@ -577,32 +589,13 @@ variant tools \
     mame_variant_tools_setup
 }
 
-variant python37 \
-        description {Use python 3.7 for build} \
-        conflicts python38 python39 {
-    mame_variant_python_setup 3 7
-}
-
-variant python38 \
-        description {Use python 3.8 for build} \
-        conflicts python37 python39 {
-    mame_variant_python_setup 3 8
-}
-
-variant python39 \
-        description {Use python 3.9 for build} \
-        conflicts python37 python38 {
-    mame_variant_python_setup 3 9
-}
-
 default_variants-append \
     +tools
 
-# Ensure one python* variant is selected by default, if not specified by user
-if {![variant_isset python37] && ![variant_isset python38] && ![variant_isset python39]} {
-    default_variants-append \
-        +python38
-}
+# Python variants eliminated; setup via default Python version
+mame_variant_python_setup \
+    ${g_mame_pyver_major} \
+    ${g_mame_pyver_minor}
 
 #------------------------------------------------------------------------------
 # Phases

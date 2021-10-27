@@ -5,8 +5,9 @@ PortGroup           python 1.0
 PortGroup           select 1.0
 
 name                py-pylint
-version             2.7.2
+version             2.11.1
 revision            0
+
 categories-append   devel
 platforms           darwin
 license             GPL-2+
@@ -28,18 +29,19 @@ long_description    Pylint is a tool that checks for errors in python code, \
 
 homepage            https://pylint.org
 
-checksums           rmd160  4693521135ca4f13dbc88c3c609a56f0648d7455 \
-                    sha256  0e21d3b80b96740909d77206d741aa3ce0b06b41be375d92e1f3244a274c1f8a \
-                    size    709177
+checksums           rmd160  e067393336f89fedc851d21522f3fe713fddc7f8 \
+                    sha256  2c9843fff1a88ca0ad98a256806c82c5a8f86086e7ccbdb93297d86c3f90c436 \
+                    size    327130
 
 if {${name} ne ${subport}} {
     depends_build-append \
-                        port:py${python.version}-pytest-runner
+                        port:py${python.version}-setuptools_scm
 
     depends_lib-append  port:py${python.version}-setuptools \
                         port:py${python.version}-astroid \
                         port:py${python.version}-isort \
                         port:py${python.version}-flake8-mccabe \
+                        port:py${python.version}-platformdirs \
                         port:py${python.version}-toml
 
     if {${python.version} eq 27} {
@@ -50,17 +52,25 @@ if {${name} ne ${subport}} {
                             sha256  ee1e85575587c5b58ddafa25e1c1b01691ef172e139fc25585e5d3f02451da93 \
                             size    519076
 
+        depends_build-append \
+                            port:py${python.version}-pytest-runner
+
         depends_lib-append  port:py${python.version}-configparser \
                             port:py${python.version}-backports-functools_lru_cache \
                             port:py${python.version}-singledispatch \
                             port:py${python.version}-six
-        depends_lib-delete  port:py${python.version}-toml
+        depends_lib-delete  port:py${python.version}-platformdirs \
+                            port:py${python.version}-toml
     }
 
     if {${python.version} == 35} {
         version             2.6.2
         revision            0
         distname            ${python.rootname}-${version}
+
+        depends_build-append \
+                            port:py${python.version}-pytest-runner
+
         checksums           rmd160  0244d65adb569dc35ccf3215576d5579162690bb \
                             sha256  718b74786ea7ed07aa0c58bf572154d4679f960d26e9641cc1de204a30b87fc9 \
                             size    680364
@@ -79,8 +89,6 @@ if {${name} ne ${subport}} {
                     ${destroot}${prefix}/share/doc/${subport}/_static
             }
         }
-        xinstall -m 0644 -W ${worksrcpath} ChangeLog README.rst \
-            ${destroot}${prefix}/share/doc/${subport}
         file delete ${destroot}${python.pkgd}/logilab/__init__.py
     }
 

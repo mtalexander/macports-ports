@@ -98,11 +98,11 @@ subport zmq22 {
 subport zmq-devel {
     PortGroup cmake 1.1
 
-    github.setup    zeromq libzmq 4ecb0454fbd46a65de9ecb1b9afe417df3684d1c
-    version         20210221-[string range ${github.version} 0 7]
-    checksums       rmd160  e031c7e74be0e8501812de600d3ccc81b3f62a3d \
-                    sha256  f5364aa010d8b4619e661d5ddccb3ce862724ad9c541f458ab6785891fc0be0c \
-                    size    919896
+    github.setup    zeromq libzmq 7c2df78b49a3aa63e654b3f3526adf71ed091534
+    version         20211010-[string range ${github.version} 0 7]
+    checksums       rmd160  f33f254beb6a9d3ffd9003663147bd4f44085b9c \
+                    sha256  e340f3dee997d1d83c539d40faba1f932c6a1c153fcba21dca7ff53d952da69f \
+                    size    928570
     revision        0
 
     conflicts zmq zmq22 zmq3

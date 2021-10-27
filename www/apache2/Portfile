@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           apache2 1.0
 
 name                apache2
-version             2.4.46
-revision            1
-checksums           rmd160  8e5365222be2b53bed955f6f658fc4b6cc6c60a2 \
-                    sha256  740eddf6e1c641992b22359cabc66e6325868c3c5e2e3f98faf349b61ecf41ea \
-                    size    7187805
+version             2.4.51
+revision            0
+checksums           rmd160  339cf2df89613855dc44affe6296ba1b1652db14 \
+                    sha256  20e01d81fecf077690a4439e3969a9b22a09a8d43c525356e863407741b838f4 \
+                    size    7653609
 
 categories          www
 maintainers         {ryandesign @ryandesign} {mps @Schamschula} openmaintainer
@@ -192,6 +192,11 @@ variant brotli description {Build brotli module} {
 variant http2 description {Enable HTTP/2 support} {
     depends_lib-append      port:nghttp2
     configure.args-append   --enable-http2
+}
+
+variant xml2enc description {Enable i18n support for markup filters} {
+    configure.args-append   --enable-xml2enc --with-libxml2=${prefix}
+    depends_lib-append      port:libxml2
 }
 
 variant mpms_shared_all description {Build all MPM's as DSO for dynamic loading} {

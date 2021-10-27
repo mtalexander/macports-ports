@@ -5,7 +5,7 @@ PortGroup           python 1.0
 PortGroup           select 1.0
 
 name                py-black
-version             20.8b1
+version             21.9b0
 revision            0
 
 platforms           darwin
@@ -28,26 +28,24 @@ long_description \
 
 homepage            https://${python.rootname}.readthedocs.io/
 
-checksums           rmd160  63de27671405a15165325731e0b74e4bfe1be80d \
-                    sha256  1c02557aa099101b9d21496f8a914e9ed2222ef70336404eeeac8edba836fbea \
-                    size    1096433
+checksums           rmd160  c59d8de8980a5f574c3cce6664962f04228a9942 \
+                    sha256  7de4cfc7eb6b710de325712d40125689101d21d25283eed7e9998722cf10eb91 \
+                    size    560945
 
 python.versions     36 37 38 39
 
 if {${subport} ne ${name}} {
-    patchfiles      patch-tests.diff
-
     depends_build-append \
                     port:py${python.version}-setuptools \
                     port:py${python.version}-setuptools_scm
 
     depends_lib-append \
-                    port:py${python.version}-appdirs \
+                    port:py${python.version}-platformdirs \
                     port:py${python.version}-click \
                     port:py${python.version}-mypy_extensions \
                     port:py${python.version}-pathspec \
                     port:py${python.version}-regex \
-                    port:py${python.version}-toml \
+                    port:py${python.version}-tomli \
                     port:py${python.version}-typed-ast \
                     port:py${python.version}-typing_extensions
 
@@ -58,6 +56,9 @@ if {${subport} ne ${name}} {
 
     depends_run-append \
                     port:black_select
+
+    depends_test-append \
+                    port:py${python.version}-pytest
 
     test.run        yes
 

@@ -12,10 +12,10 @@ license             PSF
 if {$subport != $name} {
     if {${python.version} == 27} { version 2.7.18 }
     if {${python.version} == 35} { version 3.5.10 }
-    if {${python.version} == 36} { version 3.6.13 }
-    if {${python.version} == 37} { version 3.7.10 }
-    if {${python.version} == 38} { version 3.8.8 }
-    if {${python.version} == 39} { version 3.9.2 }
+    if {${python.version} == 36} { version 3.6.15 }
+    if {${python.version} == 37} { version 3.7.12 }
+    if {${python.version} == 38} { version 3.8.12 }
+    if {${python.version} == 39} { version 3.9.7 }
 }
 
 categories          lang
@@ -58,27 +58,27 @@ if {${name} != ${subport}} {
     }
 
     if {${python.version} == 36} {
-        checksums   rmd160  62c854d18f22805194a85e0d0c954bd341370015 \
-                    sha256  13e36aea543d2ab55d116a2c150684214c0be37992d71aba126cdf58d342adac \
-                    size    6016532
+        checksums   rmd160  9fb800da26ab9d875f33d60cc2ed172e55b38a17 \
+                    sha256  02a9bea40a9f17d0cea5041ad3465422e478246b90f4fb1b44b48e6f38e9697f \
+                    size    6028519
     }
 
     if {${python.version} == 37} {
-        checksums   rmd160  a68f6dcff3e9752fae41cfd32780574bf9e1e7aa \
-                    sha256  3d536895bcc8ea943330b2b91c645d0f028eb03af4abb589eb3b29a496b6de61 \
-                    size    6289108
+        checksums   rmd160  558eadae39156f1644036ad2ed261cbf8f5eb642 \
+                    sha256  dead3859ebcf28e6ba5e4a524c41deb8cabfd47fb8b6f4206a3729963b463a8c \
+                    size    6287419
     }
 
     if {${python.version} == 38} {
-        checksums   rmd160  4960b60dc4425fde466ace56357f320ff823d537 \
-                    sha256  4490001bc4ee47d3f6f7ab1439a386dd2b6e1774b13310e8216368410ddef3d8 \
-                    size    6590826
+        checksums   rmd160  beb0955a49a994cd5310727b176e91b66fd45fc1 \
+                    sha256  175f03235e0e6949a3054aad848f97e62994ee1783d1bcd063c4093ed608ecc3 \
+                    size    6697455
     }
 
     if {${python.version} == 39} {
-        checksums   rmd160  51321b4c6785ecceee11b4fd7daa992e450ebe94 \
-                    sha256  f50c03040d48b883180d831704d4ec67a3ec497d932ac6742595665dddf91a2c \
-                    size    6818470
+        checksums   rmd160  5ac7ac46e5f3c96f84045382a43b615699813247 \
+                    sha256  501eaecb3d7e162aa26b0e09590273a763b62ee71071c41c0b3f3df5919f08f9 \
+                    size    6953294
     }
 
     dist_subdir         ${name}/${revision}

@@ -1,10 +1,9 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
-PortSystem                1.0
-PortGroup           cxx11 1.1
+PortSystem          1.0
 
 name                qore
-version             0.9.12
+version             1.0.9
 categories          lang
 license             {LGPL-2.1 MIT}
 maintainers         {davidnichols @davidnich} openmaintainer
@@ -15,14 +14,17 @@ homepage            http://qore.org
 platforms           darwin
 master_sites        https://github.com/qorelanguage/qore/releases/download/release-${version}
 
-checksums           rmd160 6ba11451b7c409e16a3a5b4cafe9dc603f409502 \
-                    sha256 25b503afd483b6825cf30b9cd4f396657565a12b1e49c09f7adbaca708ba5041 \
-                    size 43927208
+checksums           rmd160 796216867b030935aa7a7c05412fbf1bfb852af6 \
+                    sha256 e21c3c9315dfb0aab6fcfb77dca41bb31667ed5184b10d63131b0b74daea4fb3 \
+                    size 43125014
 
-depends_build       port:flex \
+compiler.cxx_standard  2011
+
+depends_build-append \
+                    port:flex \
                     port:bison
 
-depends_lib         path:lib/libssl.dylib:openssl \
+depends_lib-append  path:lib/libssl.dylib:openssl \
                     port:pcre \
                     port:zlib \
                     port:bzip2 \
@@ -35,4 +37,4 @@ depends_lib         path:lib/libssl.dylib:openssl \
 configure.args      --disable-debug --disable-static --disable-dependency-tracking
 
 # the autoconf check for iconv() in libiconv fails with GNU iconv, but we need it, so we turn it on anyway
-configure.ldflags   -liconv
+configure.ldflags-append -liconv

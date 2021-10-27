@@ -6,11 +6,11 @@ PortGroup           github 1.0
 PortGroup           muniversal 1.0
 
 epoch               1
-github.setup        mongodb mongo 4.4.4 r
+github.setup        mongodb mongo 5.0.3 r
 revision            0
-checksums           rmd160  ca26424bb4c43af5c2c3161e764bd17beb3dd640 \
-                    sha256  33b15c80c61800a7bb73999159dfff374ba4fcc0b56b9949c81ff5e411a76956 \
-                    size    49942905
+checksums           rmd160  b5e8ef7ec290350a9256d5c2a8e2c23c9597e675 \
+                    sha256  e01afa436d0275de79070449837efe343a7271432cdcf2edb69e9ae61ac037dd \
+                    size    54590513
 
 name                mongodb
 license             SSPL
@@ -25,12 +25,18 @@ homepage            https://www.mongodb.com/community
 master_sites        https://fastdl.mongodb.org/src
 distname            ${name}-src-r${version}
 
-depends_build       port:python38 \
-                    port:py38-cheetah \
-                    port:py38-psutil \
-                    port:py38-regex \
-                    port:py38-setuptools \
-                    port:py38-yaml
+set python_branch   3.9
+set python_version  [string map {. {}} ${python_branch}]
+
+depends_build       port:python${python_version} \
+                    port:py${python_version}-cheetah \
+                    port:py${python_version}-psutil \
+                    port:py${python_version}-pymongo \
+                    port:py${python_version}-regex \
+                    port:py${python_version}-requests \
+                    port:py${python_version}-requirements-parser \
+                    port:py${python_version}-setuptools \
+                    port:py${python_version}-yaml
 
 depends_lib         port:curl \
                     port:cyrus-sasl2 \
@@ -56,11 +62,13 @@ configure.optflags
 # -L flags are handled via LIBPATH.
 configure.ldflags-delete -L${prefix}/lib
 
-build.cmd           ${prefix}/bin/python3.8 buildscripts/scons.py
+build.cmd           ${prefix}/bin/python${python_branch} buildscripts/scons.py
 build.target        install-core
 build.args          CC="${configure.cc}" \
+                    CFLAGS="${configure.cflags}" \
                     CPPPATH="${prefix}/include" \
                     CXX="${configure.cxx}" \
+                    CXXFLAGS="${configure.cxxflags}" \
                     DESTDIR="${destroot}" \
                     LIBPATH="${prefix}/lib" \
                     PREFIX="${prefix}" \
@@ -102,14 +110,13 @@ supported_archs     arm64 x86_64
 array set merger_build_args {arm64 "TARGET_ARCH=aarch64" x86_64 "TARGET_ARCH=x86_64"}
 foreach a ${supported_archs} {
     lappend merger_build_args($a) \
-                    CCFLAGS="${configure.cflags} -arch ${a}" \
-                    CXXFLAGS="${configure.cxxflags} -arch ${a}" \
+                    CCFLAGS="-arch ${a}" \
                     LINKFLAGS="${configure.ldflags} -arch ${a}" \
 }
 
-# An updated javascript engine with support for arm64 is not expected until mongodb 5.
-# https://jira.mongodb.org/browse/SERVER-50115
-if {[vercmp ${version} 5.0] < 0} {
+# JavaScript engine support for arm64 is blocked pending a new ESR release from Mozilla.
+# https://jira.mongodb.org/browse/SERVER-50115?focusedCommentId=3948549&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel#comment-3948549
+if {[vercmp ${version} 6.0.0] < 0} {
     lappend merger_build_args(arm64) --js-engine=none
 }
 
@@ -149,13 +156,15 @@ destroot {
 startupitem.create      yes
 startupitem.executable  sudo -u ${mongouser} ${prefix}/bin/mongod --dbpath ${dbdir} --logpath ${logdir}/mongodb.log --logappend
 
-if {${os.platform} eq "darwin" && ${os.major} < 16} {
+# Upstream intends mongodb 5 to require macOS 10.14 or later but it
+# builds fine on 10.13. https://jira.mongodb.org/browse/SERVER-58746
+if {${os.platform} eq "darwin" && ${os.major} < 17} {
     known_fail          yes
     depends_build
     depends_lib
     pre-fetch {
-        ui_error "${name} @${version} requires macOS 10.12 or greater"
-        return -code error "incompatible OS X version"
+        ui_error "${name} @${version} requires macOS 10.13 or greater"
+        return -code error "incompatible macOS version"
     }
 }
 

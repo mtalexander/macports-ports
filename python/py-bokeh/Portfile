@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-bokeh
-version             2.3.0
+version             2.3.3
 revision            0
 categories-append   devel
 platforms           darwin
@@ -22,9 +22,9 @@ long_description    Bokeh (pronounced boh-Kay) is an implementation of \
 
 homepage            https://github.com/bokeh/bokeh
 
-checksums           rmd160  70d97ff959e209ecf4681b7138bc8cdb62818656 \
-                    sha256  dd417708f90702190222b1068a645acae99e66d4b58d7a336d545aeaa04e9b40 \
-                    size    10617724
+checksums           rmd160  6ab0ff104537dcd0db218d04ff5d492be02403d4 \
+                    sha256  a5fdcc181835561447fcc5a371300973fce4114692d5853addec284d1cdeb677 \
+                    size    10670403
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-setuptools \

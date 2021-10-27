@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        postmodern ruby-install 0.7.0 v
+github.setup        postmodern ruby-install 0.8.3 v
 revision            0
 categories          ruby
 license             MIT
@@ -17,9 +17,9 @@ maintainers         {catlett.info:chad @chadcatlett} \
 description         Installs Ruby, JRuby, Rubinius, TruffleRuby or mruby.
 long_description    ${description}
 
-checksums           rmd160  dcd7edba9588c71a51a2416b7277b334f27efd0e \
-                    sha256  2e0c6db77cdf50d30f68db3c10cda72bab6b6d4be12cc11aec6fcfad8f99911f \
-                    size    28545
+checksums           rmd160  7e134959cfbd72a140e9eff2e7162d90a9085898 \
+                    sha256  8f5791d974aa94f4c863d5855b28cdb20493e19e3b655136164575df1a3d76d4 \
+                    size    32387
 
 use_configure       no
 

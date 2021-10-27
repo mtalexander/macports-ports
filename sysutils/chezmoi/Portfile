@@ -3,37 +3,50 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/twpayne/chezmoi 2.0.4 v
+go.setup            github.com/twpayne/chezmoi 2.7.1 v
+github.tarball_from archive
 revision            0
 
 homepage            https://chezmoi.io
 
 description         Manage your dotfiles across multiple machines, securely.
 
-long_description    chezmoi helps you manage your personal configuration \
+long_description    ${name} helps you manage your personal configuration \
                     files (dotfiles, like ~/.bashrc) across multiple machines.
 
 categories          sysutils
-license             MIT
 installs_libs       no
-
+license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-# Allow dependencies to be fetched at build time.
+checksums           rmd160  677c83dd71742e4712e51f49aedb6c75ed2ee70b \
+                    sha256  d80b301e1a25a67d9ada956a68532f0b23bd0627056c26685d977676d7bf7fe2 \
+                    size    2328904
+
+# Allow Go to fetch dependencies at build time
 build.env-delete    GO111MODULE=off GOPROXY=off
-
-build.args          -ldflags \
-                    \"-X main.version=v${version} -X main.builtBy=macports\"
-
-set cm_doc_dir      ${prefix}/share/doc/${name}
+build.cmd "${build.cmd} -ldflags \"-X main.version=v${version} -X main.builtBy=macports\" && make completions"
 
 destroot {
+    set cm_doc_dir      ${prefix}/share/doc/${name}
+
     xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
     xinstall -d ${destroot}${cm_doc_dir}
     copy {*}[glob ${worksrcpath}/docs/*] ${destroot}${cm_doc_dir}/
-}
 
-checksums           rmd160  31e4655bad9ed490b2345a66353848a8389317e8 \
-                    sha256  c45f76b4da36df30c67da96470746f3004c28f53a8224aed04d2ca4651d69a72 \
-                    size    2271038
+    # Install bash completion
+    xinstall -d  ${destroot}${prefix}/share/bash-completion/completions
+    xinstall -m 0644 ${worksrcpath}/completions/${name}-completion.bash \
+        ${destroot}${prefix}/share/bash-completion/completions/${name}
+
+    # Install zsh completion
+    xinstall -d  ${destroot}${prefix}/share/zsh/site-functions
+    xinstall -m 0644 ${worksrcpath}/completions/${name}.zsh \
+        ${destroot}${prefix}/share/zsh/site-functions/_${name}
+
+    # Install fish completion
+    xinstall -d ${destroot}${prefix}/share/fish/vendor_completions.d
+    xinstall -m 0644 ${worksrcpath}/completions/${name}.fish \
+        ${destroot}${prefix}/share/fish/vendor_completions.d/${name}.fish
+}

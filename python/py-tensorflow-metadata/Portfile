@@ -37,8 +37,6 @@ if {${name} ne ${subport}} {
     PortGroup       bazel 1.0
 
     bazel.version   3.7
-    bazel.clean_post_build \
-                    no
     
     # Disable bazel configure and build phase configuration
     bazel.build_cmd
@@ -60,9 +58,11 @@ if {${name} ne ${subport}} {
                     ${bazel_build_workspace_path}/tensorflow_metadata/proto/v0
     
     post-extract {
-        xinstall -d ${workpath}/bin ${bazel_build_proto_path}
-        ln -s ${python.bin} ${workpath}/bin/python
+        xinstall -d ${bazel_build_proto_path}
     }
+
+    # Use correct python in bazel build
+    bazel.python_version ${python.branch}
 
     # replace with patch files after this repo is a little more stable
     post-patch {
@@ -72,12 +72,7 @@ if {${name} ne ${subport}} {
                     ${worksrcpath}/setup.py
     }
 
-    build.env-append \
-                    "PATH=${workpath}/bin:$env(PATH)"
     build.asroot    yes
-
-    destroot.env-append \
-                    "PATH=${workpath}/bin:$env(PATH)"
     destroot.asroot yes
 
     test.run        yes

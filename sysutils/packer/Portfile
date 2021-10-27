@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/hashicorp/packer 1.7.0 v
+go.setup            github.com/hashicorp/packer 1.7.7 v
+github.tarball_from archive
 revision            0
 
 homepage            https://www.packer.io
@@ -20,25 +21,23 @@ long_description    ${description} \
                     https://www.packer.io/docs/builders/index.html.
 
 categories          sysutils
-license             MPL-2
-platforms           darwin
-supported_archs     x86_64
 installs_libs       no
-
-checksums           rmd160  8f70d4b391007372c63096a20caf21164619f77c \
-                    sha256  85ec09a15173b1c967ce0608364491f5103919daba6b1422d67fd84e2e9239ce \
-                    size    17590041
-
+license             MPL-2
 maintainers         {gmail.com:newtonne.github @newtonne} \
                     {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
+platforms           darwin
 
-depends_build       port:realpath
+checksums           rmd160  19b466e61dd749de492f38e211416b12b5fec1a0 \
+                    sha256  c5684ad323a97cc8b9342a42a590235ad687c8a5f9069a77510491e46e421aba \
+                    size    2323721
+
+depends_build-append port:realpath
 
 # Allow deps to be fetched at runtime
 build.env-delete    GO111MODULE=off GOPROXY=off
 
-build.env-append    XC_ARCH=amd64 \
+build.env-append    XC_ARCH=${goarch} \
                     XC_OS=darwin
 
 build.cmd           make

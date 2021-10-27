@@ -3,7 +3,7 @@
 PortSystem              1.0
 PortGroup               golang 1.0
 
-go.setup                github.com/git-lfs/git-lfs 2.13.2 v
+go.setup                github.com/git-lfs/git-lfs 3.0.1 v
 revision                0
 maintainers             {raimue @raimue} \
                         openmaintainer
@@ -16,11 +16,11 @@ long_description        {*}${description} is an extension for versioning large f
 homepage                https://git-lfs.github.com/
 license                 MIT
 
-checksums               rmd160  b0c385f014971857a939f93118753de53a10ab5a \
-                        sha256  7e9c1e2c2a02be327b31cb25c033c563555cfc67565219866d50837d4641894d \
-                        size    2528000
+checksums               rmd160  4b6c68210e2202c85863bdd7aaabc83898c284c9 \
+                        sha256  823ea765f53c6eee7d111fe19045bc89c9b2236f7fd4d43590d03407d322d3b2 \
+                        size    3125609
 
-depends_build-append    port:rb27-ronn-ng
+depends_build-append    port:rb30-ronn-ng
 depends_run             port:git
 
 if {${os.platform} eq "darwin" && ${os.major} < 16} {
@@ -36,7 +36,7 @@ use_configure no
 
 build.cmd               make
 build.target            bin/git-lfs man
-build.args              RONN=${prefix}/bin/ronn-2.7
+build.args              RONN=${prefix}/bin/ronn-3.0
 
 destroot {
     set bindir ${destroot}${prefix}/bin

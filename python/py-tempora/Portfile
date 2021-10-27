@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-tempora
-version             4.0.1
+version             4.1.1
 revision            0
 
 categories-append   devel
@@ -22,9 +22,9 @@ homepage            https://pypi.python.org/pypi/${python.rootname}
 distname            ${python.rootname}-${version}
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
-checksums           rmd160  aa8824bdc291c6763fce61dcf46d722b67638ecf \
-                    sha256  9af06854fafb26d3d40d3dd6402e8baefaf57f90e48fdc9a94f6b22827a60fb3 \
-                    size    20978
+checksums           rmd160  a3eedecdf47c3026b44609f01150821b29b532ad \
+                    sha256  c54da0f05405f04eb67abbb1dff4448fd91428b58cb00f0f645ea36f6a927950 \
+                    size    19208
 
 python.versions     27 35 36 37 38 39
 

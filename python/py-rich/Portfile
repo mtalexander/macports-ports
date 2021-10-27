@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-rich
-version             9.13.0
+version             10.12.0
 platforms           darwin
 license             MIT
 supported_archs     noarch
@@ -21,11 +21,11 @@ long_description    {*}${description}. The Rich API makes it easy to add color \
 
 homepage            https://rich.readthedocs.io/en/latest/
 
-checksums           rmd160 675604df011821007517d05debc0c45796b6909b \
-                    sha256 d59e94a0e3e686f0d268fe5c7060baa1bd6744abca71b45351f5850a3aaa6764 \
-                    size   181536
+checksums           rmd160 27f7811cfd8af9aa264b517b97b39baac3db6e14 \
+                    sha256 83fb3eff778beec3c55201455c17cccde1ccdf66d5b4dade8ef28f56b50c4bd4 \
+                    size   195363
 
-python.versions     38 39
+python.versions     36 37 38 39
 
 if {${name} ne ${subport}} {
 
@@ -34,8 +34,18 @@ if {${name} ne ${subport}} {
 
     depends_run-append  port:py${python.version}-colorama \
                         port:py${python.version}-commonmark \
-                        port:py${python.version}-typing_extensions \
                         port:py${python.version}-pygments
+
+    if {${python.version} < 38} {
+        depends_run-append \
+                        port:py${python.version}-typing_extensions
+    }
+
+    # Separate if statment since we want typing_extensions for py36 as well.
+    if {${python.version} eq 36} {
+        depends_run-append \
+                        port:py${python.version}-dataclasses
+    }
 
     test.run            yes
     test.cmd            ${python.bin}

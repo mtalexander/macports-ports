@@ -34,11 +34,11 @@ if {${subport} eq ${name}} {
 } else {
 
     # devel
-    github.setup    mossmann hackrf e6eb4ba29bbe5dc2fcd092e394188bc10a8bad54
-    version         20210318-[string range ${github.version} 0 7]
-    checksums       rmd160  1cad1d66846af19b966f70d40028e5295b66d9bf \
-                    sha256  4f8c3f8b6fe19d2b8d53d9a0fa91cbc2c30376d03cd25f69d82d1c4419a7b2ac \
-                    size    13066739
+    github.setup    mossmann hackrf d84ff8262fabede0f5e09303d6468c5b74467986
+    version         20211013-[string range ${github.version} 0 7]
+    checksums       rmd160  099f67b9ecfd835b1e9fdd9b8d815fa28d9368ad \
+                    sha256  07a40b9268fb1002e9c7fd584de6d08359112ca89c5053583427b5306bcdd917 \
+                    size    11703330
     revision        0
 
     conflicts       hackrf

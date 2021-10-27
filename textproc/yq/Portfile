@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/mikefarah/yq 4.6.3 v
+go.setup            github.com/mikefarah/yq 4.13.4 v
 revision            0
 
 homepage            https://mikefarah.gitbook.io/yq
@@ -16,20 +16,21 @@ long_description    {*}${description}. The aim of the project is to be the jq \
 categories          textproc sysutils
 license             MIT
 platforms           darwin
+installs_libs       no
 
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-installs_libs       no
+github.tarball_from archive
 
 destroot {
     xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
 }
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  002d77f8e909b0bb7c4230965ceb0acf42049fd1 \
-                        sha256  15ef8c160772dbc6ba211d746e9d287c8172f0a7b10939f3deb6cdc2ad5d36b2 \
-                        size    96315
+                        rmd160  aeb2bde4fe445ad8ea1012830556631be49bdb36 \
+                        sha256  5d18ce2b2877a42a9765fceb7617f5aae3e0bc4e9f44c3048f9c9928a19bf965 \
+                        size    132043
 
 go.vendors          gopkg.in/yaml.v3 \
                         lock    496545a6307b \
@@ -52,10 +53,10 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  9a500a49d83a09e7de6c71b215d1c14b81e315d26884530ef327c95ddf1f2d28 \
                         size    13667 \
                     golang.org/x/sys \
-                        lock    c4fcb01b228e \
-                        rmd160  83c8f9dbeccb1ed5dd1be13a8ab5070f50743e77 \
-                        sha256  c87407682f5e6fc309584b9efa2eea986d0d6e96be109925c47415bae3032cc3 \
-                        size    1217766 \
+                        lock    977fb7262007 \
+                        rmd160  74f33ca839fd9c6e779377720814c36bd7965159 \
+                        sha256  a86d29dc9b7ceff0c69c72362e1c9423bc823836d3b5c417e49e9981eff0d8a6 \
+                        size    1192496 \
                     github.com/timtadh/lexmachine \
                         lock    v0.2.2 \
                         rmd160  a156e57171103668fb7d4f787cae7cc5a460b80c \
@@ -96,6 +97,11 @@ go.vendors          gopkg.in/yaml.v3 \
                         rmd160  e9948731b241336e8d5aa2a2e25dff26a9dccebe \
                         sha256  7e815dc076eeb34bf44a348eea7ae9b7a432b37462543cc5b382350d0e91c5f0 \
                         size    9576 \
+                    github.com/magiconair/properties \
+                        lock    v1.8.5 \
+                        rmd160  b311fe21542d64d5a6c6ef38ff616045af745299 \
+                        sha256  15ee374fddab7a4db77bc011564729886be13ba37f1a3070ae334808a5cf78d1 \
+                        size    30512 \
                     github.com/kr/text \
                         lock    v0.1.0 \
                         rmd160  0b3c78459e227170a3b80a0103d87a3eef77ed88 \

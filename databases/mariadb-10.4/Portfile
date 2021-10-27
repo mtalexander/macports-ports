@@ -6,7 +6,7 @@ legacysupport.newest_darwin_requires_legacy 10
 
 name                mariadb-10.4
 set name_mysql      ${name}
-version             10.4.18
+version             10.4.21
 set version_branch  [join [lrange [split ${version} .] 0 1] .]
 # Please set revision_client and revision_server to 0 if you bump
 # version; these can be changed independently for the 2 subports, but
@@ -24,7 +24,9 @@ if {$subport eq $name} {
     PortGroup           select 1.0
     PortGroup           github 1.0
     PortGroup           compiler_blacklist_versions 1.0
+    PortGroup           boost 1.0
 
+    boost.version       1.71
     compiler.cxx_standard 2011
 
     # https://trac.macports.org/ticket/60805
@@ -51,15 +53,15 @@ if {$subport eq $name} {
 
     set libmariadb_github_author  MariaDB
     set libmariadb_github_project mariadb-connector-c
-    set libmariadb_github_branch  e62ff462c58ce154596a0f1da9e79cd4395396e3
+    set libmariadb_github_branch  0cc16f18c1d87bbe6e360eaf578fcedeb9479114
 
     set wsrep_github_author  codership
     set wsrep_github_project wsrep-lib
-    set wsrep_github_branch  a93955ddeef5989505cbb3a9f8bb124341462569
+    set wsrep_github_branch  c45b1eff940077e2b2f364f30ba04930f134da8d
 
     set wsrep_api_github_author   codership
     set wsrep_api_github_project  wsrep-API
-    set wsrep_api_github_branch   12a50c43b112648fec3b1213a1470a85aca55f2c
+    set wsrep_api_github_branch   76cf223c690845bbf561cb820a46e06a18ad80d1
 
     set main_distname ${distname}
     set main_distfile ${distfiles}
@@ -84,21 +86,21 @@ if {$subport eq $name} {
                  https://github.com/${wsrep_api_github_author}/${wsrep_api_github_project}/archive/${wsrep_api_github_branch}:tagfour
 
     checksums       ${main_distfile} \
-                    rmd160  c3efc9c4a51cf13af9f60175a98fc603150efae8 \
-                    sha256  3a54267097eb9f9bf5ebaf98ca4db80dd7056b6fad6017549d204e3b1dac8d1b \
-                    size    63901619 \
+                    rmd160  a538903a3f53f93255ec68a7ccc73af7484048d4 \
+                    sha256  d92372564389cbbc17c498aeb1af26f951c1318547dbd4221a3a0e045dd41d24 \
+                    size    64011607 \
                     ${libmariadb_distfile} \
-                    rmd160  6c4ab5c5608c2b34bd2cea4e6d843ac6d20e7a80 \
-                    sha256  61747c7394c3c7971aa0be82ef0f46dcb052cf4575c4b62a0c41abbf2e1bfdd2 \
-                    size    764677 \
+                    rmd160  e04d5c9aee20031b8666275e8fa9fba6a52701e3 \
+                    sha256  c0ba732c77deb8a1f684f3c2f77fb99769857bf60578b26d2510b364b781562c \
+                    size    967008 \
                     ${wsrep_distfile} \
-                    rmd160  0a98a81dda8dd1fc9b3cac43d5c4813e796e187f \
-                    sha256  0aecf1a1d05bb772cef82c1951a5a1abbc3252be960582545d84616411f41dba \
-                    size    149100 \
+                    rmd160  033c53397caebd61b22208cf4431410a196527fa \
+                    sha256  546dedb085e09d3fb0596d851334cc97ecfa52c8ee9308606256d644d8d920e7 \
+                    size    158962 \
                     ${wsrep_api_distfile} \
-                    rmd160  9de88c7e2154eb3ff1b5fc92e42cca2f487580df \
-                    sha256  2675869edc98e631337a6a235bc6494209be06826d4d4b7d610aa10eb5f81d88 \
-                    size    52889
+                    rmd160  847e8d58c8806437088d77d444ecfe2dcd8a76d1 \
+                    sha256  214fb8701ae51bcdf8171475a93f2c28ddd56e642feb172ec5148b4d3c73d4a6 \
+                    size    90155
 
     worksrcdir   ${github.project}-${git.branch}
 
@@ -125,8 +127,10 @@ if {$subport eq $name} {
         move ${workpath}/${wsrep_api_distname} ${worksrcpath}/wsrep-lib/wsrep-API/v26
     }
 
+    depends_build-append port:bison
     depends_lib-append  port:zlib port:tcp_wrappers port:ncurses port:judy \
-                        path:lib/libssl.dylib:openssl port:libxml2
+                        path:lib/libssl.dylib:openssl port:libxml2 \
+                        port:pcre2
     depends_run-append  port:mysql_select
 
     select.group        mysql
@@ -195,7 +199,9 @@ if {$subport eq $name} {
                         -DCONNECT_WITH_LIBXML2=ON \
                         -DCONNECT_WITH_MONGO=OFF \
                         -DCONNECT_WITH_ODBC=OFF \
-                        -DCONNECT_WITH_REST=OFF
+                        -DCONNECT_WITH_REST=OFF \
+                        -DWITH_PCRE=system \
+                        -DBISON_EXECUTABLE=${prefix}/bin/bison
 
     post-destroot {
         # proc portdestroot::destroot_finish fails to find and compress our man pages

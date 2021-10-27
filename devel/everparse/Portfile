@@ -4,8 +4,8 @@ PortSystem          1.0
 PortGroup github    1.0
 
 name                everparse
-github.setup        project-everest everparse 06072a6cbdb2b266a8a754f6d19981301e80c11e
-version             20210113-[string range ${github.version} 0 6]
+github.setup        project-everest everparse 33d5538d8a92096d39879547a0744983b0fb75a1
+version             20210827-[string range ${github.version} 0 6]
 revision            0
 
 categories          devel
@@ -17,18 +17,19 @@ long_description    EverParse provides LowParse, verified-secure F*/Low* parser 
                     QuackyDucky, an untrusted compiler for generating verified secure parsers from a \
                     message format specification.
 
-checksums           rmd160  8303906fccd1bd316ea4ff6457dd7e24787aa4d2 \
-                    sha256  18eae5bbd394bf6bf18fb081b1cfef7219688506902c04a699dfa01cfd2d954e \
-                    size    813704
+checksums           rmd160  f5b69e47a6ad116eaab2e9fe736d9066cd0e7d65 \
+                    sha256  f2c8b58739781587f6b11a60b141bf41f4b0e5bfd2ae5acb95131b1c65ac55e7 \
+                    size    863706
 
-depends_lib         port:fstar-devel \
-                    port:kremlin-devel \
+depends_lib         port:fstar \
+                    port:kremlin \
                     port:ocaml-hacl-star
 
 depends_build       port:ocaml \
                     port:ocaml-ocamlbuild \
                     port:ocaml-batteries \
-                    port:ocaml-hex
+                    port:ocaml-hex \
+                    port:ocaml-re
 
 patchfiles          patch-add_FStar_Getopt.ml \
                     patch-fix-tests-mkdir \
@@ -38,8 +39,8 @@ options             lowparse.home \
                     fstar.home \
                     kremlin.home
 
-default fstar.home      {${prefix}/libexec/fstar-devel}
-default kremlin.home    {${prefix}/libexec/kremlin-devel}
+default fstar.home      {${prefix}/libexec/fstar}
+default kremlin.home    {${prefix}/libexec/kremlin}
 default lowparse.home   {${prefix}/libexec/${subport}}
 
 pre-patch {
@@ -48,12 +49,12 @@ pre-patch {
 }
 
 post-patch {
-    foreach {key path_var} {
-        @FSTAR_HOME@        fstar.home
-        @KREMLIN_HOME@      kremlin.home
-        @QD_HOME@           lowparse.home
+    foreach {key path_var subdir} {
+        @FSTAR_HOME@        fstar.home      "/home"
+        @KREMLIN_HOME@      kremlin.home    "/home"
+        @QD_HOME@           lowparse.home   ""
     } {
-        reinplace "s|${key}|[set ${path_var}]/home|g" \
+        reinplace "s|${key}|[set ${path_var}]${subdir}|g" \
             src/3d/ocaml/Batch.ml
     }
 }
@@ -79,6 +80,7 @@ pre-build {
         src/3d
         src/3d/prelude
         tests/lowparse
+        tests/sample0
         tests/sample
         tests/bitfields
         tests/unit
@@ -102,12 +104,12 @@ destroot {
         ${destroot}${everparse_bin}
 
     xinstall \
-        ${worksrcpath}/_build/src/quackyducky.native \
-        ${destroot}${everparse_bin}/qd
+        ${worksrcpath}/bin/qd.exe \
+        ${destroot}${everparse_bin}/qd.exe
 
     xinstall \
-        ${worksrcpath}/src/3d/3d \
-        ${destroot}${everparse_bin}/3d
+        ${worksrcpath}/bin/3d.exe \
+        ${destroot}${everparse_bin}/3d.exe
 
     foreach {ep_src ep_dst} [list \
         lowparse                    ${everparse_lib}    \
@@ -133,9 +135,10 @@ destroot {
     ln -sf lib                  ${destroot}/${everparse_src}
 
     # Symlink the binaries into ${prefix}/bin
-    ln -sf ${everparse_bin}/qd  ${destroot}${prefix}/bin/quackyducky
-    ln -sf quackyducky          ${destroot}${prefix}/bin/qd
-    ln -sf ${everparse_bin}/3d  ${destroot}${prefix}/bin/quackyducky-3d
+    ln -sf ${everparse_bin}/qd.exe  ${destroot}${prefix}/bin/quackyducky
+    ln -sf quackyducky              ${destroot}${prefix}/bin/qd
+    ln -sf ${everparse_bin}/3d.exe  ${destroot}${prefix}/bin/quackyducky-3d
+    ln -sf quackyducky-3d           ${destroot}${prefix}/bin/qd-3d
 }
 
 test.run            yes

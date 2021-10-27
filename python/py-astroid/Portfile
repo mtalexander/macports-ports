@@ -4,8 +4,8 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-astroid
-version             2.5.1
-revision            0
+version             2.8.2
+revision            1
 
 categories-append   devel
 platforms           darwin
@@ -26,9 +26,9 @@ long_description    The aim of this module is to provide a common \
 
 homepage            https://github.com/pycqa/astroid
 
-checksums           rmd160  dc50748c8a9d023c287842f30fbf5927f3fbb29f \
-                    sha256  cfc35498ee64017be059ceffab0a25bedf7548ab76f2bea691c5565896e7128d \
-                    size    312511
+checksums           rmd160  c6b2cbba1c3fe01549b4f8d5bfeeda9959af7589 \
+                    sha256  304e99c129794f2cfda584a12b71fde85205da950e2f330f4be09150525ae949 \
+                    size    199889
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -36,9 +36,11 @@ if {${name} ne ${subport}} {
                         port:py${python.version}-setuptools
 
     depends_lib-append  port:py${python.version}-lazy_object_proxy \
-                        port:py${python.version}-six \
-                        port:py${python.version}-typed-ast \
                         port:py${python.version}-wrapt
+
+    if {${python.version} < 38} {
+        depends_lib-append  port:py${python.version}-typed-ast
+    }
 
     if {${python.version} eq 27} {
         version             1.6.5
@@ -72,6 +74,16 @@ if {${name} ne ${subport}} {
         }
 
         depends_lib-append  port:py${python.version}-six
+    } else {
+        if {${python.version} <= 39} {
+            depends_lib-append  port:py${python.version}-typing_extensions
+        }
+        post-patch {
+            reinplace {s|wrapt>=1\.11,<1\.13|wrapt>=1.11|g} \
+                ${worksrcpath}/setup.cfg
+            reinplace {s|wrapt<1\.13,>=1\.11|wrapt>=1.11|g} \
+                ${worksrcpath}/astroid.egg-info/requires.txt
+        }
     }
 
     depends_test-append port:py${python.version}-pytest
@@ -81,10 +93,12 @@ if {${name} ne ${subport}} {
     test.target
     test.env            PYTHONPATH=${worksrcpath}/build/lib
 
-    post-destroot {
-        xinstall -m 755 -d ${destroot}${prefix}/share/doc/${subport}
-        xinstall -m 644 -W ${worksrcpath} ChangeLog README.rst \
-            ${destroot}${prefix}/share/doc/${subport}
+    if {${python.version} < 36} {
+        post-destroot {
+            xinstall -m 0755 -d ${destroot}${prefix}/share/doc/${subport}
+            xinstall -m 0644 -W ${worksrcpath} README.rst \
+                ${destroot}${prefix}/share/doc/${subport}
+        }
     }
 
     livecheck.type      none

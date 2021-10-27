@@ -6,7 +6,7 @@ PortGroup           cmake 1.1
 name                swi-prolog-devel
 conflicts           swi-prolog swi-prolog-lite
 epoch               20051223
-version             8.3.21
+version             8.5.0
 revision            0
 
 categories          lang
@@ -32,9 +32,9 @@ master_sites        https://www.swi-prolog.org/download/devel/src/
 distname            swipl-${version}
 dist_subdir         swi-prolog
 
-checksums           rmd160  fb451b16333809a85a4b9936d188e3cf73c0e029 \
-                    sha256  96cf43d4e8cd888d1a4a29c4a925a3e5ced07866587b0d2cfffca611ed064414 \
-                    size    11143843
+checksums           rmd160  ee22681346bf45ff00adc5fc716e55d82a5d7018 \
+                    sha256  573579bf6327783dd1e1b013762b08520aac12234ca027646731531cad030c49 \
+                    size    11350801
 
 depends_build-append \
                     port:pkgconfig

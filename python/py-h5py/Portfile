@@ -5,16 +5,16 @@ PortGroup               github 1.0
 PortGroup               python 1.0
 PortGroup               mpi 1.0
 
-github.setup            h5py h5py 3.2.1
+github.setup            h5py h5py 3.4.0
 name                    py-h5py
 
 # h5py needs to be re-built after hdf5 upgrades
 revision                0
 
 checksums \
-    rmd160  57cfc9f6690745d4f1864b59ef183fe6f5f79326 \
-    sha256  e87268f6dc04d5d2b5cf8d6d8765d0e6db9335935d41b60198f49658e649517d \
-    size    395914
+    rmd160  d09ea866640ba1fce9f7436194a2fefebcef6bec \
+    sha256  4620d4fae6e700fd4b07571cca2b4e42db8205cf663d73bacfe97eb02a9bf8ea \
+    size    395295
 
 platforms               darwin
 license                 BSD

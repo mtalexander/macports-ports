@@ -4,11 +4,13 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 PortGroup           legacysupport 1.1
+PortGroup           compiler_blacklist_versions 1.0
 
-# strnlen
-legacysupport.newest_darwin_requires_legacy 10
+# clock_gettime
+legacysupport.newest_darwin_requires_legacy 15
 
-github.setup        skyjake lagrange 1.2.2 v
+github.setup        skyjake lagrange 1.7.2 v
+revision            0
 github.tarball_from releases
 categories          net gemini
 platforms           darwin
@@ -18,20 +20,27 @@ maintainers         {@sikmir gmail.com:sikmir} openmaintainer
 description         A Beautiful Gemini Client
 long_description    ${description}
 
-checksums           rmd160  dc872a1604a8341bbe2a21507e72ee9f891c957f \
-                    sha256  66f7d06359c8d2de72787b02062d9bf4190a8667b6dd00b329b9bb6549bdac55 \
-                    size    14354957
+checksums           rmd160  8f251bf3ff82e08fcc0f9c83e91368e947ae4fc6 \
+                    sha256  cac15e05397285f40283bb0dd2f14f3985906fb82e28909fa62c452a2fb827bb \
+                    size    22814543
 
 depends_build-append \
                     port:pkgconfig
-depends_lib-append  port:libsdl2 \
+depends_lib-append  port:fribidi \
+                    path:lib/pkgconfig/harfbuzz.pc:harfbuzz \
+                    port:libsdl2 \
                     port:libunistring \
                     path:lib/libssl.dylib:openssl \
                     port:mpg123 \
                     port:pcre \
+                    port:webp \
                     port:zlib
 
-compiler.cxx_standard 2011
+compiler.c_standard 2011
+compiler.blacklist-append {clang < 800}
+
+configure.args-append "-DENABLE_HARFBUZZ_MINIMAL:BOOL=OFF"
+configure.args-append "-DENABLE_FRIBIDI_BUILD:BOOL=OFF"
 
 destroot {
     copy ${build.dir}/Lagrange.app ${destroot}${applications_dir}

@@ -4,7 +4,11 @@ PortSystem          1.0
 
 set my_name         gnupg
 name                ${my_name}2
-version             2.2.27
+version             2.2.31
+
+# https://trac.macports.org/ticket/63552
+epoch               1
+
 categories          mail security
 maintainers         {jann @roederja} {ionic @Ionic} openmaintainer
 license             GPL-3+
@@ -23,9 +27,9 @@ master_sites        ${my_name}:${my_name}
 
 use_bzip2           yes
 
-checksums           rmd160  9f397444ed4ff9a4c8394486752bb7d4b59a7f7a \
-                    sha256  34e60009014ea16402069136e0a5f63d9b65f90096244975db5cea74b3d02399 \
-                    size    7191555
+checksums           rmd160  d9276004a48b63fd16b72640b61659e4497bf799 \
+                    sha256  03eda09e8f9eaebab602057f3a8b908022a73999f5a31e580b12fcdf01fbebaf \
+                    size    7212188
 
 platform darwin {
     if {![variant_isset pinentry] && ![variant_isset pinentry_mac]} {

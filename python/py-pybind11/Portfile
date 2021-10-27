@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-pybind11
-version             2.6.2
+version             2.8.0
 revision            0
 categories-append   devel
 platforms           darwin
@@ -20,11 +20,11 @@ long_description    pybind11 is a lightweight header-only library that \
                     exposes  C++ types in Python and vice versa, mainly \
                     to create Python bindings of existing C++ code.
 
-homepage            https://github.com/pybind11/pybind11
+homepage            https://github.com/pybind/pybind11
 
-checksums           rmd160  1ccbbea54460edc2d9559c1277e1d719d6a9d289 \
-                    sha256  d0e0aed9279656f21501243b707eb6e3b951e89e10c3271dedf3ae41c365e5ed \
-                    size    174597
+checksums           rmd160  de5efa518ed10320b9c9d88889d608b7fae35ee2 \
+                    sha256  58e866369d184fdefb468377773a8bc707267a553039198b15309679bbc0a3f6 \
+                    size    187409
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-setuptools

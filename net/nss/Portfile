@@ -2,9 +2,10 @@
 
 PortSystem          1.0
 PortGroup           muniversal 1.0
+PortGroup           compiler_blacklist_versions 1.0
 
 name                nss
-version             3.63
+version             3.71
 revision            0
 set NSS_VMAJOR      [lindex [split ${version} .] 0]
 set NSS_VMINOR      [lindex [split ${version} .] 1]
@@ -28,9 +29,9 @@ set my_release      NSS_[strsed ${version} {g/\./_/}]_RTM
 master_sites        https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${my_release}/src/ \
                     ftp://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${my_release}/src/
 
-checksums           rmd160  f2c4c73360c3370276b5cb468139c748ed590b8f \
-                    sha256  182d2fef629102ae9423aabf2c192242b565cf5098e82c5a26cf70c5e4ea2221 \
-                    size    82167087
+checksums           rmd160  228be7ccf018fe4904a592eedad2bbfda574de14 \
+                    sha256  99acd315d9af35419cda4a6960f00a7d446bd231bd407174a7b07cb3dba0c253 \
+                    size    83927933
 
 # build fails with gcc-4.2 on Intel, but succeeds with gcc-4.2 on PPC
 # cc1: error: unrecognized command line option "-mpclmul"
@@ -38,6 +39,9 @@ checksums           rmd160  f2c4c73360c3370276b5cb468139c748ed590b8f \
 if {${configure.build_arch} in [list i386 x86_64]} {
     compiler.blacklist-append *gcc-4.* *gcc-3.*
 }
+
+# fails with clang-425 https://trac.macports.org/ticket/63245
+compiler.blacklist-append {clang < 426}
 
 depends_lib     port:nspr \
                 port:zlib \
@@ -113,9 +117,6 @@ array set cpu_arch_map [list \
     i386    x86 \
     x86_64  x86_64]
 
-if {![info exists universal_possible]} {
-    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
-}
 if {!${universal_possible} || ![variant_isset universal]} {
     if {${configure.build_arch} in [list arm64 ppc64 x86_64]} {
         build.args-append USE_64=1

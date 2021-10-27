@@ -7,7 +7,7 @@ PortGroup           legacysupport 1.1
 legacysupport.newest_darwin_requires_legacy 15
 
 name                knot
-version             3.0.5
+version             3.1.3
 revision            0
 categories          net
 license             GPL-3+
@@ -22,16 +22,15 @@ master_sites        https://secure.nic.cz/files/knot-dns/ \
 
 use_xz              yes
 
-checksums           rmd160  54b2e977a3e11b7fb007d379055dc928e4b13a56 \
-                    sha256  695e7d7a0abefc5a8fd01f3b3080f030f33b0948215f84cd4892c6d904390802 \
-                    size    1318292
+checksums           rmd160  093dddd480fe24c981e225a202379d01ddab5164 \
+                    sha256  a3fc448cbce3209575f93a3cf1224fa37802fc6606f7c7d4bb3aa6dbeaed2c64 \
+                    size    1407576
 
-depends_build       port:pkgconfig \
-                    port:py38-sphinx
+depends_build       port:pkgconfig
 
 depends_lib         port:fstrm \
                     port:gnutls \
-                    port:libidn \
+                    port:libidn2 \
                     port:lmdb \
                     port:nghttp2 \
                     port:protobuf-c \
@@ -47,6 +46,27 @@ if {${os.platform} eq "darwin" && ${os.major} < 15} {
 
 configure.args      --disable-silent-rules
 
+post-patch {
+    reinplace "s|task_t|k_task_t|g" \
+        ${worksrcpath}/src/knot/events/events.c \
+        ${worksrcpath}/src/knot/events/events.h \
+        ${worksrcpath}/src/knot/worker/pool.c \
+        ${worksrcpath}/src/knot/worker/queue.c \
+        ${worksrcpath}/src/knot/worker/queue.h \
+        ${worksrcpath}/tests/knot/test_worker_pool.c \
+        ${worksrcpath}/tests/knot/test_worker_queue.c
+}
+
 startupitem.create      yes
 startupitem.netchange   yes
-startupitem.executable  ${prefix}/sbin/knotd -c ${prefix}/etc/knot.conf
+startupitem.executable  ${prefix}/sbin/knotd -c ${prefix}/etc/knot/knot.conf
+
+notes "
+To complete the installation, run:
+
+sudo cp ${prefix}/etc/knot/knot.sample.conf ${prefix}/etc/knot/knot.conf
+
+Edit as necessary. (See the knot.conf manpage for additional information.)
+
+You will also need to created *.zone files. See ${prefix}/etc/knot/example.com.zone.
+"

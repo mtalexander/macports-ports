@@ -2,6 +2,7 @@
 
 PortSystem      1.0
 PortGroup       github 1.0
+PortGroup       compiler_blacklist_versions 1.0
 
 name            libusb
 categories      devel
@@ -21,6 +22,8 @@ use_parallel_build no
 # compiler with C11 support is required to build
 # libusb as of version 1.0.24
 compiler.c_standard 2011
+# fatal error: 'stdatomic.h' file not found
+compiler.blacklist-append {clang < 700}
 
 subport libusb-devel {}
 
@@ -37,6 +40,10 @@ if {${subport} eq ${name}} {
     # see https://trac.macports.org/ticket/61868
     patchfiles-append patch-c11-const-array-size-older-GCC.diff
 
+    # REMOVE at next release
+    # see https://trac.macports.org/ticket/56156
+    patchfiles-append patch-10.7-nospeedsuper.diff
+
     # overload the github livecheck regex to look for versions that
     # are just numbers and '.', no letters (e.g., "1.0.19rc1").
 
@@ -47,21 +54,24 @@ if {${subport} eq ${name}} {
     long_description {*}${long_description} \
         This port provides devel version of ${name}, updated weekly to monthly.
 
-    github.setup    libusb libusb d97e85ef4ad3a9747823421e54c31dde874c0c04
-    version         20210217-[string range ${github.version} 0 7]
-    checksums       rmd160  8eeb8f6bbf2c1e0e6c1c8c24d70e7eaf4cd86b77 \
-                    sha256  88978a0fb4b3b9ed810e05909793cce8c14fde63b7cc1426600c0f8c98178f03 \
-                    size    362805
+    github.setup    libusb libusb e88b77ff6e848df299e4d9ed4926581991b7ffdf
+    version         20210922-[string range ${github.version} 0 7]
+    checksums       rmd160  51a69532612ae81f2e425180f22a00b25e487650 \
+                    sha256  9105bf049e1c32ab4e664fc8213888ecea261e91001bb0100abe4d66bd0a29fa \
+                    size    368931
     revision        0
 
     conflicts       libusb
 
+    # because I messed up a version as "202105416-35e8ee98_0", which
+    # because of the messed up date is always greater than a correctly
+    # formatted date, which means livecheck will never show a newer version.
+    epoch           1
+
 }
 
-# see https://trac.macports.org/ticket/56156
-patchfiles-append patch-10.7-nospeedsuper.diff
-
-depends_build    port:libtool \
+depends_build-append \
+                 port:libtool \
                  port:automake \
                  port:autoconf
 

@@ -4,11 +4,11 @@ PortSystem          1.0
 
 name                mtools
 conflicts           multimarkdown
-version             4.0.26
+version             4.0.35
 revision            0
-checksums           rmd160  0f128edfea32b95b858e3844f1b564c4c32411fe \
-                    sha256  d09cff66d7277ad36a7573fc3e9803bfa558cdda83baabaafbf7761317462283 \
-                    size    372666
+checksums           rmd160  9050a3ab3bcaa3bed514033e7fc86ca2bbc207ee \
+                    sha256  0778c2a96cce205f1c5b702e2fe2eaacc9af7628ef28b943e1b600a3ddd85dbe \
+                    size    383932
 
 categories          sysutils
 maintainers         {ryandesign @ryandesign} openmaintainer

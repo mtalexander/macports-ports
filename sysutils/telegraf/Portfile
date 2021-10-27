@@ -3,7 +3,8 @@
 PortSystem                  1.0
 PortGroup                   golang 1.0
 
-go.setup                    github.com/influxdata/telegraf 1.18.0 v
+go.setup                    github.com/influxdata/telegraf 1.20.2 v
+github.tarball_from         archive
 revision                    0
 
 homepage                    https://docs.influxdata.com/telegraf
@@ -21,15 +22,14 @@ long_description            Telegraf is an agent for collecting, processing, \
                             aggregator plugins, and output plugins.
 
 categories                  sysutils
-platforms                   darwin
 license                     MIT
-
-checksums                   rmd160  4b1e6840af8ab8eb83387e99e78b45db4a5a9bfa \
-                            sha256  431389d7d4c1978292245d004739672693a2a5655b38c83cf0237253ac9eecb5 \
-                            size    2636817
-
 maintainers                 {gmail.com:herby.gillot @herbygillot} \
                             openmaintainer
+platforms                   darwin
+
+checksums                   rmd160  1897a739a64fe3d49bae00597a97f5705e076fd4 \
+                            sha256  3b0db9f48a76bb5076eded0ceab6ea568b295bbc525cdd8ad1ecf700ef317c18 \
+                            size    3026650
 
 set telegraf_user           ${name}
 set telegraf_conf_dir       ${prefix}/etc/${name}

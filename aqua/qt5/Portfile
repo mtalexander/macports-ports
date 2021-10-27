@@ -158,7 +158,7 @@ array set modules {
             50179672
         }
         ""
-        "port:zlib port:libpng path:include/turbojpeg.h:libjpeg-turbo port:freetype path:bin/dbus-daemon:dbus path:lib/pkgconfig/glib-2.0.pc:glib2 port:icu port:pcre2 port:harfbuzz port:double-conversion port:zstd"
+        "port:zlib port:libpng path:include/turbojpeg.h:libjpeg-turbo port:freetype path:bin/dbus-daemon:dbus path:lib/pkgconfig/glib-2.0.pc:glib2 port:icu port:pcre2 path:lib/pkgconfig/harfbuzz.pc:harfbuzz port:double-conversion port:zstd"
         ""
         {"Qt Core" "Qt GUI" "Qt Network" "Qt SQL" "Qt Test" "Qt Widgets" "Qt Concurrent" "Qt D-Bus" "Qt OpenGL" "Qt Platform Headers" "Qt Print Support" "Qt XML"}
         ""
@@ -623,7 +623,7 @@ array set modules {
             280142544
         }
         "port:python27 port:py27-ply path:bin/ninja:ninja port:gperf port:bison port:flex"
-        "port:fontconfig port:dbus port:harfbuzz path:lib/pkgconfig/glib-2.0.pc:glib2 port:zlib port:minizip port:libevent port:libxml2 port:jsoncpp port:protobuf3-cpp port:poppler port:pulseaudio port:icu path:lib/libavcodec.dylib:ffmpeg port:libopus port:webp port:libpng port:lcms2 port:freetype port:re2 port:snappy"
+        "port:fontconfig port:dbus path:lib/pkgconfig/harfbuzz.pc:harfbuzz path:lib/pkgconfig/glib-2.0.pc:glib2 port:zlib port:minizip port:libevent port:libxml2 port:jsoncpp port:protobuf3-cpp port:poppler port:pulseaudio port:icu path:lib/libavcodec.dylib:ffmpeg port:libopus port:webp port:libpng port:lcms2 port:freetype port:re2 port:snappy"
         "qtdeclarative qtquickcontrols qtquickcontrols2 qtlocation qtwebchannel qttools"
         {"Qt WebEngine"}
         "very large and relatively new"
@@ -747,6 +747,14 @@ array set sql_plugins {
         }
     }
     {psql PostgreSQL "revision 0"} {
+        {
+            "postgresql13"
+            "port:postgresql13"
+            "${prefix}/include/postgresql13"
+            "${prefix}/lib/postgresql13"
+            "-lpq"
+            ""
+        }
         {
             "postgresql12"
             "port:postgresql12"
@@ -1027,8 +1035,8 @@ foreach {module module_info} [array get modules] {
             patchfiles-append patch-qmake_flags.diff
             post-patch {
                 if {[variant_exists universal] && [variant_isset universal]} {
-                    set arch_replace_cxx [portconfigure::configure_get_universal_cflags]
-                    set arch_replace_ld  [portconfigure::configure_get_universal_ldflags]
+                    set arch_replace_cxx [portconfigure::configure_get_universal_archflags]
+                    set arch_replace_ld  [portconfigure::configure_get_universal_archflags]
                 } else {
                     set arch_replace_cxx [portconfigure::configure_get_archflags cxx]
                     set arch_replace_ld  [portconfigure::configure_get_ld_archflags]
@@ -1122,16 +1130,16 @@ foreach {module module_info} [array get modules] {
             }
 
             # respect configure.universal_archs or build_arch
-            #post-patch {
-            #    if {[variant_exists universal] && [variant_isset universal]} {
-            #        set arch_replace ${configure.universal_archs}
-            #    } else {
-            #        set arch_replace ${build_arch}
-            #    }
-            #    reinplace \
-            #        "s|__MACPORTS_DEVICE_ARCHS__|${arch_replace}|g" \
-            #        ${worksrcpath}/mkspecs/common/macx.conf
-            #}
+            post-patch {
+                if {[variant_exists universal] && [variant_isset universal]} {
+                    set arch_replace ${configure.universal_archs}
+                } else {
+                    set arch_replace ${build_arch}
+                }
+                reinplace \
+                    "s|__MACPORTS_DEVICE_ARCHS__|${arch_replace}|g" \
+                    ${worksrcpath}/mkspecs/common/macx.conf
+            }
 
             # use MacPorts X11
             post-patch {
@@ -1472,6 +1480,9 @@ foreach {module module_info} [array get modules] {
 
             # special case
             if { ${module} eq "qtdeclarative" } {
+                patchfiles-append  \
+                    patch-src-3rdparty-masm-stubs-wtf-unicode-Unicode.h.diff \
+                    patch-src-3rdparty-masm-yarr-YarrInterpreter.cpp.diff
                 # attempts to link against installed version, which causes an error when upgrading 5.9.3->5.10.0
                 qt5.frameworkpaths-append ${worksrcpath}/lib
             }
@@ -1615,6 +1626,7 @@ foreach {module module_info} [array get modules] {
 
                 minimum_xcodeversions   {16 8.3.3}
                 if { ${os.major} < 16 } {
+                    known_fail  yes
                     pre-fetch {
                         ui_error "${subport} requires macOS 10.12 or later"
                         return -code error "incompatible OS version"
@@ -1794,6 +1806,9 @@ foreach {module module_info} [array get modules] {
                     xinstall -d -m 0755 ${worksrcpath}/Source/WebCore/generated
                     touch ${worksrcpath}/Source/WebCore/generated/InspectorBackendCommands.qrc
                 }
+            } elseif { ${module} eq "qtquick3d" } {
+                # see https://bugreports.qt.io/browse/QTBUG-84037
+                patchfiles-append patch-qtquick3d-assimp.diff
             }
         }
     }

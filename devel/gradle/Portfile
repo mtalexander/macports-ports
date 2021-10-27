@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           java 1.0
 
 name                gradle
-version             6.8.3
+version             7.2
 revision            0
 categories          devel java groovy
 license             Apache-2
@@ -24,9 +24,9 @@ distname            ${name}-${version}-bin
 master_sites        https://services.gradle.org/distributions
 
 # Update checksums for variant when updating these!
-checksums           rmd160  12a0f6528e7f9775ebe9183c690b06a64ac9653a \
-                    sha256  7faa7198769f872826c8ef4f1450f839ec27f0b4d5d1e51bade63667cbccd205 \
-                    size    107843517
+checksums           rmd160  1a4397819d88fa850889e7186617e2ff249dc40c \
+                    sha256  f581709a9c35e9cb92e16f585d2c4bc99b2b1a5f85d2badbd3dc6bff59e1e6dd \
+                    size    114352742
 
 worksrcdir          ${name}-${version}
 
@@ -62,9 +62,9 @@ destroot {
 variant all description {Install supplemental documentation and source code} {
     distname        ${name}-${version}-all
 
-    checksums       rmd160  36e629b1a1c07d86d0ff2cf62a558b88b7d4cd69 \
-                    sha256  9af5c8e7e2cd1a3b0f694a4ac262b9f38c75262e74a9e8b5101af302a6beadd7 \
-                    size    150631445
+    checksums       rmd160  85ee5714cf87af608d6e29700da802ecd2585586 \
+                    sha256  a8da5b02437a60819cad23e10fc7e9cf32bcb57029d9cb277e26eeff76ce014b \
+                    size    157058280
 
     post-destroot {
         xinstall -m 0755 -d ${destroot}${prefix}/share/doc/${name}
@@ -72,6 +72,10 @@ variant all description {Install supplemental documentation and source code} {
             ${worksrcpath}/docs \
             ${destroot}${prefix}/share/doc/${name}
     }
+}
+
+notes {
+  For Bash and Zsh completion support, install port 'gradle-completion'.
 }
 
 livecheck.type  regex

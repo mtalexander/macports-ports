@@ -2,25 +2,26 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
+PortGroup           boost 1.0
 
-github.setup        synfig synfig 1.4.0 v
+github.setup        synfig synfig 1.4.2 v
 categories          graphics
 platforms           darwin
 maintainers         {ryandesign @ryandesign} openmaintainer
 license             GPL-2+
 
 homepage            https://www.synfig.org
-master_sites        sourceforge:project/synfig/releases/${version}/source/
+master_sites        sourceforge:project/synfig/releases/${version}/
 dist_subdir         ${subport}
 
 compiler.cxx_standard \
                     2011
 
 if {${subport} eq ${name}} {
-    revision            1
-    checksums           rmd160  9e7d43ee4500a2e248d5ffa5b20591af63c0156d \
-                        sha256  7f36d57eba9dc959e1deae89e6908585a08db7f2d9399915a46a9eff33080c9c \
-                        size    5077795
+    revision            0
+    checksums           rmd160  6ea0f378d0732a85f0a0ad669ae6be4c10ffc0eb \
+                        sha256  e66688b908ab2f05f87cc5a364f958a1351f101ccab3b3ade33a926453002f4e \
+                        size    5132756
 
     description         vector-based 2-D animation package
 
@@ -35,8 +36,7 @@ if {${subport} eq ${name}} {
     depends_build       port:intltool \
                         port:pkgconfig
 
-    depends_lib         port:boost \
-                        path:lib/pkgconfig/cairo.pc:cairo \
+    depends_lib         path:lib/pkgconfig/cairo.pc:cairo \
                         port:ETL \
                         path:lib/libavcodec.dylib:ffmpeg \
                         port:freetype \
@@ -55,7 +55,7 @@ if {${subport} eq ${name}} {
                         port:openexr \
                         path:lib/pkgconfig/pango.pc:pango
 
-    configure.args      --with-boost=${prefix}
+    configure.args      --with-boost=[boost::install_area]
 
     post-destroot {
         set docdir ${destroot}${prefix}/share/doc/${subport}
@@ -79,9 +79,9 @@ if {${subport} eq ${name}} {
 
 subport ETL {
     revision            0
-    checksums           rmd160  dc935e50faa4d707bc6e34efd1a21e4048ea1544 \
-                        sha256  d43396c0ac356114713469216a9257247c2588d5475590a46db63cf201d1a011 \
-                        size    271199
+    checksums           rmd160  64ce489efdc03e9c53e4384773d85d3a8116bb05 \
+                        sha256  e54192d284df16305ddfdfcc5bdfe93e139e6db5bc283dd4bab2413ebbead7c7 \
+                        size    273617
 
     supported_archs     noarch
 
@@ -92,8 +92,10 @@ subport ETL {
                         types and functions from the C++ Standard Template \
                         Library (STL).
 
+    depends_lib-append  port:glibmm
+
     # ETL-config is a wrapper around pkg-config
-    depends_run         port:pkgconfig
+    depends_lib-append  port:pkgconfig
 
     post-destroot {
         set docdir ${destroot}${prefix}/share/doc/${subport}
@@ -110,9 +112,9 @@ subport ETL {
 
 subport synfigstudio {
     revision            0
-    checksums           rmd160  cf0341a3fe0e03e93cea2d9b0aefafe330b460f1 \
-                        sha256  ca1eb1a3e2264c57974a576d1995e005079d96cee19d3dffaacded72c93fbd56 \
-                        size    6423859
+    checksums           rmd160  e409dd8cd8f54ee9f36c6c57a20bbede1e9d0089 \
+                        sha256  4e86d4d8def6675fc92855a411795cc4062a1669cda82535d18b48a68b4d5497 \
+                        size    6742540
 
     description         synfig animation studio
 

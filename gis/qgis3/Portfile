@@ -2,15 +2,14 @@
 
 PortSystem          1.0
 PortGroup           cmake   1.1
-PortGroup           compiler_blacklist_versions 1.0
 PortGroup           github  1.0
 PortGroup           qt5     1.0
 PortGroup           active_variants 1.1
 
-github.setup        qgis QGIS 3_18_1 final-
+github.setup        qgis QGIS 3_20_3 final-
 name                qgis3
 version             [string map {_ .} ${github.version}]
-revision            1
+revision            3
 categories          gis
 maintainers         {vince @Veence} openmaintainer
 description         QGIS 3 is a user-friendly GIS based on Qt 5
@@ -22,13 +21,13 @@ long_description    QGIS is an open-source alternative to ArcGIS or other commer
 platforms           darwin
 license             GPL-2+
 
-homepage            http://www.qgis.org/
+homepage            https://www.qgis.org/
 
-checksums           rmd160  5f3c051aa5df660b4d0639943f6b4a5f2a94053d \
-                    sha256  f37684290b40073d1fe57372cea7ce3d682b1f511ce061991163c2afd4822ea9 \
-                    size    142505245
+checksums           rmd160  87bc5f349413a31f548c241ec9d9ba4bb1cc95a4 \
+                    sha256  42f03339831242ddea34c93fc7754906fe6285dd199c07258e77aa4f51c4eb18 \
+                    size    156715435
 
-compiler.cxx_standard  2011
+compiler.cxx_standard  2014
 
 depends_lib-append  port:libiconv \
                     port:expat \
@@ -36,7 +35,7 @@ depends_lib-append  port:libiconv \
                     port:libzip \
                     path:lib/libssl.dylib:openssl \
                     port:gsl \
-                    port:proj7 \
+                    port:proj8 \
                     port:geos \
                     port:gdal \
                     port:PDAL \
@@ -57,7 +56,8 @@ depends_lib-append  port:libiconv \
 
 depends_build-append \
                     port:bison \
-                    port:ld64
+                    port:ld64 \
+                    port:flex
 
 patchfiles          patch-app_info_plist_in.diff \
                     patch-CMakelists_txt.diff \
@@ -71,8 +71,6 @@ post-patch {
     reinplace -E "s|#ifdef Q_OS_MAC$|#if 0|" \
         ${worksrcpath}/src/app/layout/qgslayoutdesignerdialog.cpp
 }
-
-compiler.blacklist      {clang < 500}
 
 cmake.install_prefix    ${applications_dir}
 
@@ -105,8 +103,8 @@ configure.args-append   "-DWITH_3D=ON"
 configure.args-append   "-DWITH_PDAL=ON"
 configure.args-append   "-DLIBZIP_CONF_INCLUDE_DIR=${prefix}/lib/pkgconfig"
 configure.args-append   "-DWITH_BINDINGS=FALSE"
-configure.args-append   "-DPROJ_INCLUDE_DIR=${prefix}/lib/proj7/include"
-configure.args-append   "-DPROJ_LIBRARY=${prefix}/lib/proj7/lib/libproj.dylib"
+configure.args-append   "-DPROJ_INCLUDE_DIR=${prefix}/lib/proj8/include"
+configure.args-append   "-DPROJ_LIBRARY=${prefix}/lib/proj8/lib/libproj.dylib"
 configure.args-append   "-DQCA_INCLUDE_DIR=${prefix}/libexec/qt5/include/QtCrypto"
 configure.args-append   "-DQCA_LIBRARY=${prefix}/libexec/qt5/lib/libqca-qt5.dylib"
 configure.args-append   "-DQSCINTILLA_INCLUDE_DIR=${prefix}/libexec/qt5/include"
@@ -134,7 +132,7 @@ variant server description "Builds with the server (FCGI) option" {
     configure.args-append   "-DWITH_SERVER=ON"
 }
 
- 
+
 # Database variants (from the GDAL port)
 set postgresql_suffixes {13 12 11 10 95 96}
 
@@ -179,19 +177,19 @@ foreach pyver ${python_suffixes} {
 
 foreach pyver ${python_suffixes} {
     set vrt python${pyver}
-    set pyversion [string index ${pyver} 0].[string index ${pyver} 1]
+    set pyversion [string index ${pyver} 0].[string range ${pyver} 1 end]
     set index [lsearch -exact ${python_variants} ${vrt}]
     set conf [lreplace ${python_variants} ${index} ${index}]
 
         variant ${vrt} description "Use Python ${pyversion}" conflicts {*}${conf} "
             depends_lib-append      port:python${pyver} \
                                     port:py${pyver}-pyqt5 \
-                                    port:py${pyver}-qscintilla-qt5 \
+                                    port:py${pyver}-pyqt5-scintilla \
                                     port:py${pyver}-gdal \
                                     port:py${pyver}-six \
                                     port:py${pyver}-protobuf3
 
-            depends_build-append    port:py${pyver}-sip
+            depends_build-append    port:py${pyver}-sip4
 
             depends_run-append      port:py${pyver}-psycopg2 \
                                     port:py${pyver}-requests \
@@ -200,16 +198,17 @@ foreach pyver ${python_suffixes} {
                                     port:py${pyver}-jinja2 \
                                     port:py${pyver}-pygments
 
+            configure.env-append    PATH=${frameworks_dir}/Python.framework/Versions/${pyversion}/bin:$env(PATH)
+            build.env-append        PATH=${frameworks_dir}/Python.framework/Versions/${pyversion}/bin:$env(PATH)
+            destroot.env-append     PATH=${frameworks_dir}/Python.framework/Versions/${pyversion}/bin:$env(PATH)
 
-            configure.args-append   -DPYTHON_EXECUTABLE=${prefix}/bin/python${pyversion}
+            configure.args-append   -DPython_EXECUTABLE=${prefix}/bin/python${pyversion}
             configure.args-append   -DWITH_BINDINGS=ON
             configure.args-append   -DPYUIC_PROGRAM=${prefix}/bin/pyuic5-${pyversion}
             configure.args-append   -DPYRCC_PROGRAM=${prefix}/bin/pyrcc5-${pyversion}
-            configure.args-append   -DQSCI_SIP_DIR=${frameworks_dir}/Python.framework/Versions/${pyversion}/share/sip/PyQt5
+            configure.args-append   -DQSCI_SIP_DIR=${frameworks_dir}/Python.framework/Versions/${pyversion}/lib/python${pyversion}/site-packages/PyQt5/bindings
 
             post-patch {
-                reinplace -E \"s|@PYVERSION@|${pyversion}|\" \
-                    ${worksrcpath}/cmake/FindPyQt5.py
                 # Complies with py-gdal layout
                 set gdal_py_prefix \"${worksrcpath}/python/plugins/processing/algs/gdal\"
                 foreach file    {\"AssignProjection\" \

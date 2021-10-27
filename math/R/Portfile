@@ -7,12 +7,12 @@ PortGroup active_variants 1.1
 
 name                        R
 # Remember to set revision to 0 when bumping version
-version                     4.0.4
+version                     4.1.1
 revision                    0
 
 set branch                  [join [lrange [split ${version} .] 0 1] .]
 categories                  math science
-maintainers                 {me.com:kjell.konis @kjellpk} {@i0ntempest me.com:szf1234} openmaintainer
+maintainers                 {me.com:kjell.konis @kjellpk} {i0ntempest @i0ntempest} openmaintainer
 license                     {GPL-2 GPL-3}
 platforms                   macosx
 
@@ -30,9 +30,9 @@ homepage                    https://www.r-project.org/
 master_sites                https://cran.rstudio.com/src/base/R-4/ \
                             https://cran.r-project.org/src/base/R-4/
 
-checksums                   rmd160  5f91668b89e3517f54fe6974c9b734150cf59ad4 \
-                            sha256  523f27d69744a08c8f0bd5e1e6c3d89a4db29ed983388ba70963a3cd3a4a802e \
-                            size    33687611
+checksums                   rmd160  d0eb885bb3f3da858e023b2983098e927af70aaa \
+                            sha256  515e03265752257d0b7036f380f82e42b46ed8473f54f25c7b67ed25bbbdd364 \
+                            size    33719965
 
 # Fails to configure with Xcode clang 4.6.3
 compiler.blacklist-append   {clang < 500}
@@ -133,6 +133,7 @@ variant openblas conflicts builtin_lapack accelerate atlas description {build us
 
 variant openmp description {enable parallelism support using OpenMP} {
     compiler.openmp_version 4.5
+    compiler.blacklist-append   {macports-clang-[0-9].*}
     configure.args-replace  --disable-openmp --enable-openmp
     notes-append "
         Clang compilers provided by Xcode do not support OpenMP. Some R packages using\

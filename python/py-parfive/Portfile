@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-parfive
-version             1.2.0
+version             1.5.0
 revision            0
 categories-append   net
 license             MIT
@@ -17,9 +17,9 @@ homepage            https://parfive.readthedocs.io/en/stable/
 
 python.versions     37 38 39
 
-checksums           rmd160  fc02a148d81e52816a6e9cf02bcf4ea32d28c5e7 \
-                    sha256  118a0994bbb9536fd4574995a8485b6c4b97db247c55bc86ae4f4ae8fd9b0add \
-                    size    25838
+checksums           rmd160  506896e0dcdcdce27ef529db8afb7c141f167406 \
+                    sha256  f36128e8a93f3494ce3de8af883eeba4bd651ab228682810a46ec4b7897a84b3 \
+                    size    26749
 
 if {${name} ne ${subport}} {
     depends_build-append \

@@ -3,12 +3,13 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/derailed/k9s 0.24.4 v
+go.setup            github.com/derailed/k9s 0.24.15 v
+revision            0
+
 homepage            https://k9scli.io
 
-categories          sysutils devel
-maintainers         {breun.nl:nils @breun} openmaintainer
-description         K9s
+description         K9s - Kubernetes CLI To Manage Your Clusters In Style
+
 long_description    K9s provides a curses based terminal UI to interact with \
                     your Kubernetes clusters. The aim of this project is to \
                     make it easier to navigate, observe and manage your \
@@ -16,26 +17,31 @@ long_description    K9s provides a curses based terminal UI to interact with \
                     Kubernetes for changes and offers subsequent commands to \
                     interact with observed Kubernetes resources.
 
+categories          sysutils devel
 platforms           darwin
-supported_archs     x86_64
 license             Apache-2
+installs_libs       no
 
-checksums           rmd160  74e63ef8c752003140d56cefa06ba7953896a30c \
-                    sha256  2338011d4b38821a95777c64dc9e62f96fe54a7ba0f004c29ec61e725d4b7c58 \
-                    size    6190416
+maintainers         {breun.nl:nils @breun} \
+                    {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
 
-# Reproduce the "build" target from the upstream Makefile
-set go_ldflags      "-w -s \
-    -X ${go.package}/cmd.version=v${version} \
-    -X ${go.package}/cmd.commit=unknown \
-    -X ${go.package}/cmd.date=unknown"
-build.args          -ldflags \"${go_ldflags}\" ${go.package}
+checksums           rmd160  2ade5f8e39858535bd1136d44fcd2dbcf121c94d \
+                    sha256  910ce32c3b2f8cf70fa41982e1d2a130e81fd826d43e4a4cee3a74e2f4c15541 \
+                    size    6213176
 
 # FIXME: This port currently can't be built without allowing go mod to fetch
 # dependencies during the build phase. See
 # https://trac.macports.org/ticket/61192
 build.env-delete    GOPROXY=off GO111MODULE=off
 
+build.cmd           make
+build.pre_args-append \
+                    GIT_REV="" DATE=""
+build.args          build
+
 destroot {
-    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+    xinstall -m 0755 ${worksrcpath}/execs/${name} ${destroot}${prefix}/bin/
 }
+
+github.tarball_from archive

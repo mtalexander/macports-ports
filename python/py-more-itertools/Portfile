@@ -4,14 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-more-itertools
-version             8.7.0
+version             8.10.0
 revision            0
 categories-append   devel
 platforms           darwin
 license             MIT
 supported_archs     noarch
 
-python.versions     27 35 36 37 38 39
+python.versions     27 35 36 37 38 39 310
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -20,9 +20,9 @@ long_description    ${description}
 
 homepage            https://github.com/erikrose/more-itertools
 
-checksums           rmd160  311a71edcef6b42ea4537e6d060c94abd4b610ad \
-                    sha256  c5d6da9ca3ff65220c3bfd2a8db06d698f05d4d2b9be57e1deb2be5a45019713 \
-                    size    92857
+checksums           rmd160  1f1f7b3579f7c3aa0b23c5bed9e966ba4155eeeb \
+                    sha256  1debcabeb1df793814859d64a81ad7cb10504c24349368ccf214c664c474f41f \
+                    size    102929
 
 if {${name} ne ${subport}} {
     depends_build-append \

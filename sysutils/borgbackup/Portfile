@@ -4,11 +4,12 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                borgbackup
-version             1.1.15
-revision            0
-checksums           rmd160  8d131001b81c4b2b8cedf47c2c89a41a79d9ff49 \
-                    sha256  49cb9eed98b8e32ae3b97beaedf94cdff46f796445043f1923fd0fce7ed3c2bc \
-                    size    3777355
+version             1.1.17
+revision            1
+
+checksums           rmd160  0d19544016343d8f02d753fabae6387da709f036 \
+                    sha256  7ab924fc017b24929bedceba0dcce16d56f9868bf9b5050d2aae2eb080671674 \
+                    size    3781411
 
 categories          sysutils
 platforms           darwin
@@ -29,13 +30,17 @@ homepage            https://borgbackup.github.io/
 
 python.default_version  39
 
-depends_build-append    port:py${python.version}-setuptools_scm \
-                        port:py${python.version}-sphinx \
-                        port:py${python.version}-sphinx_rtd_theme
-depends_lib-append      path:lib/libssl.dylib:openssl \
-                        port:lz4 \
-                        port:py${python.version}-msgpack \
-                        port:py${python.version}-setuptools
+depends_build-append \
+                    port:py${python.version}-setuptools_scm \
+                    port:py${python.version}-sphinx \
+                    port:py${python.version}-sphinx_rtd_theme
+
+depends_lib-append  path:lib/libssl.dylib:openssl \
+                    port:lz4 \
+                    port:libb2 \
+                    port:py${python.version}-packaging \
+                    port:xxhash \
+                    port:zstd
 
 post-build {
     reinplace "s|sphinx-build|sphinx-build-${python.branch}|g" \
@@ -66,6 +71,12 @@ post-destroot {
     xinstall -d ${destroot}${zsh_compl_path}
     xinstall -m 0644 ${worksrcpath}/scripts/shell_completions/zsh/_borg \
         ${destroot}${zsh_compl_path}
+
+    # fish completion
+    set fish_compl_path ${prefix}/share/fish/vendor_completions.d
+    xinstall -d ${destroot}${fish_compl_path}
+    xinstall -m 0644 ${worksrcpath}/scripts/shell_completions/fish/borg.fish \
+        ${destroot}${fish_compl_path}
 }
 
 variant fuse description {Add FUSE mounting support} {

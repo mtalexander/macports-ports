@@ -4,6 +4,7 @@ PortSystem      1.0
 PortGroup       github 1.0
 PortGroup       qmake5 1.0
 PortGroup       compiler_blacklist_versions 1.0
+PortGroup       boost 1.0
 
 categories      net
 maintainers     {i0ntempest @i0ntempest} openmaintainer
@@ -20,14 +21,14 @@ long_description \
 
 homepage        https://www.qbittorrent.org
 
-if {${os.platform} ne "darwin" || ${os.major} >= 16} {
-    github.setup    qbittorrent qBittorrent 4.3.3 release-
+if {${os.platform} ne "darwin" || ${os.major} >= 17} {
+    github.setup    qbittorrent qBittorrent 4.3.8 release-
     revision        0
-    checksums       rmd160  03bdeeb93206be117130ddb407883f138a91e94e \
-                    sha256  df00c59a6b037a2ca2d4a5798f053fbe855fc96167bbc674651da2cb591748a5 \
-                    size    8044657
+    checksums       rmd160  855202ed1679fcc4d0f4e573fe88e5da8f4137a8 \
+                    sha256  823ef1c30f0be5339490774737a7ea56f4cf4cb8f3ff087a5dc35143da3087f7 \
+                    size    8506024
 
-    qt5.min_version 5.9
+    qt5.min_version 5.11
     configure.args-append \
                     CONFIG+=c++17
     compiler.cxx_standard 2017
@@ -42,9 +43,10 @@ if {${os.platform} ne "darwin" || ${os.major} >= 16} {
     }
 } else {
     # qBittorrent 4.3.3 and later requires C++17 features and therefore won't build with
-    # libc++ on Yosemite and older
+    # libc++ on Sierra and older
+    # Also 4.3.4 to 4.3.4.1 required Qt 5.12 then lowered to 5.11 after
     github.setup    qbittorrent qBittorrent 4.3.2 release-
-    revision        0
+    revision        2
     checksums       rmd160  543c1a5b59c15912cde31d98bed55810709aef75 \
                     sha256  187b8625e8787384a68a30eff3702b0e5c246512cb20013a38a25553cb18c5e7 \
                     size    7867939
@@ -61,10 +63,12 @@ depends_build-append \
                 port:pkgconfig
 
 depends_lib-append \
-                port:boost \
                 port:libtorrent-rasterbar \
                 path:lib/libssl.dylib:openssl \
                 port:zlib
+
+boost.depends_type  \
+                build
 
 qt5.depends_component \
                 qttranslations
@@ -74,7 +78,15 @@ configure.args-append \
                 CONFIG+=link_pkgconfig \
                 PKGCONFIG+=libtorrent-rasterbar \
                 PKGCONFIG+=openssl \
-                PKGCONFIG+=zlib
+                PKGCONFIG+=zlib \
+                INCLUDEPATH+=[boost::include_dir] \
+                QMAKE_MACOSX_DEPLOYMENT_TARGET=${macosx_deployment_target}
+
+# fix the deployment target setting to the MacPorts setting
+post-patch {
+         reinplace "s|QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.14|QMAKE_MACOSX_DEPLOYMENT_TARGET = ${macosx_deployment_target}|g" \
+             ${worksrcpath}/macxconf.pri
+}
 
 destroot {
     if {[variant_isset gui]} {

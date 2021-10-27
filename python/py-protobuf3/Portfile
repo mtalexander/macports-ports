@@ -6,10 +6,10 @@ PortGroup       python 1.0
 PortGroup       github 1.0
 
 name            py-protobuf3
-version         3.14.0
+version         3.17.3
 revision        0
 categories-append   devel
-maintainers     {toby @tobypeterson} openmaintainer
+maintainers     nomaintainer
 license         BSD
 description     Encode data in an efficient yet extensible format.
 
@@ -37,9 +37,9 @@ master_sites    https://github.com/google/protobuf/releases/download/v${version}
 distfiles       protobuf-python-${version}.tar.gz
 worksrcdir      protobuf-${version}
 
-checksums       sha256  969019c5fd9c1345f0b34afa06ab2664c1441d159d5ae87ded5fa01d79f028c1 \
-                rmd160  498920f161944574781c011ae5687753f34e36ef \
-                size    4982470
+checksums       sha256  3253c6d17ec0bb6f6382e555cf5ca0a9ffab8d81b691f100f96ce9f5e753018e \
+                rmd160  548d88f3d75b8c75fe43eb0d620e8f40757e1566 \
+                size    5038061
 
 platforms       darwin
 
@@ -61,6 +61,11 @@ if {${name} ne ${subport}} {
     depends_lib-append \
                     port:protobuf3-cpp \
                     port:py${python.version}-six
+
+    if {${python.version} > 36} {
+           depends_lib-append \
+               port:py${python.version}-flatbuffers
+    }
 
     worksrcdir      ${worksrcdir}/python
     

@@ -6,11 +6,12 @@ PortGroup compiler_blacklist_versions  1.0
 PortGroup xcodeversion                 1.0
 PortGroup conflicts_build              1.0
 PortGroup xcode_workaround             1.0
+PortGroup cltversion                   1.0
 
-epoch               4
+epoch               5
 name                gcc8
-version             8.4.0
-revision            3
+version             8.5.0
+revision            0
 subport             libgcc8 { revision 1 }
 platforms           darwin
 categories          lang
@@ -33,15 +34,18 @@ master_sites        ftp://ftp.funet.fi/pub/mirrors/sources.redhat.com/pub/gcc/re
 distname            gcc-${version}
 use_xz              yes
 
-checksums           rmd160  4b3890e8865fae1d2b91166fb98e1097f5401d4a \
-                    sha256  e30a6e52d10e1f27ed55104ad233c30bd1e99cfb5ff98ab022dc941edd1b2dd4 \
-                    size    63713440
+checksums           rmd160  e7f3dedec67864006bf9f7e358817ce713b4476e \
+                    sha256  d308841a511bb830a6100397b0042db24ce11f642dab6ea6ee44842e5325ed50 \
+                    size    63841008
 
 # Check if this is the last supported gcc version for this system.
 # If it is, libgcc8 installs a full runtime, otherwise it only installs
 # what is missing from newer libgccX builds.
 # NOTE : The logic here must match that in the libgcc port.
-set isLastSupported [ expr ${os.major} < 11 ]
+#set isLastSupported [ expr ${os.major} < 10 ]
+
+# libgcc8 is currently not the last supported libgcc for any system
+set isLastSupported false
 
 patchfiles          patch-fix-libgccjit-soname
 
@@ -55,6 +59,27 @@ if { ${os.major} > 19 } {
     # Fix detection of sanitizer support
     # https://trac.macports.org/ticket/61494
     patchfiles-append         fix-sanitisers-darwin20.diff
+}
+
+if { ${configure.build_arch} eq "i386" } {
+
+    # fix no-pie clang bug bootstrapping gcc on i386
+    # https://trac.macports.org/ticket/63161
+    patchfiles-append  patch-gcc10-i686-clang-bootstrap-fix.diff
+
+    # build with traditional "gas" assembler in all cases
+    # upstream does not typically test gcc with clang as assembler on i386 systems
+    # gcc configuration changes with assembler features
+    # also innumerable warnings about text section naming suppressed
+    patchfiles-append  patch-gcc10-disable-macports-cctools-as-changes.diff
+
+    configure.env-append \
+      "DISABLE_MACPORTS_AS_CLANG_SEARCH=1" \
+      "DISABLE_XCODE_AS_CLANG_SEARCH=1"
+
+    build.env-append \
+      "DISABLE_MACPORTS_AS_CLANG_SEARCH=1" \
+      "DISABLE_XCODE_AS_CLANG_SEARCH=1"
 }
 
 depends_lib         port:cctools \
@@ -83,7 +108,13 @@ platform darwin {
 
 set gcc_configure_langs {c c++ objc obj-c++ lto fortran}
 if {${subport} eq "gcc8"} {
-    lappend gcc_configure_langs jit
+
+    # the jit is not building on i386 systems
+    # see https://trac.macports.org/ticket/61130
+    if {${build_arch} ne "i386"} {
+        lappend gcc_configure_langs jit
+    }
+
 }
 
 configure.dir       ${workpath}/build
@@ -119,6 +150,25 @@ configure.args      --enable-languages=[join ${gcc_configure_langs} ","] \
 # it only determines how std::call_once works
 configure.args-append \
                     --disable-tls
+
+# on 10.6.8 building with the system gcc compilers leads to
+# bootstrap comparison failures
+platform darwin 10 {
+    compiler.blacklist-append *gcc-3.* *gcc-4.*
+}
+
+if { ${os.platform} eq "darwin" } {
+    if { [vercmp ${xcodeversion} 12.5] >= 0 || [ vercmp ${cltversion} 12.5 ] >= 0 } {
+        pre-configure {
+            ui_warn "Applying '--without-build-config' workaround to Xcode ${xcodeversion} / CLT ${cltversion}"
+            ui_warn "If versions > 12.5 please check if it is still required"
+        }
+        # gcc has build issues on macOS 11.3 with the use of Xcode clang via cctools for ld
+        # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100340
+        # https://trac.macports.org/ticket/62775
+        configure.args-append  --without-build-config
+    }
+}
 
 configure.env-append \
                     AR_FOR_TARGET=${prefix}/bin/ar \

@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                buildbot-grid-view
-version             3.0.2
+version             3.3.0
 revision            0
-checksums           rmd160  2acf29a6c8f05fd8c2164c46f2775901a83a09b3 \
-                    sha256  a2e53d3c06e50c2f7ca06eb21e21270682aa953a10956441093a7f7a01d53aa9 \
-                    size    13687
+checksums           rmd160  7e2081fdc7cf645f1c7b7091bda7b917132fd603 \
+                    sha256  a07be7ec4e0d4b44614d4da10e7d468058da9580a85d4342b46133da51de97e3 \
+                    size    13708
 
 categories          devel
 platforms           darwin

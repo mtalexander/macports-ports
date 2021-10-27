@@ -2,9 +2,10 @@
 
 PortSystem          1.0
 PortGroup           active_variants 1.1
+PortGroup           boost 1.0
 
 name                shibboleth
-version             3.2.1
+version             3.2.3
 categories          security www shibboleth
 license             Apache
 maintainers         {snc @nerdling} {scantor @scantor}
@@ -17,9 +18,10 @@ long_description    The Shibboleth System is a standards based, open source \
 
 homepage            https://www.shibboleth.net/
 
+boost.depends_type  build
+
 platforms           darwin
-depends_build       port:boost \
-                    port:pkgconfig
+depends_build       port:pkgconfig
 depends_lib         port:opensaml \
                     port:xmltooling \
                     port:xercesc3 \
@@ -31,12 +33,11 @@ master_sites        http://shibboleth.net/downloads/service-provider/${version}/
 distname            ${name}-sp-${version}
 use_bzip2           yes
 worksrcdir          ${name}-sp-${version}
-checksums           rmd160  093953b82d94316afc9c2c1df884a2ea07fbd82f \
-                    sha256  8acde18566bbf987c4022a6f19d0c2df0d306e9344810aec1b6b8b9100d271ef \
-                    size    811714
+checksums           rmd160  a9353591dde5134738c94bdb0a860b29ace6112d \
+                    sha256  a02b441c09dc766ca65b78fe631277a17c5eb2f0a441b035cdb6a4720fb94024 \
+                    size    816239
 
 require_active_variants curl ssl
-
 
 use_autoreconf      yes
 autoreconf.args     -fvi

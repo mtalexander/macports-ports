@@ -2,9 +2,10 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
+PortGroup           compiler_blacklist_versions 1.0
 PortGroup           haskell_stack 1.0
 
-github.setup        jgm pandoc 2.11.4
+github.setup        jgm pandoc 2.14.2
 revision            0
 categories          textproc haskell
 platforms           darwin
@@ -27,12 +28,17 @@ long_description    Pandoc is a Haskell library for converting from \
 
 homepage            https://pandoc.org
 
-checksums           rmd160  84b10912fdb2c66cb2def068a3dca5e05aef1464 \
-                    sha256  e3cb2b55624116b6ed531b874abcc14fedf9d011dc7371a24626f105602f6cc6 \
-                    size    13001020
+checksums           rmd160  b5480da275d14ee4d650438e94f8c978b3faa26b \
+                    sha256  1fd0fd58308345783d6fbbb1000c4b61a3a8dbf79405c209456d6289e1f3decd \
+                    size    6231975
+
+configure.ccache    no
 
 test.run            yes
 test.args           --test-arguments='-p markdown'
+
+compiler.blacklist-append \
+                   {clang < 900}
 
 post-destroot {
     xinstall -d ${destroot}${prefix}/share/doc

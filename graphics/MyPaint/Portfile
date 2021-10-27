@@ -30,6 +30,7 @@ homepage                    http://mypaint.org
 github.tarball_from         releases
 use_xz                      yes
 
+# Remember to update the python version in libmypaint too.
 python.versions             38
 
 depends_build-append        port:pkgconfig \
@@ -37,7 +38,7 @@ depends_build-append        port:pkgconfig \
                             port:swig-python
 
 depends_lib-append          path:lib/pkgconfig/glib-2.0.pc:glib2 \
-                            port:gtk3 \
+                            path:lib/pkgconfig/gtk+-3.0.pc:gtk3 \
                             port:json-c \
                             port:lcms2 \
                             port:libmypaint \

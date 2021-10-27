@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                sqlmap
-version             1.4.8
+version             1.5.10
 revision            0
 
 categories          security databases python
-maintainers         nomaintainer
+maintainers         {judaew @judaew} openmaintainer
 platforms           darwin
 supported_archs     noarch
 license             GPL-2+
@@ -22,13 +22,15 @@ long_description    sqlmap is an open source penetration testing tool that autom
                     database, accessing the underlying file system, and executing commands on \
                     the operating system via out-of-band connections.
 
-homepage            http://sqlmap.org/
+homepage            https://sqlmap.org/
 
-checksums           rmd160  57b33a48e985a32d97033e5d2b9a469dcf664c04 \
-                    sha256  af789cc2d9b7cab2f71087967867b3587db9636b38bef1ffb39165a0675a6d87 \
-                    size    6780324
+checksums           rmd160  ea230840b4a23878e18cd4011f0100176dbee332 \
+                    sha256  925b9b18d2880f7c74ebf53694b4cd8b9e04ca2cc27d57c265acda5f27b0dc89 \
+                    size    6765784
 
 worksrcdir          ${name}
+
+patchfiles          patch-cmd-usage-string.diff
 
 post-patch {
     fs-traverse f ${worksrcpath} {
@@ -58,6 +60,14 @@ variant python38 conflicts python27 python37 description {Build for Python 3.8} 
                     port:py${python.version}-setuptools
 }
 
-if {![variant_isset python27] && ![variant_isset python37] && ![variant_isset python38]} {
-    default_variants +python38
+variant python39 conflicts python27 python37 python38 \
+    description {Build for Python 3.9} {
+    python.default_version 39
+    depends_build-append \
+                    port:py${python.version}-setuptools
+}
+
+if {![variant_isset python27] && ![variant_isset python37] && \
+    ![variant_isset python38] && ![variant_isset python39]} {
+    default_variants +python39
 }

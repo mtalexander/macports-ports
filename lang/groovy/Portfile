@@ -4,7 +4,7 @@ PortSystem      1.0
 PortGroup       java 1.0
 
 name            groovy
-version         3.0.7
+version         3.0.9
 revision        0
 
 categories      lang java
@@ -37,13 +37,13 @@ long_description Groovy... \
                   you can use Java
 
 homepage        https://groovy-lang.org/
-master_sites    https://dl.bintray.com/${name}/maven/
+master_sites    https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/
 distname        apache-${name}-binary-${version}
 use_zip         yes
 
-checksums       rmd160  5b7152283a2d50ef6db2a31dc174963963737de9 \
-                sha256  b9e2041cb83a963922f6761a0b037c5784670616632142b8d7002b7c3a96b7f5 \
-                size    43340743
+checksums       rmd160  09b063a87cf11fa994f6bafcb125587ddae68127 \
+                sha256  eb34f4ee229b1a424adb87df5b999f66d1b1285694e5332d0800896744c2e421 \
+                size    44145611
 
 worksrcdir      ${name}-${version}
 

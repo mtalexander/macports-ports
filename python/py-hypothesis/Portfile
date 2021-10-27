@@ -4,13 +4,13 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-hypothesis
-version             6.8.1
+version             6.20.1
 revision            0
 categories-append   devel
 platforms           darwin
 license             MPL-2
 
-python.versions     27 35 36 37 38 39
+python.versions     27 35 36 37 38 39 310
 
 maintainers         {khindenburg @kurthindenburg} openmaintainer
 
@@ -23,9 +23,9 @@ long_description \
 
 homepage            https://pypi.python.org/pypi/hypothesis
 
-checksums           rmd160  7fdc48fb7f0b53cfc11821b824c3afffe52a1863 \
-                    sha256  2dd38676402d1c218225210cde0cf19f286352279f32631ac5c801f5d767bc94 \
-                    size    293847
+checksums           rmd160  4a3ee5ef2377b00d7524c941ef8bb99c668f1132 \
+                    sha256  1057f8f27a9f3e1eac341502ea4a43f5045161f797bb661e176a67b77c5b1795 \
+                    size    303676
 
 if {${name} ne ${subport}} {
     depends_build-append  port:py${python.version}-setuptools

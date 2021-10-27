@@ -3,8 +3,10 @@
 PortSystem                1.0
 PortGroup                 github 1.0
 PortGroup                 cmake 1.1
+PortGroup                 boost 1.0
 
-github.setup              cryfs cryfs 0.10.2
+github.setup              cryfs cryfs 0.10.3
+revision                  1
 github.tarball_from       releases
 
 license                   LGPL-3
@@ -21,22 +23,22 @@ long_description          CryFS encrypts your files, so you can safely store the
 
 homepage                  https://www.cryfs.org/
 
-checksums                 rmd160  9abdb5e59263cf8ea978470f4c6a4086ddd8a860 \
-                          sha256  004c7fdf537062e197aaa0bcdafd2682904a279802441bb6063cb72c1fba52d2 \
-                          size    10187912
+checksums                 rmd160  ba20af5cc2d77954b3a6f248b230860242cb690f \
+                          sha256  20348e6e2ff670505a14d4f8b2a9aa6104ce301d31ef50100cd03d17c1d7322b \
+                          size    10184695
 
 extract.mkdir             yes
 
-depends_build-append      path:lib/libssl.dylib:openssl \
-                          port:python37
+depends_build-append      path:lib/libssl.dylib:openssl
 
-depends_lib-append        port:boost \
-                          port:curl \
+depends_lib-append        port:curl \
                           port:libomp \
                           port:osxfuse
 
 cmake.build_type          Release
 universal_variant         no
+
+compiler.cxx_standard     2014
 
 configure.args-append    -DBoost_USE_MULTITHREADED=on \
                          -DBoost_USE_STATIC_LIBS=off \
