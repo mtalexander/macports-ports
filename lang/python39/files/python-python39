@@ -5,6 +5,8 @@ bin/idle3.9
 bin/pydoc3.9
 -
 bin/2to3-3.9
+include/python3.9
+lib/python3.9
 share/man/man1/python3.9.1
 -
 ${frameworks_dir}/Python.framework/Versions/3.9

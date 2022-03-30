@@ -57,7 +57,7 @@ pre-configure {
     #
     # avoid --show-sdk-path since it is not available on all platforms
     # see https://github.com/macports/macports-ports/commit/9887e90d69f4265f9056cddc45e41551d7400235#commitcomment-49824261
-    if {[catch {exec /usr/bin/xcrun --sdk macosx${configure.sdk_version} --find ld} result]} {
+    if {[catch {exec -ignorestderr /usr/bin/xcrun --sdk macosx${configure.sdk_version} --find ld} result]} {
         configure.sdk_version
     }
 
@@ -230,7 +230,7 @@ pre-configure {
         set this_debug false
     }
 
-    # determine of qmake's default and user requests are compatible; override qmake if necessary
+    # determine if qmake's default and user requests are compatible; override qmake if necessary
     if { ${this_debug} && !${base_debug}  } {
         puts ${cache} "QT_CONFIG+=debug_and_release build_all debug"
         puts ${cache} "CONFIG+=debug_and_release build_all"

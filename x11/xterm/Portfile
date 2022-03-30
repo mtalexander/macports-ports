@@ -3,12 +3,14 @@
 PortSystem          1.0
 
 name                xterm
-version             369
+version             372
 revision            0
+checksums           rmd160  fad4cacc6fad27df23a339ba61e23375c3177b26 \
+                    sha256  c6d08127cb2409c3a04bcae559b7025196ed770bb7bf26630abcb45d95f60ab1 \
+                    size    1507107
 
 categories          x11
 license             X11
-platforms           darwin
 maintainers         {jeremyhu @jeremyhu} openmaintainer
 description         the ubiquitous X terminal emulator, stand-alone
 long_description    The xterm program is a terminal emulator for the X \
@@ -18,11 +20,6 @@ long_description    The xterm program is a terminal emulator for the X \
 homepage            https://invisible-island.net/xterm/
 master_sites        ftp://ftp.invisible-island.net/pub/xterm/ \
                     https://invisible-mirror.net/archives/xterm/
-
-checksums           rmd160  7f2c0428b5fa8936168c8829897b3b93af0c8b50 \
-                    sha256  71ed6a48d064893d2149741a002781a973496fd24d52dadd364f63439a764e26 \
-                    size    1461310
-
 extract.suffix      .tgz
 
 depends_build       port:xorg-xorgproto
@@ -35,9 +32,8 @@ depends_lib         port:ncurses \
                     port:xorg-libXaw \
                     port:Xft2
 
-patchfiles          PR-7191532.patch
-
-patch.pre_args -p1
+patchfiles          PR-7191532.patch \
+                    TMPDIR.patch
 
 configure.args      --mandir=${prefix}/share/man --enable-luit \
                     --enable-logging --enable-wide-chars \

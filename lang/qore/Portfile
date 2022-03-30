@@ -2,8 +2,12 @@
 
 PortSystem          1.0
 
-name                qore
-version             1.0.9
+PortGroup           github 1.0
+github.setup        qorelanguage qore 1.6.0 release-
+github.tarball_from releases
+
+PortGroup           cmake 1.1
+
 categories          lang
 license             {LGPL-2.1 MIT}
 maintainers         {davidnichols @davidnich} openmaintainer
@@ -11,18 +15,17 @@ use_bzip2           yes
 description         multi-threaded embeddable scripting language
 long_description    Qore is a scripting language designed for multi-threading and SMP scalability
 homepage            http://qore.org
-platforms           darwin
-master_sites        https://github.com/qorelanguage/qore/releases/download/release-${version}
 
-checksums           rmd160 796216867b030935aa7a7c05412fbf1bfb852af6 \
-                    sha256 e21c3c9315dfb0aab6fcfb77dca41bb31667ed5184b10d63131b0b74daea4fb3 \
-                    size 43125014
+checksums           rmd160 ec50a37898c0531eb61791a5e8d94796d1af6c94 \
+                    sha256 91f600f77df3b4aefd6c4367d3ad1e8b58abcc2465adc6a7a46c0dab3a04c80a \
+                    size 43524608
 
 compiler.cxx_standard  2011
 
 depends_build-append \
+                    port:bison \
                     port:flex \
-                    port:bison
+                    port:pkgconfig
 
 depends_lib-append  path:lib/libssl.dylib:openssl \
                     port:pcre \
@@ -32,9 +35,7 @@ depends_lib-append  path:lib/libssl.dylib:openssl \
                     port:mpfr \
                     port:tbb
 
-# --disable-dependency-tracking is safe here. The build is always done in one run.
-#                               It's required to prevent autotools from using -M* options for multiple -arch options
-configure.args      --disable-debug --disable-static --disable-dependency-tracking
+compiler.thread_local_storage yes
 
-# the autoconf check for iconv() in libiconv fails with GNU iconv, but we need it, so we turn it on anyway
-configure.ldflags-append -liconv
+configure.args-append -DSINGLE_COMPILATION_UNIT=1
+

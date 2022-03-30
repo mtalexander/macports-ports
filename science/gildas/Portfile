@@ -5,13 +5,13 @@ PortGroup           compilers 1.0
 PortGroup           active_variants 1.1
 
 name                gildas
-version             202110a
+version             202203a
 set my_version      [string tolower [clock format [clock scan 2000-[string range ${version} 4 5]-10] -format %b]][string range ${version} 2 3][string range ${version} 6 end]
 supported_archs     arm64 x86_64
 set my_machine      [if {[string match *arm* ${os.arch}]} {list arm64} {list x86_64}]
 categories          science
 platforms           darwin
-maintainers         {bardeau @bardeau}
+maintainers         {iram.fr:bardeau @bardeau}
 license             permissive
 
 description         Radioastronomy data analysis software
@@ -32,9 +32,9 @@ master_sites        https://www.iram.fr/~gildas/dist/ \
 distname            ${name}-src-${my_version}
 use_xz              yes
 
-checksums           rmd160  f802230a16d26be379be26067d136f7677305ec1 \
-                    sha256  98b8a6806cbf3867180d3b5612f012cd4b6479c80b484e0ce2fc89511afdc052 \
-                    size    42998580
+checksums           rmd160  55603b3b0fd4910cf5096e871c6600009f8349a4 \
+                    sha256  967e184f53f7ac2f62ed1a54a590bbf1277e8b4a618819fdef0bf3f8f2e0f9dc \
+                    size    43834928
 
 patch.pre_args      -p1
 patchfiles          patch-admin-Makefile.def.diff \
@@ -52,7 +52,7 @@ depends_lib         path:lib/pkgconfig/gtk+-2.0.pc:gtk2 \
 # of sort do not support sort -V:
 depends_build       port:cfitsio \
                     port:pkgconfig \
-                    port:coreutils
+                    path:libexec/coreutils/libstdbuf.so:coreutils
 
 set my_build_opts   ""
 variant openmp description {Add OpenMP support} {set my_build_opts "-o openmp"}

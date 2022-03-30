@@ -3,11 +3,11 @@
 PortSystem          1.0
 
 name                aspnetcore-runtime-3.1
-version             3.1.17
+version             3.1.23
 revision            0
 categories          dotnet
 license             MIT
-maintainers         {tsabirgaliev @tsabirgaliev} openmaintainer
+maintainers         {@tsabirgaliev gmail.com:tair.sabirgaliev} openmaintainer
 
 description         ASP.NET Core is a cross-platform .NET framework for building modern \
                     cloud-based web applications on Windows, Mac, or Linux.
@@ -24,9 +24,9 @@ supported_archs     x86_64
 distname            aspnetcore-runtime-${version}-osx-x64
 master_sites        https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/${version}/
 
-checksums           rmd160  328033ae59eb141f566104e3fea0575a31cea970 \
-                    sha256  0aff8973dbb41bf04c4a5e275ae9a87d1533f1125d0894054ceceb8afc7f886c \
-                    size    37762855
+checksums           rmd160  204f07a0935b3deafec7de0766a6c3049d9dde7d \
+                    sha256  a875ab90f97975fe170700ddccbb1a0eddde01c68bdaae2de3301f0ffbb1acb1 \
+                    size    37691633
 
 worksrcdir          ${name}-${version}
 extract.mkdir       yes

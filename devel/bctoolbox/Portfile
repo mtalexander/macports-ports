@@ -4,12 +4,11 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        BelledonneCommunications bctoolbox 5.0.35
+github.setup        BelledonneCommunications bctoolbox 5.1.12
 github.tarball_from archive
 revision            0
 
 categories          devel multimedia
-platforms           darwin
 license             GPL-3
 maintainers         {judaew @judaew} openmaintainer
 
@@ -19,9 +18,18 @@ description         \
     like belle-sip, mediastreamer2 and liblinphone.
 long_description    {*}${description}
 
-checksums           rmd160 81bb579227cf291798728ae4b2e7d2d74710607f \
-                    sha256 1c471d7aabc0045a7db667dd885fa3381436c53184509a3f51d408280af47792 \
-                    size 179866
+checksums           rmd160 5061ed92fa038befd2869246e079471c157ea992 \
+                    sha256 bf320e297b093056dce8f8c16354955292c8505fad0a6ccf5b7390d0007f5e53 \
+                    size 180846
+
+if {${os.major} <= 10} {
+    known_fail      yes
+    pre-fetch {
+        ui_error "${name} requires the AVFoundation framework"
+        ui_error "AVFoundation available from macOS 10.7 and later"
+        return -code error "incompatible OS X version"
+    }
+}
 
 depends_build-append \
                     port:bcunit
@@ -39,6 +47,9 @@ configure.args-append \
                     -DENABLE_TESTS=NO \
                     -DENABLE_TESTS_COMPONENT=NO
 
+# This workaround is needed for "ortp" to work correctly. Ideally,
+# BelledonneCommunications projects need a less hardcoded way to locate
+# frameworks libs.
 post-destroot {
     ln -s ${frameworks_dir}/bctoolbox.framework \
         ${destroot}${prefix}/lib/bctoolbox.framework

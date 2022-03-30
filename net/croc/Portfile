@@ -3,25 +3,24 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/schollz/croc 9.4.2 v
+go.setup            github.com/schollz/croc 9.5.2 v
+github.tarball_from archive
 revision            0
 
 homepage            https://schollz.com/blog/croc6
 
-description         Easily and securely send things from one computer to \
-                    another
+description         \
+    Easily and securely send things from one computer to another
 
-long_description    croc is a tool that allows any two computers to simply \
-                    and securely transfer files and folders. AFAIK, croc is \
-                    the only CLI file-transfer tool that: allows any two \
-                    computers to transfer data (using a relay), provides \
-                    end-to-end encryption (using PAKE), enables easy \
-                    cross-platform transfers (Windows, Linux, Mac), allows \
-                    multiple file transfers, allows resuming transfers that \
-                    are interrupted, does not need a local server or \
-                    port-forwarding, is faster than wormhole, rsync, scp \
-                    through compression and multiplexing (speedups 1.5x to \
-                    4x), and supports IPv6.
+long_description    \
+    ${name} is a tool that allows any two computers to simply and securely \
+    transfer files and folders. AFAIK, croc is the only CLI file-transfer \
+    tool that: allows any two computers to transfer data (using a relay), \
+    provides end-to-end encryption (using PAKE), enables easy cross-platform \
+    transfers (Windows, Linux, Mac), allows multiple file transfers, allows \
+    resuming transfers that are interrupted, does not need a local server or \
+    port-forwarding, is faster than wormhole, rsync, scp through compression \
+    and multiplexing (speedups 1.5x to 4x), and supports IPv6.
 
 categories          net sysutils
 installs_libs       no
@@ -33,15 +32,13 @@ build.pre_args-append \
                     -ldflags \" -s -w \"
 
 destroot {
-    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
 }
 
-github.tarball_from archive
-
 checksums           ${distname}${extract.suffix} \
-                        rmd160  ae9a51f8eae95914de5d28cf9e816c18fc229dd0 \
-                        sha256  73d3abb058af18329ffdea4bb77d484b5f8ede9c11010d44781f3e891aa675e0 \
-                        size    503579
+                        rmd160  b27f21e265da4150158fd91364c04dd8bab6975b \
+                        sha256  9fcbb82fa78122b0a2279fe9b4c4c7ff6af7b0599f275c04481ad5ed162d2952 \
+                        size    505367
 
 go.vendors          gopkg.in/yaml.v3 \
                         repo    github.com/go-yaml/yaml \
@@ -61,6 +58,11 @@ go.vendors          gopkg.in/yaml.v3 \
                         rmd160  1e5543a8e6a3159296ee63e28cbde9931a04f6b3 \
                         sha256  c41575a73d10809f89b05ef9e783f2d53facdc6573697770d30efb05a9d2dc28 \
                         size    31612 \
+                    golang.org/x/time \
+                        lock    90d013bbcef8 \
+                        rmd160  c3d01e3483cc2a6a060d7b4d2174d7aacf345fcf \
+                        sha256  99c1de4c009610ba2548175530c3282c39687ea4679ea4f54e28d8bcc36832cd \
+                        size    10130 \
                     golang.org/x/text \
                         lock    v0.3.7 \
                         rmd160  52777fe8a68660aab6e4588322a5949b0ba42e58 \
@@ -72,20 +74,20 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  3673415a6d3d106d49b487715e151fc64245502ef547c16e8e13edb6b8f2f492 \
                         size    14975 \
                     golang.org/x/sys \
-                        lock    808efd93c36d \
-                        rmd160  f39e55879bd1185ccb5c2137ace906aef2e1d601 \
-                        sha256  9c29cd5fde2ba6e8f4f4a11b5c781dd0191fb5038af344eb20fd8a3af0143cb1 \
-                        size    1213946 \
+                        lock    f2425489ef4c \
+                        rmd160  193d72fc6cd94a2a25df5ac20bad50abaae6552d \
+                        sha256  a075cd21656272634b3cfe87d0d6f20aeb76a378d88b11692506165d13baadc1 \
+                        size    1258276 \
                     golang.org/x/net \
-                        lock    e81a3d93ecf6 \
-                        rmd160  102c274f1206a86e62edb60b4861710a42f5c1dd \
-                        sha256  ba5ba3b2075e90f5aca44ac3b1636923e7d37b82719beacda931f51341abc6b6 \
-                        size    1261009 \
+                        lock    cd36cc0744dd \
+                        rmd160  20670d7362e8b4ecb15f3c220c90bd3d1d32a610 \
+                        sha256  26df4f12cff0b1a98eb9376669e40e1a839fae744d9c0fc84e4fe3153961fe33 \
+                        size    1228706 \
                     golang.org/x/crypto \
-                        lock    089bfa567519 \
-                        rmd160  5435f7d637f5b4390f7f27cf8e5b27d4e3b2441a \
-                        sha256  db7030a2b172461539ec4e963a30a13f87947e480e426b3986c91ef8c1260747 \
-                        size    1734725 \
+                        lock    86341886e292 \
+                        rmd160  347474d0bf933bffefb19c35a29a2a9db61fcc3e \
+                        sha256  7c251912082347531a659f81fa9c6143564c204557996898b251683a75ca964e \
+                        size    1628042 \
                     github.com/twmb/murmur3 \
                         lock    v1.1.6 \
                         rmd160  cc506f20a592ca818e973619c43fa7a03cb9e7c1 \
@@ -107,20 +109,20 @@ go.vendors          gopkg.in/yaml.v3 \
                         sha256  54d6a3300600dd2f5e444f6d19fe1f91e1174329cdfff1d50dae837689214a68 \
                         size    7396 \
                     github.com/schollz/progressbar \
-                        lock    v3.8.3 \
-                        rmd160  4aa389be77360963a80fd877515c18a3d17e0c92 \
-                        sha256  6033bcfb7c253d618a07fbd5a69dd9c78af1920ca4f6285dc0bc58b32f5815ca \
-                        size    603286 \
+                        lock    v3.8.6 \
+                        rmd160  ec19d5642f701d0a36c23ea7a116d52bea8e09ca \
+                        sha256  cd26c3d38d0d4e86cfc25a2e9fd539eb6df60458516956b2892eb6b839db245b \
+                        size    604145 \
                     github.com/schollz/peerdiscovery \
-                        lock    v1.6.9 \
-                        rmd160  387fe73647e9d71a2ae1479ec8632540137fe0e6 \
-                        sha256  9a8501142c8053ee4d68b3b25ecd46b0dd9e99950c45c01a707daf537389c2f0 \
-                        size    8868 \
+                        lock    v1.6.11 \
+                        rmd160  4da19707e0e9f47518a51205caf3415b6d8104bf \
+                        sha256  a7a87a838e2ab13990ad562eacab4036f3646193143dca0bd66194bbf9d62284 \
+                        size    8825 \
                     github.com/schollz/pake \
-                        lock    v3.0.2 \
-                        rmd160  e9ab15ebb4c48543250a5e92c4c57f6a1b947be2 \
-                        sha256  966dab344fb391dcb8c6cc80c044080568e810d3270786967dd2910a9fc36d5c \
-                        size    9387 \
+                        lock    v3.0.4 \
+                        rmd160  820f8951a303856cd5dd73b4e909051e5f31148f \
+                        sha256  28c6a50dc56b318b8e5b846878f7a82d742e4058bf473aedc184f89a372c20e0 \
+                        size    9590 \
                     github.com/schollz/mnemonicode \
                         lock    v1.0.1 \
                         rmd160  3b589e8d02190611df0a94aa681ddfe4a52f9fe3 \

@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                mod_qos
-version             11.68
+version             11.71
 revision            0
 categories          www
 license             Apache-2
@@ -11,13 +11,12 @@ maintainers         nomaintainer
 description         mod_qos is a quality of service module for the Apache web server
 long_description    {*}${description} implementing control mechanisms that can provide \
                     different levels of priority to different HTTP requests.
-platforms           darwin
 homepage            http://mod-qos.sourceforge.net/index.html
 master_sites        sourceforge:project/mod-qos/
 
-checksums           rmd160  069c7dcb70ed3b0759704f899ab784eb41fd0ee3 \
-                    sha256  764f948feb43e4bdba9d0b664be4939ac34d7c17389caf532523097a6cfb94aa \
-                    size    1282547
+checksums           rmd160  cba39d04fb2919c2872aea61c25642b720fb0cbc \
+                    sha256  02c5b364564d90222030f5a1fadd1e5689813b8c98fce26e91dff941323c0554 \
+                    size    1282858
 
 depends_build       port:autoconf \
                     port:automake

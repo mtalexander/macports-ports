@@ -5,21 +5,21 @@ PortGroup           github 1.0
 PortGroup           python 1.0
 
 name                py-acme
-github.setup        certbot certbot 1.20.0 v
+github.setup        certbot certbot 1.25.0 v
 revision            0
 categories-append   security
 license             Apache-2
 maintainers         {mps @Schamschula} openmaintainer
 description         ACME protocol implementation in Python.
 long_description    {*}${description}
-platforms           darwin
+supported_archs     noarch
 homepage            https://certbot.eff.org/
 
-python.versions     36 37 38 39
+python.versions     37 38 39 310
 
-checksums           rmd160  07a6792a745c6b88b9ddd2820d2e5ac985e01be9 \
-                    sha256  7f25891e1fa701d27a29958d94f6e019042a23b5ce84a26d99e27bf1c1bbe7d2 \
-                    size    1338966
+checksums           rmd160  d464b4cb12e58189928e17bbf7cde356778c8fdc \
+                    sha256  45e569361d0531e3d87da430706a7283ce14d9b9ba4bf8c50c26d68878ae3247 \
+                    size    1362799
 
 if {${name} ne ${subport}} {
     build.dir       ${worksrcpath}/acme

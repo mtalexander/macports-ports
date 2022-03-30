@@ -4,12 +4,11 @@ PortSystem          1.0
 PortGroup           cmake 1.1
 PortGroup           github 1.0
 
-github.setup        BelledonneCommunications ortp 5.0.35
+github.setup        BelledonneCommunications ortp 5.1.12
 github.tarball_from archive
 revision            0
 
 categories          devel
-platforms           darwin
 license             GPL-3
 maintainers         {judaew @judaew} openmaintainer
 
@@ -19,9 +18,9 @@ long_description    \
     available for most unix clones (primilarly Linux and HP-UX), and \
     Microsoft Windows.
 
-checksums           rmd160 d09a419eeef7acaef105f97b62a2072af0d54bc8 \
-                    sha256 e9ff6b8b8bfb79c070ec773a79f88697e29f659cf47932b92e61d63a909cd65b \
-                    size 234274
+checksums           rmd160 b722478027c5d11910a1f41b69833b2f78226b2e \
+                    sha256 dcd1b7c4876e8ca808c8c827329e90997bda51e8646399d426b529cddd727ee4 \
+                    size 240051
 
 depends_lib         port:bctoolbox
 

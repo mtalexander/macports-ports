@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/twpayne/chezmoi 2.7.1 v
+go.setup            github.com/twpayne/chezmoi 2.14.0 v
 github.tarball_from archive
 revision            0
 
@@ -20,20 +20,16 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  677c83dd71742e4712e51f49aedb6c75ed2ee70b \
-                    sha256  d80b301e1a25a67d9ada956a68532f0b23bd0627056c26685d977676d7bf7fe2 \
-                    size    2328904
+checksums           rmd160  bdbdad085aa3ddfc35f12fd03b0e929f2319684c \
+                    sha256  4d7a1baf7e3caa8f6976b1ea5e6ba81c75273b1dd1f0fc946134a82454720397 \
+                    size    2383228
 
 # Allow Go to fetch dependencies at build time
 build.env-delete    GO111MODULE=off GOPROXY=off
 build.cmd "${build.cmd} -ldflags \"-X main.version=v${version} -X main.builtBy=macports\" && make completions"
 
 destroot {
-    set cm_doc_dir      ${prefix}/share/doc/${name}
-
-    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
-    xinstall -d ${destroot}${cm_doc_dir}
-    copy {*}[glob ${worksrcpath}/docs/*] ${destroot}${cm_doc_dir}/
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
 
     # Install bash completion
     xinstall -d  ${destroot}${prefix}/share/bash-completion/completions

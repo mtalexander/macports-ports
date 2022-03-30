@@ -5,7 +5,7 @@ PortGroup           clang_dependency 1.0
 
 name                sqlite3
 # don't forget to update the checksums for sqlite3-tools when updating sqlite3
-version             3.36.0
+version             3.38.2
 revision            0
 categories          databases
 platforms           darwin
@@ -24,14 +24,14 @@ long_description    SQLite3 is an SQL database engine in a C library. \
                     an example of how to use the SQLite3 library.
 
 homepage            https://www.sqlite.org/
-master_sites        ${homepage}2021
+master_sites        ${homepage}2022
 
 set padded_ver      [string range [subst [regsub -all {\.([0-9]+)} "${version}.0.0" {[format %02d \1]}]] 0 6]
 distname            sqlite-autoconf-${padded_ver}
 
-checksums           rmd160  ef34b98fbe1f3436fc0d1255ae2fa9a660011cb2 \
-                    sha256  bd90c3eb96bee996206b83be7065c9ce19aef38c3f4fb53073ada0d0b69bbce3 \
-                    size    2977080
+checksums           rmd160  23eaee5ac692f79cf5de3f7a6627c891f029bde8 \
+                    sha256  e7974aa1430bad690a5e9f79a6ee5c8492ada8269dc675875ad0fb747d7cada4 \
+                    size    3032390
 
 depends_lib         port:libedit \
                     port:ncurses \
@@ -105,9 +105,10 @@ subport ${name}-tools {
                             database files, including the sqldiff program and the \
                             sqlite3_analyzer program.
 
-    checksums       rmd160  45e24313d68f6f4552e8f508e6afa4aeac4b230a \
-                    sha256  25a3b9d08066b3a9003f06a96b2a8d1348994c29cc912535401154501d875324 \
-                    size    12985683
+    checksums       rmd160  f850788d08369eb3f094ad9340098aa86fdbc756 \
+                    sha256  c7c0f070a338c92eb08805905c05f254fa46d1c4dda3548a02474f6fb567329a \
+                    size    13242285
+
 
 
     use_zip                 yes

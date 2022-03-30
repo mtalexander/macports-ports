@@ -3,8 +3,8 @@
 PortSystem          1.0
 PortGroup           perl5 1.0
 
-perl5.branches      5.28 5.30 5.32
-perl5.setup         Math-MPC 1.12
+perl5.branches      5.28 5.30 5.32 5.34
+perl5.setup         Math-MPC 1.15
 revision            0
 license             {Artistic-1 GPL}
 maintainers         {devans @dbevans} openmaintainer
@@ -13,9 +13,9 @@ long_description    ${description}
 
 platforms           darwin
 
-checksums           rmd160  094328037c4b7a2030f6686e4e9e2341f0bdec3a \
-                    sha256  8bbee29b06a2142bf9a4a39b580e6d13ad880c4bdcf5853c233de19f4382005a \
-                    size    65215
+checksums           rmd160  e81519c7f5e305904c1db096eeed1fd7a5ccbff1 \
+                    sha256  b7b51ccb0cdb236be24219cac9b7d00d9c61b8fce5f1e9c02cf3d3992af0a5a6 \
+                    size    70134
 
 if {${perl5.major} != ""} {
     depends_lib-append \

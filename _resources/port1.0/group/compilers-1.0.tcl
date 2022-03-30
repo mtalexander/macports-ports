@@ -76,13 +76,17 @@ default compilers.clear_archflags no
 options compilers.allow_arguments_mismatch
 default compilers.allow_arguments_mismatch no
 
-# also set a default gcc version
-# should be the same as gcc_compilers.tcl
+# Set a default gcc version
 if {${os.major} < 10} {
     # see https://trac.macports.org/ticket/57135
     set compilers.gcc_default gcc7
 } else {
-    set compilers.gcc_default gcc11
+    if { ${os.arch} eq "arm" } {
+        # GCC 11 still problematic on arm
+        set compilers.gcc_default gccdevel
+    } else {
+        set compilers.gcc_default gcc11
+    }
 }
 
 set compilers.list {cc cxx cpp objc fc f77 f90}
@@ -145,7 +149,13 @@ foreach ver ${gcc_versions} {
     set cdb(gcc$ver_nodot,fc)       ${prefix}/bin/gfortran-mp-$ver
     set cdb(gcc$ver_nodot,f77)      ${prefix}/bin/gfortran-mp-$ver
     set cdb(gcc$ver_nodot,f90)      ${prefix}/bin/gfortran-mp-$ver
-    set cdb(gcc$ver_nodot,cxx_stdlib) libstdc++
+    # The devel port, and starting with version 12, GCC will support using -stdlib=libc++,
+    # so use it for improved compatibility with clang builds
+    if { $ver eq "devel" || [vercmp ${ver} 12] >= 0 } {
+        set cdb(gcc$ver_nodot,cxx_stdlib) libc++
+    } else {
+        set cdb(gcc$ver_nodot,cxx_stdlib) libstdc++
+    }
 }
 
 # build database of clang compiler attributes
@@ -174,7 +184,7 @@ if { ${os.arch} ne "arm" } {
 if { ${os.major} >= 10 } {
     lappend clang_versions 11
     if { ${os.major} >= 11 } {
-        lappend clang_versions 12
+        lappend clang_versions 12 13
     }
     lappend clang_versions devel
 }

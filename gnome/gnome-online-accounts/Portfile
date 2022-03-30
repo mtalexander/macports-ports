@@ -25,7 +25,7 @@ checksums           rmd160  dd5bc0427140b0eaab80687ec53efe4b8ea9f23e \
 depends_build       port:pkgconfig \
                     port:gtk-doc
 
-depends_lib         port:gdk-pixbuf2 \
+depends_lib         path:lib/pkgconfig/gdk-pixbuf-2.0.pc:gdk-pixbuf2 \
                     path:lib/pkgconfig/gtk+-3.0.pc:gtk3 \
                     port:libsoup \
                     port:json-glib \
@@ -34,7 +34,7 @@ depends_lib         port:gdk-pixbuf2 \
                     port:libsecret \
                     port:libxml2 \
                     port:gcr \
-                    port:vala \
+                    path:bin/vala:vala \
                     path:lib/pkgconfig/webkit2gtk-4.0.pc:webkit2-gtk
 
 gobject_introspection yes
@@ -65,43 +65,4 @@ configure.args      --enable-compile-warnings=no \
                     --disable-maintainer-mode \
                     --disable-silent-rules
 
-platform darwin {
-    if {${configure.cxx_stdlib} eq "libstdc++"} {
-        version         3.8.5
-        revision        2
-        checksums       rmd160  21889d886fa262e536929ecb6905cfcd3f50a462 \
-                        sha256  34d6fbc33bda4c7bba8aa52343ebe1eb8afe1033097c10a2d9979c0a99593e5d
-        depends_build-append \
-                        port:autoconf \
-                        port:automake \
-                        port:libtool \
-                        port:gtk-doc
-
-        depends_lib-delete \
-                        port:telepathy-glib
-        depends_lib-append \
-                        path:lib/pkgconfig/webkitgtk-3.0.pc:webkit-gtk3-2.0
-        patchfiles-append \
-                        patch-alarm.diff
-        post-patch {
-            xinstall -m 755 ${filespath}/autogen.sh-${version} ${worksrcpath}/autogen.sh
-        }
-        configure.cmd   ./autogen.sh
-        configure.cflags-append \
-                        -Wno-format-nonliteral
-        configure.args-delete  \
-                        --disable-media-server \
-                        --enable-inspector \
-                        --enable-foursquare \
-                        --enable-ubuntu-online-accounts=no \
-                        --enable-yahoo \
-                        --enable-telepathy \
-                        --enable-pocket \
-                        --enable-lastfm
-        # Version 3.8.5 is the last version that will build on platforms supporting libstdc++
-        livecheck.type  none
-    } else {
-        depends_lib-append path:lib/pkgconfig/webkit2gtk-4.0.pc:webkit2-gtk
-        livecheck.type  gnome
-    }
-}
+livecheck.type      gnome

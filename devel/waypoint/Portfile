@@ -3,32 +3,33 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/hashicorp/waypoint 0.6.0 v
+go.setup            github.com/hashicorp/waypoint 0.7.2 v
+github.tarball_from archive
 revision            0
 
 homepage            https://www.waypointproject.io
 
-description         A tool to build, deploy, and release any application on \
-                    any platform
+description         \
+    A tool to build, deploy, and release any application on any platform
 
-long_description    Waypoint allows developers to define their application \
-                    build, deploy, and release lifecycle as code, reducing \
-                    the time to deliver deployments through a consistent and \
-                    repeatable workflow.  Waypoint supports a number of build \
-                    methods and target platforms out of the box and more can \
-                    be easily added via plugins: Cloud Native Buildpacks, \
-                    Docker, Kubernetes, AWS EC2 and ECS, Azure Container \
-                    Instances, Google Cloud Run, Netlify, and many more...
+long_description    \
+    Waypoint allows developers to define their application build, deploy, and \
+    release lifecycle as code, reducing the time to deliver deployments \
+    through a consistent and repeatable workflow.  Waypoint supports a number \
+    of build methods and target platforms out of the box and more can be \
+    easily added via plugins: Cloud Native Buildpacks, Docker, Kubernetes, \
+    AWS EC2 and ECS, Azure Container Instances, Google Cloud Run, Netlify, \
+    and many more...
 
 categories          devel
+installs_libs       no
 license             MPL-2
-
-checksums           rmd160  bcc908018e247f01252952dffb4eaad6726bf54a \
-                    sha256  c8c5f2bfe02153a3ebd5e31b8ea0b454c66a8cc27aee135d6ecc238197d44f38 \
-                    size    14698773
-
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
+
+checksums           rmd160  76c55463edcc1515bb7e610588a287df88a40d5f \
+                    sha256  da89019fad31ca583c8c8327c8da00fb4a76c278ff1c53583c842bb827496558 \
+                    size    15305586
 
 # Do not restrict Go from downloading dependencies at build time.
 build.env-delete    GOPROXY=off GO111MODULE=off
@@ -38,7 +39,6 @@ depends_build-append port:go-bindata
 build.cmd           make
 build.target        bin
 
-installs_libs       no
 use_parallel_build  no
 
 patch {
@@ -47,8 +47,7 @@ patch {
 }
 
 destroot {
-    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
 }
 
 github.livecheck.regex  {([0-9.]+)}
-github.tarball_from     archive

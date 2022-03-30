@@ -4,31 +4,35 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-tqdm
-version             4.62.3
+version             4.63.1
 revision            0
 categories-append   devel
 platforms           darwin
 license             MIT
 supported_archs     noarch
 
-python.versions     27 35 36 37 38 39
+python.versions     27 35 36 37 38 39 310
 
 maintainers         {stromnov @stromnov} openmaintainer
 
 description         A Fast, Extensible Progress Meter
-long_description    ${description}
+long_description    {*}${description}
 
 homepage            https://github.com/tqdm/tqdm
 
-checksums           rmd160  d214bf170a0c3c89b738434c1499357a74ee1d8d \
-                    sha256  d359de7217506c9851b7869f3708d8ee53ed70a1b8edbba4dbcb47442592920d \
-                    size    167952
+checksums           rmd160  3a5b587c7dd71d2ab60a4c6b3ff16e95862c6ff2 \
+                    sha256  4230a49119a416c88cc47d0d2d32d5d90f1a282d5e497d49801950704e49863d \
+                    size    168619
 
 if {${name} ne ${subport}} {
     depends_build-append \
                         port:py${python.version}-setuptools_scm \
                         port:py${python.version}-toml
     depends_lib-append  port:py${python.version}-setuptools
+
+    if {${python.version} >= 37} {
+        python.pep517       yes
+    }
 
     livecheck.type      none
 }

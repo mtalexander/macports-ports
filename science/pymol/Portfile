@@ -6,7 +6,7 @@ PortGroup           github 1.0
 PortGroup           boost 1.0
 
 github.setup        schrodinger pymol-open-source 2.5.0 v
-revision            1
+revision            3
 name                pymol
 conflicts           pymol-devel
 
@@ -28,31 +28,32 @@ checksums           rmd160  6432d47616aee1e5d9d40cc2a74425b33159d7a0 \
                     size    10471287
 
 subport pymol-devel {
-    github.setup    schrodinger pymol-open-source a869dc396e4697343b55325ff2038f9fc820511e
-    version         20211014-[string range ${github.version} 0 7]
+    github.setup    schrodinger pymol-open-source abc307745d7d231af4f77f984ebd64f1b428cef8
+    version         20220311-[string range ${github.version} 0 7]
     conflicts       pymol
     revision        0
     maintainers     {reneeotten @reneeotten} openmaintainer
-    checksums       rmd160  630814b2244e35ae9353f989f6f58a84a9bbcf0f \
-                    sha256  562e3462e326b1aeb0a8bfec95da72dd0203dbb80ffa77992413e900a771ecc5 \
-                    size    10479131
+    checksums       rmd160  b854b1ef222ae9954887175784bdf843fa1dd02e \
+                    sha256  01a3a6a333827e20781d17483589c636978f9f086082c59102d178b381d9aa5d \
+                    size    10491039
 }
 
-variant python36 conflicts python37 python38 python39 description {Use Python 3.6} {}
-variant python37 conflicts python36 python38 python39 description {Use Python 3.7} {}
-variant python38 conflicts python36 python37 python39 description {Use Python 3.8} {}
-variant python39 conflicts python36 python37 python38 description {Use Python 3.9} {}
+variant python37 conflicts python38 python39 python310 description {Use Python 3.7} {}
+variant python38 conflicts python37 python39 python310 description {Use Python 3.8} {}
+variant python39 conflicts python37 python38 python310 description {Use Python 3.9} {}
+variant python310 conflicts python37 python38 python39 description {Use Python 3.10} {}
 
-if {[variant_isset python36]} {
-    python.default_version 36
-} elseif {[variant_isset python37]} {
-    python.default_version 37
-} elseif {[variant_isset python38]} {
-    python.default_version 38
-} else {
-    default_variants +python39
-    python.default_version 39
+if {![variant_isset python37] && ![variant_isset python38] && ![variant_isset python39]} {
+    default_variants +python310
 }
+
+foreach pv {310 39 38 37} {
+    if {[variant_isset python${pv}]} {
+        python.default_version ${pv}
+        break
+    }
+}
+
 python.link_binaries no
 
 boost.depends_type build
@@ -61,7 +62,14 @@ compiler.cxx_standard 2011
 
 variant vtkm description {Use VTK-m for isosurface generation} {
     depends_lib-append  port:vtk-m
-    build.args-append   --use-vtkm 1.6
+    build.args-append   --use-vtkm 1.7
+}
+
+variant openmp description {Enable OpenMP support} {
+    build.args-append   --use-openmp yes
+
+    compiler.openmp_version 4.0
+    patchfiles-append   patch-openmp.diff
 }
 
 depends_lib-append  port:freetype \
@@ -81,10 +89,13 @@ patchfiles          pymol_shell.diff \
                     setup.py.diff \
                     patch-boost-include.diff
 
-# fix for build on 10.13 and below, can be removed upon next update
+# two fixes for PyMOL v2.5.0 (can be removed upon next update):
+# 1. fix for build on 10.13 and below;
 # see: https://github.com/schrodinger/pymol-open-source/issues/193
+# 2. fix for build with VTK-M 1.6
 if {${subport} != "pymol-devel"} {
-    patchfiles-append   patch-layer1_Wizard.cpp.diff
+    patchfiles-append   patch-layer1_Wizard.cpp.diff \
+                        patch-vtkm.diff
 }
 
 post-patch {

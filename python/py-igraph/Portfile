@@ -4,14 +4,15 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-igraph
-python.rootname     python-igraph
-version             0.9.7
+python.rootname     igraph
+python.pep517       yes
+version             0.9.9
 revision            0
 categories-append   math science
 platforms           darwin
 license             GPL-2+
 
-python.versions     36 37 38 39 310
+python.versions     37 38 39 310
 
 maintainers         {snc @nerdling} {gmail.com:szhorvat @szhorvat} openmaintainer
 
@@ -23,9 +24,9 @@ long_description    Python interface to the igraph library for network analysis 
 
 homepage            https://igraph.org/python/
 
-checksums           rmd160  8a44fd02c2541d66b2527b1db9c248af20b6c09c \
-                    sha256  832e9c6fe8a36886399f0c97fb1f7f75350df0b79e089d96c4b9ff86b2058dd3 \
-                    size    3615631
+checksums           rmd160  a5d16134d93d801027c71cac10dcfb8ab4aa48d5 \
+                    sha256  3f84b57fbaab37efa965f8dc1e1e28aad181357f1a6aa8204fe7c91ee9615092 \
+                    size    3720712
 
 variant external_igraph description {Use external igraph library} { }
 
@@ -35,7 +36,7 @@ if {${name} ne ${subport}} {
 
     depends_lib-append      port:py${python.version}-texttable
 
-    depends_build-append    port:py${python.version}-setuptools
+    depends_build-append    port:py${python.version}-setuptools port:py${python.version}-wheel
 
     if {[variant_isset external_igraph]} {
         # Build with external igraph library
@@ -72,6 +73,7 @@ if {${name} ne ${subport}} {
             -DIGRAPH_USE_INTERNAL_GLPK=OFF
             -DIGRAPH_USE_INTERNAL_GMP=OFF
             -DIGRAPH_USE_INTERNAL_LAPACK=OFF
+            -DIGRAPH_USE_INTERNAL_PLFIT=ON
             -DIGRAPH_OPENMP_SUPPORT=OFF
             -DBLA_VENDOR=Apple
         }

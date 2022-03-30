@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/smallstep/cli 0.17.6 v
+go.setup            github.com/smallstep/cli 0.18.2 v
+github.tarball_from archive
 name                step-cli
 revision            0
 
@@ -19,14 +20,13 @@ installs_libs       no
 license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
-platforms           darwin
 
 # Allow fetching deps at build time
 build.env-delete    GO111MODULE=off GOPROXY=off
 
-checksums           rmd160  71fa579a8032c3ab1489c6a0dec2892eeef84128 \
-                    sha256  14638b0dcf43d0acb211b0ccb9eb7fa3fdc93ee38004b263a4013bcb0cc4c5d3 \
-                    size    1800886
+checksums           rmd160  575f52f51ee8646428b71b70d6e93e9a4aa6bd03 \
+                    sha256  8a0a9e5ab7db649f969bfed46a1c37937fc8e05dba26d2e538fa15a29646032a \
+                    size    1831593
 
 # Mirrors already have a tarball named cli-${version}.  Since the tarball
 # is versioned, then we don't have to version our dist_subdir. We need only
@@ -38,10 +38,9 @@ build.cmd           make
 build.target        binary-darwin
 
 destroot {
-    xinstall -m 755 \
+    xinstall -m 0755 \
         ${worksrcpath}/output/binary/darwin/bin/step \
         ${destroot}${prefix}/bin/
 }
 
 github.livecheck.regex  {([0-9.]+)}
-github.tarball_from     archive

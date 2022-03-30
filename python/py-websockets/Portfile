@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-websockets
-version             10.0
+version             10.2
 license             BSD
 platforms           darwin
 maintainers         {toby @tobypeterson} openmaintainer
@@ -16,11 +16,11 @@ long_description    websockets is a library for building WebSocket servers and \
 
 homepage            https://github.com/aaugustin/websockets
 
-checksums           rmd160 75e254dc8bde6959cfcd91cca664c4a5b3a503a7 \
-                    sha256 c4fc9a1d242317892590abe5b61a9127f1a61740477bfb121743f290b8054002 \
-                    size 81838
+checksums           rmd160 f91b84f40b29d0c2e5fa1f8b6fef9c8c4e6a2175 \
+                    sha256 8351c3c86b08156337b0e4ece0e3c5ec3e01fcd14e8950996832a23c99416098 \
+                    size 83402
 
-python.versions     37 38 39
+python.versions     37 38 39 310
 
 if {${name} ne ${subport}} {
     depends_build   port:py${python.version}-setuptools

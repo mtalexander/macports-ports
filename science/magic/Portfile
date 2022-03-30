@@ -5,15 +5,14 @@ PortGroup           active_variants 1.1
 PortGroup           conflicts_build 1.0
 
 name                magic
-version             8.3.220
+version             8.3.279
 revision            0
-checksums           rmd160  76994ee15785a8b5b151ede0a3154ada235a04b9 \
-                    sha256  441cae915520184f62a407be8b0e0436d7c19338a703d6380884018931c5dd8f \
-                    size    4090383
+checksums           rmd160  7aa902b7c8bfa51c4235c09f7fa53a2bdcc6ba41 \
+                    sha256  a12d0441f8f0afc314311c80205d0a18fbbead6c8af6c1f86c2318039f757068 \
+                    size    4134944
 
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          science
-platforms           darwin
 # mostly very permissively licensed, but includes a copy of GNU readline
 license             GPL-2+
 maintainers         {ryandesign @ryandesign} openmaintainer

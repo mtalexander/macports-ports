@@ -4,13 +4,33 @@ PortSystem          1.0
 
 PortGroup           legacysupport 1.1
 
-legacysupport.newest_darwin_requires_legacy 15
+legacysupport.newest_darwin_requires_legacy 16
 
 name                go
-epoch               2
+epoch               3
 
-version             1.17.2
+# IMPORTANT:
+#
+# When updating major versions, please ensure that you have committed and
+# tested the candidate version using the `go-devel` port, to verify how it
+# builds against current and older versions of macOS.
+
+# Go 1.18 does not build on macOS 10.12 and older
+if {${os.platform} eq "darwin" && ${os.major} < 17} {
+    version         1.17.8
+    set unsupported_macos true
+} else {
+    version         1.18
+    set unsupported_macos false
+}
+
 revision            0
+
+# Subport for Go Unstable Version
+subport ${name}-devel {
+    version         1.18
+    revision        0
+}
 
 homepage            https://golang.org
 
@@ -31,21 +51,72 @@ long_description    \
     language that feels like a dynamically typed, interpreted language. Go \
     is developed by Google Inc.
 
-set go_src_dist     ${name}${version}.src${extract.suffix}
-set go_armbin_dist  ${name}${version}.darwin-arm64${extract.suffix}
+set go_src_dist     go${version}.src${extract.suffix}
+set go_armbin_dist  go${version}.darwin-arm64${extract.suffix}
+set go_amdbin_dist  go${version}.darwin-amd64${extract.suffix}
 
-checksums           ${go_src_dist} \
-                    rmd160  746baea495791be0e9f4ed6a162cc4466d4ce4cd \
-                    sha256  2255eb3e4e824dd7d5fcdc2e7f84534371c186312e546fb1086a34c17752f431 \
-                    size    22182111 \
+livecheck.type      regex
+livecheck.url       ${homepage}/dl/
+
+if {$subport eq "${name}-devel"} {
+    # Go (DEVEL / UNSTABLE)
+    checksums       ${go_src_dist} \
+                    rmd160  29299cd23b11bb8408b0abea5d2fb9aef1a5142c \
+                    sha256  38f423db4cc834883f2b52344282fa7a39fbb93650dc62a11fdf0be6409bdad6 \
+                    size    22827832 \
                     ${go_armbin_dist} \
-                    rmd160  fee842e0a9f3e35c5f092e4a3a00baa3a187e0fb \
-                    sha256  ce8771bd3edfb5b28104084b56bbb532eeb47fbb7769c3e664c6223712c30904 \
-                    size    129424944
+                    rmd160  326d409db30c233dbd9f1c909813792b00e99594 \
+                    sha256  9cab6123af9ffade905525d79fc9ee76651e716c85f1f215872b5f2976782480 \
+                    size    137870667 \
+                    ${go_amdbin_dist} \
+                    rmd160  2dd3deb409b4dfbd0752ba9f63a6e3671d4a93f3 \
+                    sha256  70bb4a066997535e346c8bfa3e0dfe250d61100b17ccc5676274642447834969 \
+                    size    143698502
+
+    livecheck.regex {go([0-9.A-z]+)\.src\.tar\.gz}
+} else {
+    # Go (RELEASE)
+
+    if {${unsupported_macos}} {
+        # 1.17
+        checksums   ${go_src_dist} \
+                    rmd160  2b01e8053b19d2104676ddcd85ea4aa5abcf2834 \
+                    sha256  2effcd898140da79a061f3784ca4f8d8b13d811fb2abe9dad2404442dabbdf7a \
+                    size    22199282 \
+                    ${go_armbin_dist} \
+                    rmd160  74010929a3b67d3d2a4ef41fd1e612baba430648 \
+                    sha256  2827fb5d62453b30f0644382e22ab9d287c7bca868c374a15145b29e272443b1 \
+                    size    130325428 \
+                    ${go_amdbin_dist} \
+                    rmd160  ef81269da7ca70f5e2169aa19d353df17368e109 \
+                    sha256  345f530a6a4295a1bf0a25931c08bf31582ed83252580196bd643049dfef0563 \
+                    size    136872391
+
+        notes-append "
+            Please note: Go 1.18 does not build on macOS 10.12 and older, so Go ${version} has been installed.
+        "
+    } else {
+        # 1.18
+        checksums   ${go_src_dist} \
+                    rmd160  29299cd23b11bb8408b0abea5d2fb9aef1a5142c \
+                    sha256  38f423db4cc834883f2b52344282fa7a39fbb93650dc62a11fdf0be6409bdad6 \
+                    size    22827832 \
+                    ${go_armbin_dist} \
+                    rmd160  326d409db30c233dbd9f1c909813792b00e99594 \
+                    sha256  9cab6123af9ffade905525d79fc9ee76651e716c85f1f215872b5f2976782480 \
+                    size    137870667 \
+                    ${go_amdbin_dist} \
+                    rmd160  2dd3deb409b4dfbd0752ba9f63a6e3671d4a93f3 \
+                    sha256  70bb4a066997535e346c8bfa3e0dfe250d61100b17ccc5676274642447834969 \
+                    size    143698502
+    }
+
+    livecheck.regex {go([0-9.]+)\.src\.tar\.gz}
+}
 
 master_sites        https://storage.googleapis.com/golang/
 distfiles           ${go_src_dist}
-worksrcdir          ${name}
+worksrcdir          ${subport}
 
 maintainers         {ciserlohn @ci42} \
                     {gmail.com:herby.gillot @herbygillot} \
@@ -54,7 +125,7 @@ maintainers         {ciserlohn @ci42} \
 extract.only        ${go_src_dist}
 
 set GOROOT          ${worksrcpath}
-set GOROOT_FINAL    ${prefix}/lib/${name}
+set GOROOT_FINAL    ${prefix}/lib/${subport}
 
 supported_archs     arm64 i386 x86_64
 
@@ -113,7 +184,7 @@ if {${os.platform} eq "darwin" && ${os.major} <= ${legacysupport.newest_darwin_r
                         "CGO_LDFLAGS=-g -O2 ${configure.ldflags}"
 
     # Might be useful while debugging issues.
-    #build.args          "-v=3"
+    build.args-append   "-v=3"
 
     notes-append [subst {
                     go had to be specially patched and built to work on your platform.
@@ -134,13 +205,18 @@ if {${os.platform} eq "darwin" && ${os.major} <= ${legacysupport.newest_darwin_r
     }]
 }
 
+if {${os.platform} eq "darwin" && ${os.major} eq 10} {
+    # The branch https://github.com/catap/go/tree/macos-10.6
+    patchfiles-append   patch-macOS-10.6.diff
+}
+
 use_parallel_build  no
 
 if {${configure.build_arch} eq "arm64"} {
 
     # Use a temporary installation of the binary ARM64 Go distribution to
     # build Go for ARM64
-    set go_bin_path         ${workpath}/go_prebuilt
+    set go_bin_path         ${workpath}/${subport}_prebuilt
 
     build.env-append        GOROOT_BOOTSTRAP=${go_bin_path}/go
 
@@ -150,6 +226,22 @@ if {${configure.build_arch} eq "arm64"} {
         xinstall -d ${go_bin_path}
         system -W ${go_bin_path} \
             "${extract.cmd} ${extract.pre_args} ${distpath}/${go_armbin_dist} ${extract.post_args}"
+    }
+
+} elseif {${configure.build_arch} eq "x86_64" && ${os.major} >= 21} {
+
+    # Use a temporary installation of the binary AMD64 Go distribution to
+    # build Go for AMD64 on macOS 12 since go-1.4 fails to build
+    set go_bin_path         ${workpath}/${subport}_prebuilt
+
+    build.env-append        GOROOT_BOOTSTRAP=${go_bin_path}/go
+
+    distfiles-append        ${go_amdbin_dist}
+
+    post-extract {
+        xinstall -d ${go_bin_path}
+        system -W ${go_bin_path} \
+            "${extract.cmd} ${extract.pre_args} ${distpath}/${go_amdbin_dist} ${extract.post_args}"
     }
 
 } else {
@@ -164,12 +256,24 @@ post-build {
     delete ${worksrcpath}/pkg/bootstrap
 }
 
+if {$subport eq "${name}-devel"} {
+    set bin_suffix "-devel"
+
+    notes "
+        go-devel binaries are installed with a ${bin_suffix} suffix:
+        - go${bin_suffix}
+        - gofmt${bin_suffix}
+    "
+} else {
+    set bin_suffix ""
+}
+
 destroot {
 
     delete ${worksrcpath}/src/cmd/vendor/github.com/google/pprof/internal/binutils/testdata/malformed_macho
 
     set grfdir ${destroot}${GOROOT_FINAL}
-    set docdir ${destroot}${prefix}/share/doc/${name}
+    set docdir ${destroot}${prefix}/share/doc/${subport}
 
     xinstall -d ${grfdir}
     xinstall -d ${docdir}
@@ -179,10 +283,10 @@ destroot {
     }
 
     foreach f {go gofmt} {
-        system -W ${destroot}${prefix}/bin/ "ln -s ../lib/${name}/bin/$f ./$f"
+        system -W ${destroot}${prefix}/bin/ "ln -s ../lib/${subport}/bin/$f ./${f}${bin_suffix}"
     }
 
-    xinstall -m 644 -W ${worksrcpath} \
+    xinstall -m 0644 -W ${worksrcpath} \
         AUTHORS \
         CONTRIBUTING.md \
         CONTRIBUTORS \
@@ -195,14 +299,10 @@ destroot {
     copy {*}[glob -directory ${worksrcpath}/doc *] ${docdir}
 }
 
-if {${os.platform} eq "darwin" && ${os.major} < 11} {
+if {${os.platform} eq "darwin" && ${os.major} < 10} {
     known_fail yes
     pre-fetch {
-        ui_error "${name} @${version} requires OS X 10.7 or greater."
+        ui_error "${subport} @${version} requires Mac OS X 10.6 or greater."
         return -code error "incompatible Mac OS X version"
     }
 }
-
-livecheck.type      regex
-livecheck.url       ${homepage}/dl/
-livecheck.regex     {go([0-9.]+)\.src\.tar\.gz}

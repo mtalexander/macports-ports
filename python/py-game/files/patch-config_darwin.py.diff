@@ -1,5 +1,5 @@
---- buildconfig/config_darwin.py.orig	2021-10-10 18:59:29.000000000 +1100
-+++ buildconfig/config_darwin.py	2021-10-11 08:40:34.000000000 +1100
+--- buildconfig/config_darwin.py.orig	2021-12-27 11:57:00.000000000 +1100
++++ buildconfig/config_darwin.py	2022-01-01 20:11:59.000000000 +1100
 @@ -9,6 +9,7 @@
  except ImportError:
      from buildconfig.config_unix import DependencyProg
@@ -8,7 +8,7 @@
  
  try:
      basestring_ = basestring
-@@ -55,11 +56,11 @@
+@@ -57,7 +58,7 @@
  
  class FrameworkDependency(Dependency):
      def configure(self, incdirs, libdirs):
@@ -17,32 +17,14 @@
          for n in BASE_DIRS:
              n += 'Library/Frameworks/'
              fmwk = n + self.libs + '.framework/Versions/Current/'
--            if os.path.isfile(fmwk + self.libs):
-+            if os.path.isdir(fmwk):
-                 print ('Framework ' + self.libs + ' found')
-                 self.found = 1
-                 self.inc_dir = fmwk + 'Headers'
-@@ -147,7 +148,7 @@
- 
- 
-     DEPS.extend([
--        FrameworkDependency('PORTTIME', 'CoreMidi.h', 'CoreMidi', 'CoreMIDI'),
-+        FrameworkDependency('PORTTIME', 'CoreMIDI.h', 'CoreMIDI', 'CoreMIDI'),
-         FrameworkDependency('QUICKTIME', 'QuickTime.h', 'QuickTime', 'QuickTime'),
-         Dependency('PNG', 'png.h', 'libpng', ['png']),
-         Dependency('JPEG', 'jpeglib.h', 'libjpeg', ['jpeg']),
-@@ -158,19 +159,16 @@
+@@ -146,16 +147,13 @@
      ])
  
      print ('Hunting dependencies...')
 -    incdirs = ['/usr/local/include', '/opt/homebrew/include']
+-    incdirs.extend(['/usr/local/include/SDL2', '/opt/homebrew/include/SDL2', '/opt/local/include/SDL2'])
 +    incdirs = [localbase+'/include']
-     if sdl2:
--        incdirs.extend(['/usr/local/include/SDL2', '/opt/homebrew/include/SDL2', '/opt/local/include/SDL2'])
-+        incdirs.extend([localbase+'/include/SDL2'])
-     else:
--        incdirs.extend(['/usr/local/include/SDL', '/opt/homebrew/include/SDL', '/opt/local/include/SDL'])
-+        incdirs.extend([localbase+'/include/SDL'])
++    incdirs.extend([localbase+'/include/SDL2'])
  
      incdirs.extend([
 -       #'/usr/X11/include',

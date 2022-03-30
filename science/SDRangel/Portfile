@@ -17,14 +17,19 @@ description           SDRangel is an Open Source Qt5 / OpenGL 3.0+ SDR \
     and signal analyzer frontend to various hardware.
 long_description    ${description}
 
-github.setup          f4exb sdrangel 6.17.1 v
-checksums             rmd160  495b8b91e3ea0d8d3b00d56e50ef8bf1c79c11d4 \
-                      sha256  1c214df79153c829f15b9404ef7b3aa1cd226ab380ae711b2fa33f3625e4c52f \
-                      size    55715840
+github.setup          f4exb sdrangel 6.20.1 v
+checksums             rmd160  2cdc8c843143cb0866d102c112639d7007ef588d \
+                      sha256  f2658eb3b3a2b2d76db92a6a02df693e149762600649b6ddb3eedc4339aff431 \
+                      size    68744525
 revision              0
 
 # check just the version 6 branch for now
 github.livecheck.regex (6\[0-9.]*)
+
+# not linked directly to openssl
+license_noconflict-append \
+    openssl \
+    openssl11
 
 compiler.c_standard   2011
 # error: call to 'abs' is ambiguous
@@ -44,19 +49,32 @@ patchfiles-append     disable-remotetx.patch
 # revert https://github.com/f4exb/sdrangel/issues/492
 patchfiles-append     revert_cm256cc.patch
 
+# disable because macOS < 10.12 since it has a too old Qt version
+if {${os.platform} eq "darwin" && ${os.major} <= 16} {
+    known_fail yes
+    pre-fetch {
+        ui_error "${name} @${version} requires Mac OS X 10.13 or later"
+        return -code error "Unsupported Mac OS X version"
+    }
+}
+
 set opencv_ver        3
 
 depends_lib-append \
     port:codec2 \
     port:cm256cc \
     port:dsdcc \
-    port:ffmpeg \
+    path:lib/libavcodec.dylib:ffmpeg \
     port:fftw-3-single \
-    path:lib/libusb.dylib:libusb \
+    path:lib/pkgconfig/libusb-1.0.pc:libusb \
     port:libiconv \
     port:libopus \
-    port:opencv${opencv_ver} \
-    port:serialDV
+    path:lib/opencv${opencv_ver}/libopencv_core.dylib:opencv${opencv_ver} \
+    port:serialDV \
+    port:aptdec \
+    port:sgp4 \
+    port:libsigmf \
+    port:dab-cmdline
 
 qt5.depends_component \
     qtmultimedia \
@@ -64,7 +82,8 @@ qt5.depends_component \
     qtwebsockets \
     qtlocation \
     qtcharts \
-    qtspeech
+    qtspeech \
+    qtwebengine
 
 configure.args-append \
     -DBUILD_GUI=OFF \
@@ -174,7 +193,7 @@ variant sdrplay description {Enable SDRplay support} {
     configure.args-replace  -DENABLE_SDRPLAY=OFF -DENABLE_SDRPLAY=ON
 }
 
-default_variants +soapysdr +airspy +airspyhf +limesuite +rtlsdr +funcube +server +gui +sdrplay
+default_variants +soapysdr +airspy +airspyhf +limesuite +rtlsdr +funcube +server +gui
 
 test.run     yes
 test.cmd     ./sdrangelbench

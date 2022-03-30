@@ -9,8 +9,8 @@ categories          net
 maintainers         {eborisch @eborisch} openmaintainer
 platforms           darwin
 
-license             GPL-2+
-license_noconflict  openssl
+# https://github.com/zabbix/zabbix/commit/eeeb4c8756
+license             {GPL-2+ OpenSSLException}
 
 description         An open source application and network monitor
 
@@ -21,15 +21,14 @@ long_description    Zabbix is the ultimate open source availability and \
                     of the best commercial ones.
 
 array set VERSIONS {
-    4  4.0.34
-    42 4.2.8
-    44 4.4.10
-    5  5.0.16
+    4  4.0.39
+    5  5.0.21
+    #6  6.0.1  # Haven't had a chance to test yet.
 }
 
 set zver            [regsub -all {[^\d]} ${subport} {}]
 version             $VERSIONS(${zver})
-set zbranch         [regsub {\.\d+$} ${version} {}]
+set zbranch         [regsub {\.[\drc]+$} ${version} {}]
 
 distname            zabbix-${version}
 livecheck.name      zabbix
@@ -45,26 +44,25 @@ dist_subdir         zabbix${zver}
 if {$zver == 4} {
     livecheck.regex     "zabbix-(4\\.0\\.\[0-9\]+).tar.gz"
     checksums \
-        rmd160  1eb17c6bfeb9e8eeda2ee74717cf0b4b49a138b9 \
-        sha256  57773c6fb02c42452f39d17fbd3f0a5af1a00162db2a727396b2261e3c015807 \
-        size    17614409
-}
-
-if {$zver == 42 || $zver == 44} {
-    # REMOVE JANUARY 2022
-    revision        1
-    PortGroup       obsolete 1.0
-
-    replaced_by     zabbix5
-    livecheck.type  none
+        rmd160  bdf12d771710912e039ff0fa7c6ce7c65348499a \
+        sha256  5425693737205ab8822a7ed7289aa65ac19634cd699d759e557e8b81883b69b9 \
+        size    17548415
 }
 
 if {$zver == 5} {
     livecheck.regex     "zabbix-(5\\.0\\.\[0-9\]+).tar.gz"
     checksums \
-        rmd160  85e4adca20421a88565e7caafa6a91b1a6617b32 \
-        sha256  c458f62ed4349abcb558263efc5c6292b397a7cf4d3c506a43d5b7cf876a36d8 \
-        size    21312183
+        rmd160  55980375dcbc5a2db10847c0922d09264c3b6e81 \
+        sha256  6b8d0849c014b746fa0084b6c8f07eb5a244fcc5c1c4147e19945dd22f06335d \
+        size    21459282
+}
+
+if {$zver == 6} {
+    livecheck.regex     "zabbix-(6\\.0\\.\[0-9\]+).tar.gz"
+    checksums \
+        rmd160  1c763ee59a26004a6c0dec863e6beaa730bf281e \
+        sha256  2dd92383cc169ce8b8cbbe660ed656e5d6b5b75bf4936743b8a9d59cdfcf3af1 \
+        size    32974585
 }
 
 patchfiles          log_and_pid_locations.patch
@@ -72,19 +70,17 @@ patchfiles          log_and_pid_locations.patch
 universal_variant   no
 
 # LTS Versions
-subport             zabbix4             {conflicts zabbix5}
-subport             zabbix5             {conflicts zabbix4}
-subport             zabbix4-agent       {conflicts zabbix5-agent}
-subport             zabbix5-agent       {conflicts zabbix4-agent}
-subport             zabbix4-frontend    {conflicts zabbix5-frontend}
-subport             zabbix5-frontend    {conflicts zabbix4-frontend}
+subport             zabbix4             {conflicts zabbix5 zabbix6}
+subport             zabbix4-agent       {conflicts zabbix5-agent zabbix6-agent}
+subport             zabbix4-frontend    {conflicts zabbix5-frontend zabbix6-frontend}
 
-subport             zabbix42            {}
-subport             zabbix44            {}
-subport             zabbix42-agent      {}
-subport             zabbix44-agent      {}
-subport             zabbix42-frontend   {}
-subport             zabbix44-frontend   {}
+subport             zabbix5             {conflicts zabbix4 zabbix6}
+subport             zabbix5-agent       {conflicts zabbix4-agent zabbix6-agent}
+subport             zabbix5-frontend    {conflicts zabbix4-frontend zabbix6-frontend}
+
+#subport             zabbix6             {conflicts zabbix4 zabbix5}
+#subport             zabbix6-agent       {conflicts zabbix4-agent zabbix5-agent}
+#subport             zabbix6-frontend    {conflicts zabbix4-frontend zabbix5-frontend}
 
 proc isFlavor {desc subp} {
     return [expr {[string first ${desc} ${subp}] >= 0}]
@@ -314,7 +310,7 @@ post-destroot {
 # Copy the front end files
         set fedir ${destroot}${prefix}/share/zabbix/frontends
         file mkdir ${fedir}
-        if {$zver == 5} {
+        if {$zver >= 5} {
             file copy ${worksrcpath}/ui/ ${fedir}/php
         } else {
             file copy ${worksrcpath}/frontends/php/ ${fedir}

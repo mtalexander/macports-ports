@@ -9,6 +9,9 @@ name                digikam
 version             4.9.0
 revision            12
 
+# TODO: Remove, if/when this port is fixed
+known_fail          yes
+
 categories          kde kde4
 license             GPL-2+
 maintainers         openmaintainer \
@@ -40,14 +43,14 @@ depends_lib-append  port:kdelibs4 \
                     port:tiff \
                     path:include/turbojpeg.h:libjpeg-turbo \
                     port:libpng \
-                    port:opencv${opencv_ver} \
+                    path:lib/opencv${opencv_ver}/libopencv_core.dylib:opencv${opencv_ver} \
                     port:marble
 depends_lib-append  port:libpgf
 
 # Dependencies of kipi-plugins
 
 depends_lib-append  port:expat\
-                    port:gdk-pixbuf2 \
+                    path:lib/pkgconfig/gdk-pixbuf-2.0.pc:gdk-pixbuf2 \
                     port:libgpod \
                     port:libxml2 \
                     port:libxslt \
@@ -63,8 +66,8 @@ depends_lib-append  port:gettext \
                     port:lensfun \
                     port:libgphoto2 \
                     port:liblqr \
-                    port:libusb \
-                    port:jasper \
+                    path:lib/pkgconfig/libusb-1.0.pc:libusb \
+                    path:lib/pkgconfig/jasper.pc:jasper \
                     port:shared-desktop-ontologies
 
 # RunTime dependencies

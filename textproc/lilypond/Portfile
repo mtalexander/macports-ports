@@ -42,12 +42,13 @@ notes-append "\
 compiler.cxx_standard 2011
 
 if {${subport} eq ${name}} {
-    version         2.22.1
-    revision        3
+    version         2.22.2
+    revision        0
     conflicts       lilypond-devel
-    checksums       rmd160  efb911332e0b96011340d7a21ad091881aae9cd0 \
-                    sha256  72ac2d54c310c3141c0b782d4e0bef9002d5519cf46632759b1f03ef6969cc30 \
-                    size    18033161
+    checksums       rmd160  571de8313f90be3a41b0f7f0bd82a48f67e4f245 \
+                    sha256  dde90854fa7de1012f4e1304a68617aea9ab322932ec0ce76984f60d26aa23be \
+                    size    18034586
+
 
     set livecheck_url "source.html"
 
@@ -56,12 +57,12 @@ if {${subport} eq ${name}} {
         configure.ldflags-append -stdlib=${configure.cxx_stdlib}
     }
 } else {
-    version         2.23.3
-    revision        3
+    version         2.23.7
+    revision        0
     conflicts       lilypond
-    checksums       rmd160  1321f179f97471b6b62834c387c426e4580620b5 \
-                    sha256  8a833696f7c6d2d4b4ae162ffd0836216c63c3765ea14069d6632d320d6bc308 \
-                    size    17109789
+    checksums       rmd160  41a82e8b411581b0dd4c9476edf60ce6be41f726 \
+                    sha256  b5674df4c2371cb6d59a06ea54eaba6c87f2e7c503c9f17ec3db3facd61807c0 \
+                    size    21932701
 
     set livecheck_url "development.html"
 }
@@ -110,6 +111,8 @@ if {[variant_isset docs] && ![variant_isset mactex]} {
                     port:texlive-xetex
 }
 
+set py_ver          3.10
+set py_ver_nodot    [string map {. {}} ${py_ver}]
 
 # Either 'pango' or 'pango-devel' will do, thus we depend on its
 # pkgconfig file.
@@ -117,11 +120,11 @@ depends_lib-append  path:lib/pkgconfig/pango.pc:pango \
                     port:extractpdfmark \
                     port:ghostscript \
                     port:guile18 \
-                    port:python38
+                    port:python${py_ver_nodot}
 
 build.type          gnu
 configure.cmd       autoconf -f && ./configure
-configure.python    ${prefix}/bin/python3.8
+configure.python    ${prefix}/bin/python${py_ver}
 
 
 set lilypond.texgyredir \

@@ -3,6 +3,10 @@
 PortSystem          1.0
 
 PortGroup           compiler_blacklist_versions 1.0
+PortGroup           legacysupport 1.1
+
+# strnlen, arc4random_buf
+legacysupport.newest_darwin_requires_legacy 10
 
 name                MoarVM
 version             2021.07
@@ -34,6 +38,8 @@ depends_lib         port:dyncall \
                     port:libatomic_ops \
                     port:libuv
 #                   port:libtommath
+
+patchfiles          patch-Configure.diff
 
 # https://trac.macports.org/ticket/53950
 compiler.blacklist  cc gcc-* apple-gcc-* llvm-gcc-*

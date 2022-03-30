@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/sigstore/cosign 1.2.1 v
+go.setup            github.com/sigstore/cosign 1.6.0 v
 revision            0
 
 categories          security
@@ -16,16 +16,13 @@ long_description    \
     Container Signing, Verification and Storage in an OCI registry. Cosign \
     aims to make signatures invisible infrastructure.
 
-checksums           rmd160  bfeca98ded70b773f83df1633f8b85106d91743c \
-                    sha256  8b17e949eab06ba3caeb167fa257e92f5582a260e85f21462d38dd5b38c167c0 \
-                    size    6459888
+checksums           rmd160  42f758f15e0bbc4a15690cd627da13124cc30ec9 \
+                    sha256  2575522b6c873bb052e7d0e3aee230f9a3cdfbdf182d4f09cbff0a6a9cc43f3b \
+                    size    7069808
 
 # FIXME: This port currently can't be built without allowing go mod to fetch
 build.env-delete    GOPROXY=off GO111MODULE=off
 
-# build.pre_args-append \
-#     -ldflags '-X github.com/sigstore/cosign/cmd/cosign/cli.gitVersion=${version}'
-# build.args          -o build/ ./...
 build.cmd           make
 build.pre_args      GIT_VERSION="${version}" \
                     GIT_TAG="build from tarball" GIT_HASH="" GIT_TREESTATE=""
@@ -48,16 +45,5 @@ variant sget description {sget command for safer, automatic verification of sign
     post-destroot {
         xinstall -m 0755 ${worksrcpath}/sget \
             ${destroot}${prefix}/bin/
-    }
-}
-
-variant copasetic \
-    description {experimental OPA plugin (embedded OPA interpreter)} {
-    post-build {
-        system -W ${worksrcpath} "${build.env} ${go.bin} build ./copasetic/main.go"
-    }
-    post-destroot {
-        xinstall -m 0755 ${worksrcpath}/main \
-            ${destroot}${prefix}/bin/copasetic
     }
 }

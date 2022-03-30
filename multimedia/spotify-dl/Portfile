@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                spotify-dl
+python.rootname     spotify_dl
+version             8.1.0
+revision            0
+
+categories          multimedia python
+supported_archs     noarch
+license             GPL-2
+maintainers         {judaew @judaew} openmaintainer
+
+description         Downloads songs from any Spotify playlist, album or track.
+long_description    {*}${description}
+homepage            https://github.com/SathyaBhat/spotify-dl
+
+checksums           rmd160  2f50af2dd81112be28f051a4b9adeb7617c69bd3 \
+                    sha256  07dcf1aca96c1af9dfae7281d7a9b7b2ff47b1b8bb6f802636f424349045e732 \
+                    size    10943
+
+python.default_version 310
+depends_build       port:py${python.version}-setuptools
+
+depends_lib         port:py${python.version}-mutagen \
+                    port:py${python.version}-rich \
+                    port:py${python.version}-sentry-sdk \
+                    port:py${python.version}-spotipy \
+                    port:yt-dlp

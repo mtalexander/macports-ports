@@ -4,11 +4,10 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-typed-ast
-version             1.4.3
+version             1.5.2
 revision            0
 
 categories-append   devel
-platforms           darwin
 license             Apache-2
 maintainers         {reneeotten @reneeotten} openmaintainer
 
@@ -18,11 +17,11 @@ long_description    ${description}
 homepage            https://github.com/python/typed_ast
 distname            typed_ast-${version}
 
-checksums           rmd160  3affa874ff836c522f2448bba525eed0db637233 \
-                    sha256  fb1bbeac803adea29cedd70781399c99138358c26d05fcbd23c13016b7f5ec65 \
-                    size    210893
+checksums           rmd160  b62b2a4a770fa9612b070cffef667a53cbb14133 \
+                    sha256  525a2d4088e70a9f75b08b3f87a51acc9cde640e19cc523c7e41aa355564ae27 \
+                    size    252310
 
-python.versions     35 36 37 38 39 310
+python.versions     35 36 37
 
 if {${name} ne ${subport}} {
     depends_build-append \

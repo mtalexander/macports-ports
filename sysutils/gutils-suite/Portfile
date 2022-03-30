@@ -11,7 +11,7 @@ platforms           darwin
 supported_archs     noarch
 license             none
 
-maintainers         {@mascguy} \
+maintainers         {mascguy @mascguy} \
                     openmaintainer
 
 description         Meta port for GNU utils
@@ -25,9 +25,9 @@ livecheck.type      none
 depends_lib-append \
                     port:bc \
                     port:bison \
-                    port:coreutils \
+                    path:libexec/coreutils/libstdbuf.so:coreutils \
                     port:diffutils \
-                    port:findutils \
+                    path:libexec/gnubin/find:findutils \
                     port:flex \
                     port:gawk \
                     port:gtime \

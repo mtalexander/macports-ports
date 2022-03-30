@@ -4,11 +4,11 @@ PortSystem              1.0
 PortGroup               muniversal 1.0
 
 name                    wget
-version                 1.21.2
+version                 1.21.3
 revision                0
-checksums               rmd160  2f6c8a960b51abe7050416cc2ce37f645a86e5f4 \
-                        sha256  1727a330a86acacb3e57615ce268f5f29978bf7adec4abe6a30d370207bc91b3 \
-                        size    2407790
+checksums               rmd160  4f031d214dd109f09ac47f444aeebcacd2b71e4e \
+                        sha256  dbd2fb5e47149d4752d0eaa0dac68cc49cf20d46df4f8e326ffc8f18b2af4ea5 \
+                        size    2450396
 
 categories              net www
 maintainers             {ryandesign @ryandesign} openmaintainer
@@ -82,9 +82,7 @@ depends_lib \
 
 patchfiles              prefix.patch
 
-if {[vercmp [macports_version] 2.6.99] >= 0} {
 configure.checks.implicit_function_declaration.whitelist-append strchr
-}
 
 configure.perl          ${prefix}/bin/perl${perl_version}
 configure.env-append    POD2MAN=${prefix}/bin/pod2man-${perl_version}
@@ -105,9 +103,10 @@ variant gnutls conflicts ssl description {SSL support via GnuTLS} {
 }
 
 variant ssl conflicts gnutls description {SSL support via OpenSSL} {
+    PortGroup openssl 1.0
+
     configure.args-replace  --without-ssl --with-ssl=openssl
-    configure.args-append   --with-libssl-prefix=${prefix}
-    depends_lib-append      path:lib/libssl.dylib:openssl
+    configure.args-append   --with-libssl-prefix=[openssl::install_area]
 }
 
 if {![variant_isset ssl]} {

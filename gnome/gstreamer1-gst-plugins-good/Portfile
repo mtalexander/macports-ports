@@ -1,6 +1,7 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           compiler_blacklist_versions 1.0
 
 # https://bugzilla.gnome.org/show_bug.cgi?id=636134
 PortGroup           muniversal 1.0
@@ -36,7 +37,7 @@ depends_lib         port:gstreamer1-gst-plugins-base \
                     port:aalib \
                     path:lib/pkgconfig/cairo.pc:cairo \
                     port:flac \
-                    port:gdk-pixbuf2 \
+                    path:lib/pkgconfig/gdk-pixbuf-2.0.pc:gdk-pixbuf2 \
                     path:include/turbojpeg.h:libjpeg-turbo \
                     port:lame \
                     path:lib/libcaca.dylib:libcaca \
@@ -45,7 +46,7 @@ depends_lib         port:gstreamer1-gst-plugins-base \
                     port:libshout2 \
                     port:libsoup \
                     path:lib/libspeex.dylib:speex \
-                    port:libvpx \
+                    path:lib/pkgconfig/vpx.pc:libvpx \
                     port:mpg123 \
                     port:orc \
                     port:taglib \
@@ -80,6 +81,11 @@ configure.args-append \
 
 configure.env-append    "HAVE_CXX=yes"
 
+# Fix libtool errors:
+#   libtool: error: specify a tag with '--tag'
+compiler.blacklist-append \
+                    {clang < 900}
+
 platform darwin {
     if {${os.major} < 10} {
         # gstosxcoreaudio.c:419:28: error: use of undeclared identifier 'kLinearPCMFormatFlagsSampleFractionMask'
@@ -87,7 +93,7 @@ platform darwin {
         # osx_video requires darwin 10 or later (see configure.ac)
         configure.args-append --disable-osx_video
         # as of 1.6.0 libvpx only supports darwin 10 or later
-        depends_lib-delete port:libvpx
+        depends_lib-delete path:lib/pkgconfig/vpx.pc:libvpx
         configure.args-append --disable-vpx
     }
 }

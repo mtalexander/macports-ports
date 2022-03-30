@@ -4,9 +4,9 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-arrow
-version             1.2.0
+version             1.2.2
 revision            0
-platforms           darwin
+
 supported_archs     noarch
 license             Apache-2
 maintainers         nomaintainer
@@ -21,13 +21,13 @@ long_description    Arrow is a Python library that offers a sensible \
 
 homepage            https://arrow.readthedocs.io
 
-checksums           rmd160  c66580d05f4cc05e15ddebb0eada8995aeaa75f1 \
-                    sha256  16fc29bbd9e425e3eb0fef3018297910a0f4568f21116fc31771e2760a50e074 \
-                    size    115903
+checksums           rmd160  bd472cb2677ad8e78982a550f3f531a6bf6883ea \
+                    sha256  05caf1fd3d9a11a1135b2b6f09887421153b94558e5ef4d090b567b47173ac2b \
+                    size    123174
 
 compiler.cxx_standard 2011
 
-python.versions     36 37 38 39
+python.versions     37 38 39 310
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -46,6 +46,4 @@ if {${name} ne ${subport}} {
         xinstall -m 0644 -W ${worksrcpath} CHANGELOG.rst LICENSE \
             README.rst ${destroot}${prefix}/share/doc/${subport}
     }
-
-    livecheck.type      none
 }

@@ -2,13 +2,14 @@
 
 PortSystem 1.0
 PortGroup select 1.0
+PortGroup openssl 1.0
 
 name                python37
 
 # Remember to keep py37-tkinter and py37-gdbm's versions sync'd with this
-version             3.7.12
+version             3.7.13
+revision            1
 
-set major           [lindex [split $version .] 0]
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          lang
 license             PSF
@@ -23,9 +24,9 @@ master_sites        ${homepage}ftp/python/${version}/
 
 distname            Python-${version}
 use_xz              yes
-checksums           md5 352ea082224121a8b7bc4d6d06e5de39 \
-                    rmd160 585bc667eb2995727dd97a392b073adbf84b3a40 \
-                    sha256 f77bf7fb47839f213e5cbf7827281078ea90de7e72b44f10d7ef385ea8c43210
+checksums           md5 10822726f75fd7efe05a94fbd6ac2258 \
+                    rmd160 211d194c4a7f417c1900dce248fa04b75bd3c1a4 \
+                    sha256 99f106275df8899c3e8cb9d7c01ce686c202ef275953301427194693de5bef84
 
 patchfiles          patch-setup.py.diff \
                     patch-Lib-cgi.py.diff \
@@ -41,16 +42,17 @@ patchfiles          patch-setup.py.diff \
 depends_build       port:pkgconfig
 depends_lib         port:bzip2 \
                     port:expat \
-                    port:gettext \
+                    port:gettext-runtime \
                     port:libedit \
                     port:libffi \
                     port:ncurses \
-                    path:lib/libssl.dylib:openssl \
                     port:sqlite3 \
                     port:xz \
                     port:zlib
 depends_run         port:python_select \
                     port:python3_select
+
+openssl.branch      1.1
 
 # blacklist llvm-gcc-4.2 compiler known to produce bad code
 compiler.blacklist-append *llvm-gcc-4.2
@@ -67,7 +69,10 @@ configure.args      --enable-framework=${frameworks_dir} \
 
 configure.ccache    no
 # pkg-config removes -I flags for paths in CPATH, which confuses python.
-configure.env       PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
+configure.env       PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 \
+                    SETUPTOOLS_USE_DISTUTILS=stdlib
+build.env           SETUPTOOLS_USE_DISTUTILS=stdlib
+destroot.env        SETUPTOOLS_USE_DISTUTILS=stdlib
 
 post-patch {
     reinplace "s|@@PREFIX@@|${prefix}|g" \
@@ -101,7 +106,9 @@ platform darwin {
         # poll() misbehaves on 10.8 and older
         # See https://trac.macports.org/ticket/18376
         if {${os.major} <= 12} {
+            set oldmtime [file mtime ${worksrcpath}/pyconfig.h]
             system -W ${worksrcpath} "ed - pyconfig.h < ${filespath}/pyconfig.ed"
+            file mtime ${worksrcpath}/pyconfig.h $oldmtime
         }
     }
 
@@ -140,6 +147,11 @@ platform darwin {
         ln -s ${framewdir}/share/man/man1/python${branch}.1 ${destroot}${prefix}/share/man/man1/
         ln -s ${framewdir}/lib/pkgconfig/python-${branch}.pc ${destroot}${prefix}/lib/pkgconfig/
         ln -s ${framewdir}/lib/pkgconfig/python-${branch}.pc ${destroot}${prefix}/lib/pkgconfig/python-${branch}m.pc
+
+        # The "m" suffix on include is because the default is --with-pymalloc
+        ln -s ${framewdir}/include/python${branch}m ${destroot}${framewdir}/include/python${branch}
+        ln -s ${framewdir}/include/python${branch} ${destroot}${prefix}/include/python${branch}
+        ln -s ${framewdir}/lib/python${branch} ${destroot}${prefix}/lib/python${branch}
 
         # Also make the sysconfig changes in the Makefile
         reinplace {s|^\(LINKFORSHARED=\).*$|\1 -L$(LIBPL) -lpython$(VERSION)$(ABIFLAGS) $(LIBS) $(SYSLIBS)|} \
@@ -206,7 +218,9 @@ variant universal {
     }
     configure.args-append   --enable-universalsdk=${configure.sysroot}
     post-configure {
+        set oldmtime [file mtime ${worksrcpath}/pyconfig.h]
         system -W ${worksrcpath} "ed - pyconfig.h < ${filespath}/pyconfig.h-universal.ed"
+        file mtime ${worksrcpath}/pyconfig.h $oldmtime
     }
 
     post-destroot {

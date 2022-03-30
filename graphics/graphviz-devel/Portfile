@@ -8,7 +8,11 @@ PortGroup                       compiler_blacklist_versions 1.0
 
 name                            graphviz-devel
 set my_name                     graphviz
-version                         2.49.1
+version                         3.0.0
+checksums                       rmd160  ef802c0a93f607df1636d97d9bfff0dcb3902e40 \
+                                sha256  e6f0ac0b975bcadc000559d5a767111737d0a03919dfc0e47ce6450c877c7834 \
+                                size    29483148
+
 set thisbranch                  [strsed ${name} "g/^${my_name}//"]
 set otherbranch                 [expr {${thisbranch} eq {} ? {-devel} : {}}]
 categories                      graphics
@@ -30,10 +34,6 @@ long_description                Graphviz is ${description}. Graph visualization 
                                 twopi and circo take descriptions of graphs in a \
                                 simple text language, and produce output in a \
                                 variety of visual and text formats.
-
-checksums                       rmd160  ab2c71686391bb19dce380747caa5313dcb4ac94 \
-                                sha256  ba1aa7a209025cb3fc5aca1f2c0114e18ea3ad29c481d75e4d445ad44e0fb0f7 \
-                                size    29777850
 
 # graphviz needs Xcode 3.1+ to avoid the libGL error when building the smyrna variant
 # graphviz-gui needs Xcode 3.1.2+; see #18811
@@ -122,26 +122,12 @@ configure.args                  --disable-silent-rules \
 # Teach glibtool about -stdlib=libc++
 use_autoreconf  yes
 autoreconf.args -fvi
-if {[vercmp [macports_version] 2.6.99] >= 0} {
 configure.checks.implicit_function_declaration.whitelist-append strchr
-}
 
 platform macosx {
     if {${os.major} > 8} {
         configure.args-replace  --without-quartz --with-quartz
     }
-
-    # This fix no longer applicable, as of the latest releases
-#    post-patch {
-#        if {[string match *clang* ${configure.cxx}] && ${configure.cxx_stdlib} eq "libc++"} {
-#            reinplace "s:-lstdc\+\+:-lc++:" \
-#                ${worksrcpath}/configure.ac \
-#                ${worksrcpath}/cmd/dot/Makefile.am \
-#                ${worksrcpath}/cmd/edgepaint/Makefile.am \
-#                ${worksrcpath}/cmd/mingle/Makefile.am \
-#                ${worksrcpath}/plugin/gdiplus/Makefile.am
-#        }
-#    }
 }
 
 variant guile description {Include Guile language bindings} {
@@ -251,7 +237,7 @@ variant r description {Include R language bindings} {
 }
 
 variant rsvg description {enable the rsvg plugin} {
-    depends_lib-append          port:librsvg
+    depends_lib-append          path:lib/pkgconfig/librsvg-2.0.pc:librsvg
 
     configure.args-replace      --without-rsvg --with-rsvg
 }

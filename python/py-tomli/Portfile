@@ -4,8 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-tomli
-version             1.2.1
-revision            1
+version             2.0.1
 license             MIT
 platforms           darwin
 supported_archs     noarch
@@ -16,18 +15,28 @@ long_description    Tomli is a Python library for parsing TOML. Tomli is fully \
 
 homepage            https://github.com/hukkin/tomli
 
-checksums           rmd160 e438cdbee0edc60ed08ce1e801ceb9d693b5ac0e \
-                    sha256 a5b75cb6f3968abb47af1b40c1819dc519ea82bcc065776a866e8d74c5ca9442 \
-                    size 14945
+checksums           rmd160 08391b8bdece5ba4b13e0e67e0bb3f0a3de9cc55 \
+                    sha256 de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f \
+                    size 15164
 
 python.versions     36 37 38 39 310
 
 if {${name} ne ${subport}} {
-    # python.pep517 cannot be used because py-pep517 depends on py-tomli
-    post-extract {
-        file copy ${filespath}/setup.py ${worksrcpath}
-        reinplace "s|@VERSION@|${version}|" ${worksrcpath}/setup.py
+    if {${python.version} == 36} {
+        version     1.2.3
+        revision    0
+        checksums   rmd160 cbdb7cfc45e9183147842cd799b5e4bbb0aef34b \
+                    sha256 05b6166bff487dc068d322585c7ea4ef78deed501cc124060e0f238e89a9231f \
+                    size 15094
     }
+
+    python.pep517 yes
+    python.add_dependencies no
+    depends_build   port:py-bootstrap-modules
+    depends_lib     port:python${python.version}
+    build.env-append    PYTHONPATH=${prefix}/share/py-bootstrap-modules
+    build.args      --skip-dependency-check
+    destroot.env-append PYTHONPATH=${prefix}/share/py-bootstrap-modules
 
     livecheck.type  none
 }

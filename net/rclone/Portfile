@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/rclone/rclone 1.56.2 v
+go.setup            github.com/rclone/rclone 1.58.0 v
+github.tarball_from archive
 revision            0
 
 homepage            https://rclone.org
@@ -14,7 +15,6 @@ license             MIT
 maintainers         {eborisch @eborisch} \
                     {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
-platforms           darwin
 
 description         Rclone is a command line cloud-service sync program
 
@@ -25,9 +25,9 @@ long_description \
     Backblaze B2, Yandex Disk, SFTP, and the local filesystem.
 
 checksums \
-    rmd160  1fa1f5400c187a0154e4652e2b37cc7c6b576023 \
-    sha256  a5b0b7dfe17d9ec74e3a33415eec4331c61d800d8823621e61c6164e8f88c567 \
-    size    15283724
+    rmd160  dbbe1cef8616f4b5287bcc1a8a1afbd964f0082f \
+    sha256  b3f953a282964d6d73a7278ccb2bb836d9aca855e9dc5fb6f4bc986b0e5656fa \
+    size    15680256
 
 # FIXME: This port currently can't be built without allowing go mod to fetch
 # dependencies during the build phase. See
@@ -40,18 +40,23 @@ build.pre_args-append \
         -X github.com/rclone/rclone/fs.Version=${github.tag_prefix}${version} \
     \"
 
-github.tarball_from archive
+if {${os.platform} eq "darwin"} {
+    build.pre_args-append   -tags=noselfupdate,darwin
+} else {
+    build.pre_args-append   -tags=noselfupdate
+}
 
 destroot {
     xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
 
     set docdir ${prefix}/share/doc/${name}
     xinstall -d ${destroot}${docdir}
-    xinstall -m 644 -W ${worksrcpath} README.md COPYING MANUAL.txt MANUAL.html \
-        RELEASE.md notes.txt ${destroot}${docdir}
+    xinstall -m 0644 -W ${worksrcpath} \
+        README.md COPYING MANUAL.txt MANUAL.html RELEASE.md notes.txt \
+        ${destroot}${docdir}
     set mandir ${prefix}/share/man/man1
     xinstall -d ${destroot}${mandir}
-    xinstall -m 644 -W ${worksrcpath} rclone.1 ${destroot}${mandir}
+    xinstall -m 0644 -W ${worksrcpath} rclone.1 ${destroot}${mandir}
 
     set bash_compl_path ${destroot}${prefix}/share/bash-completion/completions
     set fish_compl_path ${destroot}${prefix}/share/fish/vendor_completions.d

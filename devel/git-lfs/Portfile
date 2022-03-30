@@ -3,22 +3,20 @@
 PortSystem              1.0
 PortGroup               golang 1.0
 
-go.setup                github.com/git-lfs/git-lfs 3.0.1 v
+go.setup                github.com/git-lfs/git-lfs 3.1.2 v
 revision                0
-maintainers             {raimue @raimue} \
+maintainers             {raimue @raimue} {judaew @judaew} \
                         openmaintainer
-platforms               darwin
 categories              devel
-supported_archs         noarch
 
 description             Git Large File Storage
 long_description        {*}${description} is an extension for versioning large files
 homepage                https://git-lfs.github.com/
 license                 MIT
 
-checksums               rmd160  4b6c68210e2202c85863bdd7aaabc83898c284c9 \
-                        sha256  823ea765f53c6eee7d111fe19045bc89c9b2236f7fd4d43590d03407d322d3b2 \
-                        size    3125609
+checksums               rmd160  63a1c513fc1b3054afdd944cecdec601cc68d4b9 \
+                        sha256  37a3f6e2d2b43a5a5f48342c099d8e56f618b195a5688219e7c2821c39b208f8 \
+                        size    3252258
 
 depends_build-append    port:rb30-ronn-ng
 depends_run             port:git

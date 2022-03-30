@@ -3,36 +3,33 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/traefik/yaegi 0.10.0 v
+go.setup            github.com/traefik/yaegi 0.11.2 v
+github.tarball_from archive
 revision            0
 
-description         Yaegi is Another Elegant Go Interpreter
+description         \
+    Yaegi is Another Elegant Go Interpreter
 
-long_description    Yaegi is Another Elegant Go Interpreter. It powers \
-                    executable Go scripts and plugins, in embedded \
-                    interpreters or interactive shells, on top of the Go \
-                    runtime. It has complete support for the Go \
-                    specification, is written in Pure Go, and works \
-                    everywhere Go works. All Go & runtime resources \
-                    accessible from script (with control), and for security, \
-                    "unsafe" and "syscall" packages are neither used nor \
-                    exported by default.
+long_description    \
+    Yaegi is Another Elegant Go Interpreter. It powers executable Go scripts \
+    and plugins, in embedded interpreters or interactive shells, on top of \
+    the Go runtime. It has complete support for the Go specification, is \
+    written in Pure Go, and works everywhere Go works. All Go & runtime \
+    resources accessible from script (with control), and for security, \
+    "unsafe" and "syscall" packages are neither used nor exported by default.
 
+categories          devel
+installs_libs       no
+license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-categories          devel
-license             Apache-2
-installs_libs       no
-
-checksums           rmd160  1c88586f12f91a28759c685049ccf84c0e86137c \
-                    sha256  3eaf52702e8cde067951b67a48c011370dfd335a21e9ae93e60df0174132634f \
-                    size    2095768
+checksums           rmd160  195ff0ba9b028665196d277c528c8b7f6c126070 \
+                    sha256  7db575cc00cd01fc1e9c3bb7d00bf535ae54654d245bf994acd89eef810c94f6 \
+                    size    2102714
 
 build.cmd           make
 build.target        install
-
-github.tarball_from archive
 
 patch {
     # Explicitly embed the version into the build command in the Makefile,
@@ -44,5 +41,5 @@ patch {
 }
 
 destroot {
-    xinstall -m 755 ${gopath}/bin/${name} ${destroot}${prefix}/bin/
+    xinstall -m 0755 ${gopath}/bin/${name} ${destroot}${prefix}/bin/
 }

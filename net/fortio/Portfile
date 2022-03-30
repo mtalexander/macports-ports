@@ -3,30 +3,30 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/fortio/fortio 1.17.0 v
+go.setup            github.com/fortio/fortio 1.20.0 v
 go.package          fortio.org/fortio
+github.tarball_from archive
 revision            0
 
 homepage            https://fortio.org
 
-description         Fortio is a load testing library, command line tool, \
-                    advanced echo server and web UI in go (golang).
+description         \
+    Fortio is a load testing library, command line tool, advanced echo server \
+    and web UI in go (golang).
 
-long_description    {*}${description} Allows to specify a set \
-                    query-per-second load and record latency histograms and \
-                    other useful stats. Fortio runs at a specified query per \
-                    second (qps) and records an histogram of execution time \
-                    and calculates percentiles (e.g. p99 ie the response time \
-                    such as 99% of the requests take less than that number \
-                    (in seconds, SI unit)). It can run for a set duration, \
-                    for a fixed number of calls, or until interrupted (at a \
-                    constant target QPS, or max speed/load per \
-                    connection/thread).
+long_description    \
+    {*}${description} Allows to specify a set query-per-second load and \
+    record latency histograms and other useful stats. Fortio runs at a \
+    specified query per second (qps) and records an histogram of execution \
+    time and calculates percentiles (e.g. p99 ie the response time such as \
+    99% of the requests take less than that number (in seconds, SI unit)). It \
+    can run for a set duration, for a fixed number of calls, or until \
+    interrupted (at a constant target QPS, or max speed/load per \
+    connection/thread).
 
-platforms           darwin
 categories          net www
+installs_libs       no
 license             Apache-2
-
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
@@ -37,10 +37,6 @@ build.pre_args      GIT_TAG=v${version} \
                     LIB_DIR=${_ft_share_dir}/ui
 build.args          official-build
 
-github.tarball_from archive
-
-installs_libs       no
-
 destroot {
     xinstall -m 0755 ${worksrcpath}/../fortio.bin ${destroot}${prefix}/bin/${name}
     xinstall -m 0644 ${worksrcpath}/docs/${name}.1 ${destroot}${prefix}/share/man/man1/
@@ -49,10 +45,12 @@ destroot {
     copy ${worksrcpath}/ui/ ${destroot}${_ft_share_dir}/
 }
 
+github.livecheck.regex {([0-9.]+)}
+
 checksums           ${distname}${extract.suffix} \
-                        rmd160  8c93d43fe21eba4ca74387676096176308b091ff \
-                        sha256  c9077f882f6a3a0daf625665b3b087987f25e915b9f7cf293fa6b6a38514384b \
-                        size    263415
+                        rmd160  dd7648fa464797e27efe0032a34ffe289704a870 \
+                        sha256  f8fd0a51a86a137b51c867433acdb6153c6bb7e12073ad33c143662146ddfe5d \
+                        size    271299
 
 go.vendors          gopkg.in/yaml.v3 \
                         lock    9f266ea9e77c \

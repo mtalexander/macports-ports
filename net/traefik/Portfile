@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/traefik/traefik 2.5.3 v
+go.setup            github.com/traefik/traefik 2.5.7 v
+github.tarball_from archive
 revision            0
 
 categories          net security devel
@@ -19,9 +20,9 @@ long_description    \
     automatically and dynamically. Pointing Traefik at your orchestrator \
     should be the only configuration step you need.
 
-checksums           rmd160  d43a75f101cb53c685de34f6d812c8aa5070465d \
-                    sha256  723f83b338f3e050f91f778c1bfcdc87cf749aa924621c64969393751b5b771c \
-                    size    8522931
+checksums           rmd160  448dd9b5051497cadb0a8391cab13525931522bb \
+                    sha256  8d817c7f77722bcfdee74eb1e8f4a1f5a421c6d9885930d8cd63f2e0a588f317 \
+                    size    8554897
 
 depends_build-append \
                     port:go-bindata

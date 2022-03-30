@@ -5,13 +5,13 @@ PortGroup           python 1.0
 
 name                py-sqlalchemy
 python.rootname     SQLAlchemy
-version             1.4.25
+version             1.4.32
 revision            0
 categories-append   databases
 platforms           darwin
 license             MIT
 
-python.versions     27 35 36 37 38 39
+python.versions     27 35 36 37 38 39 310
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -23,9 +23,9 @@ long_description    SQLAlchemy is the Python SQL toolkit and Object \
 
 homepage            http://www.sqlalchemy.org/
 
-checksums           rmd160  1bbcdb016e29f4900d76563dd75502830b3377bc \
-                    sha256  1adf3d25e2e33afbcd48cfad8076f9378793be43e7fec3e4334306cac6bec138 \
-                    size    7776002
+checksums           rmd160  2ade8a6ed5b9c73f53e47061382e4b2aa1115589 \
+                    sha256  6fdd2dc5931daab778c2b65b03df6ae68376e028a3098eb624d0909d999885bc \
+                    size    8077546
 
 if {${name} ne ${subport}} {
     depends_build-append \

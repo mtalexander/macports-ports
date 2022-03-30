@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/argoproj/argo-cd 2.1.3 v
+go.setup            github.com/argoproj/argo-cd 2.3.2 v
+github.tarball_from archive
 name                argocd
 revision            0
 
@@ -11,35 +12,30 @@ homepage            https://argoproj.github.io/argo-cd
 
 description         Declarative continuous deployment for Kubernetes
 
-long_description    Argo CD is a declarative, GitOps continuous delivery tool \
-                    for Kubernetes. Argo CD follows the GitOps pattern of \
-                    using Git repositories as the source of truth for \
-                    defining the desired application state. This port \
-                    installs the Argo CD CLI.
+long_description    \
+    Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes. \
+    Argo CD follows the GitOps pattern of using Git repositories as the \
+    source of truth for defining the desired application state. This port \
+    installs the Argo CD CLI.
 
 categories          devel sysutils
+installs_libs       no
 license             Apache-2
-
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  2c37f827fa68df78413d400689a2ad0c76ea04e5 \
-                    sha256  e1e0ac84a3f3d06728ac57f165d05e03e47fc005ba4b397b721dfb5061f3986c \
-                    size    13899459
-
-depends_build-append port:packr1
+checksums           rmd160  f6138844b732c82daef3e0409bdeecb3e7fce08a \
+                    sha256  a8bfa23ef9d919877f9450027dc952650807480d09ae68607e158ef94fa392d3 \
+                    size    14557215
 
 # Allow fetching dependencies at build time
 build.env-delete    GOPROXY=off GO111MODULE=off
 
 build.cmd               make
-build.pre_args-append   GOPATH=${gopath} PACKR_CMD=${prefix}/bin/packr
+build.pre_args-append   GOPATH=${gopath}
 build.args-append       cli-local
 
-installs_libs       no
 use_parallel_build  no
-
-github.tarball_from archive
 
 post-patch {
     reinplace {s|build -v -i|build -v|g} ${worksrcpath}/Makefile
@@ -48,3 +44,5 @@ post-patch {
 destroot {
     xinstall -m 0755 ${worksrcpath}/dist/${name} ${destroot}${prefix}/bin/
 }
+
+github.livecheck.regex {([0-9.]+)}

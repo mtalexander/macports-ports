@@ -4,15 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                buildbot-worker
-version             3.3.0
-revision            0
-checksums           rmd160  48e8684fb79528fe772747d143e7c11b3b0b36ae \
-                    sha256  9c33f8eab2d66175ca264b51e8d4d62dbd1eac2e8553c7d77bd140217f8c5ae5 \
-                    size    99996
+version             3.5.0
+revision            1
+checksums           rmd160  dd456ad7cd92143ba8ee97641b9166ecd167cd81 \
+                    sha256  1d91f74dd1f9761af77fa7afdb93b74a03cf35b88518c980a7d0c7c1c6ffd8c0 \
+                    size    111349
 
 categories          devel
-platforms           darwin
-maintainers         {ryandesign @ryandesign} {rajdeep @rajdeepbharati} {mojca @mojca} openmaintainer
+maintainers         {ryandesign @ryandesign} {rajdeep @rajdeepbh} {mojca @mojca} openmaintainer
 license             GPL-2
 supported_archs     noarch
 
@@ -26,12 +25,14 @@ long_description    Buildbot is a system to automate the compile/test \
 homepage            https://buildbot.net
 
 python.default_version \
-                    39
+                    310
 
 depends_build-append \
                     port:py${python.version}-setuptools
 
-depends_run-append  port:py${python.version}-future \
+depends_run-append  port:py${python.version}-autobahn \
+                    port:py${python.version}-future \
+                    port:py${python.version}-msgpack \
                     port:py${python.version}-twisted
 
 depends_test-append port:py${python.version}-mock

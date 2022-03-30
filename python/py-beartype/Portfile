@@ -4,13 +4,11 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-beartype
-version             0.8.1
-platforms           darwin
+version             0.10.4
 license             MIT
 supported_archs     noarch
 
-maintainers         {@harens gmail.com:harensdeveloper} \
-                    openmaintainer
+maintainers         {@harens harens} openmaintainer
 
 description         Unbearably fast O(1) runtime type-checking in pure Python
 long_description    Beartype is an open-source pure-Python PEP-compliant \
@@ -19,11 +17,11 @@ long_description    Beartype is an open-source pure-Python PEP-compliant \
 
 homepage            https://github.com/beartype/beartype
 
-checksums           rmd160 db0d67e7d21714c139d9b7f433dce78135929d48 \
-                    sha256 c2a2bac961cae7f022d88b892c0d23e91314915aea3e01f316880b4fb00d7d2c \
-                    size   628814
+checksums           rmd160 52f672fb33d762fffcfb0b13f1912a3b03263b06 \
+                    sha256 24ec69f6a7f4e6e97af403d08de270def3248518060327095d23b1c4df64bf2a \
+                    size   795164
 
-python.versions     38 39
+python.versions     38 39 310
 
 if {${name} ne ${subport}} {
 

@@ -3,14 +3,13 @@
 PortSystem              1.0
 PortGroup               github 1.0
 
-github.setup            samtools htslib 1.13
+github.setup            samtools htslib 1.15
 revision                0
-checksums               rmd160  6c70f2caccde43c5833d448925db4453b2e774b1 \
-                        sha256  f2407df9f97f0bb6b07656579e41a1ca5100464067b6b21bf962a2ea4b0efd65 \
-                        size    4226834
+checksums               rmd160  0a7e1e2d27db389ecd3876be6941e3228977bf39 \
+                        sha256  1a9f49911503a22f56817cc82ea9b87fb7e7467b5ff989ca5aa61c12e7d532d9 \
+                        size    4141168
 
 categories              science
-platforms               darwin
 maintainers             {ryandesign @ryandesign} openmaintainer
 license                 MIT BSD
 

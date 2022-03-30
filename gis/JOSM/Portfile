@@ -3,13 +3,13 @@
 PortSystem          1.0
 
 name                JOSM
-version             18193
+version             18387
 categories          gis editors java
 platforms           darwin
 license             GPL-2+
 supported_archs     i386 x86_64
 
-maintainers         {@sikmir gmail.com:sikmir} openmaintainer
+maintainers         {@sikmir disroot.org:sikmir} openmaintainer
 
 description         An extensible editor for OpenStreetMap
 long_description    ${name} is a feature-rich editor for the \
@@ -17,11 +17,11 @@ long_description    ${name} is a feature-rich editor for the \
 homepage            https://josm.openstreetmap.de
 
 master_sites        ${homepage}/download/macosx/
-distname            josm-macos-${version}-java16
+distname            josm-macos-${version}-java17
 
-checksums           rmd160  c1050eebef935c6ecfee22048a53588ad6186a27 \
-                    sha256  3a80d7e6d3d32eb52019f05ad757455727ae5d26a2f1024d7902d6c28b7692c9 \
-                    size    75340212
+checksums           rmd160  1e32d00cbdce0b4eb09fb7de5fed1c4b9ea7dc74 \
+                    sha256  c4e5679d0f9e5246e84fc4eae45e10244a2ed7001a1f088477288428347f7d49 \
+                    size    78606720
 
 extract.mkdir       yes
 

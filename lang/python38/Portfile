@@ -2,14 +2,12 @@
 
 PortSystem          1.0
 PortGroup           select 1.0
-PortGroup           clang_dependency 1.0
 
 name                python38
 
 epoch               1
 # Remember to keep py38-tkinter, py38-htmldocs, and py38-gdbm's versions sync'd with this
-version             3.8.12
-revision            1
+version             3.8.13
 
 set major           [lindex [split $version .] 0]
 set branch          [join [lrange [split ${version} .] 0 1] .]
@@ -29,9 +27,9 @@ master_sites        ${homepage}ftp/python/${version}/
 distname            Python-${version}
 use_xz              yes
 
-checksums           rmd160  3453c1e5cacbc2cb506c8a98b2310fda9ade3ea8 \
-                    sha256  b1d3a76420375343b5e8a22fceb1ac65b77193e9ed27146524f0a9db058728ea \
-                    size    18443568
+checksums           md5 c4b7100dcaace9d33ab1fda9a3a038d6 \
+                    rmd160 d5742f8b2e3d60cb2a867816a35fc23a29a4cfd3 \
+                    sha256 6f309077012040aa39fe8f0c61db8c0fa1c45136763299d375c9e5756f09cf57
 
 patchfiles          patch-setup.py.diff \
                     patch-Lib-cgi.py.diff \
@@ -51,7 +49,7 @@ if {${os.platform} eq "darwin" && ${os.major} < 10} {
 depends_build       port:pkgconfig
 depends_lib         port:bzip2 \
                     port:expat \
-                    port:gettext \
+                    port:gettext-runtime \
                     port:libedit \
                     port:libffi \
                     port:ncurses \
@@ -76,6 +74,11 @@ configure.args      --enable-framework=${frameworks_dir} \
                     --with-system-ffi
 
 configure.ccache    no
+# pkg-config removes -I flags for paths in CPATH, which confuses python.
+configure.env       PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 \
+                    SETUPTOOLS_USE_DISTUTILS=stdlib
+build.env           SETUPTOOLS_USE_DISTUTILS=stdlib
+destroot.env        SETUPTOOLS_USE_DISTUTILS=stdlib
 
 post-patch {
     reinplace "s|@@PREFIX@@|${prefix}|g" \
@@ -109,7 +112,9 @@ platform darwin {
         # poll() misbehaves on 10.8 and older
         # See https://trac.macports.org/ticket/18376
         if {${os.platform} eq "darwin" && ${os.major} <= 12} {
+            set oldmtime [file mtime ${worksrcpath}/pyconfig.h]
             system -W ${worksrcpath} "ed - pyconfig.h < ${filespath}/pyconfig.ed"
+            file mtime ${worksrcpath}/pyconfig.h $oldmtime
         }
     }
 
@@ -148,6 +153,11 @@ platform darwin {
         ln -s ${framewdir}/share/man/man1/python${branch}.1 ${destroot}${prefix}/share/man/man1/
         ln -s ${framewdir}/lib/pkgconfig/python-${branch}.pc ${destroot}${prefix}/lib/pkgconfig/
         ln -s ${framewdir}/lib/pkgconfig/python-${branch}-embed.pc ${destroot}${prefix}/lib/pkgconfig/
+
+        # The "m" suffix on include is because the default is --with-pymalloc
+        ln -s ${framewdir}/include/python${branch}m ${destroot}${framewdir}/include/python${branch}
+        ln -s ${framewdir}/include/python${branch} ${destroot}${prefix}/include/python${branch}
+        ln -s ${framewdir}/lib/python${branch} ${destroot}${prefix}/lib/python${branch}
 
         # Also make the sysconfig changes in the Makefile
         reinplace {s|^\(LINKFORSHARED=\).*$|\1 -L$(LIBPL) -lpython$(VERSION)$(ABIFLAGS) $(LIBS) $(SYSLIBS)|} \
@@ -221,7 +231,9 @@ variant universal {
     }
     configure.args-append   --enable-universalsdk=${configure.sysroot}
     post-configure {
+        set oldmtime [file mtime ${worksrcpath}/pyconfig.h]
         system -W ${worksrcpath} "ed - pyconfig.h < ${filespath}/pyconfig.h-universal.ed"
+        file mtime ${worksrcpath}/pyconfig.h $oldmtime
     }
 
     post-destroot {

@@ -4,31 +4,29 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-debugpy
-version             1.5.0
+version             1.6.0
 revision            0
 categories-append   devel
-platforms           darwin
 license             MIT
 
-python.versions     37 38 39
+python.versions     37 38 39 310
+python.pep517       yes
 
 maintainers         {stromnov @stromnov} openmaintainer
 
 description         Implementation of the Debug Adapter Protocol
-long_description    ${description}
+long_description    {*}${description}
 
 homepage            https://aka.ms/debugpy
 
-checksums           rmd160  577acf6525289f19694100b19ae7889ba3439188 \
-                    sha256  86febd61fc351cee926060eef008e242b7259957d71d25eef82860d0cc59b4dc \
-                    size    4150913
+checksums           rmd160  e674845b45d56f52ea9c1d5b7c2b6ea7a009d1bb \
+                    sha256  7b79c40852991f7b6c3ea65845ed0f5f6b731c37f4f9ad9c61e2ab4bd48a9275 \
+                    size    4130238
 
 if {${name} ne ${subport}} {
     use_zip             yes
 
     depends_build-append \
-                        port:py${python.version}-setuptools \
+                        port:py${python.version}-wheel \
                         port:py${python.version}-cython
-
-    livecheck.type      none
 }

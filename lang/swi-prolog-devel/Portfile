@@ -2,15 +2,15 @@
 
 PortSystem          1.0
 PortGroup           cmake 1.1
+PortGroup           compiler_blacklist_versions 1.0
 
 name                swi-prolog-devel
 conflicts           swi-prolog swi-prolog-lite
 epoch               20051223
-version             8.5.0
+version             8.5.9
 revision            0
 
 categories          lang
-platforms           darwin
 universal_variant   no
 license             BSD
 maintainers         {cwi.nl:J.Wielemaker @JanWielemaker} openmaintainer
@@ -32,14 +32,17 @@ master_sites        https://www.swi-prolog.org/download/devel/src/
 distname            swipl-${version}
 dist_subdir         swi-prolog
 
-checksums           rmd160  ee22681346bf45ff00adc5fc716e55d82a5d7018 \
-                    sha256  573579bf6327783dd1e1b013762b08520aac12234ca027646731531cad030c49 \
-                    size    11350801
+checksums           rmd160  4c057bed3b75dfa79dd71ead2b6fd5718b23517a \
+                    sha256  4dc4c6cab14710ab91230bbba290918d093719e998d963404e0db3e9fb92b7cc \
+                    size    11462380
+
+# to avoid the following problem: fatal error: 'threads.h' file not found
+compiler.blacklist-append {clang < 900}
 
 depends_build-append \
                     port:pkgconfig
 
-depends_lib-append  port:db53 \
+depends_lib-append  port:db62 \
                     port:gmp \
                     port:gperftools \
                     path:include/turbojpeg.h:libjpeg-turbo \
@@ -47,7 +50,7 @@ depends_lib-append  port:db53 \
                     port:libmcrypt \
                     port:ncurses \
                     port:ossp-uuid \
-                    port:pcre \
+                    port:pcre2 \
                     port:readline \
                     port:Xft2 \
                     port:xorg-libXinerama \

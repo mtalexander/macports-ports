@@ -38,7 +38,7 @@ depends_lib         port:gstreamer010-gst-plugins-base \
                     port:curl \
                     port:dirac \
                     port:faad2 \
-                    port:jasper \
+                    path:lib/pkgconfig/jasper.pc:jasper \
                     port:libass \
                     port:libdc1394 \
                     port:libdca \
@@ -51,9 +51,9 @@ depends_lib         port:gstreamer010-gst-plugins-base \
                     port:libmusicbrainz2 \
                     port:libopus \
                     port:libpng \
-                    port:librsvg \
+                    path:lib/pkgconfig/librsvg-2.0.pc:librsvg \
                     port:libsndfile \
-                    port:libvpx \
+                    path:lib/pkgconfig/vpx.pc:libvpx \
                     port:openal-soft \
                     port:soundtouch \
                     port:spandsp-devel \
@@ -98,7 +98,7 @@ platform darwin {
         depends_lib-delete port:soundtouch
         configure.args-append --disable-soundtouch
         # as of 1.6.0 libvpx only supports darwin 10 or later
-        depends_build-delete port:libvpx
+        depends_build-delete path:lib/pkgconfig/vpx.pc:libvpx
         configure.args-append --disable-vp8
     }
     # plugin applemedia fails on Sierra (darwin 16) due to removal of QTKit
@@ -120,6 +120,8 @@ configure.env-append        "HAVE_CXX=yes"
 
 use_autoreconf      yes
 autoreconf.args     -fvi
+# needs gtkdocize to autoreconf
+depends_build-append    port:gtk-doc
 
 variant faac description {Enable faac AAC plugin} {
     depends_lib-append      port:faac

@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        elixir-lang elixir 1.11.2 v
+github.setup        elixir-lang elixir 1.13.3 v
 github.tarball_from archive
 epoch               1
 categories          lang
@@ -24,9 +24,9 @@ homepage            http://elixir-lang.org/
 
 depends_lib         port:erlang
 
-checksums           rmd160 4e12b0db7e08d97ea2b346596de9c5317a91f03a \
-                    sha256 318f0a6cb372186b0cf45d2e9c9889b4c9e941643fd67ca0ab1ec32710ab6bf5 \
-                    size   2391833
+checksums           rmd160 74388c2a94d7587aced0fd6a77a3828db08fa7f7 \
+                    sha256 652779f7199f5524e2df1747de0e373d8b9f1d1206df25b2e551cd0ad33f8440 \
+                    size   2922197
 
 # bin/mix
 conflicts           arb
@@ -39,3 +39,5 @@ destroot.args       PREFIX=${prefix}
 
 # various tests have been removed using above patch
 test.run            yes
+
+github.livecheck.regex  {([0-9.]+)}

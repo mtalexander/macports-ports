@@ -7,12 +7,12 @@ PortGroup           app 1.0
 PortGroup           compiler_blacklist_versions 1.0
 PortGroup           muniversal 1.0
 
-github.setup        joncampbell123 dosbox-x 0.83.18 dosbox-x-v
+github.setup        joncampbell123 dosbox-x 0.83.23 dosbox-x-v
 revision            0
 
-checksums           rmd160  ea6b903cd2cec53139a575b20d0c9ea3311ebfb7 \
-                    sha256  e80d5ad8f79c28422207bba676bc3524c1f94c4df9587cb33d28eb2e8e3792df \
-                    size    62659195
+checksums           rmd160  6ee7cab4cb0f1d95cdd48e018c073f6142d9011d \
+                    sha256  026f3986aae61d5f5cc7a95c7ad8ee9646f3249b282c8136a00b239bf6fed711 \
+                    size    64494344
 
 categories          emulators
 platforms           darwin
@@ -54,6 +54,27 @@ use_autoreconf      yes
 autoreconf.args     -fvi
 
 configure.args-append --enable-sdl2
+
+# add a SDL v1.x variant because when SDL2 is used dosbox-x
+# may have display issues in high color and true color modes:
+# https://github.com/joncampbell123/dosbox-x/issues/1431
+
+variant sdl1 description {Use the SDL v1.x library} {
+    configure.args-replace --enable-sdl2 --disable-sdl2
+    configure.args-append --enable-sdl
+    depends_lib-delete port:libsdl2
+    depends_lib-delete port:libsdl2_net
+    patchfiles-append patch-build-macosx.diff
+    use_configure no
+    use_autoreconf no
+}
+
+if {[variant_isset sdl1]} {
+   build {
+      system -W "${workpath}/${name}-${version}/" \
+                "PREFIX=${prefix} ./build-macosx"
+   }
+}
 
 # needs "___cpu_model" in compiler.rt
 compiler.blacklist-append {clang < 900}

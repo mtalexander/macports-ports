@@ -4,7 +4,7 @@ PortSystem          1.0
 
 # mirror version from elasticsearch
 name                kibana
-version             7.14.1
+version             7.16.0
 revision            0
 categories          databases
 maintainers         {ieee.org:s.t.smith @essandess} openmaintainer
@@ -23,9 +23,9 @@ master_sites        https://artifacts.elastic.co/downloads/${name}/
 worksrcdir          ${distname}
 distname            ${name}-${version}-darwin-x86_64
 
-checksums           rmd160  db502bfe10424dec6b89724e6fec17c667a1e23c \
-                    sha256  ad6742748b207a3c077dfa6559369affb3d51be2b568ff233eab0c01d5918816 \
-                    size    284337040
+checksums           rmd160  d26695f956fb87426278cbdbd08fdd4a8f1f5fcc \
+                    sha256  d6ffff4abfeb04dfdf65e127511a843e0bbe7929cf4bdee0190505dd769fb33b \
+                    size    277018484
 
 depends_lib-append \
                     port:elasticsearch

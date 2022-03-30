@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/pulumi/pulumi 3.15.0 v
+go.setup            github.com/pulumi/pulumi 3.27.0 v
+github.tarball_from archive
 revision            0
 
 homepage            https://www.pulumi.com
@@ -28,9 +29,9 @@ license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  d7541dd1343cd06472202fe0aa0618d8f5cdf40d \
-                    sha256  fe966b5f2536c21d3ba6e45f86641205ce5a1a122e99604382f85dbf27f5e53a \
-                    size    8855559
+checksums           rmd160  418105667ef713d81332430d60e58b161c95f453 \
+                    sha256  6c3226e4bd9b94b9c823d7169e2ae285ab94b43a80efe1783e7314fd736938c5 \
+                    size    9770170
 
 build.cmd           make
 build.pre_args      BREW_VERSION="${github.tag_prefix}${version}"
@@ -44,8 +45,7 @@ build.args          brew
 build.env-delete    GOPROXY=off GO111MODULE=off
 
 destroot {
-    xinstall -m 755 {*}[glob ${gopath}/bin/pulumi*] ${destroot}${prefix}/bin/
+    xinstall -m 0755 {*}[glob ${gopath}/bin/pulumi*] ${destroot}${prefix}/bin/
 }
 
 github.livecheck.regex  {([0-9.]+)}
-github.tarball_from     archive

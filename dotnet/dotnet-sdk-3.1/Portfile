@@ -3,11 +3,11 @@
 PortSystem          1.0
 
 name                dotnet-sdk-3.1
-version             3.1.411
+version             3.1.417
 revision            0
 categories          dotnet devel
 license             MIT
-maintainers         {tsabirgaliev @tsabirgaliev} openmaintainer
+maintainers         {@tsabirgaliev gmail.com:tair.sabirgaliev} openmaintainer
 
 description         Core functionality needed to create .NET Core projects, that is \
                     shared between Visual Studio and CLI
@@ -24,9 +24,9 @@ supported_archs     x86_64
 distname            dotnet-sdk-${version}-osx-x64
 master_sites        https://dotnetcli.azureedge.net/dotnet/Sdk/${version}/
 
-checksums           rmd160  40609fda653e190900d96cda1b6aab02b5e008d5 \
-                    sha256  896d2271fcae9d6bdc07ba2843abb5050c2f50b2df2f40bfa65558eab60b22bf \
-                    size    120542630
+checksums           rmd160  0ca301f38056864edc0bc3d7952d4ac88b8a3762 \
+                    sha256  73b3ef667ef0a8215868aae7b3995a7982f3491b5fb27cb9ab8afa0ac5ccbe99 \
+                    size    120627169
 
 worksrcdir          ${name}-${version}
 extract.mkdir       yes

@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/42wim/matterbridge 1.23.0 v
+go.setup            github.com/42wim/matterbridge 1.24.1 v
+github.tarball_from archive
 revision            0
 
 categories          net irc
@@ -18,9 +19,9 @@ long_description    \
     required!)
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  ec8ee63088a20eb03ee9778fee79f4f97a4053bf \
-                        sha256  b04db6f67f702f38d0159c4a6bd160eb2416365b8db23e06b7597c2a998da253 \
-                        size    9436703
+                        rmd160  0c86bedaf34340ece3f65a0eb9cc0b526fede430 \
+                        sha256  ee2177f458a29dd8b4547cd6268fb8ac7e2ce2b551475427eca1205d67c236f4 \
+                        size    9924190
 
 # FIXME: This port currently can't be built without allowing go mod to fetch
 build.env-delete    GOPROXY=off GO111MODULE=off

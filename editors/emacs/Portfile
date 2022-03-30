@@ -96,19 +96,27 @@ if {$subport eq "emacs-devel" || $subport eq "emacs-app-devel"} {
 
     legacysupport.newest_darwin_requires_legacy 13
 
-    set date        2021-09-28
-    epoch           4
+    set date        2022-02-13
+    epoch           5
     version         [string map {- {}} ${date}]
     revision        0
 
     fetch.type      git
     git.url         --shallow-since=${date}T00:00:00 https://github.com/emacs-mirror/emacs.git
-    git.branch      ccb35fb8fb9de5f069fd0103f24e3048d716febc
+    git.branch      a4dd94de8018e75fc5c000cff5f57b4a53f05042
 
     # --shallow-since needs a newer version of git than on some older systems
     # So use MacPorts version
     depends_fetch-append port:git
     git.cmd         ${prefix}/bin/git
+
+    configure.args-append \
+        --with-sqlite3 \
+        --with-webp
+
+    depends_lib-append \
+        port:sqlite3 \
+        port:webp
 
     pre-configure {
         system -W ${worksrcpath} "sh ./autogen.sh"
@@ -125,8 +133,7 @@ if {$subport eq "emacs-devel" || $subport eq "emacs-app-devel"} {
         compiler.library_path-prepend \
                                  ${prefix}/lib/gcc11
 
-        build.args-append        NATIVE_FULL_AOT=1 \
-            {BYTE_COMPILE_EXTRA_FLAGS='--eval "(setq comp-speed 2)"'}
+        build.args-append        NATIVE_FULL_AOT=1
     }
 
     default_variants-append +nativecomp
@@ -184,7 +191,7 @@ if {$subport eq $name || $subport eq "emacs-devel"} {
         depends_lib-append      path:lib/pkgconfig/gtk+-3.0.pc:gtk3 \
                                 path:lib/pkgconfig/glib-2.0.pc:glib2 \
                                 port:gconf \
-                                port:librsvg
+                                path:lib/pkgconfig/librsvg-2.0.pc:librsvg
         # see #21917
         require_active_variants gtk2 x11
     }
@@ -256,7 +263,7 @@ if {$subport eq "emacs-app" || $subport eq "emacs-app-devel"} {
     }
 
     variant rsvg description {Use librsvg} {
-        depends_lib-append     port:librsvg
+        depends_lib-append     path:lib/pkgconfig/librsvg-2.0.pc:librsvg
         configure.args-delete  --without-rsvg
         configure.args-append  --with-rsvg
     }

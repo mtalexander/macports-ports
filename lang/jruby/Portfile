@@ -4,14 +4,13 @@ PortSystem          1.0
 PortGroup           java 1.0
 
 name                jruby
-version             9.3.1.0
+version             9.3.4.0
 revision            0
 
 java.version        1.8+
 java.fallback       openjdk17
 
 categories          lang ruby java
-platforms           darwin
 license             {EPL-2 GPL-2 LGPL-2.1}
 supported_archs     noarch
 maintainers         {judaew @judaew} \
@@ -30,9 +29,9 @@ master_sites        https://repo1.maven.org/maven2/org/jruby/jruby-dist/${versio
 distname            ${name}-dist-${version}-bin
 worksrcdir          ${name}-${version}
 
-checksums           rmd160  d7919c0bcda449a1f08e4989966822ca209fc79b \
-                    sha256  4a9778c114452c0227e10e6718b2c5e128b310b9c6551be93bdd938888f3c418 \
-                    size    27494063
+checksums           rmd160  6dc145df21d21795d6ff7904436719996df2d5b0 \
+                    sha256  531544d327a87155d8c804f153a2df3cf04f0182561cb2dd2c9372f48605b65c \
+                    size    27717077
 
 use_configure       no
 build {}

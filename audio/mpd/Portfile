@@ -7,12 +7,11 @@ PortGroup           legacysupport 1.1
 PortGroup           boost 1.0
 
 name                mpd
-
-version             0.22.9
+version             0.23.5
 revision            0
-checksums           rmd160  603af5318b4814003f97f4e5b8bce05bb007d6d3 \
-                    sha256  f937403297c2240bd4a569f4b937ee7ab17398a5284ba9df4d6d4c3a0512bc64 \
-                    size    738432
+checksums           rmd160  a832467687dee5110e06201027312e6e3a119766 \
+                    sha256  f22c2c25093a05f4566f9cd7207cfbcd8405af67ed29a989bcf8905f80b7a299 \
+                    size    770700
 
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          audio
@@ -24,13 +23,13 @@ long_description    Music Player Daemon (MPD) allows remote access for playing m
     system that provides control for music playback over a local network. \
     It also makes a great desktop music player, especially if you are a \
     console junkie, like frontend options, or restart X often.
+
 homepage            https://www.musicpd.org/
-platforms           darwin
 master_sites        https://www.musicpd.org/download/${name}/${branch}/
 license             GPL-2+ LGPL-2.1
 use_xz              yes
 
-set python_branch   3.9
+set python_branch   3.10
 set python_version  [string map {. {}} ${python_branch}]
 
 depends_build-append \
@@ -53,6 +52,7 @@ depends_lib \
     port:icu \
     port:libao \
     port:libcdio-paranoia \
+    port:libfmt \
     port:libiconv \
     port:libid3tag \
     port:libogg \
@@ -126,7 +126,7 @@ configure.args \
     -Dpcre=enabled \
     -Dsqlite=disabled \
     -Dyajl=disabled \
-    -Dzeroconf=auto \
+    -Dzeroconf=bonjour \
     -Dzlib=enabled \
     -Dzzip=enabled \
     -Dupnp=disabled
@@ -226,7 +226,7 @@ variant mms description {Support MMS input via libmms} {
 
 variant avahi description {Support zeroconf via avahi} {
     depends_lib-append port:avahi
-    configure.args-replace -Dzeroconf=auto -Dzeroconf=avahi
+    configure.args-replace -Dzeroconf=bonjour -Dzeroconf=avahi
 }
 
 configure.env-append \

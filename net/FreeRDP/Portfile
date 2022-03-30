@@ -5,7 +5,7 @@ PortGroup           github  1.0
 PortGroup           cmake   1.1
 
 epoch               3
-github.setup        FreeRDP FreeRDP 2.4.0
+github.setup        FreeRDP FreeRDP 2.6.0
 revision            0
 categories          net
 platforms           darwin
@@ -17,9 +17,9 @@ long_description    FreeRDP is a free implementation of the Remote Desktop Proto
 
 homepage            http://www.freerdp.com
 
-checksums           rmd160  de05f073216aac61c47b6fcbfb9f432f446d34a1 \
-                    sha256  37af9c98b2f096120a8f1c5d0c1023ca3e80cc5737b9e76fa1e4d8308aef339b \
-                    size    7245098
+checksums           rmd160  58e7830f8fa0edf417b9a7d1932a4612c4d8f131 \
+                    sha256  ae89c82b0121403cffede505e47aa93d224f2f3b70bcb6775328a44cbbdf720d \
+                    size    7268808
 
 depends_build-append \
                     port:pkgconfig
@@ -36,7 +36,7 @@ depends_lib-append  port:xorg-libX11 \
                     port:zlib \
                     path:include/turbojpeg.h:libjpeg-turbo \
                     path:lib/libssl.dylib:openssl \
-                    path:lib/libusb.dylib:libusb \
+                    path:lib/pkgconfig/libusb-1.0.pc:libusb \
                     path:lib/pkgconfig/cairo.pc:cairo
 
 # Mac has 64bit filesystem too

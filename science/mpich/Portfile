@@ -20,14 +20,14 @@ PortGroup           mpiutil 1.0
 
 # make sure to keep in sync with mpi-doc
 name                mpich
-version             3.4.2
+version             4.0.1
 revision            0
 
 license             BSD
 categories          science parallel net
 platforms           darwin
 maintainers         {eborisch @eborisch} \
-                    {@mascguy}
+                    {mascguy @mascguy}
 
 description         Message Passing Interface (MPI) Library
 
@@ -48,9 +48,9 @@ homepage            https://www.mpich.org/
 master_sites        ${homepage}static/downloads/${version}
 
 checksums \
-                    rmd160  334df002a4bf6794d96cdfc187d35601bd6fe40b \
-                    sha256  5c19bea8b84e8d74cca5f047e82b147ff3fba096144270e3911ad623d6c587bf \
-                    size    32850822
+    rmd160  5074ee23bdb6f44b70033ea5d798ebf1c8bea724 \
+    sha256  66a1fe8052734af2eb52f47808c4dfef4010ceac461cb93c42b99acfb1a43687 \
+    size    38146191
 
 livecheck.type      regex
 livecheck.regex     {href=.([0-9.p]+)/}
@@ -72,6 +72,9 @@ set clist_obsolete [list]
 
 # Compilers supported across-the-board
 dict set clist gcc7 {macports-gcc-7}
+dict set clist clang11 {macports-clang-11}
+dict set clist clang12 {macports-clang-12}
+dict set clist clang13 {macports-clang-13}
 
 # Only enable default (gcc), and Xcode clang, for MacOS 10.7 and later
 if { ${os.major} >= 11 } {
@@ -84,26 +87,25 @@ if { ${os.major} >= 11 } {
 
 if { ${os.arch} eq "arm" } {
     # disable unreliable clang versions for ARM
-    dict set clist clang11 {macports-clang-11}
     lappend clist_unsupported \
         clang90 clang10
 } else {
     dict set clist clang90 {macports-clang-9.0}
     dict set clist clang10 {macports-clang-10}
-    dict set clist clang11 {macports-clang-11}
 }
 
 # gcc 9+ only available on macOS10.7 (Darwin11) and newer
 # However, gcc9+ builds fail on MacOS 10.7, so only enable for MacOS 10.8+.
 if { ${os.arch} eq "arm" } {
     lappend clist_unsupported \
-        gcc9 gcc10
-} elseif { ${os.major} >= 12 } {
+        gcc9
+} elseif { ${os.major} >= 10 } {
     dict set clist gcc9  {macports-gcc-9}
     dict set clist gcc10 {macports-gcc-10}
+    dict set clist gcc11 {macports-gcc-11}
 } else {
     lappend clist_unsupported \
-        gcc9 gcc10
+        gcc9 gcc10 gcc11
 }
 
 #-------------------------------------------------------------------------------
@@ -167,6 +169,8 @@ if {${subport_enabled}} {
                     --with-pm=hydra                  \
                     --with-thread-package=posix      \
                     --with-hwloc-prefix=${prefix}    \
+                    --disable-collalgo-tests         \
+                    --disable-f08                    \
                     "F90FLAGS='' F90=''"
 
     if {${os.major} < 12} {
@@ -177,7 +181,14 @@ if {${subport_enabled}} {
 
     patchfiles-append \
                     patch-no_qmkshrobj.diff \
-                    patch-ch4-ipv6.diff
+                    patch-ch4-ipv6.diff \
+                    patch-mpich-darwin-powerpc.diff
+
+    platform darwin powerpc {
+        # libfabric calls for atomicops, on PPC at least
+        configure.ldflags-append \
+                    -latomic
+    }
 
     # We're making compiler wrappers here... don't default to -O2 for wrappers.
     # Actual library code is compiled with -O2 via --enable-fast=O2 configure arg
@@ -277,6 +288,7 @@ if {${subport_enabled}} {
             # see https://github.com/pmodels/mpich/issues/4300
             # see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91556
             configure.fflags-append -fallow-argument-mismatch
+            configure.fcflags-append -fallow-argument-mismatch
         }
 
         # GCC C++ always uses libstdc++
@@ -369,9 +381,6 @@ if {${subport_enabled}} {
                                 --with-pm=gforker
     }
 
-    # Renamed to standardaized 'native' name; remove 2022/02
-    variant tuned requires native description {Build with more optimizations} {}
-
     variant native description {Build for local machine} {
         configure.args-replace      --enable-fast=O2 \
                                     --enable-fast=all
@@ -393,12 +402,13 @@ if {${subport_enabled}} {
         [variant_isset gcc6] ||
         [variant_isset gcc7] ||
         [variant_isset gcc8] ||
-        [variant_isset gcc9] } {
+        [variant_isset gcc9] ||
+        [variant_isset gcc10] } {
         set msg "
 ----------------------------------------
-NOTE: Default fortran changed to +gcc10; consider switching variants to enable\
+NOTE: Default fortran changed to +gcc11; consider switching variants to enable\
 pre-built packages for ${subport} by running:
-  sudo port clean ${subport} && sudo port upgrade ${subport} +gcc10 -[gcc_variant_name]
+  sudo port clean ${subport} && sudo port upgrade ${subport} +gcc11 -[gcc_variant_name]
 "
         notes-append    ${msg}
         unset msg

@@ -2,15 +2,13 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
-PortGroup           java 1.0
 
-github.setup        dbeaver dbeaver 21.2.1
+github.setup        dbeaver dbeaver 22.0.1
 github.tarball_from releases
 revision            0
 name                dbeaver-community
 
 categories          databases
-platforms           darwin
 supported_archs     x86_64 arm64
 license             Apache-2
 
@@ -33,35 +31,39 @@ set arch ${build_arch}
 
 if {${build_arch} eq "arm64"} {
     set arch "aarch64"
-
-    notes "
-        The arm64 version for ${name} still running in Intel architecture and\
-        requires Rosetta 2.
-    "
 }
-# uncommnet for update checksums
+# uncomment for update checksums
 # set arch "aarch64"
 
 distname            dbeaver-ce-${version}-macosx.cocoa.${arch}
 
 checksums           dbeaver-ce-${version}-macosx.cocoa.x86_64${extract.suffix} \
-                        rmd160  24fac79ac048e5d09623be148bdd4ec97d88046e \
-                        sha256  5570f73139cdaf740b166c81f33746a7be3441adad60e7f09cee93d32252ef01 \
-                        size    101474923 \
+                        rmd160  72e2b4994c927411d44d44184678cdd51c543fa9 \
+                        sha256  991d00aedb7445e451719b4261d1fed1dde293a02b2cbd82ef4378dbd8ea1c9d \
+                        size    106018391 \
                     dbeaver-ce-${version}-macosx.cocoa.aarch64${extract.suffix} \
-                        rmd160  819ebfa7e170692b71effee88c36a2a582eb708a \
-                        sha256  d4e1deed746aec2e67c63fb5e20f85b22d7b20ba8dbf32eeb6dd39b0cef390f7 \
-                        size    103700103
+                        rmd160  bca7d3eb655d787643e65b27ddef1be215fa5389 \
+                        sha256  e393e79b9b823d9d1de1831d4c4a0d73a86799ab588911a51aae400cbc6e47d5 \
+                        size    106732442
 
 extract.mkdir       yes
-
-java.version        11+
-java.fallback       openjdk11
-
 use_configure       no
+
+depends_run         port:openjdk17
+
+# Since the user in any case needs to have OpenJDK to run this port, it is
+# better to install OpenJDK from MacPorts, with which there is no issue like
+# https://trac.macports.org/ticket/64170
+patchfiles          patch-java-path.diff
+
+post-patch {
+    reinplace "s|@@JAVA_VERSION@@|openjdk17-temurin|g" \
+        ${worksrcpath}/DBeaver.app/Contents/Info.plist
+}
 
 build {}
 
 destroot {
+    delete ${worksrcpath}/DBeaver.app/Contents/Eclipse/jre
     copy ${worksrcpath}/DBeaver.app ${destroot}${applications_dir}
 }

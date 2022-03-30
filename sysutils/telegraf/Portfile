@@ -3,33 +3,32 @@
 PortSystem                  1.0
 PortGroup                   golang 1.0
 
-go.setup                    github.com/influxdata/telegraf 1.20.2 v
+go.setup                    github.com/influxdata/telegraf 1.21.4 v
 github.tarball_from         archive
 revision                    0
 
 homepage                    https://docs.influxdata.com/telegraf
 
-description                 The plugin-driven server agent for collecting & \
-                            reporting metrics.
+description                 \
+    The plugin-driven server agent for collecting & reporting metrics.
 
-long_description            Telegraf is an agent for collecting, processing, \
-                            aggregating, and writing metrics.  Design goals are \
-                            to have a minimal memory footprint with a plugin \
-                            system so that developers in the community can \
-                            easily add support for collecting metrics. Telegraf \
-                            is plugin-driven and has the concept of 4 distinct \
-                            plugin types: input plugins, processor plugins, \
-                            aggregator plugins, and output plugins.
+long_description            \
+    Telegraf is an agent for collecting, processing, aggregating, and writing \
+    metrics.  Design goals are to have a minimal memory footprint with a \
+    plugin system so that developers in the community can easily add support \
+    for collecting metrics. Telegraf is plugin-driven and has the concept of \
+    4 distinct plugin types: input plugins, processor plugins, aggregator \
+    plugins, and output plugins.
 
 categories                  sysutils
+installs_libs               no
 license                     MIT
 maintainers                 {gmail.com:herby.gillot @herbygillot} \
                             openmaintainer
-platforms                   darwin
 
-checksums                   rmd160  1897a739a64fe3d49bae00597a97f5705e076fd4 \
-                            sha256  3b0db9f48a76bb5076eded0ceab6ea568b295bbc525cdd8ad1ecf700ef317c18 \
-                            size    3026650
+checksums                   rmd160  84d41bbef618414ec66b450e5c6f0c841953a8b5 \
+                            sha256  dc1f04662fe81c970019271a215979c5549aec86b896562376d69bc76d7eaeda \
+                            size    3217354
 
 set telegraf_user           ${name}
 set telegraf_conf_dir       ${prefix}/etc/${name}
@@ -79,29 +78,29 @@ destroot {
 
     copy ${worksrcpath}/${name} ${destroot}${prefix}/bin/
 
-    xinstall  -d -m 755 ${telegraf_conf_dir}
-    xinstall  -d -m 755 -g ${telegraf_user} ${telegraf_log_dir}
+    xinstall  -d -m 0755 ${telegraf_conf_dir}
+    xinstall  -d -m 0755 -g ${telegraf_user} ${telegraf_log_dir}
 
-    xinstall  -d -m 755 -o ${telegraf_user} -g ${telegraf_user} \
+    xinstall  -d -m 0755 -o ${telegraf_user} -g ${telegraf_user} \
               ${telegraf_data_dir}
 
-    xinstall  -d -m 755 -o ${telegraf_user} -g ${telegraf_user} \
+    xinstall  -d -m 0755 -o ${telegraf_user} -g ${telegraf_user} \
               ${telegraf_lib_dir}
 
-    xinstall  -d -m 755 -o ${telegraf_user} -g ${telegraf_user} \
+    xinstall  -d -m 0755 -o ${telegraf_user} -g ${telegraf_user} \
               ${telegraf_run_dir}
 
     touch ${telegraf_log_file}
     file  attributes ${telegraf_log_file} -owner ${telegraf_user} \
           -group ${telegraf_user}
 
-    xinstall -d -m 755 \
+    xinstall -d -m 0755 \
         ${destroot}${prefix}/etc/LaunchDaemons/org.macports.${name}
 
     xinstall -m 0644 -o root -W ${workpath} org.macports.${name}.plist \
         ${destroot}${prefix}/etc/LaunchDaemons/org.macports.${name}
 
-    xinstall -d -m 755 ${destroot}/Library/LaunchDaemons
+    xinstall -d -m 0755 ${destroot}/Library/LaunchDaemons
 
     ln -s ${prefix}/etc/LaunchDaemons/org.macports.${name}/org.macports.${name}.plist \
         ${destroot}/Library/LaunchDaemons/org.macports.${name}.plist

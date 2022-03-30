@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           haskell_cabal 1.0
 
 name                matterhorn
-version             50200.13.0
+version             50200.15.0
 revision            0
-checksums           rmd160  d8fdb31d2d4ebdaf34e688498c7ed2ff5d91de58 \
-                    sha256  a2ebc8b1eec4e56e82e1ccd53c98ee6233e699a5a3c56b47bf24cd2d8fc4d0f3 \
-                    size    948356
+checksums           rmd160  73d6e5a5fcb12916c2745bbcf5229779f762bf05 \
+                    sha256  aad5d0d5b7d89bd39814f9be080c060f767edc825b43a048389a7e175d68c342 \
+                    size    964876
 
 master_sites        https://hackage.haskell.org/package/${name}-${version}
 

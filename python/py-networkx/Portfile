@@ -4,14 +4,13 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-networkx
-version             2.6.3
+version             2.7.1
 revision            0
 categories-append   science
-platforms           darwin
 license             BSD
 supported_archs     noarch
 
-python.versions     27 35 36 37 38 39
+python.versions     27 35 36 37 38 39 310
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -23,9 +22,9 @@ long_description    NetworkX is a Python package for the creation, \
 
 homepage            https://networkx.github.io
 
-checksums           rmd160  6e7feda9ad8465c77eef36748daec00c6414130d \
-                    sha256  c0946ed31d71f1b732b5aaa6da5a0388a345019af232ce2f49c766e2d6795c51 \
-                    size    1844862
+checksums           rmd160  a9a63c4505285c1e16ff00b9b5f6092b74bea682 \
+                    sha256  d1194ba753e5eed07cdecd1d23c5cd7a3c772099bd8dbd2fea366788cf4de7ba \
+                    size    1923431
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -56,6 +55,13 @@ if {${name} ne ${subport}} {
                             sha256  109cd585cac41297f71103c3c42ac6ef7379f29788eb54cb751be5a663bb235a \
                             size    1540139
         depends_lib-append  port:py${python.version}-decorator
+    } elseif {${python.version} eq 37} {
+        version             2.6.3
+        revision            0
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  6e7feda9ad8465c77eef36748daec00c6414130d \
+                            sha256  c0946ed31d71f1b732b5aaa6da5a0388a345019af232ce2f49c766e2d6795c51 \
+                            size    1844862
     }
 
     livecheck.type      none

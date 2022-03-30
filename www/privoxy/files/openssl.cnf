@@ -24,18 +24,28 @@
 # touch index.txt
 # echo 1000 > serial
 
-# CA certificate encrypted key passphrase
+# CA certificate encrypted key passphrase, both -passin and -passout
 # sf-pwgen --algorithm memorable --count 2 --length 24 2>/dev/null | paste -s -d -- '-' \
 #     1>private/passphrase.txt || true
+# cat private/passphrase.txt private/passphrase.txt > private/passphrase-dbl.txt \
+#     && mv private/passphrase-dbl.txt private/passphrase.txt \
+#     || rm -f private/passphrase-dbl.txt
 # chmod go-rwx private/passphrase.txt
 
 # CA encrypted key
-# openssl genrsa -aes256 -out private/ca.key.pem \
-#     -passout file:private/passphrase.txt
+# EC
+# openssl genpkey -out private/ca.key.pem -algorithm EC \
+#     -pkeyopt ec_paramgen_curve:P-384 -aes256 \
+#     -pass file:private/passphrase.txt
+#
+# RSA
+# # openssl genpkey -out private/ca.key.pem -algorithm RSA \
+# #     -pkeyopt rsa_keygen_bits:2048 -aes256 \
+# #     -pass file:private/passphrase.txt
 
 # CA certificate
 # openssl req -config openssl.cnf \
-#     -new -x509 -days 1460 -sha256 -extensions v3_ca -out certs/ca.cert.pem \
+#     -new -x509 -days 3650 -sha256 -extensions v3_ca -out certs/ca.cert.pem \
 #     -key private/ca.key.pem -passin file:private/passphrase.txt -batch
 
 # CA certificate text verification
@@ -52,7 +62,9 @@
 # openssl pkcs12 -export -out certs/ca.p12 \
 #     -inkey private/ca.key.pem -in certs/ca.cert.pem \
 #     -passin file:private/passphrase.txt \
-#     -passout pass:$(head -1 private/passphrase.txt)
+#     -passout file:private/passphrase.txt
+# verify .p12 passphrase
+# openssl pkcs12 -noout -in certs/ca.p12 -passin file:private/passphrase.txt
 
 [ca]
 default_ca        = CA_default

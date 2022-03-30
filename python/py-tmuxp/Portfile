@@ -5,13 +5,12 @@ PortGroup           github 1.0
 PortGroup           python 1.0
 PortGroup           select 1.0
 
-github.setup        tmux-python tmuxp 1.9.2 v
+github.setup        tmux-python tmuxp 1.10.0 v
 name                py-tmuxp
 revision            0
 
 categories-append   devel
 license             MIT
-platforms           darwin
 supported_archs     noarch
 
 maintainers         {@egorenar posteo.net:egorenar-dev} \
@@ -20,11 +19,13 @@ maintainers         {@egorenar posteo.net:egorenar-dev} \
 description         tmux session manager.
 long_description    ${description}
 
-python.versions     36 37 38 39
+python.versions     37 38 39 310
+python.pep517       yes
 
 if {${name} ne ${subport}} {
     depends_build-append \
-                    port:py${python.version}-setuptools
+                    port:py${python.version}-setuptools \
+                    port:py${python.version}-poetry-core
     
     depends_lib-append \
                     port:py${python.version}-click \
@@ -35,9 +36,9 @@ if {${name} ne ${subport}} {
     depends_run-append \
                     port:tmuxp_select
 
-    checksums       rmd160  62468f13fc0c4cea3b885010b1a105586c3cc034 \
-                    sha256  77cc6705e8579d3b8cf72bf8c9faab27ae4d85a1a385fa659f0cdec56b14b8f8 \
-                    size    816680
+    checksums       rmd160  9304244092aa66e1d72696de67f931690ea6ed34 \
+                    sha256  ffede73b46206fd69c7c2a816ef32a6fe0e42d1615cabf0d9933772c97991a29 \
+                    size    837041
 
     select.group    tmuxp
     select.file     ${worksrcpath}/py${python.version}-tmuxp

@@ -9,23 +9,24 @@ PortGroup           compiler_blacklist_versions 1.0
 # clock_gettime
 legacysupport.newest_darwin_requires_legacy 15
 
-github.setup        skyjake lagrange 1.7.2 v
+github.setup        skyjake lagrange 1.11.2 v
 revision            0
 github.tarball_from releases
 categories          net gemini
 platforms           darwin
 license             BSD
-maintainers         {@sikmir gmail.com:sikmir} openmaintainer
+maintainers         {@sikmir disroot.org:sikmir} openmaintainer
 
 description         A Beautiful Gemini Client
-long_description    ${description}
+long_description    {*}${description}
 
-checksums           rmd160  8f251bf3ff82e08fcc0f9c83e91368e947ae4fc6 \
-                    sha256  cac15e05397285f40283bb0dd2f14f3985906fb82e28909fa62c452a2fb827bb \
-                    size    22814543
+checksums           rmd160  a821833118349be255ca944f68bcce05c477374e \
+                    sha256  4e9a9ed38bcfc7b04856f0e2667d7afd535a8e06e367e2e4368ef5fb9105791f \
+                    size    8731314
 
 depends_build-append \
-                    port:pkgconfig
+                    port:pkgconfig \
+                    port:zip
 depends_lib-append  port:fribidi \
                     path:lib/pkgconfig/harfbuzz.pc:harfbuzz \
                     port:libsdl2 \
@@ -38,9 +39,6 @@ depends_lib-append  port:fribidi \
 
 compiler.c_standard 2011
 compiler.blacklist-append {clang < 800}
-
-configure.args-append "-DENABLE_HARFBUZZ_MINIMAL:BOOL=OFF"
-configure.args-append "-DENABLE_FRIBIDI_BUILD:BOOL=OFF"
 
 destroot {
     copy ${build.dir}/Lagrange.app ${destroot}${applications_dir}

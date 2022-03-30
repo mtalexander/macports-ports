@@ -5,8 +5,8 @@ PortGroup               select 1.0
 
 name                    terraform
 categories              sysutils
+installs_libs           no
 license                 MPL-2
-platforms               darwin
 homepage                https://www.terraform.io/downloads.html
 
 maintainers             {emcrisostomo @emcrisostomo} \
@@ -15,13 +15,53 @@ maintainers             {emcrisostomo @emcrisostomo} \
                         openmaintainer
 
 # *NOTE* Remember to update `latestVersion` on a version upgrade.
-set latestVersion       terraform-1.0
+set latestVersion       terraform-1.1
+
+set armAvailable        no
+
+proc terraformBaseVersion {} {
+    global subport
+    return [lindex [split ${subport} "-"] 1]
+}
+
+proc terraformVersion {} {
+    global patchNumber
+    return [terraformBaseVersion].${patchNumber}
+}
+
+proc terraformDistBase {} {
+    global name
+    return ${name}_[terraformVersion]_darwin
+}
+
+subport terraform-1.1 {
+    set patchNumber     7
+
+    set armAvailable    yes
+
+    checksums           [terraformDistBase]_amd64.zip \
+                        rmd160  30073fc522cbb54ecc98448f7beb82919c7d46e5 \
+                        sha256  5e7e939e084ae29af7fd86b00a618433d905477c52add2d4ea8770692acbceac \
+                        size    20213394 \
+                        [terraformDistBase]_arm64.zip \
+                        rmd160  06659efb24c1acbb091f0a4a00db441eea04ebc1 \
+                        sha256  a36b6e2810f81a404c11005942b69c3d1d9baa8dd07de6b1f84e87a67eedb58f \
+                        size    19371095
+}
 
 subport terraform-1.0 {
-    set patchNumber     9
-    checksums           rmd160  87630a213482a7a5fee585bed1cff950d36c02b0 \
-                        sha256  fb791c3efa323c5f0c2c36d14b9230deb1dc37f096a8159e718e8a9efa49a879 \
-                        size    33017665
+    set patchNumber     11
+
+    set armAvailable    yes
+
+    checksums           [terraformDistBase]_amd64.zip \
+                        rmd160  a8ea8e4ec4087d753801f19c5f5625204cfcc098 \
+                        sha256  92f2e7eebb9699e23800f8accd519775a02bd25fe79e1fe4530eca123f178202 \
+                        size    19340098 \
+                        [terraformDistBase]_arm64.zip \
+                        rmd160  5194880e62164b3991d14e8ef39ef6f5e5a05c5c \
+                        sha256  0f38af81641b00a2cbb8d25015d917887a7b62792c74c28d59e40e56ce6f265c \
+                        size    18498208
 }
 
 subport terraform-0.15 {
@@ -65,7 +105,7 @@ if {${subport} eq ${name}} {
     PortGroup           obsolete 1.0
 
     replaced_by         ${latestVersion}
-    version             1.0.9
+    version             1.1.7
     revision            0
 
 } elseif {${subport} eq "terraform_select"} {
@@ -92,11 +132,22 @@ if {${subport} eq ${name}} {
     livecheck.type     none
 
 } else {
-    set baseVersion     [lindex [split ${subport} "-"] 1]
+    set baseVersion     [terraformBaseVersion]
     set baseName        terraform${baseVersion}
 
-    version             ${baseVersion}.${patchNumber}
+    version             [terraformVersion]
+
+    distname            [terraformDistBase]_amd64
     supported_archs     x86_64
+
+    if ${armAvailable} {
+        supported_archs x86_64 arm64
+
+        if {${build_arch} eq "arm64"} {
+            distname    [terraformDistBase]_arm64
+        }
+    }
+
     depends_run         port:terraform_select
 
     description         A tool for building, changing, and versioning \
@@ -109,7 +160,6 @@ if {${subport} eq ${name}} {
                         the infrastructure in a service provider such as AWS.
 
     master_sites        https://releases.hashicorp.com/${name}/${version}
-    distname            ${name}_${version}_darwin_amd64
 
     use_configure       no
     use_zip             yes

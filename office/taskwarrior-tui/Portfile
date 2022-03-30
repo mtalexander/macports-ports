@@ -4,22 +4,23 @@ PortSystem          1.0
 PortGroup           cargo   1.0
 PortGroup           github  1.0
 
-github.setup        kdheepak taskwarrior-tui 0.13.34 v
+github.setup        kdheepak taskwarrior-tui 0.22.0 v
+github.tarball_from archive
 revision            0
 
 description         A terminal user interface for taskwarrior
-
 long_description    {*}${description}
 
 categories          office
-platforms           darwin
-maintainers         {gmail.com:herby.gillot @herbygillot} \
-                    openmaintainer
+installs_libs       no
 license             MIT
+maintainers         {gmail.com:herby.gillot @herbygillot} \
+                    {judaew @judaew} \
+                    openmaintainer
 
-checksums           rmd160  de03f53667edd47f4c66e5fef1d44fc78b45ae5a \
-                    sha256  6d5c5a67420204f603e61054382fb39432098fd2daa758029b5ac848a9356024 \
-                    size    64424
+checksums           rmd160  4061160dbee5b78722ff8d8e5fb1f83e1e324f57 \
+                    sha256  72a844fa4f9d141ccf3a9a1e5a45795fa75a84ea89ed42891ddfc296f7b6eec3 \
+                    size    78827
 
 build.pre_args      --release -v -j${build.jobs}
 
@@ -36,12 +37,10 @@ post-build {
 }
 
 destroot {
-    xinstall -m 755 \
+    xinstall -m 0755 \
         ${worksrcpath}/target/[cargo.rust_platform]/release/${name} \
         ${destroot}${prefix}/bin/
 
     xinstall -m 0644 ${worksrcpath}/docs/${name}.1 \
         ${destroot}${prefix}/share/man/man1
 }
-
-github.tarball_from archive

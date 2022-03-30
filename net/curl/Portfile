@@ -3,8 +3,10 @@
 PortSystem                      1.0
 PortGroup                       clang_dependency 1.0
 
+# Increase the revision of p5-www-curl whenever the version of curl gets updated.
+
 name                            curl
-version                         7.78.0
+version                         7.82.0
 categories                      net www
 platforms                       darwin freebsd
 maintainers                     {ryandesign @ryandesign}
@@ -26,9 +28,9 @@ set curl_distfile               ${distfiles}
 distfiles                       ${curl_distfile}:curl
 
 checksums                       ${curl_distfile} \
-                                rmd160  a3c6639da7482c5ed9aac36a16d1daa253e4a9d1 \
-                                sha256  be42766d5664a739c3974ee3dfbbcbe978a4ccb1fe628bb1d9b59ac79e445fb5 \
-                                size    2440640
+                                rmd160  223c63a2bdc96ca6c389350b10e8d78ae8f35d6f \
+                                sha256  0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c \
+                                size    2446764
 
 if {${name} eq ${subport}} {
     PortGroup                   muniversal 1.0
@@ -188,7 +190,7 @@ if {${name} eq ${subport}} {
     }
 
     variant openldap description {Support performing Lightweight Directory Access Protocol queries with OpenLDAP} {
-        depends_lib-append      port:openldap
+        depends_lib-append      path:lib/libldap.dylib:openldap
         configure.args-replace  --disable-ldap --enable-ldap
         configure.args-replace  --disable-ldaps --enable-ldaps
     }
@@ -232,15 +234,21 @@ subport curl-ca-bundle {
 
     depends_extract-append      bin:unzip:unzip
 
-    depends_build-append        bin:perl:perl5
+    if {${os.platform} eq "darwin" && ${os.major} <= 10} {
+        # Day too big - 24854 > 24853
+        # Cannot handle date (59, 59, 23, 18, 0, 2038) at /System/Library/Perl/5.10.0/darwin-thread-multi-2level/Time/Piece.pm line 315
+        depends_build-append    port:perl5
+    } else {
+        depends_build-append    bin:perl:perl5
+    }
 
     # The approximate time (in seconds since the epoch) when the port maintainer
     # updated the certdata.txt file in this port. (The output of "date +%s".)
-    set certdata_updated        1625220659
+    set certdata_updated        1646637096
     # The upstream commit in which certdata.txt was last updated.
-    set certdata_commit         4d343134c8a3a46520e41d31e7cb26f718d9daec
+    set certdata_commit         8e3a124602d0da9cec272df4ca05b3a34d03b995
     # The date (in YYYYMMDD format) that commit was pushed.
-    set certdata_date           20210526
+    set certdata_date           20220215
     set certdata_file           certdata.txt
     # Using tar.bz2 would be preferable because it's smaller but upstream has
     # disabled the creation of all but zip archives:
@@ -261,20 +269,16 @@ subport curl-ca-bundle {
     distfiles-append            ${certdata_distfile}:certdata
 
     checksums-append            ${certdata_distfile} \
-                                rmd160  763c2ffbbc521d7cafb5644ff5d2692b5543197d \
-                                sha256  d3d290e88c6781ba81105205036a5da320d5eb5f58fd14561afee07c344d185d \
-                                size    248478
+                                rmd160  dd75649ba413566d6752e1fb28f13d6ebb122481 \
+                                sha256  5b36e9c9343332a3d7ad6905a5da5420ced49285b55822c12fb5bfd7aa327bbf \
+                                size    263791
 
     extract.only                ${curl_distfile}
     extract.post_args-append    ${worksrcdir}/Makefile \
                                 ${worksrcdir}/lib/mk-ca-bundle.pl
 
     post-extract {
-if {[vercmp [macports_version] 2.6.99] >= 0} {
         system -W ${workpath} "unzip -q -a [shellescape ${distpath}/${certdata_distfile}]"
-} else {
-        system -W ${workpath} "unzip -q -a '${distpath}/${certdata_distfile}'"
-}
         move ${workpath}/mozilla-central-${certdata_commit}/${certdata_path} ${worksrcpath}/${certdata_file}
     }
 

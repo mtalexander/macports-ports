@@ -4,11 +4,10 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-libtmux
-version             0.10.1
+version             0.11.0
 revision            0
 
 categories-append   devel
-platforms           darwin
 supported_archs     noarch
 license             MIT
 maintainers         {@egorenar posteo.net:egorenar-dev} \
@@ -21,11 +20,11 @@ homepage            https://github.com/tmux-python/libtmux
 master_sites        pypi:l/${python.rootname}/
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  0ff908d8ca69fcb743d99ce552bd17af936367a4 \
-                    sha256  c8bc81499616ba899538704e419463a1c83ba7ca21e53b1efc6abbe98eb26b61 \
-                    size    37786
+checksums           rmd160  b954aebf7e0280feaa83687c53239e78b1b97c87 \
+                    sha256  d82cf391097eb69d784d889d482bb99284b984aa6225276a3dc1af8c1460dd3c \
+                    size    196796
 
-python.versions     36 37 38 39
+python.versions     37 38 39 310
 
 if {${name} ne ${subport}} {
     depends_build-append \

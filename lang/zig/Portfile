@@ -8,12 +8,11 @@ PortGroup           legacysupport 1.1
 
 legacysupport.use_static  yes
 
-github.setup        ziglang zig 0.8.0
+github.setup        ziglang zig 0.9.1
 github.tarball_from archive
 revision            0
 
 categories          lang
-platforms           darwin
 license             MIT
 maintainers         {@felix userspace.com.au:felix} openmaintainer
 
@@ -24,13 +23,13 @@ long_description    Zig is a general-purpose programming language designed for \
 
 homepage            https://ziglang.org/
 
-set llvm_version    12
+set llvm_version    13
 
 depends_lib-append  port:llvm-${llvm_version}
 
-checksums           rmd160  06895eebdbf17f3929ea79c7b8a1bb9474c652e1 \
-                    sha256  7f4849d9a8f0f0af410171f91c0190c0c38ac08f42fcf41e99e2e3cf164e283f \
-                    size    19596459
+checksums           rmd160  0bee29c8a68f0bfb2bb0454783c8be8ff12f7080 \
+                    sha256  2a6ba6a72b9619b83dab77f5b6e2b6f0958bb0f85cded055be2c632386e0ff2d \
+                    size    22010374
 
 set llvm_config     LLVM_CONFIG=llvm-config-mp-${llvm_version}
 

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-urllib3
-version             1.26.7
+version             1.26.9
 revision            0
 categories-append   devel net
 platforms           darwin
@@ -20,9 +20,9 @@ long_description    ${description}
 
 homepage            https://urllib3.readthedocs.io/
 
-checksums           rmd160  2680b6fc9bcba26c9d5988a5ee4d036c9b86719c \
-                    sha256  4987c65554f7a2dbf30c18fd48778ef124af6fab771a377103da0585e2336ece \
-                    size    291350
+checksums           rmd160  cff7b02fbe2920307cd79b5162da931f40abac8a \
+                    sha256  aabaf16477806a5e1dd19aa41f8c2b7950dd3c746362d7e3223dbe6de6ac448e \
+                    size    295258
 
 if {${name} ne ${subport}} {
     depends_build-append \

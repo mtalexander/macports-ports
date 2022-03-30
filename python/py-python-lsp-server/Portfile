@@ -1,17 +1,14 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-PortGroup           github 1.0
 PortGroup           python 1.0
 PortGroup           select 1.0
 
 name                py-python-lsp-server
-github.setup        python-lsp python-lsp-server 1.2.4 v
-github.tarball_from archive
-revision            0
+version             1.4.0
+revision            1
 
 categories-append   devel
-platforms           darwin
 supported_archs     noarch
 license             MIT
 maintainers         {reneeotten @reneeotten} openmaintainer
@@ -20,13 +17,19 @@ description         A Python implementation of the Language Server Protocol
 long_description    Fork of the python-language-server project, maintained by the Spyder \
                     IDE team and the community.
 
-checksums           rmd160  1f0fbc839448dcd2d0aa9c47306f85b0d3cea5fa \
-                    sha256  3e9102808f661df18a54e2ddd97285d4b3c4cbc0af6fed8439a1960617f74674 \
-                    size    66838
+checksums           rmd160  7741c30e5d0d65a886f0385b2d4310960c638525 \
+                    sha256  769142c07573f6b66e930cbd7c588b826082550bef6267bb0aec63e7b6260009 \
+                    size    75443
 
-python.versions     36 37 38 39
+homepage            https://github.com/python-lsp/python-lsp-server/
+
+python.versions     37 38 39 310
+python.pep517       yes
 
 if {${subport} ne ${name}} {
+    depends_build-append \
+                    port:py${python.version}-setuptools_scm
+
     depends_lib-append \
                     port:py${python.version}-autopep8 \
                     port:py${python.version}-codestyle \
@@ -39,13 +42,12 @@ if {${subport} ne ${name}} {
                     port:py${python.version}-pylint \
                     port:py${python.version}-python-lsp-jsonrpc \
                     port:py${python.version}-rope \
-                    port:py${python.version}-setuptools \
                     port:py${python.version}-ujson \
                     port:py${python.version}-yapf
 
     patchfiles-append   patch-pylsp_plugins_flake8_lint.py.diff \
                         patch-test_plugins_flake8_lint.py.diff \
-                        patch-setup.py.diff
+                        patch-mccabe.diff
 
     post-patch {
         reinplace "s|@@FLAKE8_BIN@@|flake8-${python.branch}|g" ${worksrcpath}/pylsp/plugins/flake8_lint.py
@@ -84,6 +86,4 @@ that is run when you execute the commands without a version suffix, e.g.\
 
 port select --set ${select.group} [file tail ${select.file}]
 "
-
-    livecheck.type  none
 }

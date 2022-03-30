@@ -4,17 +4,18 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 
 name                git
-version             2.33.1
-revision            1
+version             2.35.1
+revision            0
 
 description         A fast version control system
 long_description    Git is a fast, scalable, distributed open source version \
                     control system focusing on speed and efficiency.
-maintainers         {ciserlohn @ci42} openmaintainer
+maintainers         {ciserlohn @ci42} \
+                    {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
 categories          devel
 license             GPL-2 LGPL-2.1+
 installs_libs       no
-platforms           darwin
 homepage            https://git-scm.com/
 master_sites        https://www.kernel.org/pub/software/scm/git/ \
                     https://cdn.kernel.org/pub/software/scm/git/
@@ -24,27 +25,30 @@ distfiles           git-${version}${extract.suffix} \
                     git-manpages-${version}${extract.suffix}
 
 checksums           git-${version}${extract.suffix} \
-                    rmd160  eb4398bfd5936af6b21531239a425e7931eda488 \
-                    sha256  e054a6e6c2b088bd1bff5f61ed9ba5aa91c9a3cd509539a4b41c5ddf02201f2f \
-                    size    6558636 \
+                    rmd160  f11712caafb5266ede02aeeacc434e74fa5a52b6 \
+                    sha256  d768528e6443f65a203036266f1ca50f9d127ba89751e32ead37117ed9191080 \
+                    size    6874520 \
                     git-manpages-${version}${extract.suffix} \
-                    rmd160  ce2007826a7b42277e12c491d1e25e827ba2e586 \
-                    sha256  c75219f1c9f56caad4f8eb17915e4fe34ca5e1b453773df279a2cec98205ab87 \
-                    size    494288
+                    rmd160  90b460d3fbf567a9813d581690e09383dbcafcf6 \
+                    sha256  e4e3a751f2c05959222c3ea2f0f09481700eca8f915d1398bb270eb6846c3803 \
+                    size    497284
 
 perl5.require_variant   false
 perl5.conflict_variants yes
-perl5.branches          5.28 5.30 5.32
+perl5.branches          5.28 5.30 5.32 5.34
 perl5.default_branch    5.28
 perl5.create_variants   ${perl5.branches}
 
+depends_build-append \
+                    port:gettext
+
 depends_lib-append  port:curl \
                     port:zlib \
-                    path:lib/libssl.dylib:openssl \
                     port:expat \
+                    port:gettext-runtime \
                     port:libiconv
 
-depends_run-append  port:rsync
+depends_run-append  path:bin/rsync:rsync
 
 patchfiles          patch-Makefile.diff \
                     patch-git-gui-Makefile.diff \
@@ -58,17 +62,18 @@ extract.only        git-${version}${extract.suffix} \
 
 use_configure       no
 
+compiler.c_standard 1999
+
 variant universal   {}
 
-set CFLAGS          "-I. -Wall -O2 -I${prefix}/include [get_canonical_archflags cc]"
-set LDFLAGS         "-L${prefix}/lib [get_canonical_archflags ld]"
+set CFLAGS          "${configure.cflags} -std=gnu99 [get_canonical_archflags cc]"
+set LDFLAGS         "${configure.ldflags} [get_canonical_archflags ld]"
 
 build.args          CFLAGS="${CFLAGS}" \
                     LDFLAGS="${LDFLAGS}" \
                     CC=${configure.cc} \
                     prefix=${prefix} \
                     CURLDIR=${prefix} \
-                    OPENSSLDIR=${prefix} \
                     ICONVDIR=${prefix} \
                     NO_FINK=1 \
                     NO_DARWIN_PORTS=1 \
@@ -110,7 +115,8 @@ pre-destroot {
     xinstall -m 644 ${worksrcpath}/contrib/subtree/git-subtree.1 ${workpath}/man1
 }
 
-set docdestroot ${destroot}${prefix}/share/doc/git-doc
+set docdestroot         ${destroot}${prefix}/share/doc/git-doc
+set system_gitconfig    ${prefix}/etc/gitconfig
 
 post-destroot {
     foreach f {1 5 7} {
@@ -158,9 +164,9 @@ variant pcre description {Use pcre} {
 variant doc description {Install HTML and plaintext documentation} {
     distfiles-append        git-htmldocs-${version}${extract.suffix}
     checksums-append        git-htmldocs-${version}${extract.suffix} \
-                            rmd160  c64c817c1c6faf6a0328efb3a8019ee6d0396107 \
-                            sha256  6a6b8a0f064c78e0033aa4fce0520325496de019b09fff99fa82eeb472038f5c \
-                            size    1396744
+                            rmd160  ce45695ac3fedf039590e02c1b76dfd1d22cd5c0 \
+                            sha256  ca2f0bd4a9d24d9b6b3a021f11b8eacee863948c67a4cc0ff6d7adef8137ea18 \
+                            size    1410148
 
     patchfiles-append       patch-git-subtree.html.diff
 
@@ -227,21 +233,37 @@ variant credential_osxkeychain description {Install git credential-osxkeychain u
     }
 
     post-destroot {
-        xinstall -m 755 "${worksrcpath}/contrib/credential/osxkeychain/git-credential-osxkeychain" \
+        xinstall -m 0755 \
+            "${worksrcpath}/contrib/credential/osxkeychain/git-credential-osxkeychain" \
             "${destroot}${prefix}/libexec/git-core/"
+    }
 
-        # Create a global gitconfig file that sets credential.helper to
-        # osxkeychain. This can be overriden on a per-user basis in the user's
-        # own git config file
-        set f [open ${destroot}${prefix}/etc/gitconfig w 0644]
-        puts ${f} "\[credential]\n\thelper = osxkeychain"
-        close ${f}
+    pre-activate {
+        set osxkc_config        "\[credential]\n\thelper = osxkeychain"
+
+        # Ensure the osxkeychain credential helper is configured in the
+        # system-wide gitconfig.  If the gitconfig file already exists,
+        # then append the configuration to the pre-existing file only
+        # if the file is currently missing the desired config.
+
+        if { ![file exists ${system_gitconfig}] } {
+            set f [open ${system_gitconfig} w 0644]
+            puts ${f} ${osxkc_config}
+            close ${f}
+        } else {
+            if { [catch {exec grep "helper = osxkeychain" ${system_gitconfig}} result] } {
+                set f [open ${system_gitconfig} a]
+                puts ${f} ${osxkc_config}
+                close ${f}
+            }
+        }
     }
 
     notes "
-A gitconfig file has been created at ${prefix}/etc/gitconfig to enable the
-osxkeychain credential helper. If you do not wish to use this credential
-helper, you can override this setting in your own git config file, e.g.
+Configuration to enable the osxkeychain credential helper has been added to
+the system-wide gitconfig at ${system_gitconfig}. If you do not wish to use
+this credential helper, you can override this setting in your own personal
+git config file \(\$HOME/.gitconfig\) with e.g.
 
     \[credential]
             helper = some_other_credential_helper
@@ -278,7 +300,7 @@ platform darwin 8 {
     build.args-append   CC_LD_DYNPATH=-R
 }
 
-default_variants    +doc +pcre +credential_osxkeychain +diff_highlight
+default_variants        +doc +pcre +credential_osxkeychain +diff_highlight
 
 livecheck.type          regexm
 livecheck.regex         {<span class="version">.*?(\d+\.\d+\.\d+).*?</span>}

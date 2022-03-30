@@ -4,7 +4,8 @@ PortSystem          1.0
 
 PortGroup           golang 1.0
 
-go.setup            github.com/kubernetes/kops 1.22.0 v
+go.setup            github.com/kubernetes/kops 1.23.0 v
+github.tarball_from archive
 revision            0
 go.package          k8s.io/kops
 
@@ -12,18 +13,16 @@ description         Kubernetes Operations (kops)
 long_description    Production Grade K8s Installation, Upgrades, and Management
 
 categories          devel
-platforms           darwin
-license             Apache-2
 installs_libs       no
-
+license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  9cd9d1cd01ca8db7154a48515ecd0ee6ac337d5b \
-                    sha256  ac5b8662fa109c96b22436417fa1654ebb94fddfdf0568813acb41226962052c \
-                    size    28958493
+checksums           rmd160  7bd88982bdc868dac43c87c74f0aeaccacde0ccf \
+                    sha256  752eb58feb0cb06d224b98d7fa23ac8fe9cd9ed0ffcd2706ab870bf1ad8c7d2a \
+                    size    30107828
 
-depends_run         port:kubectl-1.22
+depends_run         port:kubectl-1.23
 
 build.cmd           make
 build.target        all
@@ -44,4 +43,3 @@ destroot {
 }
 
 github.livecheck.regex  {([0-9.]+)}
-github.tarball_from     archive

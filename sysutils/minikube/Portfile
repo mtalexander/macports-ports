@@ -3,8 +3,9 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/kubernetes/minikube 1.23.2 v
+go.setup            github.com/kubernetes/minikube 1.25.2 v
 go.package          k8s.io/minikube
+github.tarball_from archive
 revision            0
 
 homepage            https://minikube.sigs.k8s.io
@@ -16,26 +17,22 @@ long_description    Minikube runs a single-node Kubernetes cluster inside a VM \
                     develop with it day-to-day.
 
 categories          sysutils
-platforms           darwin
-license             Apache-2
 installs_libs       no
-# Hyperkit driver does not build on arm64
-supported_archs     x86_64
-
+license             Apache-2
 maintainers         {lbschenkel @lbschenkel} \
                     {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
+# Hyperkit driver does not build on arm64
+supported_archs     x86_64
 
-github.tarball_from archive
-
-checksums           rmd160  947ea9f2b655a715fb518cc787091f1dfe3045cc \
-                    sha256  e7006bcfb12d151cb9150fc4e4bae7742fe4cab66cb609fd383ad337fbeca382 \
-                    size    86377710
+checksums           rmd160  1e0eedbdc90b4a6195bff1c50aa0b49e58c61222 \
+                    sha256  bcf60a270d19fc869f8228629b5fc38a4612fcf18dbd63dca2eb5914d644ca2e \
+                    size    86646853
 
 depends_build-append \
                     port:go-bindata
 
-depends_run         path:${prefix}/bin/kubectl:kubectl-1.22
+depends_run         path:${prefix}/bin/kubectl:kubectl-1.23
 
 default_variants    +hyperkit
 

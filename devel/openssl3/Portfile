@@ -3,15 +3,20 @@
 PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
 PortGroup           muniversal 1.0
+PortGroup           legacysupport 1.1
+
+# Availability.h
+legacysupport.newest_darwin_requires_legacy 8
 
 set major_v         3
 name                openssl$major_v
-version             ${major_v}.0.0
-revision            2
+version             ${major_v}.0.2
+revision            0
 
-# Please revbump these ports when updating OpenSSL.
+# Please revbump these ports when updating the openssl3 version/revision
 #  - freeradius (#43461)
 #  - openssh (#54990)
+#  - openssl (to rebuild the shim links).
 
 categories          devel security
 platforms           darwin
@@ -42,9 +47,9 @@ master_sites        ${homepage}/source \
                     ftp://ftp.linux.hr/pub/openssl/source/ \
                     ftp://guest.kuria.katowice.pl/pub/openssl/source/
 
-checksums           rmd160  a31de80cc0ab6b37bc92fa6e0c16fb94e95a599e \
-                    sha256  59eedfcb46c25214c9bd37ed6078297b4df01d012267fe9e9eee31f61bc70536 \
-                    size    14978663
+checksums           rmd160  e85a309de8dbb06553f24c297635539ffa09c643 \
+                    sha256  98e91ccead4d4756ae3c9cde5e09191a8e586d9f4d50838e7ec09d6411dfdb63 \
+                    size    15038141
 
 if {${os.platform} eq "darwin" && ${os.major} < 11} {
     # Having the stdlib set to libc++ on 10.6 causes a dependency on a
@@ -55,8 +60,15 @@ if {${os.platform} eq "darwin" && ${os.major} < 11} {
 #   https://github.com/openssl/openssl/commit/96ac8f13f4d0ee96baf5724d9f96c44c34b8606c
 #   https://github.com/openssl/openssl/commit/2f3b120401533db82e99ed28de5fc8aab1b76b33
 #   Patches updated to fix 10.4 build
-#   To be seen if needed with 3.0.0, and if dodes needs updating.
+#   To be seen if needed with 3.0.0, and if it needs updating.
 #patchfiles-append   patch-pre-Sierra.diff
+
+# https://github.com/openssl/openssl/pull/16584
+# https://github.com/openssl/openssl/issues/16551
+# Fixes "Undefined symbols for architecture i386: ___atomic_is_lock_free"
+if {(${configure.build_arch} eq "i386") || (${universal_possible} && [variant_isset universal] && "i386" in ${configure.universal_archs})} {
+    patchfiles-append   patch-fix-i386-atomics.diff
+}
 
 set my_name         openssl-${major_v}
 set my_prefix       ${prefix}/libexec/${name}
@@ -79,8 +91,9 @@ set my_prefix       ${prefix}/libexec/${name}
 #    vmovdqa64 %ymm0,%ymm17
 #    ^
 #-----------------------------------------------------------------------------------------
-compiler.blacklist-append \
-                    {clang < 1001}
+if {${os.platform} eq "darwin" && ${os.major} < 19} {
+    patchfiles-append patch-disable-avx512.diff
+}
 
 configure.ccache    no
 configure.perl      /usr/bin/perl
@@ -166,6 +179,30 @@ variant rfc3779 description {enable RFC 3779: X.509 Extensions for IP Addresses 
     configure.args-append   enable-rfc3779
 }
 
+variant fips description {enable FIPS} {
+    configure.args-append   enable-fips
+}
+
+variant legacy description {enable legacy providers by default} {
+    # See https://trac.macports.org/ticket/63857 for context
+    post-destroot {
+        set     cnf [open ${destroot}${my_prefix}/etc/openssl/openssl.cnf a]
+        puts  ${cnf} ""
+        puts  ${cnf} "# MacPorts additions to enable legacy providers by default"
+        puts  ${cnf} "\[openssl_init\]"
+        puts  ${cnf} "providers = provider_sect"
+        puts  ${cnf} "\[provider_sect\]"
+        puts  ${cnf} "default = default_sect"
+        puts  ${cnf} "legacy = legacy_sect"
+        puts  ${cnf} "\[default_sect\]"
+        puts  ${cnf} "activate = 1"
+        puts  ${cnf} "\[legacy_sect\]"
+        puts  ${cnf} "activate = 1"
+        close ${cnf}
+    }
+}
+default_variants-append +legacy
+
 livecheck.type      regex
 livecheck.url       [lindex ${master_sites} 0]
-livecheck.regex     openssl-(\[0-9.\]+\[a-z\]?)\\.tar\\.gz
+livecheck.regex     openssl-(${major_v}.\[0-9.\]+\[a-z\]?)\\.tar\\.gz

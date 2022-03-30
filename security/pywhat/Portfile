@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                pywhat
-version             4.3.0
+version             5.1.0
 revision            0
 categories-prepend  security
 platforms           darwin
@@ -23,9 +23,9 @@ long_description    {*}${description}. Feed it a .pcap file or some text and it'
 
 homepage            https://github.com/bee-san/pyWhat
 
-checksums           rmd160 d1f0db2b12dd497027943a7c629e8bd36e4caf96 \
-                    sha256 8106f18be8ebd42185231ae0e336412ba04cb031b14961fea74348a15e0b8abc \
-                    size   578345
+checksums           rmd160 4d3f91213618cc5a84f550288b60543764590267 \
+                    sha256 8a6f2b3060f5ce9808802b9ca3eaf91e19c932e4eaa03a4c2e5255d0baad85c4 \
+                    size   592482
 
 # 'what' binary conflicts with developer_cmds
 # 'pywhat' binary does the same thing and is still available

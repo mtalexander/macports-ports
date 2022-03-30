@@ -4,7 +4,7 @@ PortSystem              1.0
 PortGroup               python 1.0
 
 name                    hg-git
-version                 0.10.2
+version                 0.10.4
 revision                0
 
 categories              devel
@@ -21,15 +21,17 @@ long_description        This is the Hg-Git plugin for Mercurial, adding the abil
                         or use a Git server as a collaboration point for a team with \
                         developers using both Git and Mercurial.
 
-checksums               rmd160  67fa6a611089576851a8c22c540d485832fd4a6a \
-                        sha256  aae1c47328bb7f928778712654c3d5f100445190e2891f175dac66d743fdb2e8 \
-                        size    177794
+checksums               rmd160  619befa41882493e87df455918a1b18c9deba227 \
+                        sha256  82e265226f473d380ac39720feceeb1524ff72b0177cfc46606799c4427e85cc \
+                        size    150247
 
-python.default_version  39
+python.default_version  310
+python.pep517           yes
 
 depends_lib-append      port:mercurial port:py${python.version}-dulwich
 
-# workaround for https://foss.heptapod.net/mercurial/hg-git/-/issues/326
+# used by urllib3 for better compression when cloning using HTTP, e.g.
+# from Github
 depends_lib-append      port:py${python.version}-brotli
 
 depends_test-append     port:git

@@ -6,12 +6,11 @@ PortGroup           app 1.0
 PortGroup           meson 1.0
 PortGroup           legacysupport 1.1
 
-# clock_gettime required by reproc dependency
-legacysupport.newest_darwin_requires_legacy 15
+name                lite-xl
 
-github.setup        lite-xl lite-xl 2.0.2 v
-github.tarball_from archive
-revision            0
+# Both subports should follow the same version numbering
+set version_number  2.0.5
+
 maintainers         {harens @harens} openmaintainer
 categories          editors lua
 description         A lightweight text editor written in Lua
@@ -22,17 +21,52 @@ platforms           darwin
 license             MIT
 homepage            https://${name}.github.io/
 
-checksums           rmd160  125e7abe848c115fe23c76f54710da985830f568 \
-                    sha256  f9d584f10ea321c3747ca91720d76ecfa85dbdfdcb2c78e56123f0affd5f617f \
-                    size    420588
+if {${subport} eq ${name}} {
+    github.setup        lite-xl lite-xl ${version_number} v
+    github.tarball_from archive
+    revision            0
+
+    checksums           rmd160  45afcb79be30b22c5b07d06aa18af4a6e5e06a58 \
+                        sha256  ded5c3861d4aab51859f82010c8d40567e6157cb699cbdc5d35fdaa68ba058fb \
+                        size    436610
+
+    conflicts           lite-xl-luajit
+
+    depends_lib-append  port:lua52
+
+    # Allow meson to find lua
+    #      - https://github.com/mesonbuild/meson/issues/4553
+    patchfiles          patch-meson-build.diff
+
+    # Ignore luajit versions
+    livecheck.regex     (\[0-9.\]+).tar.gz
+}
+
+subport lite-xl-luajit {
+    github.setup        lite-xl lite-xl ${version_number}-luajit v
+    github.tarball_from archive
+    version             ${version_number}
+    revision            0
+    description         An out-of-branch LuaJIT-based version of lite-xl
+
+    checksums           rmd160  875de6d17bb304ecf62a86987da4fc4da0879cd9 \
+                        sha256  595914d46c835c442bd02cfbe6a0f50a2f21a10be83aeb1666fcc8d2d15dfe2e \
+                        size    439883
+
+    conflicts           lite-xl
+
+    depends_lib-append  port:luajit
+
+    # Use luajit version numbering
+    app.version         LuaJIT
+}
 
 app.name            Lite XL
 app.icon            resources/icons/${name}.svg
 app.retina          yes
 
-# Allow meson to find lua
-#      - https://github.com/mesonbuild/meson/issues/4553
-patchfiles          patch-meson-build.diff
+# clock_gettime required by reproc dependency
+legacysupport.newest_darwin_requires_legacy 15
 
 # Do not download any subprojects (https://mesonbuild.com/Subprojects.html#commandline-options)
 configure.args-append \
@@ -45,12 +79,11 @@ configure.cxxflags-append -std=c++03
 compiler.c_standard 2011
 
 depends_build-append \
-                    port:cmake \
+                    path:bin/cmake:cmake \
                     port:pkgconfig
 
 depends_lib-append  port:antigraingeometry \
                     port:freetype \
                     port:libsdl2 \
-                    port:lua52 \
                     port:pcre2 \
                     port:reproc

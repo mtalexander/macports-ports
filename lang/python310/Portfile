@@ -2,11 +2,12 @@
 
 PortSystem 1.0
 PortGroup select 1.0
+PortGroup clang_dependency 1.0
 
 name                python310
 
 # Remember to keep py310-tkinter and py310-gdbm's versions sync'd with this
-version             3.10.0
+version             3.10.4
 
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          lang
@@ -23,9 +24,9 @@ master_sites        ${homepage}ftp/python/${version}/
 
 distname            Python-${version}
 use_xz              yes
-checksums           md5 3e7035d272680f80e3ce4e8eb492d580 \
-                    rmd160 5cae2a14ca2d88278b487acb55488d288f474bd8 \
-                    sha256 5a99f8e7a6a11a7b98b4e75e0d1303d3832cada5534068f69c7b6222a7b1b002
+checksums           md5 21f2e113e087083a1e8cf10553d93599 \
+                    rmd160 91646052fa7d6a2ba447e1eb6b594f4e76e26f62 \
+                    sha256 80bf925f571da436b35210886cf79f6eb5fa5d6c571316b73568343451f77a19
 
 patchfiles          patch-setup.py.diff \
                     patch-Lib-cgi.py.diff \
@@ -43,7 +44,7 @@ if {${os.platform} eq "darwin" && ${os.major} < 10} {
 depends_build       port:pkgconfig
 depends_lib         port:bzip2 \
                     port:expat \
-                    port:gettext \
+                    port:gettext-runtime \
                     port:libedit \
                     port:libffi \
                     port:ncurses \
@@ -70,7 +71,10 @@ configure.args      --enable-framework=${frameworks_dir} \
 
 configure.ccache    no
 # pkg-config removes -I flags for paths in CPATH, which confuses python.
-configure.env       PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
+configure.env       PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 \
+                    SETUPTOOLS_USE_DISTUTILS=stdlib
+build.env           SETUPTOOLS_USE_DISTUTILS=stdlib
+destroot.env        SETUPTOOLS_USE_DISTUTILS=stdlib
 
 post-patch {
     reinplace "s|@@PREFIX@@|${prefix}|g" \
@@ -104,7 +108,9 @@ platform darwin {
         # poll() misbehaves on 10.8 and older
         # See https://trac.macports.org/ticket/18376
         if {${os.major} <= 12} {
+            set oldmtime [file mtime ${worksrcpath}/pyconfig.h]
             system -W ${worksrcpath} "ed - pyconfig.h < ${filespath}/pyconfig.ed"
+            file mtime ${worksrcpath}/pyconfig.h $oldmtime
         }
     }
 
@@ -216,7 +222,9 @@ variant universal {
     }
     configure.args-append   --enable-universalsdk=${configure.sysroot}
     post-configure {
+        set oldmtime [file mtime ${worksrcpath}/pyconfig.h]
         system -W ${worksrcpath} "ed - pyconfig.h < ${filespath}/pyconfig.h-universal.ed"
+        file mtime ${worksrcpath}/pyconfig.h $oldmtime
     }
 
     post-destroot {

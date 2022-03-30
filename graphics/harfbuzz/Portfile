@@ -7,16 +7,15 @@ PortGroup           gobject_introspection 1.0
 
 # Please keep the harfbuzz and harfbuzz-devel ports as similar as possible.
 
-github.setup        harfbuzz harfbuzz 2.9.0
+github.setup        harfbuzz harfbuzz 4.1.0
 name                harfbuzz
 conflicts           harfbuzz-devel
 set my_name         harfbuzz
-checksums           rmd160  eb92c8f986c2c7221de52b8d20d931a98c3cccea \
-                    sha256  3e1c2e1d2c65d56364fd16d1c41a06b2a35795496f78dfff635c2b7414b54c5a \
-                    size    10551720
+checksums           rmd160  6bb281563638423a39571fe694974ac80513b43d \
+                    sha256  f7984ff4241d4d135f318a93aa902d910a170a8265b7eaf93b5d9a504eed40c8 \
+                    size    15028288
 
 categories          graphics
-platforms           darwin
 maintainers         {ryandesign @ryandesign} {mascguy @mascguy} openmaintainer
 license             MIT
 
@@ -80,7 +79,6 @@ if {${name} eq ${subport}} {
                     NEWS \
                     README.md \
                     THANKS \
-                    TODO \
                     ${destroot}${docdir}
     }
 
