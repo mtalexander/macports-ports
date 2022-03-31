@@ -28,6 +28,8 @@ long_description \
     prototyping C/C++ software. SWIG may be freely used, distributed, and \
     modified for commercial and noncommercial use.
 
+conflicts       swig3
+
 homepage        http://www.swig.org/
 platforms       darwin
 master_sites    sourceforge:project/swig/swig/swig-${version}
