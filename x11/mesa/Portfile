@@ -30,8 +30,7 @@ checksums           sha1    5fd340a6304f7501014e1bd7291e4cfa7a6efcdb \
 
 depends_build       port:pkgconfig \
                     port:flex \
-                    port:bison \
-                    port:gindent
+                    port:bison
 
 depends_lib         port:expat \
                     port:xorg-xorgproto \
@@ -66,8 +65,9 @@ configure.args \
 configure.env-append \
     export ac_cv_func_timespec_get=no
 
+# gindent doesn't build in Monterey so don't use it.
 configure.env-append \
-    INDENT=${prefix}/bin/gindent
+    INDENT=cat
 
 # This project is affected by a bug in Apple's gcc driver driver that I fixed in the apple-gcc42 port.
 # Use that or clang.
