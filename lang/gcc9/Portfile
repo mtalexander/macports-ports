@@ -138,7 +138,9 @@ configure.env-append \
 
 # clang (as) from Xcode 12.5 has various problems with gcc build
 if { ${os.platform} eq "darwin" && \
-         ( [ vercmp ${xcodeversion} 12.5 ] >= 0 || [ vercmp ${cltversion} 12.5 ] >= 0 ) } {
+         ( [ vercmp ${xcodeversion} 12.5 ] >= 0 || [ vercmp ${cltversion} 12.5 ] >= 0 ) && \
+         ( [ vercmp ${xcodeversion} 13.0 ] < 0 ) && \
+         ( [ vercmp ${cltversion} 13.0 ] < 0 ) } {
     pre-configure {
         ui_warn "Applying '--without-build-config' workaround to Xcode ${xcodeversion} / CLT ${cltversion}"
         ui_warn "If versions > 12.5 please check if it is still required"
