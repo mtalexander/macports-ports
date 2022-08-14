@@ -5,7 +5,7 @@ PortGroup                   github 1.0
 PortGroup                   makefile 1.0
 
 github.setup                toy blueutil 2.9.0 v
-revision                    0
+revision                    1
 checksums                   sha1    e5874592fd0da67ecf05a09d7eaa4026f2eb049e \
                             rmd160  8e39accbd6b46b18fa1691d994a4ee4e06c5ed84 \
                             sha256  bf7bd529bfe2fcd3f2437bec4d20472eeceae2aee87f0fccf69197b8fe372b96 \
@@ -31,7 +31,8 @@ if { ${os.platform} eq "darwin" && ${os.major} <= 12} {
     }
 }
 
-patchfiles                  blueutil-Makefile.diff
+patchfiles                  blueutil-Makefile.diff \
+                            pr66.diff
 
 # error: use of undeclared identifier '_errorCode'
 supported_archs             arm64 x86_64

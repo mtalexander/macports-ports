@@ -1,0 +1,40 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 4d8c26b..837b652 100644
+--- CHANGELOG.md
++++ CHANGELOG.md
+@@ -2,6 +2,10 @@
+ 
+ ## unreleased
+ 
++## v2.9.1 (2022-04-05)
++
++* Fix bluetooth devices inquiry for macOS Monterey [#66](https://github.com/toy/blueutil/pull/66) [@RaphaelKn](https://github.com/RaphaelKn)
++
+ ## v2.9.0 (2021-05-23)
+ 
+ * Add unpairing/removing pairing functionality [#27](https://github.com/toy/blueutil/issues/27) [#31](https://github.com/toy/blueutil/issues/31) [#32](https://github.com/toy/blueutil/issues/32) [#46](https://github.com/toy/blueutil/issues/46) [#53](https://github.com/toy/blueutil/issues/53) [@toy](https://github.com/toy)
+diff --git a/blueutil.m b/blueutil.m
+index 47aa91d..0acb630 100644
+--- blueutil.m
++++ blueutil.m
+@@ -835,13 +835,16 @@ int main(int argc, char *argv[]) {
+             DeviceInquiryRunLoopStopper *stopper = [[[DeviceInquiryRunLoopStopper alloc] init] autorelease];
+             IOBluetoothDeviceInquiry *inquirer = [IOBluetoothDeviceInquiry inquiryWithDelegate:stopper];
+ 
+-            [inquirer setInquiryLength:args->duration];
++//            [inquirer setInquiryLength:args->duration]; Seems buggy on latest versions
+ 
+             [inquirer start];
++            
++            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, args->duration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
++                [inquirer stop];
++                list_devices([inquirer foundDevices], false);
++            });
++              
+             CFRunLoopRun();
+-            [inquirer stop];
+-
+-            list_devices([inquirer foundDevices], false);
+           }
+ 
+           return EXIT_SUCCESS;
