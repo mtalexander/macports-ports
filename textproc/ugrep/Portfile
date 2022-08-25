@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           compiler_blacklist_versions 1.0
 
-github.setup        Genivia ugrep 3.7.6 v
+github.setup        Genivia ugrep 3.8.3 v
 github.tarball_from archive
 revision            0
 
@@ -17,9 +17,9 @@ long_description    ${description}: search file systems, source code, text, \
                     binary files, archives (cpio/tar/pax/zip), compressed files \
                     (gz/Z/bz2/lzma/xz/lz4/zstd), documents and more.
 
-checksums           rmd160  6ad3f855512f4b54459556b1013cfdc1445070ad \
-                    sha256  8288af9eb9f5a5638134911e9e81c8b37d02f29223d473dd96a2046c228cd5d4 \
-                    size    4413024
+checksums           rmd160  ac1740ca6d45f6bfb6b76f5808c1d2402c79d508 \
+                    sha256  deb7e143ee07019fdaa98a4529596d965185542a195855c1bfb6779fb8dd5e55 \
+                    size    4445071
 
 compiler.cxx_standard 2011
 

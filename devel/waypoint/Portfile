@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/hashicorp/waypoint 0.7.2 v
+go.setup            github.com/hashicorp/waypoint 0.9.1 v
 github.tarball_from archive
 revision            0
 
@@ -27,9 +27,9 @@ license             MPL-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  76c55463edcc1515bb7e610588a287df88a40d5f \
-                    sha256  da89019fad31ca583c8c8327c8da00fb4a76c278ff1c53583c842bb827496558 \
-                    size    15305586
+checksums           rmd160  246bf6087fb67c18e95a9b1771fa8b747f04bbef \
+                    sha256  486f50d2e51a4e7f3e35617d17ba50aed02b76cc59bcf9e790cb3dc982afe138 \
+                    size    13698300
 
 # Do not restrict Go from downloading dependencies at build time.
 build.env-delete    GOPROXY=off GO111MODULE=off

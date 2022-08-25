@@ -13,8 +13,11 @@
 global os.major
 
 if {${os.major} >= 11} {
-    lappend compilers macports-clang-13 macports-clang-12
+    lappend compilers macports-clang-14 \
+                      macports-clang-13 \
+                      macports-clang-12
 }
+
 if {${os.major} >= 10} {
     lappend compilers macports-clang-11
     if {[option build_arch] ne "arm64"} {

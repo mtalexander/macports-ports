@@ -3,9 +3,9 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/derailed/k9s 0.25.18 v
+go.setup            github.com/derailed/k9s 0.26.3 v
 github.tarball_from archive
-revision            0
+revision            1
 
 homepage            https://k9scli.io
 
@@ -25,9 +25,9 @@ maintainers         {breun.nl:nils @breun} \
                     {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  9a06480e67e9f961c9ff094f8e951eb874ac098e \
-                    sha256  2a911c57011164c0f11e3cdf763182abf189efde80b7a764e361aa070b7e3f46 \
-                    size    6407574
+checksums           rmd160  88964906a250efcbc2d03f2f2e9f206dab1d2e37 \
+                    sha256  30174fcfe4006230e5bbe523785537e89eb88fd38d6657b878f5b0e94635a8e3 \
+                    size    6396053
 
 # FIXME: This port currently can't be built without allowing go mod to fetch
 # dependencies during the build phase. See
@@ -45,6 +45,21 @@ destroot {
     xinstall -d ${destroot}${prefix}/share/${name}
     copy ${worksrcpath}/skins   ${destroot}${prefix}/share/${name}/
     copy ${worksrcpath}/plugins ${destroot}${prefix}/share/${name}/
+
+    set bash_completion ${prefix}/share/bash-completion/completions
+    xinstall -d ${destroot}${bash_completion}
+    exec ${destroot}${prefix}/bin/${name} completion bash > \
+        ${destroot}${bash_completion}/${name}
+
+    set zsh_completion ${prefix}/share/zsh/site-functions
+    xinstall -d ${destroot}${zsh_completion}
+    exec ${destroot}${prefix}/bin/${name} completion zsh > \
+        ${destroot}${zsh_completion}/_${name}
+
+    set fish_completion ${prefix}/share/fish/vendor_completions.d
+    xinstall -d ${destroot}${fish_completion}
+    exec ${destroot}${prefix}/bin/${name} completion fish > \
+        ${destroot}${fish_completion}/${name}.fish
 }
 
 notes "

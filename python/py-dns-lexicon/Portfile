@@ -5,7 +5,7 @@ PortGroup           python 1.0
 PortGroup           select 1.0
 
 name                py-dns-lexicon
-version             3.9.4
+version             3.11.4
 epoch               1
 revision            0
 categories-append   net
@@ -19,9 +19,9 @@ homepage            https://github.com/AnalogJ/lexicon
 
 python.versions     37 38 39 310
 
-checksums           rmd160  e8758d46225c6cbe0ff1f3f92851c3eaf5367737 \
-                    sha256  61c877693e8b7cdc97691d8689fd59cacd596da9d422b847315c484267a0b52f \
-                    size    144217
+checksums           rmd160  3ddb0575067e5fcc831db67e1bf58dd4a9821fd9 \
+                    sha256  eca3688a458bc59b9539591b90f6835cb0f90eccda56379b09d40345708fa3c6 \
+                    size    152784
 
 if {${name} ne ${subport}} {
     depends_lib-append \
@@ -42,8 +42,6 @@ if {${name} ne ${subport}} {
     notes "
     To make the Python ${python.branch} version of lexicon the one that is run\
     when you execute the commands without a version suffix, e.g. 'lexicon', run:
-    port select --set ${select.group} [file tail ${select.file}]
+    sudo port select --set ${select.group} [file tail ${select.file}]
     "
-
-    livecheck.type  none
 }

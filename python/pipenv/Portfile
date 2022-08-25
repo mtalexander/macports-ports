@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                pipenv
-version             2022.1.8
+version             2022.7.4
 revision            0
 categories-append   devel
 platforms           darwin
@@ -34,9 +34,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  4e80087a4aadfc34c85c2620c52bcc26a6a37a7a \
-                    sha256  f84d7119239b22ab2ac2b8fbc7d619d83cf41135206d72a17c4f151cda529fd0 \
-                    size    5002974
+checksums           rmd160  ad95b811874b630a0addac70995aee8bae031374 \
+                    sha256  18420fbae2851d2b9d70d1e00f77a8c55d09704a177fe872a0a2da56e98eb018 \
+                    size    5511353
 
 python.default_version 310
 

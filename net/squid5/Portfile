@@ -3,7 +3,7 @@
 PortSystem 1.0
 
 name            squid5
-version         5.4.1
+version         5.6
 categories      net
 platforms       darwin
 license         GPL-2+
@@ -29,10 +29,10 @@ master_sites    https://mirror.aarnet.edu.au/pub/squid/squid/ \
 
 distname        squid-${version}
 use_xz          yes
-checksums       md5 a6d55b34ee8d32052026db1db98f4d0d \
-                sha1 d296af626275cb64a2bd7ce69ffe790e4e3198a9 \
-                rmd160 1fd597361de578c72682fb8ff734d65753e73afd \
-                sha256 df4d310a91663ae59c29b0f8183f22623c5e6f731869af793805987ab94ca41c
+checksums       md5 2f2201a18a0a727ab589d951ebe4f815 \
+                sha1 a01f47b3e9ff06245c894773de30bfd88ab14f65 \
+                rmd160 6a49fbc91c9ae58bb0afd68bb0879ff798400ca9 \
+                sha256 38d27338a347597ce0e93d0c3be6e5f66b6750417c474ca87ee0d61bb6d148db
 
 patchfiles      patch-cf.data.pre.diff \
                 patch-compat_types.h.diff \
@@ -147,7 +147,7 @@ if {[variant_isset openssl]} {
 }
 
 variant gnutls conflicts openssl description "Enable SSL/TLS support using GnuTLS (experimental)" {
-    depends_lib-append      port:gnutls
+    depends_lib-append      path:lib/pkgconfig/gnutls.pc:gnutls
     configure.args-delete   --without-gnutls
 }
 

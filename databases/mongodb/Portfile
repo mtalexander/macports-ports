@@ -8,11 +8,11 @@ PortGroup           muniversal 1.0
 # Please keep the mongodb and mongodb-devel ports as similar as possible.
 
 epoch               1
-github.setup        mongodb mongo 5.0.6 r
+github.setup        mongodb mongo 5.0.9 r
 revision            0
-checksums           rmd160  3a4e8ddfa8e37cfea77b5bb2b1f090ca808a5256 \
-                    sha256  9d514eef9093d383120aebe4469c8118a39f390afcd8cd9af2399076b27abb52 \
-                    size    56000348 \
+checksums           rmd160  447cec4cc798db1539cb13f218791c93b9ccb362 \
+                    sha256  7914dc129b45802f0b5820ecdd392f085069d9d082f7cd7fb907fae8ff21bdda \
+                    size    55962652 \
                     certifi-2021.10.8.tar.gz \
                     rmd160  8972d4fb7b192cf6e3a13a7ea9dfc497b0866eea \
                     sha256  78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872 \

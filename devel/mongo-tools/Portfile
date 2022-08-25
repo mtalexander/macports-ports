@@ -17,11 +17,11 @@ post-extract {
 
 PortGroup           golang 1.0
 
-go.setup            github.com/mongodb/mongo-tools 100.5.2
+go.setup            github.com/mongodb/mongo-tools 100.5.4
 revision            0
-checksums           rmd160  cf255ef8a6a5ca668bad5812a6c29afc7985f97e \
-                    sha256  1a37212e2581e0d3cbaa34b87191f2febb7018a734d781bbe2a1f5870b3aa5a6 \
-                    size    3803965
+checksums           rmd160  b29721834c6f549121db01e1d3c50ef045281ead \
+                    sha256  414383ea9229263944e624d33c6e6fc0a5490e7186cb56285a5f0f6cfe5ea1e9 \
+                    size    4201665
 
 categories          devel
 maintainers         {ryandesign @ryandesign} openmaintainer

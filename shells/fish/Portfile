@@ -5,11 +5,11 @@ PortGroup               github 1.0
 PortGroup               cmake 1.1
 PortGroup               legacysupport 1.0
 
-github.setup            fish-shell fish-shell 3.4.1
+github.setup            fish-shell fish-shell 3.5.1
 revision                0
-checksums               rmd160  db93f99fe168e108b789e185859341956a0cc473 \
-                        sha256  b6f23b3843b04db6b0a90fea1f6f0d0e40cc027b4a732098200863f2864a94ea \
-                        size    3293068
+checksums               rmd160  e03dd548a49924c05d821894dc27c6e8aced6ef8 \
+                        sha256  a6d45b3dc5a45dd31772e7f8dfdfecabc063986e8f67d60bd7ca60cc81db6928 \
+                        size    3329900
 use_xz                  yes
 
 name                    fish

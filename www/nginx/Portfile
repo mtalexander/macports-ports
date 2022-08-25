@@ -3,22 +3,18 @@
 PortSystem          1.0
 
 name                nginx
-version             1.21.6
-revision            0
+version             1.22.0
+revision            1
 categories          www mail
-platforms           darwin
 license             BSD
-maintainers         {cal @neverpanic} {mps @Schamschula} openmaintainer
+maintainers         {mps @Schamschula} openmaintainer
 
-description         High-performance HTTP(S) server, HTTP(S) reverse proxy and IMAP/POP3 proxy server
-long_description    \
-    Nginx ("engine x") is a high-performance HTTP(S) server and reverse proxy, \
-    as well as an IMAP/POP3 proxy server. Nginx was written by Igor Sysoev for \
-    Rambler.ru, Russia's second-most visited website, where it has been running \
-    in production for over two and a half years. Igor has released the source \
-    code under a BSD-like license. Although still in beta, Nginx is known for \
-    its stability, rich feature set, simple configuration, and low resource \
-    consumption.
+conflicts           nginx-devel
+
+description         High-performance HTTP(S) server, HTTP(S) reverse proxy and IMAP/POP3 \
+                    proxy server
+long_description    Nginx ("engine x") is an HTTP and reverse proxy server, a mail proxy \
+                    server, and a generic TCP/UDP proxy server.
 
 homepage            https://nginx.org/
 master_sites        https://nginx.org/download:nginx \
@@ -26,6 +22,7 @@ master_sites        https://nginx.org/download:nginx \
                     https://github.com/evanmiller/mod_zip/archive/:zip_module \
                     https://people.freebsd.org/~osa/:redis_module \
                     https://github.com/masterzen/nginx-upload-progress-module/archive/:uploadprogress_module \
+                    https://github.com/openresty/echo-nginx-module/archive/:echo_module \
                     https://github.com/arut/nginx-dav-ext-module/archive/:davext_module \
                     https://github.com/leev/ngx_http_geoip2_module/archive/:geoip2_module \
                     https://codeload.github.com/arut/nginx-rtmp-module/tar.gz/:rtmp_module \
@@ -39,9 +36,9 @@ master_sites        https://nginx.org/download:nginx \
 
 distfiles           ${name}-${version}${extract.suffix}:nginx
 checksums           ${name}-${version}${extract.suffix} \
-                    rmd160  b00f302758d3671afddbfcb95dca84a938f54472 \
-                    sha256  66dc7081488811e9f925719e34d1b4504c2801c81dee2920e5452a86b11405ae \
-                    size    1073364
+                    rmd160  8720628515791212447389f9861afdb27b1fc4b6 \
+                    sha256  b33d569a6f11a01433a57ce17e83935e953ad4dc77cdd4d40f896c88ac26eb53 \
+                    size    1073322
 
 depends_lib         port:pcre \
                     port:zlib
@@ -60,7 +57,6 @@ set auto_activate_confs {nginx.conf mime.types fastcgi.conf}
 
 # portfile-scoped vars for variant routines to re-def and use in port-stages (post-extract, pre-patch, etc)
 set nginx_lua_mod_dirname      ""
-set nginx_rtmp_mod_dirname     ""
 set nginx_upload_mod_dirname   ""
 
 # for aforementioned re-defs of portfile-scoped vars in variant routines
@@ -81,7 +77,11 @@ configure.args-append \
                     --http-client-body-temp-path=${nginx_rundir}/client_body_temp \
                     --http-proxy-temp-path=${nginx_rundir}/proxy_temp \
                     --http-fastcgi-temp-path=${nginx_rundir}/fastcgi_temp \
-                    --http-uwsgi-temp-path=${nginx_rundir}/uwsgi_temp
+                    --http-uwsgi-temp-path=${nginx_rundir}/uwsgi_temp \
+
+# pcre2 breaks the lua module (https://trac.macports.org/ticket/65150)
+configure.args-append \
+                    --without-pcre2
 
 # remove --disable-dependency-tracking
 configure.universal_args-delete   --disable-dependency-tracking
@@ -167,6 +167,19 @@ variant debug description {Enable debug mode} {
 
 variant degradation description {Allow to return 204 or 444 code for some locations on low memory condition} {
     configure.args-append   --with-http_degradation_module
+}
+
+variant echo description {Brings echo, sleep, time, exec and more shell-style goodies to Nginx config file} {
+    set echo_filename       echo-nginx-module
+    set echo_version        0.62
+    set echo_distname       ${echo_filename}-${echo_version}
+    distfiles-append        v${echo_version}.tar.gz:echo_module
+    checksums-append        v${echo_version}.tar.gz \
+                            rmd160  2a2099e0436702d42ed3bd74231c099661c14260 \
+                            sha256  86f6866baf7297d85feb42ff6d9c212d1de696f3314a53d3a41a4b533a67ab01 \
+                            size    53329
+
+    configure.args-append   --with-http_dav_module --add-module=${workpath}/${echo_distname}
 }
 
 variant flv description {Add FLV (Flash Video) streaming support to server} {
@@ -348,27 +361,17 @@ variant rtmp description {Enable Ngx RTMP module (https://github.com/arut/nginx-
                             size    519934
 
     configure.args-append   --add-module=${workpath}/${rtmp_distname}
-
-    nginx_set_portfile_var  nginx_rtmp_mod_dirname    "${rtmp_distname}"
-
-    # patch routine balks on file names with "../", but rel-paths in patchfiles start from $worksrcpath
-    pre-patch {
-        ln -s   "${workpath}/${nginx_rtmp_mod_dirname}" "${worksrcpath}/nginx_rtmp_module.tmp"
-    }
-    post-patch {
-        file delete   "${worksrcpath}/nginx_rtmp_module.tmp"
-    }
 }
 
 variant http_push description {Enable Ngx HTTP Push module (https://github.com/slact/nchan)} {
     set http_push_filename  nchan
-    set http_push_version   1.2.15
+    set http_push_version   1.3.0
     set http_push_distname  ${http_push_filename}-${http_push_version}
     distfiles-append        v${http_push_version}.tar.gz:http_push_module
     checksums-append        v${http_push_version}.tar.gz \
-                            rmd160  1d36b1c82c1e4e125f6763bf7e73933bc3113da9 \
-                            sha256  dbb05bec6a4cf6ad1c1a4e613a2c832669c0eb87847e70ab26bc6c590361a818 \
-                            size    734488
+                            rmd160  1593483c8d26527255986a0502fd2ae137f12214 \
+                            sha256  70ffed635d24aab0ff1ebb595d8b41fde105127dfd50cecac6df86b558778537 \
+                            size    745161
 
      configure.args-append   --add-module=${workpath}/${http_push_distname}
 }
@@ -387,16 +390,15 @@ variant devel_kit description {Enable ngx_devel_kit module (https://github.com/s
 }
 
 variant lua requires devel_kit description {Enable Lua module (https://github.com/openresty/lua-nginx-module)} {
-    depends_lib-append      path:lib/libluajit-5.1.2.dylib:luajit
+    depends_lib-append      port:luajit-openresty
     set ngx_lua_filename    lua-nginx-module
-    # Note: keep at version 0.10.15
-    set ngx_lua_version     0.10.15
+    set ngx_lua_version     0.10.21
     set ngx_lua_distname    ${ngx_lua_filename}-${ngx_lua_version}
     distfiles-append        v${ngx_lua_version}.tar.gz:lua_module
     checksums-append        v${ngx_lua_version}.tar.gz \
-                            rmd160  1e3801a632eee54458c53a05293cf301653240ec \
-                            sha256  7d5f3439c8df56046d0564b5857fd8a30296ab1bd6df0f048aed7afb56a0a4c2 \
-                            size    655110
+                            rmd160  c570d5964d1a3687f4f8d9d7fad11d8d68007bdf \
+                            sha256  9db756000578efaecb43bea4fc6cf631aaa80988d86ffe5d3afeb9927895ffad \
+                            size    690938
 
     configure.cflags        -I${prefix}/include/luajit-2.1/ ${configure.cflags}
     configure.env           LUAJIT_INC=${prefix}/include/luajit-2.1/
@@ -404,6 +406,16 @@ variant lua requires devel_kit description {Enable Lua module (https://github.co
     configure.args-append   --add-module=${workpath}/${ngx_lua_distname}
 
     nginx_set_portfile_var  nginx_lua_mod_dirname    "${ngx_lua_distname}"
+
+    patchfiles-append       patch-lua_config.diff
+
+    # patch routine balks on file names with "../", but rel-paths in patchfiles start from $worksrcpath
+    pre-patch {
+        ln -s   "${workpath}/${nginx_lua_mod_dirname}" "${worksrcpath}/ngx_lua_distname.tmp"
+    }
+    post-patch {
+        file delete   "${worksrcpath}/ngx_lua_distname.tmp"
+    }
 }
 
 variant headers_more description {Enable headers-more module (https://github.com/openresty/headers-more-nginx-module)} {
@@ -421,13 +433,13 @@ variant headers_more description {Enable headers-more module (https://github.com
 
 variant jwt description {Add JWT (Javascript Web Token) support to server using TeslaGov's ngx-http-auth-jwt-module (https://github.com/TeslaGov/ngx-http-auth-jwt-module)} {
     set jwt_filename        ngx-http-auth-jwt-module
-    set jwt_version         1.0.0
+    set jwt_version         1.1.0
     set jwt_distname        ${jwt_filename}-${jwt_version}
     distfiles-append        ${jwt_version}.tar.gz:jwt_module
     checksums-append        ${jwt_version}.tar.gz \
-                            rmd160  b9ccb4f971eb864ad018e5ecff718150687dab71 \
-                            sha256  9043bf1b46ecf71b03f6b9292b774bc283181d674ad4c2b61b6d74c838798dac \
-                            size    13804
+                            rmd160  41a340016ae7c7df7a306ac296b2ec26abb4a7d6 \
+                            sha256  effdcb27e492134e8e990d4e7edf26c72855ec5b7676ca997a69efcb589b35fe \
+                            size    14736
 
     configure.args-append   --add-dynamic-module=${workpath}/${jwt_distname}
     depends_lib-append      port:libjwt
@@ -461,4 +473,4 @@ variant vod description {Add MP4 repackeging for HLS, DASH, HDS, HSS using nginx
 
 livecheck.type      regexm
 livecheck.url       ${homepage}
-livecheck.regex     {nginx-(\d+\.\d+\.\d+)</a>\s+mainline}
+livecheck.regex     {nginx-(\d+\.\d+\.\d+)</a>\s+stable}

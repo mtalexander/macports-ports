@@ -5,7 +5,7 @@ PortGroup               github 1.0
 PortGroup               cmake 1.1
 PortGroup               compiler_blacklist_versions 1.0
 
-github.setup            netxs-group vtm 0.6.0 v
+github.setup            netxs-group vtm 0.8.0 v
 github.tarball_from     archive
 revision                0
 
@@ -20,13 +20,13 @@ description             Monotty Desktopio - text-based desktop environment \
 long_description        ${name} is a terminal multiplexer with window manager \
                         and session sharing.
 
-homepage                https://vtm.netxs.online/
+checksums               rmd160  9815b18ed6c94ff5b5f7d86e7c3362edf84c621f \
+                        sha256  da7ba77eb393e816c01b564a8c38a65ed9aaf7d21aed024ea6842b507aed8919 \
+                        size    1300526
 
-checksums               rmd160  ebf548b37f0e12754891d1d1a4289d8a354b55c9 \
-                        sha256  b572a7f7f4b1271faf6dac5c0f91505b878eee1cfcbcca4a9323b97e9325e16b \
-                        size    303228
-
-# requires a compiler with full C++20 support
+# Requires a compiler with full C++20 support.
+# Clang may crash due to intensive memory leak:
+# https://github.com/netxs-group/vtm/issues/182
 compiler.blacklist-append \
                         *clang*
 compiler.fallback-append \
@@ -37,8 +37,7 @@ cmake.build_type        Release
 configure.cxx_stdlib    libstdc++
 configure.args-append   ${worksrcpath}/src
 
-variant demo description {Build with demo apps} {
-    post-patch {
-        reinplace "s|//#define DEMO|#define DEMO|g" ${worksrcpath}/src/vtm.cpp
-    }
-}
+notes "
+Recommended to use it in a terminal with mouse\
+and True Color support (e.g. iTerm2).
+"

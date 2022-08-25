@@ -18,11 +18,11 @@ long_description    ${description}
 
 homepage            http://james.ahlstrom.name/quisk/
 
-version             4.1.93
-checksums           rmd160  edf328fdb243e5b0e4ff5f8e510f0f934a9c34fc \
-                    sha256  24a4da7efc20ed484440676fee128d02df85a689ca58f057a3d8911b38b7bc52 \
-                    size    4470051
-revision            1
+version             4.2.2
+checksums           rmd160  0c174baadb35d7db0763626fdd8735409e42f890 \
+                    sha256  16378db2d63cc2756e93eb00f30cf6727d5c6b7dc5d2e247835eaae81fa98a3d \
+                    size    4477074
+revision            0
 
 python.default_version 39
 

@@ -33,10 +33,10 @@ subport libusb-devel {}
 
 if {${subport} eq ${name}} {
 
-    github.setup    libusb  libusb 1.0.25 v
-    checksums       rmd160  0f2e0ae53ed6ba4d0ef9f51eb5564114b6c5e5e0 \
-                    sha256  d60b88837a3a59abc8cac977e0f115e0796a3405cee3bde657255f3d8770fe76 \
-                    size    374050
+    github.setup    libusb  libusb 1.0.26 v
+    checksums       rmd160  daf04e6a17af01ae460c004c4ef1a272a49ea9e0 \
+                    sha256  6e5fd904275b12ba5e9fcd4ffb1366028f410e632401dfb11703123a5cc2a1f2 \
+                    size    383960
     revision        0
 
     conflicts       libusb-devel
@@ -57,11 +57,11 @@ if {${subport} eq ${name}} {
     long_description {*}${long_description} \
         This port provides devel version of ${name}, updated weekly to monthly.
 
-    github.setup    libusb  libusb 74059154ee1541e18f42e6815ece97be0df2c661
-    version         20220221-[string range ${github.version} 0 7]
-    checksums       rmd160  e98a6b908429eb3d4d2c61258312d5a7be8b3a17 \
-                    sha256  11761e1b684e446f31651fb338f3ca5d29b2979cfe55a5f4a171a5b3ef93a52c \
-                    size    374169
+    github.setup    libusb  libusb ff8fe9397d4c61f072d209703f854c9f62ed17e3
+    version         20220626-[string range ${github.version} 0 7]
+    checksums       rmd160  1e6615fb35d7e76a7bfd26657dd04a090bf62db6 \
+                    sha256  3d58ffcb21165150e0cc013dc83262a456ae74b5dafd3bbffe63cf1e09710dff \
+                    size    383272
     revision        0
 
     conflicts       libusb
@@ -75,6 +75,7 @@ if {${subport} eq ${name}} {
 
 depends_build-append \
                  port:libtool \
+                 port:pkgconfig \
                  port:automake \
                  port:autoconf
 

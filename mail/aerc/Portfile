@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           makefile 1.0
 
 name                aerc
-version             0.7.1
+version             0.11.0
 revision            0
 categories          mail
 license             MIT
@@ -19,9 +19,9 @@ master_sites        https://git.sr.ht/~rjarry/aerc/archive/
 distname            ${version}
 worksrcdir          ${name}-${distname}
 
-checksums           rmd160  13d2b627b7ba7708f51f5028be7e14993cd05192 \
-                    sha256  e149236623c103c8526b1f872b4e630e67f15be98ac604c0ea0186054dbef0cc \
-                    size    168105
+checksums           rmd160  59eb97688d7f533382abd184e4a31bd6c6f43fa2 \
+                    sha256  3d8f3a2800946fce070e3eb02122e77c427a61c670a06337539b3e7f09e57861 \
+                    size    230891
 
 depends_build       port:go \
                     port:scdoc
@@ -34,6 +34,10 @@ variant notmuch description {Enable support for notmuch integration} {
 }
 
 build.target
+
+post-destroot {
+    delete ${destroot}${prefix}/share/applications/aerc.desktop
+}
 
 livecheck.url       https://git.sr.ht/~rjarry/aerc/refs
 livecheck.regex     {aerc (\d+(?:\.\d+)*)}

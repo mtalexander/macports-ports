@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                twine
-version             3.8.0
+version             4.0.1
 revision            0
 
 categories-append   devel
@@ -18,9 +18,9 @@ long_description    {*}${description}
 
 homepage            https://twine.readthedocs.io/
 
-checksums           rmd160  783a36b96e98233bff1f65b9dea0d2851ffafdae \
-                    sha256  8efa52658e0ae770686a13b675569328f1fba9837e5de1867bfe5f46a9aefe19 \
-                    size    214568
+checksums           rmd160  8cc1fd6ca25fa42f56bc21f5eba020f41e49f7ce \
+                    sha256  96b1cf12f7ae611a4a40b6ae8e9570215daff0611828f5fe1f37a16255ab24a0 \
+                    size    215305
 
 python.default_version  310
 python.pep517       yes
@@ -36,7 +36,7 @@ depends_lib-append  port:py${python.version}-colorama \
                     port:py${python.version}-requests \
                     port:py${python.version}-requests-toolbelt \
                     port:py${python.version}-rfc3986 \
-                    port:py${python.version}-tqdm
+                    port:py${python.version}-rich
 
 post-destroot {
     set docdir ${prefix}/share/doc/${subport}

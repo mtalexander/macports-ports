@@ -4,6 +4,11 @@ PortSystem              1.0
 PortGroup               compiler_blacklist_versions 1.0
 PortGroup               legacysupport 1.1
 PortGroup               openssl 1.0
+PortGroup               deprecated 1.0
+
+# EOL 2022-04-30
+# https://github.com/nodejs/Release
+deprecated.eol_version  yes
 
 # Peg back to openssl 1.1 release
 openssl.branch          1.1
@@ -16,8 +21,8 @@ configure.cxx_stdlib    libc++
 compiler.cxx_standard   2014
 
 name                    nodejs12
-version                 12.22.10
-revision                1
+version                 12.22.12
+revision                0
 
 categories              devel net
 platforms               darwin
@@ -31,15 +36,15 @@ long_description        Node's goal is to provide an easy way to build scalable 
                         Machine or Python's Twisted. Node takes the event model a bit further-it \
                         presents the event loop as a language construct instead of as a library.
 
-conflicts               nodejs8 nodejs10 nodejs13 nodejs14 nodejs15 nodejs16 nodejs17
+conflicts               nodejs8 nodejs10 nodejs13 nodejs14 nodejs15 nodejs16 nodejs17 nodejs18
 
 homepage                https://nodejs.org/
 master_sites            ${homepage}dist/v${version}
 use_xz                  yes
 
-checksums               rmd160  f5f22800b4fd2f0ee4b14f85127997780637468c \
-                        sha256  ad4c8891d54a2c9bb6af436956deead5986b9698b06e6c6d616de429cfb5393a \
-                        size    24089580
+checksums               rmd160  684502d48e0d2c64759184e3efc1d8aae1610e00 \
+                        sha256  bc42b7f8495b9bfc7f7850dd180bb02a5bdf139cc232b8c6f02a6967e20714f2 \
+                        size    24088012
 
 distname                node-v${version}
 

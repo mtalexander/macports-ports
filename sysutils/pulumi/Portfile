@@ -3,25 +3,23 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/pulumi/pulumi 3.27.0 v
-github.tarball_from archive
+go.setup            github.com/pulumi/pulumi 3.37.2 v
 revision            0
 
 homepage            https://www.pulumi.com
 
-description         Pulumi - Modern Infrastructure as Code. Any cloud, any \
-                    language.
+description         \
+    Pulumi - Modern Infrastructure as Code. Any cloud, any language.
 
-long_description    Pulumi's Infrastructure as Code SDK is the easiest way to \
-                    create and deploy cloud software that use containers, \
-                    serverless functions, hosted services, and \
-                    infrastructure, on any cloud. Simply write code in your \
-                    favorite language and Pulumi automatically provisions and \
-                    manages your AWS, Azure, Google Cloud Platform, and/or \
-                    Kubernetes resources, using an infrastructure-as-code \
-                    approach. Skip the YAML, and use standard language \
-                    features like loops, functions, classes, and package \
-                    management that you already know and love.
+long_description    \
+    Pulumi's Infrastructure as Code SDK is the easiest way to create and \
+    deploy cloud software that use containers, serverless functions, hosted \
+    services, and infrastructure, on any cloud. Simply write code in your \
+    favorite language and Pulumi automatically provisions and manages your \
+    AWS, Azure, Google Cloud Platform, and/or Kubernetes resources, using an \
+    infrastructure-as-code approach. Skip the YAML, and use standard language \
+    features like loops, functions, classes, and package management that you \
+    already know and love.
 
 categories          sysutils net
 installs_libs       no
@@ -29,9 +27,7 @@ license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  418105667ef713d81332430d60e58b161c95f453 \
-                    sha256  6c3226e4bd9b94b9c823d7169e2ae285ab94b43a80efe1783e7314fd736938c5 \
-                    size    9770170
+fetch.type          git
 
 build.cmd           make
 build.pre_args      BREW_VERSION="${github.tag_prefix}${version}"
@@ -43,6 +39,9 @@ build.args          brew
 # dependencies during the build phase. See
 # https://trac.macports.org/ticket/61192
 build.env-delete    GOPROXY=off GO111MODULE=off
+
+depends_build-append \
+                    port:curl
 
 destroot {
     xinstall -m 0755 {*}[glob ${gopath}/bin/pulumi*] ${destroot}${prefix}/bin/

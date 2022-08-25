@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-py7zr
-version             0.17.4
+version             0.20.0
 revision            0
 
 platforms           darwin
@@ -16,42 +16,43 @@ long_description    ${description}
 
 homepage            https://github.com/miurahr/py7zr
 
-checksums           rmd160  99dd3488d47c9ab7d73acc9ac9ce174c3a432086 \
-                    sha256  1df67edaa8dd1613fc5a7de3354322e7bc75d989d6069924ce2d08bb7fabdd19 \
-                    size    3342099
+checksums           rmd160  bbb217c0bbb2c96df13ccf96f90ec058ba2643f0 \
+                    sha256  2270f922f8d07bb8a83d28e1c57dd77570aea6bb876ed8eb4879a038c149ce5e \
+                    size    4981054
+
+python.pep517       yes
 
 python.versions     38 39 310
 
 if {${name} ne ${subport}} {
     depends_build-append \
-                    port:py${python.version}-setuptools \
                     port:py${python.version}-setuptools_scm
 
     depends_lib-append \
                     port:py${python.version}-brotli \
+                    port:py${python.version}-inflate64 \
                     port:py${python.version}-multivolumefile \
+                    port:py${python.version}-psutil\
+                    port:py${python.version}-pybcj \
                     port:py${python.version}-pycryptodomex \
                     port:py${python.version}-pyppmd \
                     port:py${python.version}-pyzstd \
+                    port:py${python.version}-texttable
+
+    if {${python.version} < 38} {
+        depends_lib-append \
+                    port:py${python.version}-importlib-metadata
+    }
 
     depends_test-append \
-                    port:py${python.version}-coverage \
-                    port:py${python.version}-coveralls \
                     port:py${python.version}-cpuinfo \
                     port:py${python.version}-pyannotate \
                     port:py${python.version}-pytest \
                     port:py${python.version}-pytest-benchmark \
-                    port:py${python.version}-pytest-cov \
-                    port:py${python.version}-pytest-profiling \
-                    port:py${python.version}-pytest-remotedata \
                     port:py${python.version}-pytest-timeout \
-                    port:py${python.version}-texttable \
-                    port:py${python.version}-wheel
+                    port:py${python.version}-pytest-remotedata
 
     test.run        yes
-    test.cmd        py.test-${python.branch}
-    test.target     tests
-    test.env        PYTHONPATH=${build.dir}/build/lib
 
     livecheck.type  none
 }

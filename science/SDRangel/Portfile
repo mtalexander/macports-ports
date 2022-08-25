@@ -17,14 +17,17 @@ description           SDRangel is an Open Source Qt5 / OpenGL 3.0+ SDR \
     and signal analyzer frontend to various hardware.
 long_description    ${description}
 
-github.setup          f4exb sdrangel 6.20.1 v
-checksums             rmd160  2cdc8c843143cb0866d102c112639d7007ef588d \
-                      sha256  f2658eb3b3a2b2d76db92a6a02df693e149762600649b6ddb3eedc4339aff431 \
-                      size    68744525
+github.setup          f4exb sdrangel 7.6.1 v
+checksums             rmd160  9eafd0543f8225b571a5fc49ed5584357805322d \
+                      sha256  1c19457771c22484b8b93e685ca3c6f943aca1da15535992b50781416f65d174 \
+                      size    72912806
 revision              0
 
-# check just the version 6 branch for now
-github.livecheck.regex (6\[0-9.]*)
+# !! delete patch with next version
+patchfiles-append     aligned_alloc.patch 
+
+# check just the version 7 branch for now
+github.livecheck.regex (7\[0-9.]*)
 
 # not linked directly to openssl
 license_noconflict-append \
@@ -40,14 +43,6 @@ compiler.cxx_standard 2017
 
 # use C++17 for the build itself
 patchfiles-append     use-cxx17.patch
-
-# TEMPORARY
-# https://trac.macports.org/ticket/60012
-# https://github.com/f4exb/sdrangel/issues/467
-patchfiles-append     disable-remotetx.patch
-
-# revert https://github.com/f4exb/sdrangel/issues/492
-patchfiles-append     revert_cm256cc.patch
 
 # disable because macOS < 10.12 since it has a too old Qt version
 if {${os.platform} eq "darwin" && ${os.major} <= 16} {
@@ -105,7 +100,8 @@ configure.args-append \
     -DFORCE_SSE41=ON \
     -DIconv_LIBRARY=${prefix}/lib/libiconv.dylib \
     -DIconv_INCLUDE_DIR=${prefix}/include \
-    -DRX_SAMPLE_24BIT=ON
+    -DRX_SAMPLE_24BIT=ON \
+    -DENABLE_CHANNELTX_REMOTESOURCE=OFF
 
 cmake.module_path-append \
     ${prefix}/libexec/opencv${opencv_ver}/cmake

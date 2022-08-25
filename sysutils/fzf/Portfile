@@ -3,36 +3,39 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/junegunn/fzf 0.29.0
+go.setup            github.com/junegunn/fzf 0.32.1
 revision            0
 
-categories          sysutils
-platforms           darwin
-license             MIT
-maintainers         {isi.edu:calvin @cardi} openmaintainer
 description         A command-line fuzzy finder written in Go
-long_description    ${description}
+
+long_description    {*}${description}
+
+categories          sysutils
+license             MIT
+maintainers         {isi.edu:calvin @cardi} \
+                    {gmail.com:herby.gillot @herbygillot} \
+                    openmaintainer
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  b1daaa83827ebf993824c1cec7880f35302ae8ac \
-                        sha256  0bc8ae509fa9b2c9ce75f779b7cc56b72a6abb172222ec69678f9c6f65b49bb8 \
-                        size    208349
+                        rmd160  c242e468c6a8dec473c1d2a83d2453f011e6e42e \
+                        sha256  aa1b9323fafed1669f1a70a10406962c981001f313097f718856cf49c45d77fa \
+                        size    212263
 
 go.vendors          golang.org/x/text \
-                        lock    v0.3.6 \
-                        rmd160  e3da48fcc60d98e202458228188bf6dac408e309 \
-                        sha256  6b2d69df22b5ba1634bc6730c3f03404db499536a96c48b8016da80ced804450 \
-                        size    8356058 \
+                        lock    v0.3.7 \
+                        rmd160  52777fe8a68660aab6e4588322a5949b0ba42e58 \
+                        sha256  48971ba6a3123c4fd81b2bdec9fda3cef5815fad76f2407c8a888032462c542d \
+                        size    8356115 \
                     golang.org/x/term \
-                        lock    de623e64d2a6 \
-                        rmd160  8f8c61baa39ab9af01714065975f9c1b41c3baf5 \
-                        sha256  ea781a5a35d70ed6f86287db5296e3b438625120be22bd9e208432dca8fd8f18 \
-                        size    15357 \
+                        lock    03fcf44c2211 \
+                        rmd160  a1b9592e95373ba617ef579a2f7015cfdc871343 \
+                        sha256  3673415a6d3d106d49b487715e151fc64245502ef547c16e8e13edb6b8f2f492 \
+                        size    14975 \
                     golang.org/x/sys \
-                        lock    0f9fa26af87c \
-                        rmd160  b5e5b546cddec0ad97bccbc3a19fe3630792097b \
-                        sha256  e9ff4a07a3cc01341990da0d8ecd1cfa05643a2db423bb1efcf62f577901ea77 \
-                        size    1202158 \
+                        lock    3f8b81556e12 \
+                        rmd160  ebbca7120750d67167bb15a2bd8c2104423b9db8 \
+                        sha256  a1413823ae2d2c7c9d7a03a205307983135f9e3327f5e7b9cf4da219abf24b56 \
+                        size    1292290 \
                     golang.org/x/sync \
                         lock    036812b2e83c \
                         rmd160  f42be6eb3565d2ed3d1066ea1a7f69437c8bb1e6 \
@@ -116,41 +119,50 @@ Bash
 
 Append this line to ~/.bashrc to enable fzf keybindings for Bash:
 
- source ${prefix}/share/fzf/shell/key-bindings.bash
+    source ${prefix}/share/fzf/shell/key-bindings.bash
 
 Append this line to ~/.bashrc to enable fuzzy auto-completion for Bash:
 
- source ${prefix}/share/fzf/shell/completion.bash
+    source ${prefix}/share/fzf/shell/completion.bash
+
 
 Zsh
 ===
 
 Append this line to ~/.zshrc to enable fzf keybindings for Zsh:
 
- source ${prefix}/share/fzf/shell/key-bindings.zsh
+    source ${prefix}/share/fzf/shell/key-bindings.zsh
 
 Append this line to ~/.zshrc to enable fuzzy auto-completion for Zsh:
 
- source ${prefix}/share/fzf/shell/completion.zsh
+    source ${prefix}/share/fzf/shell/completion.zsh
+
 
 Fish
+====
+
+To enable fzf keybindings for fish, append this line to
+~/.config/fish/config.fish:
+
+    source ${prefix}/share/fzf/shell/key-bindings.fish
+
+and add the following to ~/.config/fish/functions/fish_user_key_bindings.fish:
+
+    function fish_user_key_bindings
+        fzf_key_bindings
+    end
+
+
+Vim
 ===
 
-Append this line to ~/.config/fish/config.fish to enable fzf keybindings for Fish:
+The Vim plugin is located in ${prefix}/share/fzf/vim.
 
- source ${prefix}/share/fzf/shell/key-bindings.fish
-
-
-The Vim plugin is located in:
-
-    ${prefix}/share/fzf/vim
-
-Enable the Vim plugin by adding the following to your
-Vim configuration file (default: ~/.vimrc):
+Enable the Vim plugin by adding the following to your Vim configuration
+file (default: ~/.vimrc):
 
     set rtp+=${prefix}/share/fzf/vim
 
-Documentation for fzf and the Vim plugin is located in:
-
-    ${prefix}/share/doc/fzf
+Documentation for fzf and the Vim plugin is located in
+${prefix}/share/doc/fzf.
 "

@@ -17,6 +17,7 @@ PortGroup           legacysupport 1.1
 PortGroup           clang_dependency 1.0
 
 name                cmake
+conflicts           cmake-devel
 
 categories          devel
 license             BSD
@@ -32,10 +33,10 @@ homepage            https://cmake.org
 platforms           darwin freebsd
 gitlab.instance     https://gitlab.kitware.com
 
-gitlab.setup        cmake   cmake 3.22.3 v
-checksums           rmd160  d387828ba82c0866598268c18a591988157cc4d4 \
-                    sha256  14601e27b198b194bdaa0c645c00c446dfa12f443f9e85edf09c4e14f3970635 \
-                    size    7531154
+gitlab.setup        cmake   cmake 3.23.3 v
+checksums           rmd160  a72405e01cb11a81f873d204edeb09e2103896e4 \
+                    sha256  ae707045b932a5e91e20518f581d08ed3debd61235130115914099ff4fb4c19a \
+                    size    7652781
 revision            0
 
 gitlab.livecheck.regex {([0-9.]+)}

@@ -3,44 +3,129 @@
 PortSystem          1.0
 
 name                openjdk17
-version             17.0.2
-revision            1
 # https://github.com/openjdk/jdk17u/tags
+version             17.0.4
+set build 8
+revision            0
 categories          java devel
 platforms           darwin
 supported_archs     x86_64 arm64
 license             GPL-2+
 maintainers         {outlook.com:usersword123 @usersxx} openmaintainer
-description         Openjdk 17
-long_description    JDK 17 builds of Openjdk, the Open-Source implementation \
+description         OpenJDK 17
+long_description    JDK 17 builds of OpenJDK, the Open-Source implementation \
                     of the Java Platform, Standard Edition, and related projects.
 homepage            https://openjdk.java.net/
-fetch.type          git
-git.url             https://github.com/openjdk/jdk17u
-git.branch             jdk-${version}-ga
+master_sites        https://git.openjdk.java.net/jdk17u/archive/refs/tags
+distname            jdk-${version}+${build}
+
+checksums           rmd160  d0a70d2e3cf7fa70ef9e5a2ac2551e0b605fb595 \
+                    sha256  b10b80aa96ac43c75163c1888bb42b66e1eeaecb02412d30de5369df7337ac8f \
+                    size    104904275
+
+depends_lib         port:freetype
 depends_build       port:autoconf \
-                    port:gmake
-depends_lib         port:openjdk17-bootstrap
+                    port:gmake \
+                    port:bash \
+                    port:openjdk17-bootstrap
+
+pre-patch {
+    reinplace "s|libffi.so.?|libffi.?.dylib|g" ${worksrcpath}/make/autoconf/lib-ffi.m4
+    reinplace "s|xmacosx|xwindows|g" ${worksrcpath}/make/autoconf/lib-freetype.m4
+}
 
 set tpath /Library/Java
 use_xcode           yes
 use_configure    yes
-configure.cmd       sh configure
+configure.cmd       ${prefix}/bin/bash configure
 configure.pre_args  --prefix=${tpath}
-# default configure args 
+set bug_url "https://trac.macports.org/newticket?port=${name}"
+# default configure args
 configure.args      --with-debug-level=release \
                     --with-native-debug-symbols=none \
-                    --with-version-pre=release \
+                    --with-version-string=${version}+${build} \
                     --with-sysroot=`xcrun --sdk macosx --show-sdk-path` \
-                    --with-jvm-variants=server \
+                    --with-extra-cflags="${configure.cflags}" \
+                    --with-extra-cxxflags="${configure.cxxflags}" \
+                    --with-extra-ldflags="${configure.ldflags}" \
                     --with-boot-jdk=/Library/Java/JavaVirtualMachines/openjdk17-bootstrap/Contents/Home \
+                    --with-freetype=system \
+                    --with-freetype-include=${prefix}/include/freetype2 \
+                    --with-freetype-lib=${prefix}/lib \
+                    --disable-precompiled-headers \
                     --disable-warnings-as-errors \
-                    --with-conf-name=openjdk${version}
+                    --with-vendor-name="OpenJDK Porters Group" \
+                    --with-vendor-url="${homepage}" \
+                    --with-vendor-bug-url="${bug_url}" \
+                    --with-vendor-vm-bug-url="${bug_url}" \
+                    --with-conf-name=release
+
+
+variant release \
+    conflicts debug optimized \
+    description {OpenJDK with no debug information, all optimizations and no asserts} {
+    configure.args-append   --with-debug-level=release
+}
+
+variant optimized \
+    conflicts debug release \
+    description {OpenJDK with no debug information, all optimizations, no asserts and HotSpot is 'optimized'} {
+    configure.args-append   --with-debug-level=optimized
+}
+
+variant debug \
+    conflicts optimized release \
+    description {OpenJDK with debug information, all optimizations and all asserts} {
+    configure.args-append   --with-debug-level=fastdebug
+    configure.args-delete   --with-native-debug-symbols=none
+}
+
+variant client \
+    conflicts core minimal server zero \
+    description {JVM with normal interpreter, C1 and no C2 compiler} {
+    configure.args-append   --with-jvm-variants=client
+}
+
+variant server \
+    conflicts client core minimal zero \
+    description {JVM with normal interpreter, and a tiered C1/C2 compiler} {
+    configure.args-append   --with-jvm-variants=server
+}
+
+variant minimal \
+    conflicts client core server zero \
+    description {JVM with reduced form of normal interpreter having C1, no C2 compiler and optional features stripped out} {
+    configure.args-append   --with-jvm-variants=minimal
+}
+
+variant core \
+    conflicts client minimal server zero \
+    description {JVM with normal interpreter only and no compiler} {
+    configure.args-append   --with-jvm-variants=core
+}
+
+variant zero \
+    conflicts client core minimal server \
+    description {JVM with C++ based interpreter only, no compiler} {
+    configure.args-append   --with-jvm-variants=zero \
+                            --with-libffi=${prefix} \
+                            --enable-libffi-bundling
+    depends_lib-append         port:libffi
+}
+
+if {![variant_isset debug] && ![variant_isset optimized] && ![variant_isset release]} {
+    default_variants-append +release
+}
+
+if {![variant_isset client] && ![variant_isset core] && ![variant_isset minimal] && ![variant_isset server]} {
+    default_variants-append +server
+}
+
 build.type          gnu
 build.target        images
 use_parallel_build  no
 set jdkn jdk-${version}.jdk
-set bundle_dir build/openjdk${version}/images/jdk-bundle/${jdkn}/Contents
+set bundle_dir build/release/images/jdk-bundle/${jdkn}/Contents
 
 test.run            yes
 test.cmd            ${bundle_dir}/Home/bin/java
@@ -58,7 +143,7 @@ post-destroot {
 }
 
 notes "
-If you want to make ${subport} the default JDK, add this to shell profile:
+If you want to make ${name} the default JDK, add this to shell profile:
 export JAVA_HOME=${pathb}/Contents/Home
 "
     

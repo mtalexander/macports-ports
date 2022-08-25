@@ -11,7 +11,7 @@ configure.cxx_stdlib    libc++
 compiler.cxx_standard   2014
 
 name                    nodejs17
-version                 17.8.0
+version                 17.9.1
 revision                0
 
 categories              devel net
@@ -26,15 +26,15 @@ long_description        Node's goal is to provide an easy way to build scalable 
                         Machine or Python's Twisted. Node takes the event model a bit further-it \
                         presents the event loop as a language construct instead of as a library.
 
-conflicts               nodejs8 nodejs10 nodejs12 nodejs13 nodejs14 nodejs15 nodejs16
+conflicts               nodejs8 nodejs10 nodejs12 nodejs13 nodejs14 nodejs15 nodejs16 nodejs18
 
 homepage                https://nodejs.org/
 master_sites            ${homepage}dist/v${version}
 use_xz                  yes
 
-checksums               rmd160  addeb4afcb1d4a5a7fd915f031d5c417e2a112a6 \
-                        sha256  7981144faf674292eff7e075f640a7084ebd927be11d1af78ff76741b6364e4b \
-                        size    35764612
+checksums               rmd160  12c71a6413599a22907fcc5ab7366b6278cae5bd \
+                        sha256  a178bc446462fc93c16343a49de0f8939a49297240c098dfb0502b0974e44810 \
+                        size    35782080
 
 distname                node-v${version}
 
@@ -205,4 +205,4 @@ destroot {
 
 livecheck.url       ${homepage}dist/
 livecheck.type      regex
-livecheck.regex     {v(\d+\.\d+\.\d+)}
+livecheck.regex     {v(17.\d+\.\d+)}

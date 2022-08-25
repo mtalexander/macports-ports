@@ -4,8 +4,8 @@ PortSystem          1.0
 PortGroup           python 1.0
 PortGroup           github 1.0
 
-github.setup        mesonbuild meson 0.59.1
-revision            2
+github.setup        mesonbuild meson 0.63.0
+revision            0
 
 github.tarball_from releases
 license             Apache-2
@@ -23,14 +23,13 @@ long_description    Meson is a build system designed to optimize programmer prod
                     Valgrind, CCache and the like. It is both extremely fast, and, even more importantly, \
                     as user friendly as possible.
 
-checksums           rmd160  2f7977dd49fe7e4b24e465013e83a4182fba4d79 \
-                    sha256  db586a451650d46bbe10984a87b79d9bcdc1caebf38d8e189f8848f8d502356d \
-                    size    1944678
+checksums           rmd160  1711b9d6f9f436b9d6f3eade6ee4f0952b3a0a65 \
+                    sha256  3b51d451744c2bc71838524ec8d96cd4f8c4793d5b8d5d0d0a9c8a4f7c94cd6f \
+                    size    2060688
 
-# as of verison 0.45.0,requires python 3.5 or better
+# As of verison 0.62.0, requires python 3.7 or later
 
-python.versions         36 37 38 39
-python.default_version  39
+python.default_version  310
 python.link_binaries    no
 
 depends_build-append \
@@ -67,9 +66,6 @@ if {${os.platform} eq "darwin" && ${os.major} <= 13} {
     patchfiles-append   patch-meson-clang-unknown-optimization-error.diff
 }
 
-# https://trac.macports.org/ticket/63462
-patchfiles-append    patch-meson-objc-accept-gnu89.diff
-
 platform darwin 8 {
 
     # this meson is modified for systems without @rpath support
@@ -83,7 +79,6 @@ platform darwin 8 {
                         size    1899464
 
     patchfiles-delete   patch-meson-clang-unknown-optimization-error.diff \
-                        patch-meson-objc-accept-gnu89.diff \
                         patch-meson-32bit-apple.diff \
                         patch-meson-gnome.diff
     patchfiles-append   patch-meson57-tiger-no-rpath-fix.diff \
@@ -128,10 +123,6 @@ post-destroot {
         xinstall -d ${destroot}${vim_dir}/${d}
         xinstall -m 644 ${worksrcpath}/data/syntax-highlighting/vim/${d}/meson.vim ${destroot}${vim_dir}/${d}
     }
-
-    set emacs_lispdir ${prefix}/share/emacs/site-lisp
-    xinstall -d ${destroot}${emacs_lispdir}
-    xinstall -m 644 ${worksrcpath}/data/syntax-highlighting/emacs/meson.el ${destroot}${emacs_lispdir}
 }
 
 # the following block avoids requiring users to 'sudo port select python3 python37'

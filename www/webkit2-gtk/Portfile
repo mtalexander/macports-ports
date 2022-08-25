@@ -37,7 +37,7 @@ checksums           rmd160  a626f58cf30b6dd1ef8a63c165ce85770c4da675 \
 depends_build-append \
                     port:gperf \
                     port:gtk-doc \
-                    port:perl5.28 \
+                    port:perl5.34 \
                     port:pkgconfig \
                     port:python27 \
                     port:py27-simplejson \
@@ -66,7 +66,7 @@ depends_lib-append  port:atk \
                     port:libnotify \
                     port:libpng \
                     port:libsecret \
-                    port:libsoup \
+                    path:lib/pkgconfig/libsoup-2.4.pc:libsoup \
                     port:libxml2 \
                     port:libxslt \
                     port:sqlite3 \
@@ -117,7 +117,7 @@ configure.args-append \
     -DENABLE_MINIBROWSER=OFF \
     -DENABLE_VIDEO=ON \
     -DUSE_SYSTEM_MALLOC=OFF \
-    -DPERL_EXECUTABLE=${prefix}/bin/perl5.28
+    -DPERL_EXECUTABLE=${prefix}/bin/perl5.34
 
 pre-configure {
     if {![variant_isset quartz] && ![variant_isset x11]} {

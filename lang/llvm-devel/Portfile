@@ -24,13 +24,17 @@ maintainers             {jeremyhu @jeremyhu} {jonesc @cjones051073} openmaintain
 # for devel
 PortGroup github        1.0
 
-set llvm-commit         329fda39c507e8740978d10458451dcdb21563be
-set date                20220314
+set llvm-commit         02b3a358926e7bbcac9226cbecbfc3067c2ad61b
+set date                20220731
 set llvm_version        devel
-set clang_exe_version   14
+set clang_exe_version   16
 github.setup            llvm llvm-project ${llvm-commit}
 version                 ${date}-[string range ${llvm-commit} 0 7]
 default_variants-append +assertions
+
+checksums               rmd160  b50e946f229079aae0e3e3fe59f6bbaf51ff5daa \
+                        sha256  3b352c23468299e671e3223bd219af8a800f529394ed7fd8767c524223e48a8b \
+                        size    166265364
 
 # For release
 #set llvm_version        14
@@ -38,11 +42,7 @@ default_variants-append +assertions
 #set clang_exe_version   ${llvm_version}
 #master_sites            https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}
 #distname                llvm-project-${version}.src
-#use_xz                  yes
-
-checksums               rmd160  ee02192e14f7ccfe04c0af7e0aac8633587dafdc \
-                        sha256  e3d6cdc98373aebf0d50869ba9660f72661738eb4fd5a8a132b39231963f90c7 \
-                        size    158064059
+#use_xz                 yes
 
 name                    llvm-${llvm_version}
 revision                0
@@ -94,6 +94,11 @@ configure.args-append \
     -DFFI_INCLUDE_DIR=${prefix}/include \
     -DFFI_LIBRARY_DIR=${prefix}/lib
 
+# Disable iOS support on older systems
+if {${os.platform} eq "darwin" && ${os.major} <= 12} {
+    configure.args-append    -DCOMPILER_RT_ENABLE_IOS=OFF
+}
+
 # cctools is needed to handle objects from newer clang toolchains
 if {[string match macports-clang-* ${configure.compiler}]} {
     depends_build-append            port:cctools
@@ -109,11 +114,13 @@ depends_build-append    port:python${py_ver_nodot} \
 set pythonfullpath      ${prefix}/bin/python${py_ver}
 configure.args-append   -DPython3_EXECUTABLE=${pythonfullpath}
 
+# https://trac.macports.org/ticket/65463
+use_xcode               yes
+
 platform darwin {
     configure.cxx_stdlib libc++
     depends_lib-append port:libcxx
     if {${os.major} < 11} {
-        #supported_archs i386 x86_64
         pre-fetch {
             if {![file exists /usr/lib/libc++.dylib]} {
                 ui_error "$name requires a C++11 runtime, which your configuration does not allow"
@@ -146,6 +153,7 @@ patchfiles-append \
     0012-compiler-rt-add-some-defs-missing-in-older-SDKs.patch \
     0013-clang-add-back-runtime-libraries-used-on-10.4-and-10.patch \
     0015-Fixup-libstdc-header-search-paths-for-older-versions.patch \
+    0019-10.6-and-less-use-emulated-TLS-before-10.7.patch \
     0025-lldb-add-defines-needed-for-older-SDKs.patch
 
 if {${os.platform} eq "darwin" && ${os.major} < 14} {
@@ -156,7 +164,6 @@ if {${os.platform} eq "darwin" && ${os.major} < 14} {
 if {${os.platform} eq "darwin" && ${os.major} < 11} {
     patchfiles-append \
         0017-10.6-and-less-libcxx-work-around-no-reexported_symbo.patch \
-        0019-10.6-and-less-use-emulated-TLS-before-10.7.patch \
         0020-10.6-and-less-work-around-no-directory-watcher-befor.patch \
         0021-10.6-and-less-libcxx-disable-Availability-tests.patch
 }
@@ -164,14 +171,17 @@ if {${os.platform} eq "darwin" && ${os.major} < 11} {
 if {${os.platform} eq "darwin" && ${os.major} < 10} {
     patchfiles-append \
         0022-10.5-and-less-default-to-fno-blocks.patch \
-        0023-10.5-and-less-use-older-cfname-and-fix-uuid-on-leopa.patch \
         0024-10.5-and-less-compiler-rt-work-around-no-libdispatch.patch
 }
 
 if {${os.platform} eq "darwin" && ${os.major} < 16} {
     # error: 'TARGET_OS_OSX' is not defined, evaluates to 0 [-Werror,-Wundef-prefix=TARGET_OS_]
     patchfiles-append  0100-define-target-os-osx.patch
-    # error: use of undeclared identifier 'clonefile'
+}
+
+if {${os.platform} eq "darwin" && ${os.major} < 16} {
+    # Avoid attempts to use 'clonefile'
+    # llvm/lib/Support/Unix/Path.inc:1476:10: error: use of undeclared identifier 'clonefile'
     patchfiles-append  0200-remove-use-of-clonefile.patch
 }
 
@@ -251,7 +261,7 @@ if { ${subport} eq "clang-${llvm_version}" } {
     select.file         ${filespath}/mp-${subport}
 
     configure.args-append   \
-        -DLLVM_ENABLE_PROJECTS="clang\;clang-tools-extra\;compiler-rt\;libcxx\;libcxxabi\;lld\;mlir" \
+        -DLLVM_ENABLE_PROJECTS="clang\;clang-tools-extra\;compiler-rt\;libcxx\;libcxxabi\;lld" \
         -DLIBCXX_ENABLE_SHARED=ON    \
         -DLIBCXX_INSTALL_LIBRARY=ON
 
@@ -277,7 +287,7 @@ if { ${subport} eq "flang-${llvm_version}" } {
         -DLIBCXX_ENABLE_SHARED=OFF          \
         -DLIBCXX_INSTALL_LIBRARY=OFF
 
-    depends_lib-append  port:clang-${llvm_version}
+    depends_lib-append  port:clang-${llvm_version} port:mlir-${llvm_version}
 
     destroot {
         # we have to run the destroot like this, because individual targets for each of the
@@ -313,7 +323,7 @@ if { ${subport} eq "clang-${llvm_version}" ||
 
 if { ${subport} eq "clang-${llvm_version}" || ${subport} eq "flang-${llvm_version}" } {
 
-    depends_lib-append  port:libxml2 port:libomp port:llvm-${llvm_version} port:mlir-${llvm_version}
+    depends_lib-append  port:libxml2 port:libomp port:llvm-${llvm_version}
     depends_run-append  port:ld64
     depends_skip_archcheck-append ld64
 
@@ -326,13 +336,17 @@ if { ${subport} eq "clang-${llvm_version}" || ${subport} eq "flang-${llvm_versio
         -DDARWIN_PREFER_PUBLIC_SDK=ON      \
         -DLLVM_BUILD_RUNTIME=ON
 
-    if {${os.major} <= 18} {
+    # the orc submodule is not building at present - can't find c_api.h
+    # https://trac.macports.org/ticket/65578
+    configure.args-append -DCOMPILER_RT_BUILD_ORC=OFF
+
+    if {${os.platform} eq "darwin" && ${os.major} <= 18} {
         # on systems that might build i386, we need atomic builtins
         # https://trac.macports.org/ticket/58712
         configure.args-append    -DCOMPILER_RT_EXCLUDE_ATOMIC_BUILTIN=OFF
     }
 
-    if {${os.major} <= 14} {
+    if {${os.platform} eq "darwin" && ${os.major} <= 14} {
         # compiler-rt does a broad search for an SDK it likes, but this
         # search fails on older systems that don't have a MacOSX.sdk
         # TODO: apply this always to all systems?
@@ -347,20 +361,15 @@ if { ${subport} eq "clang-${llvm_version}" || ${subport} eq "flang-${llvm_versio
                                  -DCOMPILER_RT_BUILD_MEMPROF=OFF
     }
 
-    if {${os.major} <= 11} {
+    if {${os.platform} eq "darwin" && ${os.major} <= 11} {
         # xpc.h available 10.7 but doesn't support nullable features
         configure.args-append    -DCLANGD_BUILD_XPC=OFF
     }
 
-    if {${os.major} <= 10} {
+    if {${os.platform} eq "darwin" && ${os.major} <= 10} {
         # avoid need for thread_local_storage
         configure.args-append    -DCLANG_ENABLE_CLANGD=OFF \
                                  -DLLVM_ENABLE_BACKTRACES=OFF
-    }
-
-    if {${os.major} <= 12} {
-        # Make sure iOS support is disabled ...
-        configure.args-append    -DCOMPILER_RT_ENABLE_IOS=OFF
     }
 
 }
@@ -373,7 +382,7 @@ if {${subport} eq "lldb-${llvm_version}"} {
 
     depends_lib-append  port:libedit port:libffi port:ncurses path:lib/libxar.dylib:xar port:zlib
     depends_lib-append  port:llvm-${llvm_version} port:clang-${llvm_version}
-    depends_build-append port:swig-python port:doxygen
+    depends_build-append port:swig-python path:bin/doxygen:doxygen
 
     # error: use of undeclared identifier 'CPU_SUBTYPE_ARM64E
     if {${os.platform} eq "darwin" && ${os.major} <= 17} {
@@ -395,18 +404,17 @@ if {${subport} eq "lldb-${llvm_version}"} {
 
     set worksrcpath ${workpath}/${distname}/lldb
 
-    post-activate {
-        ui_msg "Please follow the instructions at  https://lldb.llvm.org/resources/build.html#code-signing-on-macos and then codesign lldb-server with:"
-        if {${os.major} >= 13} {
-            ui_msg "   sudo codesign --force --deep --preserve-metadata=identifier,entitlements,resource-rules,requirements,flags,team-identifier --sign <identity> ${sub_prefix}/bin/lldb-server"
-        } else {
-           ui_msg "   sudo codesign --force --deep --preserve-metadata=identifier,entitlements,resource-rules,requirements --sign <identity> ${sub_prefix}/bin/lldb-server"
-        }
+    notes "Please follow the instructions at https://lldb.llvm.org/resources/build.html#code-signing-on-macos and then codesign lldb-server with:\n--------------------\n"
+    notes-append "${sub_prefix}/scripts/lldb/macos-setup-codesign.sh"
+    if {${os.major} >= 13} {
+        notes-append "sudo codesign --force --deep --preserve-metadata=identifier,entitlements,resource-rules,requirements,flags,team-identifier --sign lldb_codesign ${sub_prefix}/bin/lldb-server"
+    } else {
+        notes-append "sudo codesign --force --deep --preserve-metadata=identifier,entitlements,resource-rules,requirements --sign lldb_codesign ${sub_prefix}/bin/lldb-server"
     }
 }
 
 variant tests description {Enable building of test code} {
-    depends_test-append     port:py39-psutil
+    depends_test-append     port:py${py_ver_nodot}-psutil
     test.run                yes
     configure.args-append   -DLLVM_INCLUDE_TESTS=ON
     test.target             check
@@ -451,11 +459,6 @@ post-destroot {
         ln -s LLVMPolly.so ${destroot}${sub_prefix}/lib/LLVMPolly.dylib
     }
 
-    if {${subport} eq "flang-${llvm_version}"} {
-        # fix errant permissions on the flang binary
-        system "chmod 755 ${destroot}${sub_prefix}/bin/flang"
-    }
-    
     if {${subport} eq "clang-${llvm_version}"} {
         # fix the cmake scripts to point to the versioned files
         reinplace "s|/bin/clang-${clang_exe_version}|/bin/clang|g" \
@@ -464,9 +467,16 @@ post-destroot {
         # http://trac.macports.org/ticket/33207
         ln -s ${prefix}/libexec/ld64/ld ${destroot}${sub_prefix}/bin/ld
     }
-    
+
     if {${subport} eq "lldb-${llvm_version}"} {
         delete ${destroot}${prefix}/bin/debugserver-${suffix}
+
+        set lldb_scripts_srcdir ${worksrcpath}/scripts
+        set lldb_scripts_destdir ${destroot}${sub_prefix}/scripts/lldb
+        xinstall -d ${lldb_scripts_destdir}
+        xinstall -m 755 -W ${lldb_scripts_srcdir} \
+            macos-setup-codesign.sh \
+            ${lldb_scripts_destdir}
     }
 }
 
@@ -504,65 +514,56 @@ if {${subport} eq "clang-${llvm_version}"} {
         default_variants-append +defaultlibcxx
     }
 
-    variant libstdcxx description {-stdlib=macports-libstdc++ searches for MacPorts libstdc++} {
+    variant libstdcxx description {-stdlib=libstdc++_macports searches for MacPorts libstdc++} {
 
         patchfiles-append 0005-clang-support-macports-libstdcxx.patch
 
         post-patch {
+            if { ${configure.build_arch} eq "arm64" } {
+                # see https://github.com/macports/macports-ports/commit/be1e11a368f672d927a7bdb381f2fa71a79ba483
+                set gcc_arch    aarch64
+            } else {
+                set gcc_arch    ${configure.build_arch}
+            }
+
             reinplace "s|@@MACPORTS_GCC_INCLUDE_DIR@@|${prefix}/include/gcc/c++|g" \
-                ${patch.dir}/clang/lib/Frontend/InitHeaderSearch.cpp \
+                ${patch.dir}/clang/lib/Lex/InitHeaderSearch.cpp \
                 ${patch.dir}/clang/lib/Driver/ToolChains/Darwin.cpp
-            reinplace "s|@@MACPORTS_HOST_NAME@@|${build_arch}-apple-darwin${os.major}|g" \
+            reinplace "s|@@MACPORTS_HOST_NAME@@|${gcc_arch}-apple-darwin${os.major}|g" \
                 ${patch.dir}/clang/lib/Driver/ToolChains/Darwin.cpp
             reinplace "s|@@MACPORTS_libstdc++@@|${prefix}/lib/libgcc/libstdc++.6.dylib|g" \
                 ${patch.dir}/clang/lib/Driver/ToolChains/Darwin.cpp
 
-            # GCC was built for ${build_arch}-apple-darwin${os.major}
+            # GCC was built for ${configure.build_arch}-apple-darwin${os.major}
             # if GCC was also built universal, it has an extra include directory
-            # if ${build_arch} is 32-bit, there is an extra 64-bit subdirectory
-            # if ${build_arch} is 64-bit, there is an extra 32-bit subdirectory
-            # MacPorts GCC can not compile across platforms
-            switch ${build_arch} {
+            # if ${configure.build_arch} is 32-bit, there is an extra 64-bit subdirectory
+            # if ${configure.build_arch} is 64-bit, there is an extra 32-bit subdirectory
+            # MacPorts GCC cannot compile across platforms
+            switch ${configure.build_arch} {
                 x86_64 {
-                    set gcc_subdirectory_ppc    ""
-                    set gcc_subdirectory_ppc64  "ppc64"
-                    set gcc_subdirectory_i386   "i386"
-                    set gcc_subdirectory_x86_64 ""
+                    reinplace {s|@@MACPORTS_TEST_32_64@@|getTriple().getArch() == llvm::Triple::x86_64 ? "" : "i386"|g} \
+                        ${patch.dir}/clang/lib/Driver/ToolChains/Darwin.cpp
                 }
                 i386 {
-                    set gcc_subdirectory_ppc    ""
-                    set gcc_subdirectory_ppc64  "ppc64"
-                    set gcc_subdirectory_i386   ""
-                    set gcc_subdirectory_x86_64 "x86_64"
+                    reinplace {s|@@MACPORTS_TEST_32_64@@|getTriple().getArch() == llvm::Triple::x86_64 ? "x86_64" : ""|g} \
+                        ${patch.dir}/clang/lib/Driver/ToolChains/Darwin.cpp
                 }
                 ppc64 {
-                    set gcc_subdirectory_ppc    "ppc"
-                    set gcc_subdirectory_ppc64  ""
-                    set gcc_subdirectory_i386   ""
-                    set gcc_subdirectory_x86_64 "x86_64"
+                    reinplace {s|@@MACPORTS_TEST_32_64@@|getTriple().getArch() == llvm::Triple::ppc64 ? "" : "ppc"|g} \
+                        ${patch.dir}/clang/lib/Driver/ToolChains/Darwin.cpp
                 }
                 ppc {
-                    set gcc_subdirectory_ppc    ""
-                    set gcc_subdirectory_ppc64  "ppc64"
-                    set gcc_subdirectory_i386   ""
-                    set gcc_subdirectory_x86_64 "x86_64"
+                    reinplace {s|@@MACPORTS_TEST_32_64@@|getTriple().getArch() == llvm::Triple::ppc64 ? "ppc64" : ""|g} \
+                        ${patch.dir}/clang/lib/Driver/ToolChains/Darwin.cpp
+                }
+                arm64 {
+                    reinplace {s|@@MACPORTS_TEST_32_64@@|""|g} \
+                        ${patch.dir}/clang/lib/Driver/ToolChains/Darwin.cpp
                 }
             }
-
-            reinplace "s|@@MACPORTS_GCC_SUBDIRECTORY_x86_64@@|${gcc_subdirectory_x86_64}|g" \
-                ${patch.dir}/clang/lib/Driver/ToolChains/Darwin.cpp
-            reinplace "s|@@MACPORTS_GCC_SUBDIRECTORY_i386@@|${gcc_subdirectory_i386}|g" \
-                ${patch.dir}/clang/lib/Driver/ToolChains/Darwin.cpp
-            reinplace "s|@@MACPORTS_GCC_SUBDIRECTORY_ppc64@@|${gcc_subdirectory_ppc64}|g" \
-                ${patch.dir}/clang/lib/Driver/ToolChains/Darwin.cpp
-            reinplace "s|@@MACPORTS_GCC_SUBDIRECTORY_ppc@@|${gcc_subdirectory_ppc}|g" \
-                ${patch.dir}/clang/lib/Driver/ToolChains/Darwin.cpp
         }
     }
-    # at present, only the non-arm archs can use this variant
-    if {${build_arch} in "x86_64 i386 ppc64 ppc"} {
-        default_variants-append +libstdcxx
-    }
+    default_variants-append +libstdcxx
 }
 
 # For releases

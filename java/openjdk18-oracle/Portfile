@@ -14,25 +14,24 @@ universal_variant no
 supported_archs  x86_64 arm64
 
 # https://jdk.java.net/18/
-version      18
-set build    36
+version      18.0.2
 revision     0
 
 description  Oracle OpenJDK 18
 long_description Open-source Oracle build of OpenJDK 18, the Java Development Kit, an implementation of the Java SE Platform.
 
-master_sites https://download.java.net/java/GA/jdk${version}/43f95e8614114aeaa8e8a5fcf20a682d/${build}/GPL/
+master_sites https://download.java.net/java/GA/jdk${version}/f6ad4b4450fd4d298113270ec84f30ee/9/GPL/
 
 if {${configure.build_arch} eq "x86_64"} {
     distname     openjdk-${version}_macos-x64_bin
-    checksums    rmd160  7cfc98587bfc1d209cf58e973cf42b1af361d27b \
-                 sha256  527b61b4265caf45cdcbacfcf8fbcd0b4b280bede1eff32a5b252d855ff0534b \
-                 size    185375922
+    checksums    rmd160  3640b73832af50142b67db2ce8a05685444d7796 \
+                 sha256  528aaf1ea27f9a3052bd88a0af877c63e87d517214c1ee91807c9590a77f1a75 \
+                 size    185437991
 } elseif {${configure.build_arch} eq "arm64"} {
     distname     openjdk-${version}_macos-aarch64_bin
-    checksums    rmd160  8d36e7f1f202ac7e998ad837b41d98e2d4ed9a60 \
-                 sha256  6880a5b512d1c1df5013a04b2cef4e1261e881d7f246ea5483ffeb728b30b2f1 \
-                 size    183221810
+    checksums    rmd160  496f942a03dce2b74f713390b978c24d46b853af \
+                 sha256  1da591d9ab49c348d5a424975ae44ea940edf1c3b3b4456d0a3020758829799e \
+                 size    183269809
 }
 
 worksrcdir   jdk-${version}.jdk

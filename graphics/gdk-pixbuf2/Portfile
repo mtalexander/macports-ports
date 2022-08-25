@@ -10,7 +10,7 @@ set my_name         gdk-pixbuf2
 # GNOME project name
 set gname           gdk-pixbuf
 
-version             2.42.6
+version             2.42.9
 revision            0
 epoch               2
 
@@ -24,20 +24,24 @@ long_description    ${description}
 homepage            http://www.gtk.org/
 
 set branch          [join [lrange [split ${version} .] 0 1] .]
+master_sites        gnome:sources/${gname}/${branch}/
 distname            ${gname}-${version}
 dist_subdir         ${my_name}
 use_xz              yes
 
-master_sites        gnome:sources/${gname}/${branch}/
+set python_branch   3.10
+set python_version  [string map {. {}} ${python_branch}]
 
-checksums           rmd160  9e01426ea380fa2ed6dd34410b8207a034792fb0 \
-                    sha256  c4a6b75b7ed8f58ca48da830b9fa00ed96d668d3ab4b1f723dcf902f78bde77f \
-                    size    7708484
+checksums           rmd160  0f655b2971986074ed0f56f7be24c55f8e0ed475 \
+                    sha256  28f7958e7bf29a32d4e963556d241d0a41a6786582ff6a5ad11665e0347fc962 \
+                    size    6596068
 
 depends_build-append \
+                    port:gi-docgen \
                     port:gtk-doc \
+                    port:libxslt \
                     port:pkgconfig \
-                    port:libxslt
+                    port:py${python_version}-docutils
 
 depends_lib-append \
                     path:lib/pkgconfig/glib-2.0.pc:glib2 \
@@ -49,8 +53,14 @@ depends_lib-append \
 
 license_noconflict  gobject-introspection
 
-patchfiles-append \
-                    override-math-function-tests.patch
+patchfiles-append   patch-override-math-function-tests.diff
+# Specify name of executable for 'rst2man'
+patchfiles-append   patch-docs-rst2man.diff
+
+post-patch {
+    reinplace "s|@@PYTHON_VERSION@@|${python_branch}|" \
+        ${worksrcpath}/docs/meson.build
+}
 
 compiler.c_standard \
                     1999
@@ -61,10 +71,6 @@ configure.ldflags-append \
 configure.args-append \
                     -Dgtk_doc=false
 
-if {![info exists universal_possible]} {
-    set universal_possible \
-        [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
-}
 # gobject-introspection uses g-ir-scanner, which uses $CC from env
 if {${universal_possible} && [variant_isset universal]} {
     foreach arch ${configure.universal_archs} {

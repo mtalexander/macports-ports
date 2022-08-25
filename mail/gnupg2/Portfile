@@ -4,13 +4,14 @@ PortSystem          1.0
 
 set my_name         gnupg
 name                ${my_name}2
-version             2.2.34
+version             2.2.36
+revision            1
 
 # Putting the SHA1 hash because that is published on the website
-checksums           rmd160  b75b50a5a42b39bf63b664f9a8be882b542a7c11 \
-                    sha1  b931cc1aa287ad67b0efacb91e7b358bf4852278 \
-                    sha256  562a3350dcf66cb67c5825c67ff2c2904db1e30ec8e1d353adc14efba9abf43f \
-                    size    7252882
+checksums           rmd160  106dccf336a05bf6341511d36a7185c9d36a1b96 \
+                    sha1    01e2f80d6579a3b3dc25547ad13632bf87dbc757 \
+                    sha256  bdfe783810fceca9703b9e811817acca63ee9ef0174e616598e8ea6590aa4c9c \
+                    size    7273805
 
 # https://trac.macports.org/ticket/63552
 epoch               1
@@ -67,13 +68,22 @@ depends_lib         port:libiconv           \
                     port:libgcrypt          \
                     port:libgpg-error       \
                     port:readline           \
-                    port:gnutls             \
+                    path:lib/pkgconfig/gnutls.pc:gnutls             \
                     port:libusb-compat      \
                     port:npth               \
                     port:sqlite3
 
 post-destroot {
     ln -s ${prefix}/bin/gpg ${destroot}${prefix}/bin/gpg2
+}
+
+platform darwin 10 {
+    # Rosetta misdetects the arch and gives a warning of a mismatch:
+    # *** The config script "/opt/local/bin/gpgrt-config --libdir=/opt/local/lib gpg-error" was
+    # *** built for powerpc-apple-darwin10 and thus may not match the used host x86_64-apple-darwin10.8.0.
+    if {${build_arch} eq "ppc"} {
+        configure.args-append --build=powerpc-apple-darwin${os.major}
+    }
 }
 
 variant pinentry conflicts pinentry_mac description {Handle user input via pinentry.} {

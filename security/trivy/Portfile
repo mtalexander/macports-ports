@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/aquasecurity/trivy 0.24.4 v
+go.setup            github.com/aquasecurity/trivy 0.30.4 v
 github.tarball_from archive
 revision            0
 
@@ -24,9 +24,9 @@ license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  c7ceba6314307e7beed7c66b39bda0c3a44a1d4e \
-                    sha256  3048b3e2009e0a4fc96c12e4162ef106b45d84479e2aadb357971f907ef9d235 \
-                    size    6484260
+checksums           rmd160  5a6ef733f9869882a9e2092200f70865614c3a4d \
+                    sha256  1577d3596e03f6bc6769243b32e9da7d43e56ea3fff42d2551b2b81df50345db \
+                    size    47689188
 
 build.cmd           make
 build.args          VERSION=${version}

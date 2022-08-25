@@ -21,6 +21,11 @@ array set crossgdb.version_info {
         sha256  1497c36a71881b8671a9a84a0ee40faab788ca30d7ba19d8463c3cc787152e32
         size    22039420
     }}
+    12.1 {xz {
+        rmd160  53ce945d3a130f90d164e69f2d3856a9c332bd96 \
+        sha256  0e1793bf8f2b54d53f46dea84ccfd446f48f81b297b28c4f7fc017b818d69fed \
+        size    22470332
+    }}
 }
 
 proc crossgdb.setup {target version} {
@@ -114,10 +119,17 @@ proc crossgdb.setup {target version} {
             reinplace -q {/^install:/s/ .*//} ${worksrcpath}/libiberty/Makefile.in
         }
 
+        # gdb is not supported on macOS ARM now
+        supported_archs x86_64 i386
+
         # Needs C++11; halfway redundant due to the blacklist above, but make
         # sure selected compiler supports the standard - getting rid of old
         # Apple GCC versions and the like?
         compiler.cxx_standard 2011
+
+        # Tell MacPorts to pick a TLS-compatible compiler
+        # See https://trac.macports.org/ticket/65105
+        compiler.thread_local_storage yes
 
         configure.dir       ${workpath}/build
         configure.cmd       ${worksrcpath}/configure
@@ -144,13 +156,16 @@ proc crossgdb.setup {target version} {
         universal_variant no
 
         post-destroot {
-            # Avoid conflicts with ${crossgdb.target}-binutils port
+            # Avoid conflicts with ${crossgdb.target}-binutils and another
+            # ${crossgdb.target} ports
             file delete ${destroot}${prefix}/share/info/${crossgdb.target}-bfd.info
+            file delete ${destroot}${prefix}/share/info/ctf-spec.info
 
             # Avoid conflicts with gdb, also see
             # https://trac.macports.org/ticket/43098
             file delete -force ${destroot}${prefix}/share/locale
             file delete -force ${destroot}${prefix}/include/gdb
+            file delete ${destroot}${prefix}/share/info/bfd.info
 
             # Avoid conflicts with another crossgdb ports
             move ${destroot}${prefix}/include/sim \

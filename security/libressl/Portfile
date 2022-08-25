@@ -5,7 +5,8 @@ PortGroup           muniversal 1.0
 PortGroup           compiler_blacklist_versions 1.0
 
 name                libressl
-version             3.4.3
+version             3.5.3
+revision            0
 categories          security devel
 platforms           darwin
 license             OpenSSL SSLeay
@@ -22,9 +23,9 @@ homepage            https://www.libressl.org
 conflicts           openssl libressl-devel
 
 master_sites        openbsd:LibreSSL
-checksums           rmd160  6a13599f57f297a40164143d30713203fcf22461 \
-                    sha256  ff88bffe354818b3ccf545e3cafe454c5031c7a77217074f533271d63c37f08d \
-                    size    3913963
+checksums           rmd160  7fcc05577f4c912cbb7fab088996658467cd00c3 \
+                    sha256  3ab5e5eaef69ce20c6b170ee64d785b42235f48f2e62b095fca5d7b6672b8b28 \
+                    size    4039561
 
 patchfiles          patch-openssldir-cert.pem.diff
 

@@ -8,11 +8,11 @@ PortGroup           muniversal 1.0
 # Please keep the mongodb and mongodb-devel ports as similar as possible.
 
 epoch               0
-github.setup        mongodb mongo 5.2.1 r
+github.setup        mongodb mongo 5.3.2 r
 revision            0
-checksums           rmd160  0edb94286889839c0f60e4f9b29d2d26dd7a8f04 \
-                    sha256  c5dc91f12923fdcb2fd61d4086cd59e9617fff9d57217ece3bf82cfe8644e914 \
-                    size    56865386 \
+checksums           rmd160  8b0c589980a3aff68fc7539c433e92333d77a53a \
+                    sha256  711dff1e8dba77bb0ddb9a09d30932409d876da407e507136a6da1a0ed37b186 \
+                    size    57406742 \
                     certifi-2021.10.8.tar.gz \
                     rmd160  8972d4fb7b192cf6e3a13a7ea9dfc497b0866eea \
                     sha256  78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872 \
@@ -172,7 +172,8 @@ compiler.c_standard 2011
 compiler.cxx_standard 2017
 
 # This matches a version check of __apple_build_version__ in SConstruct.
-compiler.blacklist-append {clang < 1001.0.46}
+# https://jira.mongodb.org/browse/SERVER-62503
+compiler.blacklist-append {clang < 1300.0.29}
 
 # It sets its own optimization flags via the --opt flag.
 configure.optflags

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-distributed
-version             2021.12.0
+version             2022.8.0
 revision            0
 categories-append   devel
 license             BSD
@@ -14,19 +14,19 @@ python.versions     37 38 39 310
 maintainers         {stromnov @stromnov} openmaintainer
 
 description         Distributed computing.
+
 long_description    Dask.distributed is a lightweight library for distributed \
                     computing in Python. It extends both the concurrent.futures \
                     and dask APIs to moderate sized clusters.
 
 homepage            https://distributed.readthedocs.io/en/latest/
 
-checksums           rmd160  95643b04cf9068c1c3bd411a986c4068d877a9ca \
-                    sha256  c6119a2cf1fb2d8ac60337915bb9a790af6530afcb5d7a809a3308323b874714 \
-                    size    878312
+checksums           rmd160  ed55a5aa5a4c10b4dab628edaeee3346e7eb4c33 \
+                    sha256  8fae2fbd6dea304a169c14eb21066743fe5eea7564903a07b43144c294c79456 \
+                    size    970887
 
 if {${name} ne ${subport}} {
     depends_lib-append  port:py${python.version}-setuptools \
-                        port:py${python.version}-cython \
                         port:py${python.version}-click \
                         port:py${python.version}-cloudpickle \
                         port:py${python.version}-dask \
@@ -40,7 +40,19 @@ if {${name} ne ${subport}} {
                         port:py${python.version}-zict \
                         port:py${python.version}-yaml
 
-    build.args-append   --with-cython
-    destroot.args-append \
-                        --with-cython
+    if {${python.version} eq 37} {
+        version             2022.2.0
+        revision            0
+        epoch               1
+        distname            ${python.rootname}-${version}
+        checksums           rmd160  c3994d51dd5b00039299a3ca1dbf33abcc092df0 \
+                            sha256  1a2f6eec9733a67004839dc4ecde6d5c17c079665a2c1573454dd2a5b5376d95 \
+                            size    911579
+        depends_lib-append  port:py${python.version}-cython
+        build.args-append   --with-cython
+        destroot.args-append \
+                            --with-cython
+    }
+
+    livecheck.type      none
 }

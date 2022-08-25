@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                npm8
-version             8.5.5
+version             8.17.0
 revision            0
 categories          devel
 platforms           darwin
@@ -27,10 +27,10 @@ extract.suffix      .tgz
 
 # Please keep the sha1 - users can use it to validate sha values
 # published on npmjs.org for the package
-checksums           rmd160  b0ed6349c88569f4bb6fcef01097e76e44009afa \
-                    sha1    814a84d4abcf69718628297428eceb556d816a18 \
-                    sha256  904faa2d36ff2e0db55e9912e33742d43510bac9b40b27c0a2ceb225ffc57566 \
-                    size    2258278
+checksums           rmd160  39d696e0780238878bd3ae5603c7675eec9e664b \
+                    sha1    05c77fb2794daa3d9b2cd0460859f1f9dc596676 \
+                    sha256  27a58f1330d315a61b8f1e7ca0e39f70e513ebee3377f7778f533f7f4be845f2 \
+                    size    2547288
 
 worksrcdir          "package"
 
@@ -69,7 +69,7 @@ build {
 }
 
 destroot.cmd        ${prefix}/bin/node ./bin/npm-cli.js
-destroot.args       --global ${distname}.tgz
+destroot.args       --location global ${distname}.tgz
 destroot.destdir    --prefix=${destroot}${prefix}
 
 post-destroot {

@@ -15,6 +15,11 @@ homepage            https://www.qt.io
 
 version             5.6.3
 
+# Requires xcodebuild
+# https://trac.macports.org/ticket/59312
+# https://trac.macports.org/ticket/63154
+use_xcode           yes
+
 set just_want_qt5_variables yes
 PortGroup qt5 1.0
 unset just_want_qt5_variables
@@ -49,10 +54,6 @@ foreach {qt_test_name qt_test_info} [array get available_qt_versions] {
 # qt56-qtbase replaces qt5-qtbase, so can not conflict
 if { ${os.major} < 12 } {
     conflicts-delete qt5-qtbase
-}
-
-if {![info exists universal_possible]} {
-    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
 }
 
 ############################################################################### Modules Not Considered
@@ -818,9 +819,6 @@ foreach {module module_info} [array get modules] {
             # see https://trac.macports.org/ticket/59434
             patchfiles-append patch-qtbase-icu_test.diff
 
-            # see https://trac.macports.org/ticket/59312
-            use_xcode yes
-
             #-----------------------------------------------------------------------------
             # qtbase is used for:
             #    1) building qtbase
@@ -1278,6 +1276,11 @@ foreach {module module_info} [array get modules] {
             ###############################################################################
 
             # special case
+            if { ${module} eq "qtconnectivity" } {
+                patchfiles-append patch-qtconnectivity_qtbug_76847.diff
+            }
+
+            # special case
             if { ${module} eq "qtdoc" } {
                 build.target    docs
                 destroot.target install_docs
@@ -1468,19 +1471,6 @@ foreach {module module_info} [array get modules] {
             if { ${module} eq "qtwebview" } {
                 # dependents of qtwebengine
                 supported_archs x86_64
-            }
-
-            # special case
-            if {${module} eq "qtsvg" && ${os.platform} eq "darwin" && ${os.major} >= 19} {
-                # Project ERROR: Xcode not set up properly.
-                known_fail  yes
-                depends_lib
-                depends_build
-                depends_extract
-                pre-fetch {
-                    ui_error "${subport} does not build on macOS 10.15 or later"
-                    return -code error "incompatible OS version"
-                }
             }
         }
     }

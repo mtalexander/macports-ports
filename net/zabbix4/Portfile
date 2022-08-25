@@ -21,8 +21,8 @@ long_description    Zabbix is the ultimate open source availability and \
                     of the best commercial ones.
 
 array set VERSIONS {
-    4  4.0.39
-    5  5.0.21
+    4  4.0.41
+    5  5.0.24
     #6  6.0.1  # Haven't had a chance to test yet.
 }
 
@@ -44,17 +44,17 @@ dist_subdir         zabbix${zver}
 if {$zver == 4} {
     livecheck.regex     "zabbix-(4\\.0\\.\[0-9\]+).tar.gz"
     checksums \
-        rmd160  bdf12d771710912e039ff0fa7c6ce7c65348499a \
-        sha256  5425693737205ab8822a7ed7289aa65ac19634cd699d759e557e8b81883b69b9 \
-        size    17548415
+        rmd160  968d21baaa20a8927d19699fa6efcce2faa41793 \
+        sha256  362139c1e52680501059a38251dadf3dc692da2e14c7defe095649cfa483baad \
+        size    17641873
 }
 
 if {$zver == 5} {
     livecheck.regex     "zabbix-(5\\.0\\.\[0-9\]+).tar.gz"
     checksums \
-        rmd160  55980375dcbc5a2db10847c0922d09264c3b6e81 \
-        sha256  6b8d0849c014b746fa0084b6c8f07eb5a244fcc5c1c4147e19945dd22f06335d \
-        size    21459282
+        rmd160  b3e4baed42ba5f5f23f8aa7afab7057b01411bb8 \
+        sha256  79e5740ea5038cf52072fe7c3eaa033511f473b896029cef442b2920fd6eac79 \
+        size    21296805
 }
 
 if {$zver == 6} {
@@ -102,7 +102,7 @@ configure.ldflags-append    -lresolv
 if {![isFlavor frontend ${subport}]} {
     startupitem.create      yes
     depends_lib-append      port:libiconv \
-                            port:gnutls \
+                            path:lib/pkgconfig/gnutls.pc:gnutls \
                             port:pcre \
                             port:libevent
 }

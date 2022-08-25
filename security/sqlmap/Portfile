@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                sqlmap
-version             1.6.3
+version             1.6.8
 revision            0
 
 categories          security databases python
@@ -23,9 +23,9 @@ long_description    \
     the operating system via out-of-band connections.
 homepage            https://sqlmap.org/
 
-checksums           rmd160  64f0ebb5170017557c76fc72fe940584311f317f \
-                    sha256  5bf51d24f2dc14e1071f3ed561e43709c5f2b0d8eee43bb1aaf600fb13246f6d \
-                    size    7245570
+checksums           rmd160  bc847a2cd166676d38cdeb2ab13f862b7fd2a8d2 \
+                    sha256  39622e6009ace125d05d5af45b1f32ee99ded772017257ead0fdd54f2f752b3f \
+                    size    7198777
 
 worksrcdir          ${name}
 
@@ -71,7 +71,7 @@ variant python39 conflicts python27 python37 python38 python310 \
 
 variant python310 conflicts python27 python37 python38 python39 \
     description {Build for Python 3.10} {
-    python.default_version 39
+    python.default_version 310
     depends_build-append \
                     port:py${python.version}-setuptools
 }

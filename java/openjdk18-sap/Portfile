@@ -13,7 +13,7 @@ universal_variant no
 
 supported_archs  x86_64 arm64
 
-version      18
+version      18.0.2
 revision     0
 
 description  SapMachine 18
@@ -23,14 +23,14 @@ master_sites https://github.com/SAP/SapMachine/releases/download/sapmachine-${ve
 
 if {${configure.build_arch} eq "x86_64"} {
     distname     sapmachine-jdk-${version}_macos-x64_bin
-    checksums    rmd160  feddc96bb771a7a9fdc870517f7135decd68529b \
-                 sha256  930e6ab1d4452a16ef73aa519f4a47c1c06a5d21a1233a1e68e2459fb0a5d8cd \
-                 size    181223016
+    checksums    rmd160  8cb2ed749e48338e52e59fbc324f721f6bfb5a0f \
+                 sha256  6f3ae5267896de1fc887b455157c26eac9c6d32c64aa6aee94b0bc2c61253b14 \
+                 size    181289049
 } elseif {${configure.build_arch} eq "arm64"} {
     distname     sapmachine-jdk-${version}_macos-aarch64_bin
-    checksums    rmd160  cc3cd90bbd8fd46775ad300302248bb7d2e19fbe \
-                 sha256  47c5fb2b20dc18080426106703d616e3db8f76e0b791bc1ef32c3b4bec6867d9 \
-                 size    179060893
+    checksums    rmd160  b643cb712e0e815cee5274d6ce8a3cd34ed50936 \
+                 sha256  75a7e28b1fcfa4366dec5810265b7b8f7844d53e87005176feb797d4173456ab \
+                 size    179132289
 }
 
 worksrcdir   sapmachine-jdk-${version}.jdk

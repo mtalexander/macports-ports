@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 name                py-discogs-client
 python.rootname     python3-discogs-client
-version             2.3.13
+version             2.3.15
 revision            0
 
 categories-append   devel audio
@@ -21,9 +21,9 @@ homepage            https://github.com/joalla/discogs_client
 
 maintainers         {@catap korins.ky:kirill} openmaintainer
 
-checksums           rmd160  e34710a22a8fc61655274875794935f9eee91c89 \
-                    sha256  5272f32fd6a3ea55030c957124c58439bd78cac7fdcec19e3ddfc817c8d2d036 \
-                    size    34228
+checksums           rmd160  4be01218505cb94259cc3d8e4b529e4cd4f35944 \
+                    sha256  fe74b51f71fe75e525712fd31a0271e7409af5b3cf01b338ce52cb4936682026 \
+                    size    35059
 
 python.versions     37 38 39 310
 

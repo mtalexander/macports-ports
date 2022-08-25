@@ -5,7 +5,7 @@ PortGroup           github 1.0
 PortGroup           python 1.0
 PortGroup           select 1.0
 
-github.setup        tmux-python tmuxp 1.10.0 v
+github.setup        tmux-python tmuxp 1.13.0 v
 name                py-tmuxp
 revision            0
 
@@ -26,7 +26,7 @@ if {${name} ne ${subport}} {
     depends_build-append \
                     port:py${python.version}-setuptools \
                     port:py${python.version}-poetry-core
-    
+
     depends_lib-append \
                     port:py${python.version}-click \
                     port:py${python.version}-colorama \
@@ -36,9 +36,9 @@ if {${name} ne ${subport}} {
     depends_run-append \
                     port:tmuxp_select
 
-    checksums       rmd160  9304244092aa66e1d72696de67f931690ea6ed34 \
-                    sha256  ffede73b46206fd69c7c2a816ef32a6fe0e42d1615cabf0d9933772c97991a29 \
-                    size    837041
+    checksums       rmd160  d3a475c908f0091b579a6702fefc9f8bc6f4ee71 \
+                    sha256  f741e290bf12ec34833162dc3fc889c03a2c730356807f8cc951457992d46196 \
+                    size    833732
 
     select.group    tmuxp
     select.file     ${worksrcpath}/py${python.version}-tmuxp
@@ -74,7 +74,7 @@ if {${name} ne ${subport}} {
         post-build {
             system -W ${worksrcpath}/docs "make PYTHONPATH=${worksrcpath}/build/lib SPHINXBUILD=${prefix}/bin/sphinx-build-${python.branch} html man"
         }
-        
+
         post-destroot {
             set doc_build_dir ${worksrcpath}/docs/_build
 
@@ -96,3 +96,5 @@ port select --set ${select.group} [file tail ${select.file}]
 
     livecheck.type      none
 }
+
+github.livecheck.regex  "(\\d+(?:\\.\\d+)+)"

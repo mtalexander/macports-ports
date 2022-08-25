@@ -5,11 +5,11 @@ PortGroup           github 1.0
 PortGroup           compiler_blacklist_versions 1.0
 PortGroup           boost 1.0
 
-github.setup        lballabio QuantLib 1.25 QuantLib-v
+github.setup        lballabio QuantLib 1.27 QuantLib-v
 revision            0
-checksums           rmd160  dc03177bc8162fda578609c7c66345cd67fb1eaf \
-                    sha256  0fbe8f621b837b6712d74102892a97a0f09e24a55a34dfc74f1e743a45d73d1d \
-                    size    9302497
+checksums           rmd160  a6490bb7588732ec91bb48cd39c145c4a4f9ad60 \
+                    sha256  5c2cab0f9bbcdcd3ca1b45d7930b3ab7e120857587b6f61c463b2a012a8bc6a7 \
+                    size    9314763
 
 categories          finance
 maintainers         {ryandesign @ryandesign} openmaintainer

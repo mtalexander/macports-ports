@@ -5,12 +5,11 @@ PortGroup           python 1.0
 PortGroup           select 1.0
 
 name                py-ansible-core
-version             2.12.1
+version             2.13.1
 revision            0
 license             GPL-3+
 
 categories-append   sysutils
-platforms           darwin
 supported_archs     noarch
 
 maintainers         {adfernandes @adfernandes} {gmail.com:pedro.salgado @steenzout} openmaintainer
@@ -18,9 +17,9 @@ maintainers         {adfernandes @adfernandes} {gmail.com:pedro.salgado @steenzo
 homepage            https://github.com/ansible/ansible
 description         SSH-based configuration management and deployment system
 
-checksums           rmd160  f276c925fc96087758e63c2714df8833c2335970 \
-                    sha256  a4508707262be11bb4dd98a006f1b14817879a055e6b6c46ad9fca8894fb3073 \
-                    size    7401160
+checksums           rmd160  258641ce48b1bb539a90c982e7929104b1a578fe \
+                    sha256  abd478ceff1a0aba95e94ceab8dc820f407bcc0f0033dc546840cddc29a36958 \
+                    size    7407801
 
 conflicts           ansible
 
@@ -32,7 +31,7 @@ long_description \
     be written in any language and are transferred to managed machines \
     automatically.
 
-python.versions 27 37 38 39 310
+python.versions     37 38 39 310
 
 if {${name} ne ${subport}} {
     patch {
@@ -63,5 +62,4 @@ when you execute the commands without a version suffix, e.g. 'ansible', run:
 
 port select --set ${select.group} [file tail ${select.file}]
 "
-    livecheck.type  none
 }

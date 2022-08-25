@@ -547,6 +547,9 @@ TLS_PRIVOXY_ROOT_CA
 }
 
 subport ${name}-pki-bundle {
+    # Please increase the revision whenever curl-ca-bundle contents change
+    revision        2
+
     license         MIT
 
     description     PKI Bundle for ${name}
@@ -559,7 +562,7 @@ subport ${name}-pki-bundle {
 
     depends_lib-append \
                     port:apple-pki-bundle \
-                    port:curl-ca-bundle
+                    path:share/curl/curl-ca-bundle.crt:curl-ca-bundle
 
     use_configure   no
     build           {}
@@ -606,6 +609,13 @@ subport ${name}-pki-bundle {
     }
     destroot.keepdirs-append \
                     ${destroot}${privoxy_ca_dir}
+
+    # Please remove this pre-activate block after 2023-07-01; see https://trac.macports.org/ticket/65367
+    pre-activate {
+        if {[file exists ${privoxy_ca_dir}/trustedCAs.pem]} {
+            delete  ${privoxy_ca_dir}/trustedCAs.pem
+        }
+    }
 
     variant user_pki_bundle \
         description "Add user PKI certificates from ${user_pki_bundle}" {

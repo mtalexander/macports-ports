@@ -6,7 +6,7 @@ PortGroup github 1.0
 # use cmake 1.0 for CMAKE_BUILD_TYPE=Release
 PortGroup cmake 1.0
 
-github.setup            neovim neovim 0.6.1 v
+github.setup            neovim neovim 0.7.2 v
 revision                0
 categories              editors
 platforms               darwin
@@ -23,9 +23,9 @@ long_description \
 
 homepage                https://neovim.io
 
-checksums               rmd160  a555d6a1283794b64bb12507a17cdbf120b1344e \
-                        sha256  5fe6b63e259753ebb4aa743fc8d90bd3ea489f7db5a205c06eca3d62545937f4 \
-                        size    10597444
+checksums               rmd160  b93064e926d6cf21b48605ce0f02dda5452554f5 \
+                        sha256  e06d8f3e594b981dc5500cba76a29636fd10668dceb6b5b9d371c307d41f4727 \
+                        size    10935577
 
 depends_build-append    port:pkgconfig
 

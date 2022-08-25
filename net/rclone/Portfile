@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/rclone/rclone 1.58.0 v
+go.setup            github.com/rclone/rclone 1.59.1 v
 github.tarball_from archive
 revision            0
 
@@ -25,9 +25,9 @@ long_description \
     Backblaze B2, Yandex Disk, SFTP, and the local filesystem.
 
 checksums \
-    rmd160  dbbe1cef8616f4b5287bcc1a8a1afbd964f0082f \
-    sha256  b3f953a282964d6d73a7278ccb2bb836d9aca855e9dc5fb6f4bc986b0e5656fa \
-    size    15680256
+    rmd160  b331f00cdb659da6897211cb7b15b09efe6ed9b8 \
+    sha256  3eb56502c49ffe53da0360b66d5c9ee6147433f1a9b0238686c1743855cc891f \
+    size    15946112
 
 # FIXME: This port currently can't be built without allowing go mod to fetch
 # dependencies during the build phase. See

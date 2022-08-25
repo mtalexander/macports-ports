@@ -6,7 +6,7 @@ PortGroup           python 1.0
 name                py-igraph
 python.rootname     igraph
 python.pep517       yes
-version             0.9.9
+version             0.9.11
 revision            0
 categories-append   math science
 platforms           darwin
@@ -24,9 +24,9 @@ long_description    Python interface to the igraph library for network analysis 
 
 homepage            https://igraph.org/python/
 
-checksums           rmd160  a5d16134d93d801027c71cac10dcfb8ab4aa48d5 \
-                    sha256  3f84b57fbaab37efa965f8dc1e1e28aad181357f1a6aa8204fe7c91ee9615092 \
-                    size    3720712
+checksums           rmd160  db5c29e1d1aeb99a72ec63878bd0aa152919bfbd \
+                    sha256  52eeaf5c015e297d979fefc53038fbaaf5fff4fb5f5022dce43f3ddc78210515 \
+                    size    3728842
 
 variant external_igraph description {Use external igraph library} { }
 
@@ -45,11 +45,7 @@ if {${name} ne ${subport}} {
 
         depends_build-append    path:bin/pkg-config:pkgconfig
 
-        # To avoid building the vendored igraph, --use-pkg-config must be passed not only
-        # to setup.py build, but also to setup.py install. When updating post-0.9.5,
-        # check if this is still necessary.
-        build.args-append       --use-pkg-config
-        destroot.args-append    --use-pkg-config
+        build.args-append       -C--global-option=--use-pkg-config
     } else {
         # Build with vendored igraph library
 

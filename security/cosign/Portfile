@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/sigstore/cosign 1.6.0 v
+go.setup            github.com/sigstore/cosign 1.10.1 v
 revision            0
 
 categories          security
@@ -11,14 +11,13 @@ maintainers         {judaew @judaew} openmaintainer
 license             Apache-2
 
 description         Container Signing
-
 long_description    \
     Container Signing, Verification and Storage in an OCI registry. Cosign \
     aims to make signatures invisible infrastructure.
 
-checksums           rmd160  42f758f15e0bbc4a15690cd627da13124cc30ec9 \
-                    sha256  2575522b6c873bb052e7d0e3aee230f9a3cdfbdf182d4f09cbff0a6a9cc43f3b \
-                    size    7069808
+checksums           rmd160  5e2bcc315c7e1e81bc97b90005147801bd58c706 \
+                    sha256  f15f643cbaa5d9fec6889bb6765314fd2451efdcc9a20eac586e829c7dbce45e \
+                    size    7142402
 
 # FIXME: This port currently can't be built without allowing go mod to fetch
 build.env-delete    GOPROXY=off GO111MODULE=off
@@ -47,3 +46,5 @@ variant sget description {sget command for safer, automatic verification of sign
             ${destroot}${prefix}/bin/
     }
 }
+
+github.livecheck.regex  "(\\d+(?:\\.\\d+)+)"

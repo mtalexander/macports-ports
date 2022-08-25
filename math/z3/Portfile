@@ -20,11 +20,11 @@ if {${subport} eq "${name}-fstar"} {
                         sha256  4e8e232887ddfa643adb6a30dcd3743cb2fa6591735fbd302b49f7028cdc0363 \
                         size    4177051
 } else {
-    github.setup        Z3Prover z3 4.8.14 z3-
+    github.setup        Z3Prover z3 4.8.17 z3-
     revision            0
-    checksums           rmd160  f0693acb84639ed5737a8319d8aedffda5d4e95b \
-                        sha256  96a1f49a7701120cc38bfa63c02ff93be4d64c7926cea41977dedec7d87a1364 \
-                        size    5113598
+    checksums           rmd160  e2039c4c94c09e7eb5367b2f3bc4dfa53347a4cd \
+                        sha256  1e57637ce8d5212fd38453df28e2730a18e0a633f723682267be87f5b858a126 \
+                        size    5232392
 }
 
 platforms           darwin freebsd

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 
 perl5.branches      5.28 5.30 5.32 5.34
-perl5.setup         Astro-SpaceTrack 0.151
+perl5.setup         Astro-SpaceTrack 0.156 ../../authors/id/W/WY/WYANT
 revision            0
 license             {Artistic-1 GPL}
 maintainers         {devans @dbevans} openmaintainer
@@ -13,9 +13,9 @@ long_description    ${description}
 
 platforms           darwin
 
-checksums           rmd160  4930a83745343f72608b7be9e7b7021de514ed31 \
-                    sha256  3ba235169c20bace01a4675d1290c4d07354ce0039e9041a1ae7667f1cc189aa \
-                    size    196267
+checksums           rmd160  a98c62b7b1b814615867b71a0fbadd5418d983d0 \
+                    sha256  8533ce9086ca0d478af570ce068658d2df3dde310a4cbed6a7849f00e075b70f \
+                    size    201667
 
 if {${perl5.major} != ""} {
     depends_lib-append \

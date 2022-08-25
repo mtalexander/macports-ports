@@ -4,7 +4,7 @@ PortSystem          1.0
 
 name                clojure
 epoch               20110929
-version             1.10.3.1087
+version             1.11.1.1155
 revision            0
 license             EPL-1
 categories          lang java
@@ -21,9 +21,9 @@ supported_archs     noarch
 master_sites        https://download.clojure.org/install/
 distname            clojure-tools-${version}
 worksrcdir          clojure-tools
-checksums           rmd160  7ac577bf1cf846e607772b4b65759259e37f38dd \
-                    sha256  a6b3b3547adc6da6ca5cfe10e037f1fde88a78f948372bb598ef4d0859da3e94 \
-                    size    17504843
+checksums           rmd160  f632b81969cecfc6ce16983ff3a628319e78c4f7 \
+                    sha256  6e5caaebdc20cee84460a6d378437db7a4f877b445d53a11cb246eac044cc727 \
+                    size    17961193
 use_configure       no
 build               {}
 
@@ -52,5 +52,5 @@ notes "Install the rlwrap port and invoke `clj` for more a more ergonomic REPL."
 
 # ${homepage} now returns 0 bytes; the only indication of the current version on
 # all of clojure.org is currently the Linux install script instructions.
-livecheck.url       https://clojure.org/guides/getting_started
+livecheck.url       https://clojure.org/guides/install_clojure
 livecheck.regex     {linux-install-(\d+(?:\.\d+)*)\.sh}

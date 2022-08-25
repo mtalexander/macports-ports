@@ -12,16 +12,19 @@ license                 PHP-3.01
 
 homepage                https://dev.mysql.com/doc/x-devapi-userguide/en/
 
+# Still not compatible with 8.1.
+# https://github.com/php/pecl-database-mysql_xdevapi/pull/9
+
 php.branches            7.1 7.2 7.3 7.4 8.0
 php.pecl                yes
 
 if {[vercmp ${php.branch} 7.1] >= 0} {
     if {${os.platform} ne "darwin" || ${os.major} >= 17} {
-        version         8.0.28
+        version         8.0.30
         revision        0
-        checksums       rmd160  58a4daf917397cece465ddfc45f66d845060e68d \
-                        sha256  a681734a974b84e7d15c411c2af5a3bcd3a1f9fe062139988a295ee0dd908797 \
-                        size    587705
+        checksums       rmd160  a227c5fe61cb4c40542fad86eb80844503c7ab8f \
+                        sha256  4a1f7ac8fc59579194548365d3fcc380372749e9cc50895d8e065ea7f4717cfd \
+                        size    587966
     } else {
         version         8.0.21
         revision        3

@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                mutt
-version             2.2.1
+version             2.2.5
 categories          mail
 platforms           darwin
 license             GPL-2+
@@ -21,9 +21,9 @@ master_sites        https://bitbucket.org/mutt/mutt/downloads/
 
 # Does not conflict with neomutt without the 'mutt' variant
 
-checksums           rmd160  1502c313d988afe6ede4f3d2390f2f8ae99d2015 \
-                    sha256  b76d30d42b6c90aa9abf9f330e41800934eedf7b858a32c120ee3ae63587abb5 \
-                    size    5503979
+checksums           rmd160  bdd44f66c70ce7becb7b6c423487b09297ad7392 \
+                    sha256  ff8b781159794adcca126b551d5e419174b7b38a582a159bfe4e13451a757e47 \
+                    size    5516189
 
 depends_lib         port:gettext \
                     port:libiconv \
@@ -68,7 +68,7 @@ variant ssl conflicts gnutls description {Enable TLS support using OpenSSL} {
 
 variant gnutls conflicts ssl description {Enable TLS support using GnuTLS} {
     configure.args-append   --with-gnutls=${prefix}
-    depends_lib-append      port:gnutls
+    depends_lib-append      path:lib/pkgconfig/gnutls.pc:gnutls
 }
 
 variant sasl description {Simple Authentication and Security Layer support} {

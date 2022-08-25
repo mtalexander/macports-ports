@@ -7,8 +7,11 @@ on:
     paths-ignore:
       - '.github/**'
   push:
-    branches:
-      - update/*
+    branches-ignore:
+      - master
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -20,16 +23,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-10.15, macos-11]
+        os: [macos-11, macos-12]
 
     steps:
       - name: Checkout ports
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 64
           path: ports
       - name: Checkout mpbb
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: macports/mpbb
           path: mpbb
@@ -181,7 +184,7 @@ jobs:
             -exec chmod -R go+rX {} \;
       - name: Archive build logs
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: logs-${{ matrix.os }}.zip
           path: /tmp/mpbb/*/logs

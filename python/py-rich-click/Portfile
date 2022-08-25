@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-rich-click
-version             1.2.1
+version             1.5.2
 license             MIT
 supported_archs     noarch
 
@@ -16,9 +16,9 @@ long_description    ${python.rootname} aims to provide attractive help output fr
 
 homepage            https://github.com/ewels/${python.rootname}
 
-checksums           rmd160 d2a910e66c1023fd1a664eafb093320576a01fe1 \
-                    sha256 43edaf6f89d9597e992040a56ac7f9236952d3e8c2df47db88115bc304005dff \
-                    size   16856
+checksums           rmd160 9951d6a8fece749b6d8e62f49ea1039ffbafd4ef \
+                    sha256 a57ca70242cb8b372a670eaa0b0be48f2440b66656deb4a56e6aadc1bbb79670 \
+                    size   23566
 
 python.versions     39 310
 

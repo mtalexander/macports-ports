@@ -4,13 +4,17 @@ PortSystem          1.0
 PortGroup           select 1.0
 PortGroup           openssl 1.0
 PortGroup           compiler_blacklist_versions 1.0
+PortGroup           legacysupport 1.1
+
+# MAP_ANONYMOUS
+legacysupport.newest_darwin_requires_legacy 14
 
 set ruby_ver        3.1
-set ruby_patch      1
+set ruby_patch      2
 set ruby_ver_nodot  [string map {. {}} ${ruby_ver}]
 name                ruby${ruby_ver_nodot}
 version             ${ruby_ver}.${ruby_patch}
-revision            0
+revision            1
 
 categories          lang ruby
 maintainers         {kimuraw @kimuraw} openmaintainer
@@ -30,9 +34,9 @@ master_sites        ruby:${ruby_ver}
 distname            ruby-${version}
 dist_subdir         ruby${ruby_ver_nodot}
 
-checksums           rmd160 8c9b6ff9886007d980986803baef0d093591d1f5 \
-                    sha256 fe6e4782de97443978ddba8ba4be38d222aa24dc3e3f02a6a8e7701c0eeb619d \
-                    size 20562492
+checksums           rmd160 544ae8509271263956c0a3d6cb415f2d4e00cdb3 \
+                    sha256 61843112389f02b735428b53bb64cf988ad9fb81858b8248e22e57336f24a83e \
+                    size 20553628
 
 universal_variant   no
 
@@ -58,6 +62,11 @@ select.file         ${filespath}/ruby${ruby_ver_nodot}
 compiler.blacklist-append \
                     { clang < 901 }
 
+if { [string match macports-clang-* ${configure.compiler}] } {
+    # clang-mp-14 => dsymutil-mp-14; fix POSTLINK
+    configure.env-append dsymutil=[string map {clang dsymutil} ${configure.cc}]
+}
+
 compiler.thread_local_storage yes
 
 configure.args      --enable-shared \
@@ -78,6 +87,11 @@ configure.args-append   AR=${prefix}/bin/ar RANLIB=${prefix}/bin/ranlib
 # temporal fix error at destroot "bundled gems" (`make install DESTDIR=path/to`)
 # https://bugs.ruby-lang.org/issues/18373
 patchfiles  patch-_bundle_gems-extconf.rb.diff
+
+# fix version detection with AvailabilityMacros.h
+# future version should be a numeric literal, not a macro
+patchfiles-append   patch-configure.diff \
+                    patch-dln.c.diff
 
 # Add the architecture flag as required
 if {[info exists build_arch] && ${build_arch} != ""} {
@@ -154,6 +168,8 @@ platform darwin {
     }
 }
 
+test.run        yes
+test.target     check
 
 livecheck.type  regex
 livecheck.url   https://cache.ruby-lang.org/pub/ruby/${ruby_ver}/

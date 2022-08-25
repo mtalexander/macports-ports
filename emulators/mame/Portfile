@@ -16,11 +16,8 @@ PortGroup           compiler_blacklist_versions 1.0
 
 name                mame
 categories          emulators
-platforms           darwin
 license             GPL-2+
-
-maintainers         {mascguy @mascguy} \
-                    openmaintainer
+maintainers         {mascguy @mascguy} openmaintainer
 
 description         Multiple Arcade Machine Emulator
 long_description    \
@@ -29,6 +26,7 @@ long_description    \
     software from being lost and forgotten. This is achieved by documenting the \
     hardware and how it functions. The source code to MAME serves as this \
     documentation.
+
 homepage            https://www.mamedev.org
 
 #------------------------------------------------------------------------------
@@ -79,18 +77,18 @@ set g_mame_latest \
 
 if {${g_mame_latest}} {
     set g_mame_release \
-                    "0241"
+                    "0246"
 
     revision        0
     epoch           1
 
-    # Mame 0.240: Disable PDF generation, which is problematic. (And not desired.)
+    # Mame 0.240+: Disable PDF generation, which is problematic. (And not desired.)
     patchfiles-append \
                     mame-patch-0240-dist.mak-disable-pdf.diff
 
-    checksums       rmd160  4e5976151ae416a867d5f33ae8eee6e1d4fe4901 \
-                    sha256  008b8b9fd0cfbea63bc589ab4e9e5af6d63f865c6edf6e6378352e4dbfcb47ff \
-                    size    184067870
+    checksums       rmd160  ece1966223031fad86953d05657b45904f681571 \
+                    sha256  293c8f4b550694e0f6aa21165d7f7be9aa3a5284d957265c4e7469159a71b5d5 \
+                    size    185503516
 
 } else {
     set g_mame_release \
@@ -142,7 +140,7 @@ if {!${g_mame_latest}} {
 #------------------------------------------------------------------------------
 
 set g_mame_pyver_major     3
-set g_mame_pyver_minor     9
+set g_mame_pyver_minor     10
 
 #------------------------------------------------------------------------------
 # Port-Specific Globals
@@ -217,6 +215,7 @@ set g_mame_build_args_dist_list \
 
 depends_build-append \
                     port:asio \
+                    port:gettext \
                     port:gmake \
                     port:pkgconfig
 

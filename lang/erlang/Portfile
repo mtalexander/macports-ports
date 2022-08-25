@@ -9,8 +9,8 @@ PortGroup           legacysupport 1.1
 legacysupport.newest_darwin_requires_legacy 10
 
 name                erlang
-version             24.2
-revision            1
+version             25.0
+revision            0
 
 categories          lang erlang
 maintainers         {ciserlohn @ci42}
@@ -47,17 +47,17 @@ distfiles           otp_src_${version}${extract.suffix}                    \
                     otp_doc_html_${version}${extract.suffix}
 
 checksums           otp_src_${version}.tar.gz \
-                    rmd160  76869bd1409820431738854d93ca31196c772717 \
-                    sha256  af0f1928dcd16cd5746feeca8325811865578bf1a110a443d353ea3e509e6d41 \
-                    size    107224843 \
+                    rmd160  f977fc3a893525b668508e54db5a38cc6a084f26 \
+                    sha256  3e1e2e55409e9484e69b316fcd00ff7e2ed606bcfb2c7cac514f9b9aeb9651e8 \
+                    size    102972543 \
                     otp_doc_man_${version}.tar.gz \
-                    rmd160  2c45d573662b2b13125fae083ecea4d76a53e12c \
-                    sha256  56ae4b13fc7c003f4dd9951a9ff2a0bae0b38473df2c078d79c8553c277c5f4c \
-                    size    1673926 \
+                    rmd160  84029a74a10510b9cb3c5b604ccdcd85d985fbec \
+                    sha256  3edce27340f30019d7a2c6aeda7744cf864b0a7c8314360265152fcad524579d \
+                    size    1708111 \
                     otp_doc_html_${version}.tar.gz \
-                    rmd160  70a2e8149379232c0bbdd778a2172569d6538089 \
-                    sha256  f479cbc8a28532fd6a0a55fc26684b4e79312da4f86ee0735d0757f936672bbc \
-                    size    36604264
+                    rmd160  bc662efd0b3b036a4fc0223c8c013f5f2e82f9bd \
+                    sha256  0b8a751757d3c72f5def862d258e32de626a8fa9453c8493b9a0255d98f524f9 \
+                    size    40951434
 
 worksrcdir          otp_src_${version}
 
@@ -117,6 +117,9 @@ platform darwin {
     if {${os.major} >= 10} {
         # also "-framework Appkit"?
         configure.ldflags-append -framework CoreFoundation
+    }
+    if {${os.major} <= 10} {
+        patchfiles-append       patch-erts_emulator_sys_unix_sys_time.c.diff
     }
 }
 

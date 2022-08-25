@@ -4,7 +4,7 @@ PortSystem          1.0
 
 PortGroup           golang 1.0
 
-go.setup            github.com/kubernetes/kops 1.23.0 v
+go.setup            github.com/kubernetes/kops 1.23.2 v
 github.tarball_from archive
 revision            0
 go.package          k8s.io/kops
@@ -18,9 +18,9 @@ license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  7bd88982bdc868dac43c87c74f0aeaccacde0ccf \
-                    sha256  752eb58feb0cb06d224b98d7fa23ac8fe9cd9ed0ffcd2706ab870bf1ad8c7d2a \
-                    size    30107828
+checksums           rmd160  5ab50d96c4dba33c2b15eb87be505e8e407e46b4 \
+                    sha256  adfc507517295fa1c1289528459921abb3e8dad1c7f304f6cd2310382f37c3d0 \
+                    size    30376137
 
 depends_run         port:kubectl-1.23
 

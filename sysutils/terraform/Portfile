@@ -34,19 +34,34 @@ proc terraformDistBase {} {
     return ${name}_[terraformVersion]_darwin
 }
 
-subport terraform-1.1 {
+subport terraform-1.2 {
     set patchNumber     7
 
     set armAvailable    yes
 
     checksums           [terraformDistBase]_amd64.zip \
-                        rmd160  30073fc522cbb54ecc98448f7beb82919c7d46e5 \
-                        sha256  5e7e939e084ae29af7fd86b00a618433d905477c52add2d4ea8770692acbceac \
-                        size    20213394 \
+                        rmd160  99e0c2b8728d7c5b1b7612455297071044e81262 \
+                        sha256  acc781e964be9b527101b00eb6e7e63e7e509dd1355ff8567b80d0244c460634 \
+                        size    21330075 \
                         [terraformDistBase]_arm64.zip \
-                        rmd160  06659efb24c1acbb091f0a4a00db441eea04ebc1 \
-                        sha256  a36b6e2810f81a404c11005942b69c3d1d9baa8dd07de6b1f84e87a67eedb58f \
-                        size    19371095
+                        rmd160  23e8617593e32e87aeaabaa1cd967d3b89a7194f \
+                        sha256  e4717057e1cbb606f1e089261def9a17ddd18b78707d9e212c768dc0d739a220 \
+                        size    19773241
+}
+
+subport terraform-1.1 {
+    set patchNumber     9
+
+    set armAvailable    yes
+
+    checksums           [terraformDistBase]_amd64.zip \
+                        rmd160  e6538bdf426ea5921331a486c3ac75a1b51c3146 \
+                        sha256  c902b3c12042ac1d950637c2dd72ff19139519658f69290b310f1a5924586286 \
+                        size    20709155 \
+                        [terraformDistBase]_arm64.zip \
+                        rmd160  1831a902fd94614825b5339d9aeae8411fdd187e \
+                        sha256  918a8684da5a5529285135f14b09766bd4eb0e8c6612a4db7c121174b4831739 \
+                        size    19835808
 }
 
 subport terraform-1.0 {
@@ -105,7 +120,7 @@ if {${subport} eq ${name}} {
     PortGroup           obsolete 1.0
 
     replaced_by         ${latestVersion}
-    version             1.1.7
+    version             1.2.7
     revision            0
 
 } elseif {${subport} eq "terraform_select"} {

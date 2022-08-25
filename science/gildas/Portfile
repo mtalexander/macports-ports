@@ -5,7 +5,7 @@ PortGroup           compilers 1.0
 PortGroup           active_variants 1.1
 
 name                gildas
-version             202203a
+version             202207c
 set my_version      [string tolower [clock format [clock scan 2000-[string range ${version} 4 5]-10] -format %b]][string range ${version} 2 3][string range ${version} 6 end]
 supported_archs     arm64 x86_64
 set my_machine      [if {[string match *arm* ${os.arch}]} {list arm64} {list x86_64}]
@@ -32,9 +32,9 @@ master_sites        https://www.iram.fr/~gildas/dist/ \
 distname            ${name}-src-${my_version}
 use_xz              yes
 
-checksums           rmd160  55603b3b0fd4910cf5096e871c6600009f8349a4 \
-                    sha256  967e184f53f7ac2f62ed1a54a590bbf1277e8b4a618819fdef0bf3f8f2e0f9dc \
-                    size    43834928
+checksums           rmd160  e00f9ec41687d0314101e54c8449e1fe18ffeb8b \
+                    sha256  8d4e62a3f6a1533badb097e6e7d07b5e8ff2f4b79edd5ad4dfc700ffa3a6aa78 \
+                    size    44506864
 
 patch.pre_args      -p1
 patchfiles          patch-admin-Makefile.def.diff \
@@ -45,8 +45,8 @@ patchfiles          patch-admin-Makefile.def.diff \
 
 depends_lib         path:lib/pkgconfig/gtk+-2.0.pc:gtk2 \
                     port:libpng \
-                    port:python39 \
-                    port:py39-numpy
+                    port:python310 \
+                    port:py310-numpy
 
 # coreutils needed to use GNU gsort instead of native BSD sort as older version
 # of sort do not support sort -V:
@@ -65,7 +65,7 @@ compilers.enforce_some_fortran cfitsio
 
 compilers.choose    fc
 compilers.setup     -gcc46 require_fortran
-configure.python    ${prefix}/bin/python3.9
+configure.python    ${prefix}/bin/python3.10
 
 configure {
     set cxxstdlib {}
@@ -95,6 +95,7 @@ destroot {
     xinstall ${filespath}/astro.in ${destroot}${prefix}/bin/astro
     xinstall ${filespath}/class.in ${destroot}${prefix}/bin/class
     xinstall ${filespath}/clic.in ${destroot}${prefix}/bin/clic
+    xinstall ${filespath}/cube.in ${destroot}${prefix}/bin/cube
     xinstall ${filespath}/greg.in ${destroot}${prefix}/bin/greg
     xinstall ${filespath}/mapping.in ${destroot}${prefix}/bin/mapping
     xinstall ${filespath}/mira.in ${destroot}${prefix}/bin/mira
@@ -103,8 +104,8 @@ destroot {
     xinstall ${filespath}/sched-30m.in ${destroot}${prefix}/bin/sched-30m
     xinstall ${filespath}/imager.in ${destroot}${prefix}/bin/imager
 
-    reinplace -W ${destroot}${prefix}/bin s|@PREFIX@|${prefix}|g astro class clic greg mapping mira mrtcal sic sched-30m imager
-    reinplace -W ${destroot}${prefix}/bin s|@ARCH@|${my_machine}|g astro class clic greg mapping mira mrtcal sic sched-30m imager
+    reinplace -W ${destroot}${prefix}/bin s|@PREFIX@|${prefix}|g astro class clic cube greg mapping mira mrtcal sic sched-30m imager
+    reinplace -W ${destroot}${prefix}/bin s|@ARCH@|${my_machine}|g astro class clic cube greg mapping mira mrtcal sic sched-30m imager
 
     # delete broken module
     delete ${destroot}${prefix}/lib/gildas/${my_machine}-darwin-gfortran/python/pyclassfiller

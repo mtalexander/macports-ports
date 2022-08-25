@@ -10,7 +10,7 @@ set git_date            20200529
 github.setup            openscenegraph OpenSceneGraph ${git_commit}
 name                    OpenSceneGraph-devel
 version                 3.7.0-${git_date}
-revision                3
+revision                4
 conflicts               OpenSceneGraph
 platforms               darwin
 categories              graphics
@@ -46,7 +46,7 @@ depends_lib             port:curl \
                         port:libpng \
                         path:lib/pkgconfig/librsvg-2.0.pc:librsvg \
                         port:openexr \
-                        port:poppler \
+                        path:lib/pkgconfig/poppler.pc:poppler \
                         port:tiff \
                         port:zlib
 

@@ -4,8 +4,6 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           muniversal 1.0
 PortGroup           compilers 1.0
-PortGroup           xcodeversion 1.0
-PortGroup           compiler_blacklist_versions 1.0
 PortGroup           xcode_workaround 1.0
 PortGroup           makefile 1.0
 
@@ -15,16 +13,22 @@ license             BSD
 maintainers         {nicos @NicosPavlov} {michaelld @michaelld} openmaintainer
 description         OpenBLAS is an optimized BLAS library based on GotoBLAS2
 long_description    ${description}
-platforms           darwin
 
 # block compilers that do not support thread-local storage.
 compiler.cxx_standard 2011
 compiler.c_standard   2011
 compiler.thread_local_storage yes
 
+# 10.6 supports down to Intel Core (32-bit) and Core 2 (64-bit)
 #OS 10.7-10.11 supports down to iMac 7,1, with Intel Core 2 Duo architecture
 #OS 10.12-13 supports down to iMac 10,1, with Intel Core 2 Duo architecture
-if {${os.major} >= 11 && ${os.major} <= 17} {
+if {${os.major} == 10} {
+    if {$build_arch eq "x86_64"} {
+        set blas_arch "CORE2"
+    } elseif {$build_arch eq "i386"} {
+        set blas_arch "YONAH"
+    }
+} elseif {${os.major} >= 11 && ${os.major} <= 17} {
     set blas_arch "CORE2"
 }
 #OS 10.14 supports down to Mac Pro 5,1 that has Nehalem architecture
@@ -43,12 +47,12 @@ if {![info exists blas_arch]} {
 subport OpenBLAS-devel {}
 if {[string first "-devel" $subport] > 0} {
 
-    github.setup    xianyi  OpenBLAS 5ad66f0e96a41428d69e449761ad41d3271327d5
-    version         20220221-[string range ${github.version} 0 7]
-    checksums       rmd160  85300aa731a7a170168058a76f2b6846bcce8339 \
-                    sha256  9be5da535e4c4eac887d4707b40a9391c932bc8520954865016ee85b8273179b \
-                    size    12747965
-    revision        0
+    github.setup    xianyi  OpenBLAS 9283c7c0b5a9ec7bbe3b6dfc1a019b29b3e112e5
+    version         20220619-[string range ${github.version} 0 7]
+    checksums       rmd160  fa689e8d19afd8b1c653dc6c49f6f86da08420e6 \
+                    sha256  7f0e7153268c63a967069fa43dcc658ff06873b5a7404a3f7fae49352cbab1ff \
+                    size    23492248
+    revision        1
 
     name            ${github.project}-devel
     conflicts       OpenBLAS
@@ -63,10 +67,10 @@ if {[string first "-devel" $subport] > 0} {
 
 } else {
 
-    github.setup    xianyi  OpenBLAS 0.3.20 v
-    checksums       rmd160  d23aa98a2d15d7f3e8c1ed9de1ef59c6c30173a7 \
-                    sha256  1b889733180df61cfbe636dd7682747a630b9d3a4c2757c4292ccc36143ec92e \
-                    size    12749006
+    github.setup    xianyi  OpenBLAS 0.3.21 v
+    checksums       rmd160  97287bb040acbf4b671559577cc8e94615b38ce2 \
+                    sha256  1357fbdbace8e7cba92f52c2af1d9c1a861c8ad5a03ac84e4e953d3db59f60c6 \
+                    size    23738989
     revision        0
 
     conflicts       OpenBLAS-devel
@@ -80,17 +84,6 @@ if {[string first "-devel" $subport] > 0} {
         which may not be optimized for your system. To build a version
         customized for your machine, use the +native variant"
     }
-}
-
-# https://build.macports.org/builders/ports-11_arm64-builder/builds/20461/steps/install-port/logs/stdio
-# Library not loaded: @rpath/libgfortran.5.dylib
-#   Referenced from: /opt/local/lib/libopenblas-r1.dylib
-#   Reason: image not found
-# Currently only affects arm builds, but in principle will affect all builds once changes in the gcc
-# branch used on arm hit the intel builds, so do this across the board.
-depends_build-append port:cctools
-post-destroot {
-    system "install_name_tool -add_rpath ${prefix}/lib/libgcc ${destroot}${prefix}/lib/libopenblas-r1.dylib"
 }
 
 compilers.choose    fc
@@ -250,9 +243,6 @@ platform darwin 8 {
 
 destroot.args       "PREFIX=${prefix}"
 
-if {![info exists universal_possible]} {
-    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
-}
 if {${universal_possible} && [variant_isset universal]} {
     merger-post-destroot {
         foreach arch ${universal_archs_to_use} {

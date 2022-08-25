@@ -5,7 +5,7 @@ PortGroup           github 1.0
 PortGroup           compiler_blacklist_versions 1.0
 PortGroup           haskell_stack 1.0
 
-github.setup        jgm pandoc 2.17.1.1
+github.setup        jgm pandoc 2.19
 revision            0
 categories          textproc haskell
 license             GPL-3
@@ -27,9 +27,9 @@ long_description    Pandoc is a Haskell library for converting from \
 
 homepage            https://pandoc.org
 
-checksums           rmd160  54b047f7dc76964f26c1225125d25f75c2d9ef20 \
-                    sha256  5b203ea5e5dcc2d9c735e9f12cdec24db3af9671824a401e28cf76652ee7b018 \
-                    size    7246684
+checksums           rmd160  23e1e76a2a11b10cdd60aa32bade40ae05c7fa2b \
+                    sha256  4e8a0485e23f66e647c6d25c39728879e55326000b707e532715ba95ad13ef09 \
+                    size    7340937
 
 test.run            yes
 test.args           --test-arguments='-p markdown'

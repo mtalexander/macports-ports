@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           boost 1.0
 
 name                libreoffice
-version             7.3.2.1
+version             7.3.5.2
 revision            0
 categories          office aqua
 license             {LGPL-3 MPL-1.1}
@@ -34,6 +34,7 @@ extract.only        ${main_distfile} \
 master_sites        ${main_uri}:main \
                     ${extern_uri}:opens \
                     ${addons_uri}:dtoa \
+                    ${addons_uri}:nss \
                     ${main_uri}:dicts \
                     ${main_uri}:translations \
                     ${addons_uri}:libcmis \
@@ -44,20 +45,21 @@ distfiles           ${main_distfile}:main \
                     dtoa-20180411.tgz:dtoa \
                     f543e6e2d7275557a839a164941c0a86e5f2c3f2a0042bfc434c88c6dde9e140-opens___.ttf:opens \
                     libcmis-0.5.2.tar.xz:libcmis \
-                    skia-m97-a7230803d64ae9d44f4e1282444801119a3ae967.tar.xz:skia
+                    skia-m97-a7230803d64ae9d44f4e1282444801119a3ae967.tar.xz:skia \
+                    nss-3.79-with-nspr-4.34.tar.gz:nss
 
 checksums           ${name}-${version}.tar.xz \
-                    rmd160  b2a45b786393b270fa5f8c6443db54582e230b5a \
-                    sha256  0d27e2cb2a7db94759cf22f8dc3ba2b465be847924477dec491b5e12b59511b7 \
-                    size    255675056 \
+                    rmd160  3d6d39eb8c184667814bedf1e52782ad6d1016cf \
+                    sha256  9b3e0db1ee153330ea05f04109bd817dbac2203d2eed83ef54be54d4c741e991 \
+                    size    256607688 \
                     ${name}-dictionaries-${version}.tar.xz \
-                    rmd160  6cb3ac25280985547d5437b781b2f116ab0dcbeb \
-                    sha256  c493aae3297a5f2bbdadfbb22c88fa28b440e9db2cc78d39a11a3da78966a8e8 \
-                    size    51304720 \
+                    rmd160  415f266ceca30d47879f99f1e1d319ebfa61c685 \
+                    sha256  35b55f0948632f470fef411bd15d52fab491dfd8c0ea5a279c1421c11c259e53 \
+                    size    51290272 \
                     ${name}-translations-${version}.tar.xz \
-                    rmd160  15ebf3adec45334052f9aacfa40d7ac0ab74e0f6 \
-                    sha256  a4f6281bba9ed0b86c2caa21d1164a0e2dab2ec5cf455cb8bb9fe14544ab82fa \
-                    size    196097880 \
+                    rmd160  db267cef9bb530984f3675cc31b9d88b230031d4 \
+                    sha256  d2fe9df14d1d7bbf16dd4c7f2fc9331622619d18caadf612d932496f52e146b2 \
+                    size    196589964 \
                     dtoa-20180411.tgz \
                     rmd160  8d1bba737d8b58c3fb09533f35af2a03e05d9849 \
                     sha256  0082d0684f7db6f62361b76c4b7faba19e0c7ce5cb8e36c4b65fea8281e711b4 \
@@ -73,7 +75,11 @@ checksums           ${name}-${version}.tar.xz \
                     skia-m97-a7230803d64ae9d44f4e1282444801119a3ae967.tar.xz \
                     rmd160  847ba68705192d483ab812c0f18c27be743b8b01 \
                     sha256  97e859e8467eca9d2441cd23079b61c2c3863b5687620f18cc31a9f966740177 \
-                    size    11826600
+                    size    11826600 \
+                    nss-3.79-with-nspr-4.34.tar.gz \
+                    rmd160  fa42be6eb43318661f1aea53fd97a224de6bb36f \
+                    sha256  5369ed274a19f480ec94e1faef04da63e3cbac1a82e15bb1751e58b2f274b835 \
+                    size    86446447
 
 depends_build-append \
     port:autoconf \
@@ -146,7 +152,7 @@ depends_lib-append  \
     port:xz \
     port:zlib
 # Try to keep this in sync with the Python portgroup.
-set pyver 3.9
+set pyver 3.10
 set python_version [join [split ${pyver} "."] ""]
 depends_run-append \
     port:python${python_version} \
@@ -154,6 +160,9 @@ depends_run-append \
 
 if {${os.platform} eq "darwin" && ${os.major} < 19} {
     known_fail yes
+    depends_build
+    depends_lib
+    depends_run
     pre-fetch {
         ui_error "Building ${name} @${version} requires macOS 10.15 or later."
         ui_error ""
@@ -255,6 +264,7 @@ configure.args-append  \
 
 build.target    build-nocheck
 
+destroot.keepdirs ${destroot}${applications_dir}/${product_name}.app/Contents/Resources/en.lproj
 destroot {
     copy ${worksrcpath}/instdir/${product_name}.app ${destroot}${applications_dir}
 }

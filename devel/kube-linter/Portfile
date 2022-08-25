@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/stackrox/kube-linter 0.2.6
+go.setup            github.com/stackrox/kube-linter 0.4.0
 github.tarball_from archive
 revision            0
 categories          devel
@@ -27,9 +27,9 @@ long_description    {*}${description} \
     \nWhen a lint check fails, KubeLinter reports recommendations for how to \
     resolve any potential issues and returns a non-zero exit code.
 
-checksums           rmd160  855f987e19b105093de2963a470753cff3ced0c8 \
-                    sha256  2fa6a286f2a8563b0b80186e06100f9b00c7698f528bb7ef563b0b508c2d8458 \
-                    size    240704
+checksums           rmd160  0f0373cd9d6bdd283b4354b3a9cff768fd5f2a58 \
+                    sha256  5397d913e757fdf80f2ebd99c1b7264a41d85d72d7d8d079a2a8dd6040c3d5c9 \
+                    size    233449
 
 build.env-delete    GOPROXY=off GO111MODULE=off
 build.args          -o ${name} ./cmd/kube-linter

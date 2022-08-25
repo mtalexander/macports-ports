@@ -7,7 +7,7 @@ PortGroup           legacysupport 1.1
 # clock_gettime
 legacysupport.newest_darwin_requires_legacy 15
 
-github.setup        Singular Singular 4-2-1p3 Release-
+github.setup        Singular Singular 4-3-1 Release-
 name                singular
 revision            0
 version             [string map {- .} ${github.version}]
@@ -22,9 +22,9 @@ long_description \
     geometry, and singularity theory.
 homepage            https://www.singular.uni-kl.de/
 
-checksums           rmd160  67c2f5ec4d3e0f3549ce204a1fccc572b494116d \
-                    sha256  fdc2778b0f57b3a94259d1e656a04fcaa06433c457775d5367f5c4dc18e75de5 \
-                    size    13694113
+checksums           rmd160  cb31233f841d2f51f4c3f098b860228f8eb1241d \
+                    sha256  056f401e5795521263185636e3cef5ab6bdf996dc8ba266a848973eae57d304f \
+                    size    13738688
 
 depends_build-append \
                     port:autoconf \

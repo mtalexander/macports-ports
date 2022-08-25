@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-npe2
-version             0.2.1
+version             0.6.1
 revision            0
 categories          python
 license             BSD
@@ -14,30 +14,24 @@ long_description    {*}${description}
 supported_archs     noarch
 homepage            https://github.com/napari/npe2
 
-checksums           rmd160  5c836c160aa876f0c6ba0fc024bab3c6841dce5c \
-                    sha256  f1749a053ab3437f177fe006f951208f31a932c88f0aca332bb3c7e76fdad6ed \
-                    size    68712
+checksums           rmd160  ab0cfa45ecceb4dc71a46f716d8fea55c6f89782 \
+                    sha256  f5ff6a73926d6bca1521f864e9608834a649ac4131292825d0f5ebba1357155f \
+                    size    113184
 
-python.versions     37 38 39 310
+python.versions     38 39 310
 
 if {${name} ne ${subport}} {
     python.pep517   yes
 
     depends_build-append \
-                    port:py${python.version}-setuptools_scm \
-                    port:py${python.version}-toml \
-                    port:py${python.version}-wheel
+                    port:py${python.version}-setuptools_scm
 
     depends_lib-append  \
-                    port:py${python.version}-importlib-metadata \
-                    port:py${python.version}-intervaltree \
+                    port:py${python.version}-appdirs \
                     port:py${python.version}-magicgui \
-                    port:py${python.version}-napari-plugin-engine \
                     port:py${python.version}-psygnal \
                     port:py${python.version}-pydantic \
                     port:py${python.version}-pytomlpp \
                     port:py${python.version}-typer \
                     port:py${python.version}-yaml
-
-    livecheck.type  none
 }

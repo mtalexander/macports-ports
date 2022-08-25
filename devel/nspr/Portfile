@@ -4,7 +4,7 @@ PortSystem  1.0
 PortGroup           muniversal 1.0
 
 name                nspr
-version             4.33
+version             4.34.1
 revision            0
 categories          devel
 maintainers         nomaintainer
@@ -16,9 +16,9 @@ long_description    {*}${description}
 homepage            https://www.mozilla.org/projects/nspr
 master_sites        https://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v${version}/src/
 
-checksums           rmd160  83edfbdda00e42254da1eec9f6d02d3dab942c4e \
-                    sha256  b23ee315be0e50c2fb1aa374d17f2d2d9146a835b1a79c1918ea15d075a693d7 \
-                    size    1078948
+checksums           rmd160  2a79e35b7963e402ca50230f0bbe522285afceee \
+                    sha256  c5b8354c48b632b8f4c1970628146c0e0c0ca8f32c7315d7d5736c002e03774f \
+                    size    1096874
 
 worksrcdir          ${worksrcdir}/nspr
 
@@ -33,6 +33,23 @@ configure.args \
     --disable-debug \
     --enable-optimize='${configure.optflags}' \
     --libdir=${prefix}/lib/nspr
+
+platform darwin 9 {
+    if {${build_arch} eq "ppc" || ${build_arch} eq "ppc64"} {
+    # We need to enable missing ppc64 atomics
+    post-extract {
+        copy ${worksrcpath}/pr/src/md/unix/os_Darwin_ppc.s ${worksrcpath}/pr/src/md/unix/os_Darwin_ppc64.s
+        }
+    patchfiles-append      patch-darwin-ppc64.diff
+    }
+}
+
+platform darwin 10 {
+    if {${build_arch} eq "ppc"} {
+    # Otherwise Intel flags are used on Rosetta: https://trac.macports.org/ticket/64900
+        configure.args-append --build=powerpc-apple-darwin${os.major}
+    }
+}
 
 if {(!${universal_possible} || ![variant_isset universal]) && ${configure.build_arch} in [list arm64 ppc64 x86_64]} {
     configure.args-append --enable-64bit

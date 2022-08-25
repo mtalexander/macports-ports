@@ -5,11 +5,12 @@ PortGroup           python 1.0
 
 name                py-jug
 python.rootname     Jug
-version             2.1.1
+version             2.2.2
 revision            0
 license             MIT
 
-python.versions     37 38 39
+python.versions     37 38 39 310
+python.pep517       yes
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -18,12 +19,10 @@ long_description    ${description}
 
 homepage            https://jug.readthedocs.io/
 
-checksums           rmd160  f3c28f5fbdba1d8fbc5f728b852fccacc5c6cf83 \
-                    sha256  8ae7bb45d4495cf3d0dc5dd9df104a35bba2ca83eb4576732cadf8469e7cf1a1 \
-                    size    68607
+checksums           rmd160  2ad8d7226d634819c9070d68d3e5c4e46f11afe4 \
+                    sha256  dee2ba99668b1063c5a0fbb39d4f8e727923159f9b783a08c34bce0b89798118 \
+                    size    70085
 
 if {${name} ne ${subport}} {
-    depends_lib-append  port:py${python.version}-setuptools \
-                        port:py${python.version}-six \
-                        port:py${python.version}-redis
+    depends_lib-append  port:py${python.version}-setuptools
 }

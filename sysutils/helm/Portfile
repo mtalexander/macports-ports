@@ -7,14 +7,13 @@ name                    helm
 categories              sysutils
 license                 Apache-2
 maintainers             {ogsite.net:sirn @sirn} @pedrohdz \
-                        {lbschenkel @lbschenkel} \
                         {gmail.com:herby.gillot @herbygillot} \
                         openmaintainer
 
-subport helm_select {}
+subport helm_select     {}
 
 # *NOTE* Remember to update `latestVersion` on a version upgrade.
-set latestVersion       helm-3.8
+set latestVersion       helm-3.9
 
 set armAvailable        no
 
@@ -33,21 +32,38 @@ proc helmDistName {arch} {
     return [helmDistBase ${arch}]${extract.suffix}
 }
 
-subport helm-3.8 {
-    set baseVersion     3.8
-    set patchNumber     1
-    revision            3
+subport helm-3.9 {
+    set baseVersion     3.9
+    set patchNumber     3
+    revision            0
 
     set armAvailable    yes
 
     checksums           [helmDistName arm64] \
-                        rmd160  bb47265d1b1275cc895f680be65acd06c394e88d \
-                        sha256  5f0fea586781fb867b92c10133786949ab6a447f297d5c12e1e8f5dd3a9ed712 \
-                        size    14082964 \
+                        rmd160  a43a2b9b9edd81ef791462d7ff3e25d3a9980667 \
+                        sha256  db20ee8758616e1d69e90aedc5eb940751888bdd2b031badf2080a05df4c9eb7 \
+                        size    14494914 \
                         [helmDistName amd64] \
-                        rmd160  d295fd8debbc4793b510490419e271275b3dfab8 \
-                        sha256  3b6d87d360a51bf0f2344edd54e3580a8e8de2c4a4fd92eccef3e811f7e81bb3 \
-                        size    14318363
+                        rmd160  f67c5fc3080f69bd78341d4bc4f4acd037ebf7c8 \
+                        sha256  ca3d57bb68135fa45a7acc2612d472e8ad01b78f49eaca57490aefef74a61c95 \
+                        size    14728557
+}
+
+subport helm-3.8 {
+    set baseVersion     3.8
+    set patchNumber     2
+    revision            0
+
+    set armAvailable    yes
+
+    checksums           [helmDistName arm64] \
+                        rmd160  85c5371ce7c99218080484fbbce7bbb3a910425b \
+                        sha256  dfddc0696597c010ed903e486fe112a18535ab0c92e35335aa54af2360077900 \
+                        size    14086490 \
+                        [helmDistName amd64] \
+                        rmd160  77a4e6bf6e484a5dd8568409853081deef3d4e54 \
+                        sha256  25bb4a70b0d9538a97abb3aaa57133c0779982a8091742a22026e60d8614f8a0 \
+                        size    14317429
 }
 
 subport helm-3.7 {
@@ -197,7 +213,7 @@ if {${subport} == ${name}} {
     PortGroup           obsolete 1.0
 
     replaced_by         ${latestVersion}
-    version             3.7.2
+    version             3.9.3
     revision            0
 
 } elseif {${subport} == "helm_select"} {

@@ -4,8 +4,8 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-rstcheck
-version             3.3.1
-revision            2
+version             6.0.0.post1
+revision            0
 
 categories-append   devel
 supported_archs     noarch
@@ -17,22 +17,29 @@ long_description    ${description}
 
 homepage            https://github.com/myint/rstcheck
 
-checksums           rmd160  95397717b850a92f622293cba2cefed64ec9fed6 \
-                    sha256  92c4f79256a54270e0402ba16a2f92d0b3c15c8f4410cb9c57127067c215741f \
-                    size    13825
+checksums           rmd160  d1da23c8ffeb185cbfd11bb77ee6221edf7e5a5e \
+                    sha256  2f69b972c682fbb6618e969273962f77c4307d6900e013b4d74f674f13fc81cb \
+                    size    17665
 
 python.versions     37 38 39 310
+python.pep517       yes
+python.pep517_backend poetry
 
 if {${subport} ne ${name}} {
     depends_build-append \
                     port:py${python.version}-setuptools
 
     depends_lib-append \
-                    port:py${python.version}-docutils
+                    port:py${python.version}-docutils \
+                    port:py${python.version}-rstcheck-core \
+                    port:py${python.version}-types-docutils \
+                    port:py${python.version}-pydantic \
+                    port:py${python.version}-typer
 
     if {${python.version} < 38} {
         depends_lib-append \
-                    port:py${python.version}-importlib-metadata
+                    port:py${python.version}-importlib-metadata \
+                    port:py${python.version}-typing_extensions
     }
 
     post-destroot {

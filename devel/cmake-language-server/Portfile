@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                cmake-language-server
-version             0.1.3
+version             0.1.6
 revision            0
 
 categories          devel python
@@ -16,9 +16,9 @@ description         CMake LSP Implementation
 long_description    {*}${description}
 homepage            https://github.com/regen100/cmake-language-server
 
-checksums           rmd160  7dbe31540fda24a52bcf9a2d444ca5623b90e975 \
-                    sha256  f8719065a57e028cee773759a7e9e5966455ca928fd8d51a441bfcb2574959d8 \
-                    size    11603
+checksums           rmd160  012d0ef31550bd620c7551990c7915d4f6c61784 \
+                    sha256  c1573f921518d2e243175526dc19e6df463f8a04f04afbc78a2dde961a23f7ed \
+                    size    9487
 
 python.default_version 310
 

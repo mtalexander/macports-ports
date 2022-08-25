@@ -3,12 +3,11 @@
 PortSystem              1.0
 
 name                    mysql8
-version                 8.0.27
+version                 8.0.30
 
-set boost_version       1.73.0
+set boost_version       1.77.0
 
 categories              databases
-platforms               darwin
 
 homepage                https://dev.mysql.com
 
@@ -16,8 +15,8 @@ maintainers             {gmail.com:herby.gillot @herbygillot} \
                         openmaintainer
 
 # Set revision_client and revision_server to 0 on version bump.
-set revision_client     4
-set revision_server     0
+set revision_client     1
+set revision_server     1
 
 set name_mysql          ${name}
 set version_branch      [join [lrange [split ${version} .] 0 1] .]
@@ -63,13 +62,13 @@ if {$subport eq $name} {
                         ${boost_distname}${extract.suffix}:boost
 
     checksums           ${distname}${extract.suffix} \
-                        rmd160  45e8048e46faa363597ace59f8cc66c7163150c9 \
-                        sha256  4a7e72f899e6f24bcd479d378edd2f32f583e687f93a26291774815d5a549b97 \
-                        size    285550905 \
+                        rmd160  a9d3f1dfb64bee29d45c8d67b6d52dcb448be029 \
+                        sha256  c988d5c6ba9a56692a6cd6e9813465b5fc9368ed4b461df97059a2fc160c8b84 \
+                        size    325002740 \
                         ${boost_distname}${extract.suffix} \
-                        rmd160  47f3dad1ddb5e1e9f367f05a4019d5fac48a2e3b \
-                        sha256  9995e192e68528793755692917f9eb6422f3052a53c5e13ba278a228af6c7acf \
-                        size    128699082
+                        rmd160  850588f968a2086ff27ec7b8224ca8890a74601e \
+                        sha256  5347464af5b14ac54bb945dc68f1dd7c56f0dad7262816b956138fc53bcc0131 \
+                        size    130620992
 
     depends_lib-append  port:cyrus-sasl2 \
                         port:icu \
@@ -153,8 +152,7 @@ if {$subport eq $name} {
                     patch-cmake-install_layout.cmake.diff \
                     patch-cmake-sasl-disable-platform-check.diff \
                     patch-cmake-ssl-include.diff \
-                    patch-package_name.cmake.diff \
-                    patch-rpcgen.cmake.diff \
+                    patch-readline.cmake.diff \
                     patch-scripts-cmakelists.diff \
                     patch-sql-local-boost.diff \
                     patch-mysql8-ffsll-apple.diff
@@ -176,7 +174,8 @@ if {$subport eq $name} {
             ${cmake.build_dir}/macports/my.cnf
         reinplace "s|@PREFIX@|${prefix}|g" \
             ${cmake.build_dir}/macports/macports-default.cnf \
-            ${cmake.build_dir}/macports/my.cnf
+            ${cmake.build_dir}/macports/my.cnf \
+            ${worksrcpath}/cmake/readline.cmake
     }
 
     post-destroot {
@@ -195,12 +194,12 @@ if {$subport eq $name} {
             system "$gzip -9vf ${manpage}"
         }
 
-        xinstall -m 755 -o root -d ${destroot}${prefix}/etc/${name_mysql}
+        xinstall -m 0755 -o root -d ${destroot}${prefix}/etc/${name_mysql}
 
         copy ${cmake.build_dir}/macports/macports-default.cnf \
             ${destroot}${prefix}/etc/${name_mysql}/
 
-        xinstall -m 755 -o root -d \
+        xinstall -m 0755 -o root -d \
             ${destroot}${prefix}/share/${name_mysql}/support-files/macports
 
         copy ${cmake.build_dir}/macports/my.cnf \
@@ -213,8 +212,8 @@ if {$subport eq $name} {
 #           ${destroot}${prefix}/doc/${name_mysql}/
 
         # workaround for https://trac.macports.org/ticket/63456
-        ln -s -f ../mysql/libprotobuf-lite.3.11.4.dylib \
-            ${destroot}${prefix}/lib/${name_mysql}/plugin/libprotobuf-lite.3.11.4.dylib
+        ln -s -f ../mysql/libprotobuf-lite.3.19.4.dylib \
+            ${destroot}${prefix}/lib/${name_mysql}/plugin/libprotobuf-lite.3.19.4.dylib
 
     }
 
@@ -307,33 +306,33 @@ subport ${name_mysql}-server {
     build {}
 
     destroot {
-        xinstall -d -m 755 -o ${mysqluser} -g ${mysqluser} \
+        xinstall -d -m 0755 -o ${mysqluser} -g ${mysqluser} \
             [file dirname ${destroot}${log_file}]
 
         touch ${destroot}${log_file}
         file attributes ${destroot}${log_file} -o ${mysqluser} -g ${mysqluser}
 
-        xinstall -d -m 755 ${destroot}${prefix}/etc/LaunchDaemons/org.macports.${subport}
+        xinstall -d -m 0755 ${destroot}${prefix}/etc/LaunchDaemons/org.macports.${subport}
 
         xinstall -m 0644 -o root -W ${workpath} \
             org.macports.${subport}.plist \
             ${destroot}${prefix}/etc/LaunchDaemons/org.macports.${subport}
 
-        xinstall -d -m 755 ${destroot}/Library/LaunchDaemons
+        xinstall -d -m 0755 ${destroot}/Library/LaunchDaemons
 
         ln -s ${prefix}/etc/LaunchDaemons/org.macports.${subport}/org.macports.${subport}.plist \
             ${destroot}/Library/LaunchDaemons/org.macports.${subport}.plist
 
-        xinstall -m 755 -o root -d \
+        xinstall -m 0755 -o root -d \
             ${destroot}${prefix}/var/run
 
-        xinstall -m 755 -o ${mysqluser} -g ${mysqluser} -d \
+        xinstall -m 0755 -o ${mysqluser} -g ${mysqluser} -d \
             ${destroot}${prefix}/etc/${name_mysql} \
             ${destroot}${prefix}/var/db/${name_mysql} \
             ${destroot}${prefix}/var/log/${name_mysql} \
             ${destroot}${prefix}/var/run/${name_mysql}
 
-        xinstall -m 700 -o ${mysqluser} -g ${mysqluser} -d \
+        xinstall -m 0700 -o ${mysqluser} -g ${mysqluser} -d \
             ${destroot}${prefix}/var/db/${name_mysql}-files \
             ${destroot}${prefix}/var/db/${name_mysql}-keyring
 

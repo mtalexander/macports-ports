@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/containers/skopeo 1.7.0 v
+go.setup            github.com/containers/skopeo 1.9.2 v
 github.tarball_from archive
 revision            0
 
@@ -20,29 +20,23 @@ license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  4931030e6b59f6892678c8c60c16d43dd1f99fc0 \
-                    sha256  453bdcce16767696ed71046b60ad7b34358b183b50eb5aa708ced0b5ea2927b1 \
-                    size    6542347
+checksums           rmd160  915c91e7f07c7a0560d9f34728030c1319f502c9 \
+                    sha256  9a321ba75f213e5c46cba7f92073c2437137a56d3140c9ab6e723fb92890f9d0 \
+                    size    6749850
 
 depends_build-append \
                     port:go-md2man
 
 depends_lib-append  port:gpgme      \
                     port:gnupg2     \
-                    port:libassuan
+                    port:libassuan  \
+                    port:pkgconfig
 
 build.cmd           make
 build.target        bin/${name} docs
 
 destroot {
     xinstall -m 0755 ${worksrcpath}/bin/${name} ${destroot}${prefix}/bin/
-
-    set bash_comp_path ${prefix}/share/bash-completion/completions
-
-    xinstall -d ${destroot}${bash_comp_path}
-    xinstall -m 0644 ${worksrcpath}/completions/bash/skopeo \
-        ${destroot}${bash_comp_path}/
-
     xinstall -d ${destroot}${prefix}/share/man/man1
     copy {*}[glob ${worksrcpath}/docs/*.1] ${destroot}${prefix}/share/man/man1/
 }

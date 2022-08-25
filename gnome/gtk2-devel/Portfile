@@ -9,7 +9,7 @@ name                gtk2-devel
 conflicts           gtk2
 set my_name         gtk2
 version             2.24.33
-revision            0
+revision            3
 epoch               0
 
 set proj_name       gtk+
@@ -70,9 +70,6 @@ configure.ccache    no
 configure.cppflags-append   -DX_LOCALE -D_IPP_PRIVATE_STRUCTURES=1
 configure.cflags-append     -fstrict-aliasing
 
-if {![info exists universal_possible]} {
-    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
-}
 # gobject-introspection uses g-ir-scanner, which uses $CC from env
 if {${universal_possible} && [variant_isset universal]} {
     foreach arch ${configure.universal_archs} {

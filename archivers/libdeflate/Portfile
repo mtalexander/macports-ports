@@ -4,9 +4,9 @@ PortSystem          1.0
 PortGroup           github      1.0
 PortGroup           makefile    1.0
 
-github.setup        ebiggers libdeflate 1.10 v
+github.setup        ebiggers libdeflate 1.13 v
 github.tarball_from archive
-revision            1
+revision            0
 
 description         Heavily optimized library for DEFLATE/zlib/gzip \
                     compression and decompression
@@ -27,10 +27,17 @@ maintainers         {linux.com:nickblack @dankamongmen} \
                     {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  81681b7e53369ebf4fdb11e02dcc179140290b45 \
-                    sha256  5c1f75c285cd87202226f4de49985dcb75732f527eefba2b3ddd70a8865f2533 \
-                    size    158379
+checksums           rmd160  d5cbaaf97440d703502ccbecb717b01684aa23e8 \
+                    sha256  0d81f197dc31dc4ef7b6198fde570f4e8653c77f4698fcb2163d820a9607c838 \
+                    size    173736
 
-# https://github.com/ebiggers/libdeflate/issues/167
-# https://github.com/macports/macports-ports/pull/13927#issuecomment-1058731048
-patchfiles          patch-shared_lib_ldflags-variable-fix.diff
+depends_build-append \
+                    port:gmake
+
+patch {
+    # Do not rebuild all targets when the install target is called
+    reinplace {s|^install:all|install:|} ${worksrcpath}/Makefile
+}
+
+build.cmd                   gmake
+build.pre_args-append       V=1

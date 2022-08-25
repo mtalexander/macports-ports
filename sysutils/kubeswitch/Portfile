@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/danielfoehrKn/kubeswitch 0.6.1
+go.setup            github.com/danielfoehrKn/kubeswitch 0.7.1
 go.package          github.com/danielfoehrkn/kubeswitch
 revision            0
 
@@ -20,9 +20,9 @@ license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  ca831ccc81aa401baecc38ae5f80554072016093 \
-                    sha256  a1c8c646da36d693fba19f93841ed9f5c1825f61c83e62bcf8f47c5ee2b27ef7 \
-                    size    17214004
+checksums           rmd160  4fbe08366be548b9e9e477dc9fcbfe80e1726f77 \
+                    sha256  08eaa7f87d04afb85dd87250af80ddc55d893a1bccdea688fc12e78ff5642ee2 \
+                    size    17582161
 
 github.tarball_from archive
 
@@ -32,9 +32,9 @@ build.pre_args-append \
 build.args          build
 
 patch {
-    reinplace   {/linux/ d}             ${worksrcpath}/Makefile
-    reinplace   {s|GOARCH=amd64 ||g}    ${worksrcpath}/Makefile
-    reinplace   {s|_darwin_amd64||g}    ${worksrcpath}/Makefile
+    reinplace       {/linux/ d}             ${worksrcpath}/Makefile
+    reinplace       {s|GOARCH=amd64 ||g}    ${worksrcpath}/Makefile
+    reinplace       {s|_darwin_amd64||g}    ${worksrcpath}/Makefile
 }
 
 # Issues vendoring with go.vendor.  Allow downloading deps at build time.

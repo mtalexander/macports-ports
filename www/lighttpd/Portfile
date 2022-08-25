@@ -4,11 +4,11 @@ PortSystem                  1.0
 PortGroup                   legacysupport 1.0
 
 name                        lighttpd
-version                     1.4.64
-revision                    1
-checksums                   rmd160  efbe3d206de597ef6e8e539f42142dbc21a8c868 \
-                            sha256  e1489d9fa7496fbf2e071c338b593b2300d38c23f1e5967e52c9ef482e1b0e26 \
-                            size    1011436
+version                     1.4.66
+revision                    0
+checksums                   rmd160  c17cd736be60da4ff377a212d4a8f39c68b650ce \
+                            sha256  47ac6e60271aa0196e65472d02d019556dc7c6d09df3b65df2c1ab6866348e3b \
+                            size    1039520
 
 set branch                  [join [lrange [split ${version} .] 0 1] .]
 categories                  www
@@ -37,10 +37,7 @@ depends_lib                 port:brotli \
                             port:zlib \
                             port:zstd
 
-patchfiles                  patch-conf.diff \
-                            rand.patch \
-                            mod_webdav.patch \
-                            gcc-diag.patch
+patchfiles                  patch-conf.diff
 
 post-patch {
     reinplace "s|@PREFIX@|${prefix}|g" \

@@ -35,11 +35,11 @@ if {${subport} eq ${name}} {
 }
 
 subport yt-dlp {
-    github.setup    yt-dlp ${subport} 2022.03.08.1
+    github.setup    yt-dlp ${subport} 2022.08.08
     revision        0
-    checksums       rmd160  5dfe1c1d304e7b747650e7f3844bc70df30c8d6c \
-                    sha256  135fd7bbf81c2639419b191d8e5abb80cd8a9801b7ed8e92a331a4107e820ab2 \
-                    size    4455336
+    checksums       rmd160  2fefc18e7ef37b4d28dc573d37b7b03cad5a80ed \
+                    sha256  336c2ec1d70f3ed5ca62162c10c40a7bc26ffb1dc88745d4809759fbc76c356f \
+                    size    4699280
 
     dist_subdir     ${subport}/${version}
     distname        ${subport}
@@ -53,7 +53,6 @@ subport yt-dlp {
 }
 
 categories          net
-platforms           darwin
 maintainers         {ryandesign @ryandesign}
 supported_archs     noarch
 license             public-domain

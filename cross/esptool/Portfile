@@ -13,13 +13,13 @@ description         A serial utility to communicate & flash code to Espressif ES
 long_description    ${description}
 homepage            https://github.com/espressif/esptool
 
-version             3.2
-checksums           rmd160  7b9e465622f79a3bb52b46930638dc3d48af8dfc \
-                    sha256  9638ff11c68e621e08e7c3335d4fd9d70b2ddcf7caae778073cd8cc27be1216f \
-                    size    206131
+version             4.2.1
+checksums           rmd160  b25d96ca93759c5c9b6eb5a10dd20028a7822a4f \
+                    sha256  b967faed94dd43f547953fde362d3ba5b63dddca0a0ff7982750054702cbc238 \
+                    size    202259
 revision            0
 
-python.versions     39
+python.versions     310
 
 depends_build-append \
     port:py${python.version}-setuptools \

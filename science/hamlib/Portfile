@@ -24,11 +24,11 @@ homepage            https://hamlib.github.io
 subport hamlib-devel {}
 if {[string first "-devel" $subport] > 0} {
 
-    github.setup    Hamlib Hamlib b3ff4b0167489233a53dc570dc807639fb5814ed
-    version         20220225-[string range ${github.version} 0 7]
-    checksums       rmd160  344d1d52a24d50f4dd7543d09cc94c43b0a33425 \
-                    sha256  0f94e6eb7f262e320a2d1910f163a632d70ca9c5332b2e5d457dc566700e5a7a \
-                    size    1841893
+    github.setup    Hamlib Hamlib f44fe0ed31c56ecf89c81b1d94c3c4863888e0c6
+    version         20220522-[string range ${github.version} 0 7]
+    checksums       rmd160  017fab456c021554e503b2f1691c42fdeb45175f \
+                    sha256  4d102831f3d8f0d51146f316467bf794aa2aacc7f97cbab9904004e353ac1944 \
+                    size    1860061
     revision        0
 
     name            hamlib-devel
@@ -65,7 +65,7 @@ depends_lib-append \
     port:libusb-compat \
     port:libxml2
 
-set python_versions { 2.7 3.6 3.7 3.8 3.9 }
+set python_versions { 2.7 3.6 3.7 3.8 3.9 3.10 }
 # python binding is not enabled by default
 set default_python_variant ""
 

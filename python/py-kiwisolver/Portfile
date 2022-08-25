@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-kiwisolver
-version             1.4.0
+version             1.4.4
 revision            0
 
 categories-append   math
@@ -20,9 +20,9 @@ long_description    Kiwi is an implementation of the algorithm based on the\
                     cases gaining a 40x improvement. Memory savings are\
                     consistently > 5x.
 
-checksums           rmd160  45ce88c7a01fc966d5dc18c3861c5ac4fc173d14 \
-                    sha256  7508b01e211178a85d21f1f87029846b77b2404a4c68cbd14748d4d4142fa3b8 \
-                    size    95921
+checksums           rmd160  62fc48fead068892ec2b14931b6ec1e8f6d1ddf3 \
+                    sha256  d41997519fcba4a1e46eb4a2fe31bc12f0ff957b2b81bac28db24744f333e955 \
+                    size    97093
 
 homepage            https://github.com/nucleic/kiwi
 
@@ -42,8 +42,6 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-cppy \
                     port:py${python.version}-setuptools_scm
 
-        patchfiles-append   patch-include-cstdlib.diff
-
         python.pep517   yes
     }
 
@@ -61,20 +59,13 @@ if {${name} ne ${subport}} {
     post-destroot {
         set docdir ${prefix}/share/doc/${subport}
         xinstall -d ${destroot}${docdir}
-        xinstall -m 0644 -W ${worksrcpath} LICENSE README.rst \
-            ${destroot}${docdir}
+        xinstall -m 0644 -W ${worksrcpath} README.rst ${destroot}${docdir}
+        if {${python.version} > 36} {
+            xinstall -m 0644 -W ${worksrcpath} LICENSE ${destroot}${docdir}
+        }
     }
-
-    pre-test {
-        test.env    PYTHONPATH=[glob -nocomplain ${worksrcpath}/build/lib*]
-    }
-
-    depends_test-append \
-                    port:py${python.version}-pytest
 
     test.run        yes
-    test.cmd        py.test-${python.branch}
-    test.target
 
     livecheck.type  none
 }

@@ -4,10 +4,13 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-scikit-build
-version             0.13.1
+version             0.15.0
 revision            0
 categories-append   devel
 license             BSD
+
+python.versions     37 38 39 310
+python.pep517       yes
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -16,13 +19,14 @@ long_description    {*}${description}
 
 homepage            https://github.com/scikit-build/scikit-build
 
-checksums           rmd160  b6e48083cc06a1d15ecae937bde2755043b9101a \
-                    sha256  5d1774a2eb15988e081c582c254ab4a9752096e6a34f235411cb79bd61660c37 \
-                    size    154479
-
-python.versions     37 38 39 310
+checksums           rmd160  c709bd60a6f79e4937447d09061de0b7386eeffc \
+                    sha256  e723cd0f3489a042370b9ea988bbb9cfd7725e8b25b20ca1c7981821fcf65fb9 \
+                    size    268691
 
 if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools_scm
+
     depends_lib-append  port:py${python.version}-distro \
                         port:py${python.version}-packaging \
                         port:py${python.version}-setuptools \

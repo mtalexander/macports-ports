@@ -3,18 +3,21 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/gohugoio/hugo 0.96.0 v
+go.setup            github.com/gohugoio/hugo 0.101.0 v
 github.tarball_from archive
 revision            0
-checksums           rmd160  56ae86486dda7013fed11c61e20bf0a8dbdce7d7 \
-                    sha256  5dbb132438b4ae3dd8303b34c8b7480674ee77236ac3d36d0edc82a06a0c3219 \
-                    size    27853655
+
+checksums           rmd160  c0b6a9383ba13d297eac0fa05b8246395d0f9bb5 \
+                    sha256  ce5e2c37d9980428cfbfb22cabedc29aebe8f1142ce261777d0435f9f2d6d1cb \
+                    size    28130925
 
 categories          www
+installs_libs       no
 license             Apache-2
 maintainers         {isi.edu:calvin @cardi} \
                     {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
+
 description         A Fast and Flexible Static Site Generator built with love in GoLang
 long_description    ${description}
 

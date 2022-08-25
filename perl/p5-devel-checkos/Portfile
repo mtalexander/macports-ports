@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 
 perl5.branches      5.28 5.30 5.32 5.34
-perl5.setup         Devel-CheckOS 1.87 ../../authors/id/D/DC/DCANTRELL
+perl5.setup         Devel-CheckOS 1.94 ../../authors/id/D/DC/DCANTRELL
 revision            0
 license             {Artistic-1 GPL}
 maintainers         nomaintainer
@@ -13,11 +13,15 @@ long_description    ${description}
 
 platforms           darwin
 
-checksums           rmd160  a86317ccc68759e6da177328fd84649662b13314 \
-                    sha256  9cda4399044fc11150caeb92c2c68a8a4b8c54370b3bcf65943b2cd1fd648331 \
-                    size    33745
+checksums           rmd160  08d25263c4917071eae67e282ebf693bcfdcb378 \
+                    sha256  86d344c71315dcac1f50a0d0d6b60f663fb894eb7fdd5879f07e51b51c4897bb \
+                    size    36687
 
 if {${perl5.major} != ""} {
+    depends_build-append \
+                    port:p${perl5.major}-test-simple \
+                    port:p${perl5.major}-test-warnings
+
     depends_lib-append \
                     port:p${perl5.major}-file-find-rule
 

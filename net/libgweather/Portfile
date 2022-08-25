@@ -34,7 +34,7 @@ depends_lib         port:geocode-glib \
                     path:lib/pkgconfig/gobject-introspection-1.0.pc:gobject-introspection \
                     path:lib/pkgconfig/gtk+-3.0.pc:gtk3 \
                     port:libxml2 \
-                    port:libsoup \
+                    path:lib/pkgconfig/libsoup-2.4.pc:libsoup \
                     path:bin/vala:vala
 
 post-patch {
@@ -54,9 +54,6 @@ platform darwin 8 {
     destroot.env-append "DYLD_LIBRARY_PATH=${build_dir}/${name}"
 }
 
-if {![info exists universal_possible]} {
-    set universal_possible [expr {${os.universal_supported} && [llength ${configure.universal_archs}] >= 2}]
-}
 # uses g-ir-scanner, which uses $CC from env
 if {${universal_possible} && [variant_isset universal]} {
     foreach arch ${configure.universal_archs} {

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 PortGroup           github 1.0
 
-github.setup        executablebooks MyST-Parser 0.17.0 v
+github.setup        executablebooks MyST-Parser 0.18.0 v
 revision            0
 name                py-myst-parser
 
@@ -24,16 +24,15 @@ long_description    \
     to write MyST Markdown in Sphinx.
 homepage            https://github.com/executablebooks/MyST-Parser
 
-checksums           rmd160  7308033004112202f9d160d1fe99ede28d35d5f2 \
-                    sha256  2b9cca9760d0fee2d5aed5f7906379bea50b6bf6c0b2182bc4e4cc19c8915a98 \
-                    size    877498
+checksums           rmd160  1f03f81bf36243cb43b3ac30fb973787ef468471 \
+                    sha256  968d73bdc37dc478ef99db8bb94ef06443af923ea9e0f1fe117e1862721275c0 \
+                    size    768518
 
 python.versions     37 38 39 310
+python.pep517       yes
+python.pep517_backend flit
 
 if {${name} ne ${subport}} {
-    depends_build-append \
-                        port:py${python.version}-setuptools
-
     depends_run-append \
                         port:py${python.version}-docutils \
                         port:py${python.version}-jinja2 \

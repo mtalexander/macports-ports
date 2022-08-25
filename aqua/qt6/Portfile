@@ -48,7 +48,7 @@ foreach {qt_test_name qt_test_info} [array get available_qt_versions] {
 }
 
 # MacPorts LLVM/Clang version to use when required.
-set llvm_version 11
+set llvm_version 13
 
 ############################################################################### Modules Not Considered
 #
@@ -140,11 +140,11 @@ array set modules {
             2c5f07b5c3ea27d3fc1a46686ea3fb6724f94dddf1fb007de3eb0bdb87429079
             46641424
         }
-        "path:bin/cmake:cmake port:ninja port:pkgconfig"
-        "port:assimp port:brotli path:bin/dbus-daemon:dbus port:double-conversion port:freetype          \
-            path:lib/pkgconfig/glib-2.0.pc:glib2 path:lib/pkgconfig/harfbuzz.pc:harfbuzz                 \
-            port:hunspell port:icu path:lib/pkgconfig/jasper.pc:jasper path:include/turbojpeg.h:libjpeg-turbo port:libb2         \
-            port:libiconv port:libpng port:md4c port:nodejs16 path:lib/pkgconfig/libpcre2-posix.pc:pcre2 \
+        "port:ninja port:pkgconfig"
+        "port:assimp port:brotli path:bin/cmake:cmake path:bin/dbus-daemon:dbus port:double-conversion port:freetype
+            path:lib/pkgconfig/glib-2.0.pc:glib2 path:lib/pkgconfig/harfbuzz.pc:harfbuzz
+            port:hunspell port:icu path:lib/pkgconfig/jasper.pc:jasper path:include/turbojpeg.h:libjpeg-turbo port:libb2
+            port:libiconv port:libpng port:md4c port:nodejs16 path:lib/pkgconfig/libpcre2-posix.pc:pcre2
             port:tiff port:webp port:zlib path:lib/pkgconfig/libzstd.pc:zstd"
 
         ""
@@ -152,7 +152,7 @@ array set modules {
          "Qt OpenGL" "Qt Platform Headers" "Qt Print Support" "Qt XML"}
         ""
         "variant overrides: "
-        "revision 2"
+        "revision 4"
         "License: "
     }
     qtconnectivity {
@@ -176,7 +176,7 @@ array set modules {
             5aeb841a5665f79672a302569754ea7d541c69102c551707e43489e797213c71
             29764804
         }
-        "port:python39"
+        "port:python310"
         ""
         "qtbase qtsvg qtimageformats"
         {"Qt QML" "Qt Quick" "Qt Quick Layouts" "Qt Quick Widgets"}
@@ -465,14 +465,6 @@ array set sql_plugins {
             "libmysqlclient.dylib"
             ""
         }
-        {
-            "mysql57"
-            "port:mysql57"
-            "${prefix}/include/mysql57/mysql"
-            "${prefix}/lib/mysql57/mysql"
-            "libmysqlclient_r.dylib"
-            ""
-        }
     }
 }
 
@@ -490,13 +482,6 @@ if { ${os.major} < 18 } {
     known_fail  yes
     pre-fetch {
         ui_error "${subport} requires macOS 10.14 or later"
-        return -code error "incompatible OS version"
-    }
-} elseif { ${os.major} == 18 } {
-    # https://trac.macports.org/ticket/64345
-    known_fail  yes
-    pre-fetch {
-        ui_error "${subport} is currently broken on macOS 10.14, see https://trac.macports.org/ticket/64345"
         return -code error "incompatible OS version"
     }
 }
@@ -562,6 +547,7 @@ foreach {module module_info} [array get modules] {
 
             # use ninja for the build/installation
             build.cmd               "ninja"
+            build.post_args-append  -v
             destroot.target         install
             # ninja needs the DESTDIR argument in the environment
             destroot.destdir
@@ -581,6 +567,13 @@ foreach {module module_info} [array get modules] {
             }
 
             minimum_developerversions 18 9
+
+            # see https://trac.macports.org/ticket/63805#comment:13
+            patchfiles-append patch-sdk-no-stderr.diff
+
+            # Allow building with macOS 10.14 SDK
+            # see https://trac.macports.org/ticket/64345
+            patchfiles-append patch-macos-10.14-sdk.diff
 
             #-----------------------------------------------------------------------------
             # qtbase is used for:
@@ -752,6 +745,26 @@ foreach {module module_info} [array get modules] {
             # use -Os instead of -O2
             configure.args-append -optimize-size
 
+            # Set CMake variables (similar to what cmake portgroup does)
+            # to allow using ccache (and possibly compiler selection
+            # if .tbd file support was not an issue; see comment above)
+            configure.post_args --
+            configure.post_args-append \
+                -DCMAKE_C_COMPILER=[option configure.cc] \
+                -DCMAKE_CXX_COMPILER=[option configure.cxx] \
+                -DCMAKE_OBJC_COMPILER=[option configure.objc] \
+                -DCMAKE_OBJCXX_COMPILER=[option configure.objcxx]
+            if {[option configure.ccache]} {
+                # Do not use `configure.args-append -ccache`
+                # or `configure.post_args-append -DQT_USE_CCACHE=1`
+                # since that affects installed files.
+                configure.post_args-append \
+                    -DCMAKE_C_COMPILER_LAUNCHER=${prefix}/bin/ccache \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER=${prefix}/bin/ccache \
+                    -DCMAKE_OBJC_COMPILER_LAUNCHER=${prefix}/bin/ccache \
+                    -DCMAKE_OBJCXX_COMPILER_LAUNCHER=${prefix}/bin/ccache
+            }
+
             configure.args-append \
                 -no-testcocoon    \
                 -force-pkg-config
@@ -885,14 +898,35 @@ foreach {module module_info} [array get modules] {
             configure.pre_args-append    ${worksrcpath}
             configure.dir                ${workpath}/build
 
-            # QT suggests using Nina to build
+            # Qt suggests using Ninja to build
+            depends_build-append         port:ninja
             build.cmd                    ninja
+            build.post_args-append       -v
             build.dir                    ${workpath}/build
 
             destroot.target install
             # ninja needs the DESTDIR argument in the environment
             destroot.destdir
             destroot.env-append DESTDIR=${destroot}
+
+            # special case (needs to go before compiler options are read from)
+            if { ${module} eq "qtdeclarative" } {
+                PortGroup compiler_blacklist_versions 1.0
+                # Xcode 10.3 compiler segfaults
+                compiler.blacklist-append {clang < 1100}
+            }
+
+            # Set CMake variables (similar to what cmake portgroup does)
+            # to allow using ccache and controlling compiler selection
+            configure.post_args --
+            configure.post_args-append \
+                -DCMAKE_C_COMPILER=[option configure.cc] \
+                -DCMAKE_CXX_COMPILER=[option configure.cxx] \
+                -DCMAKE_OBJC_COMPILER=[option configure.objc] \
+                -DCMAKE_OBJCXX_COMPILER=[option configure.objcxx]
+            if {[option configure.ccache]} {
+                configure.post_args-append -DQT_USE_CCACHE=1
+            }
 
             # determine which variants are to be turned off
             set request_examples true
@@ -990,16 +1024,12 @@ foreach {module module_info} [array get modules] {
             # Special Cases
             ###############################################################################
 
-            if {${module} eq "qtimageformats"} {
-                # https://trac.macports.org/ticket/64346
-                known_fail  yes
-                depends_lib
-                depends_build
-                depends_extract
-                pre-fetch {
-                    ui_error "${subport} is currently broken, see https://trac.macports.org/ticket/64346"
-                    return -code error "broken port"
-                }
+            # special case
+            if { ${module} eq "qtlocation" } {
+                PortGroup       conflicts_build 1.0
+
+                # do not allow ${prefix}/include/boost to conflict with bundled boost (in bundled mapbox-gl-native)
+                conflicts_build boost
             }
         }
     }
@@ -1089,7 +1119,7 @@ foreach {sql_names sql_info} [array get sql_plugins] {
                 configure.args-append                                              \
                     [subst -D${dbms}_INCLUDE_DIR=\"[lindex ${variant_info} 2]\"]   \
                     [subst -DCMAKE_INCLUDE_PATH=\"[lindex ${variant_info} 2]\"]    \
-                    [subst -D${dbms}_LIBRARY=\"[lindex ${variant_info} 3]/[lindex ${variant_info} 4]"] \
+                    [subst -D${dbms}_LIBRARY=\"[lindex ${variant_info} 3]/[lindex ${variant_info} 4]\"] \
                     [subst -DCMAKE_LIBRARY_PATH=\"[lindex ${variant_info} 3]\"]
             }
         }
@@ -1159,9 +1189,9 @@ if { [info exists depends_lib] } {
 }
 
 foreach deps ${depends_check} {
-    if { [string first ":python39" ${deps}] >= 0 } {
-        # If Qt components use Python, ensure that MacPorts python39 is used
-        set python_framework ${frameworks_dir}/Python.framework/Versions/3.9
+    if { [string first ":python310" ${deps}] >= 0 } {
+        # If Qt components use Python, ensure that MacPorts python310 is used
+        set python_framework ${frameworks_dir}/Python.framework/Versions/3.10
     }
 }
 if { ${python_framework} ne "" } {

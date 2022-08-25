@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-tomlkit
-version             0.10.0
+version             0.11.4
 revision            0
 categories-append   devel
 platforms           darwin
@@ -20,9 +20,9 @@ description         Style preserving TOML library
 long_description    {*}${description}
 homepage            https://github.com/sdispater/tomlkit
 
-checksums           rmd160  d94cf0889b125e5f91dc783c4dd006c963eb5635 \
-                    sha256  d99946c6aed3387c98b89d91fb9edff8f901bf9255901081266a84fb5604adcd \
-                    size    183499
+checksums           rmd160  5ba04d45b58133663d6940f3a6e865432d29322d \
+                    sha256  3235a9010fae54323e727c3ac06fb720752fe6635b3426e379daec60fbd44a83 \
+                    size    187608
 
 if {${name} ne ${subport}} {
     depends_build-append \

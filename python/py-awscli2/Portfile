@@ -6,7 +6,7 @@ PortGroup           select 1.0
 PortGroup           github 1.0
 
 name                py-awscli2
-github.setup        aws aws-cli 2.4.29
+github.setup        aws aws-cli 2.7.22
 revision            0
 
 categories          python devel
@@ -19,13 +19,11 @@ long_description    {*}${description}
 
 homepage            https://aws.amazon.com/cli/
 
-checksums           rmd160  7f8a5fb55335fd499bd331fc31d541da5bd99059 \
-                    sha256  0acf2534d414752046e9c152672ef5845bffad8d3c80fd28e9d016b00948aaf3 \
-                    size    10342790
+checksums           rmd160  a14182d841d5885729c66c732d1d485c6bf02909 \
+                    sha256  593b8f739ee6978c3ac4e1dcbe93ae514d6d9da9561e830d3d89a9078f3be61a \
+                    size    11140872
 
-# This is what Amazon currently supports and there
-# are hard errors with later Pythons right now.
-python.versions     38 39
+python.versions     38 39 310
 
 if {${name} ne ${subport}} {
     if {${os.platform} eq "darwin" && ${os.major} <= 15} {

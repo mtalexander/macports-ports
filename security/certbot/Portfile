@@ -4,8 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        certbot certbot 1.25.0 v
-# remove revision for various subport for next version update
+github.setup        certbot certbot 1.29.0 v
 revision            0
 categories          security
 license             Apache-2
@@ -15,9 +14,9 @@ description         An ACME Let's Encrypt client that can obtain certs and exten
 long_description    {*}${description}
 homepage            https://certbot.eff.org/
 
-checksums           rmd160  d464b4cb12e58189928e17bbf7cde356778c8fdc \
-                    sha256  45e569361d0531e3d87da430706a7283ce14d9b9ba4bf8c50c26d68878ae3247 \
-                    size    1362799
+checksums           rmd160  6e00f75a12baf498d5e210a950934c27ab85b789 \
+                    sha256  55fcdf1b1e51adc442ec7cc56eabd5b5c700038344b9d580d2c5afba58c8ae2e \
+                    size    1367737
 
 variant python37 conflicts python38 python39 python310 description {Use Python 3.7} {}
 variant python38 conflicts python37 python39 python310 description {Use Python 3.8} {}
@@ -69,9 +68,12 @@ post-patch {
 subport ${name} {
     variant docs description {Build man pages} {
         depends_lib-append \
-                        port:py${python.version}-repoze.sphinx.autointerface \
-                        port:py${python.version}-sphinx \
-                        port:py${python.version}-sphinx_rtd_theme
+            port:py${python.version}-repoze.sphinx.autointerface \
+            port:py${python.version}-sphinx \
+            port:py${python.version}-sphinx_rtd_theme
+
+        patchfiles-append \
+            patch-certbot-docs-conf.py.diff
 
         post-build {
             set env(doc_path) ${worksrcpath}/${name}/docs
@@ -146,8 +148,6 @@ subport ${name}-dns-cloudflare {
 }
 
 subport ${name}-dns-cloudxns {
-    revision            1
-
     description         The certbot dns_cloudxns plugin for dns-01 challenges
     long_description    The dns_cloudxns plugin automates the process of completing a \
                         dns-01 challenge (DNS01) by creating, and subsequently removing, \
@@ -167,8 +167,6 @@ subport ${name}-dns-digitalocean {
 }
 
 subport ${name}-dns-dnsimple {
-    revision            1
-
     description         The certbot dns_dnsimple plugin for dns-01 challenges
     long_description    The dns_dnsimple plugin automates the process of completing a \
                         dns-01 challenge (DNS01) by creating, and subsequently removing, \
@@ -179,8 +177,6 @@ subport ${name}-dns-dnsimple {
 }
 
 subport ${name}-dns-dnsmadeeasy {
-    revision            1
-
     description         The certbotdns_dnsmadeeasy  plugin for dns-01 challenges
     long_description    The dns_dnsmadeeasy plugin automates the process of completing a \
                         dns-01 challenge (DNS01) by creating, and subsequently removing, \
@@ -191,8 +187,6 @@ subport ${name}-dns-dnsmadeeasy {
 }
 
 subport ${name}-dns-gehirn {
-    revision            1
-
     description         The certbot gehirn plugin for dns-01 challenges
     long_description    The dns_gehirn plugin automates the process of completing a \
                         dns-01 challenge (DNS01) by creating, and subsequently removing, \
@@ -212,8 +206,6 @@ subport ${name}-dns-google {
 }
 
 subport ${name}-dns-linode {
-    revision            1
-
     description         The certbot linode plugin for dns-01 challenges
     long_description    The dns_linode plugin automates the process of completing a \
                         dns-01 challenge (DNS01) by creating, and subsequently removing, \
@@ -233,8 +225,6 @@ subport ${name}-dns-luadns {
 }
 
 subport ${name}-dns-nsone {
-    revision            1
-
     description         The certbot nsone plugin for dns-01 challenges
     long_description    The dns_nsone plugin automates the process of completing a \
                         dns-01 challenge (DNS01) by creating, and subsequently removing, \
@@ -246,8 +236,6 @@ subport ${name}-dns-nsone {
 }
 
 subport ${name}-dns-ovh {
-    revision            1
-
     description         The certbot ovh plugin for dns-01 challenges
     long_description    The dns_ovh plugin automates the process of completing a \
                         dns-01 challenge (DNS01) by creating, and subsequently removing, \
@@ -278,8 +266,6 @@ subport ${name}-dns-route53 {
 }
 
 subport ${name}-dns-sakuracloud {
-    revision            1
-
     description         The certbot sakuracloud plugin for dns-01 challenges
     long_description    The dns_sakuracloud plugin automates the process of completing a \
                         dns-01 challenge (DNS01) by creating, and subsequently removing, \

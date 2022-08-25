@@ -3,16 +3,16 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        usbids usbids 1498250e4aa6d3dd1c0b78d0d3bdafb783f47108
-version             2022.02.23
+github.setup        usbids usbids a5edeafb6099d24bde605b628d0ba47a3502bdd8
+version             2022.05.20
 revision            0
-checksums           rmd160  27231dd32c3cecd416bb38619f01e1c6789c51c7 \
-                    sha256  3e8680ba798be60223cf64fdece982b407dde676d6a69774372849330dc050d9 \
-                    size    263545
+checksums           rmd160  78544ce753af43f7edcef55e92386c9b599713bd \
+                    sha256  66bce7365bf54fff588b6bc9aa04148b1d21374e016aa9dce6a17fbc90fd80d2 \
+                    size    263749
 
 categories          sysutils
 license             {GPL-2+ BSD}
-maintainers         {lbschenkel @lbschenkel} openmaintainer
+maintainers         nomaintainer
 supported_archs     noarch
 
 description         The USB ID Repository
