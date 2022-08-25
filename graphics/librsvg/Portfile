@@ -119,9 +119,15 @@ use_xz              yes
 
 gobject_introspection yes
 
+# Need disable-gtk-doc because gi-docgen won't work.
+# It can't find it's include directory, even if you set
+# XDG_DATA_DIRS or XDG_DATA_HOME.  See 
+# https://gnome.pages.gitlab.gnome.org/gi-docgen/tools/generate.html
+# for how it's supposed to work.
 configure.args      --enable-vala=yes \
                     --disable-silent-rules \
-                    --disable-Bsymbolic
+                    --disable-Bsymbolic \
+                    --disable-gtk-doc
 
 configure.ldflags-append    -lobjc
 
