@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 
 perl5.branches      5.28 5.30 5.32 5.34
-perl5.setup         Finance-Quote 1.52
+perl5.setup         Finance-Quote 1.56
 revision            0
 categories          perl
 maintainers         nomaintainer
@@ -16,11 +16,11 @@ long_description    Finance::Quote is a perl module which can be used to \
 platforms           darwin
 license             GPL-2+
 
-checksums           rmd160  09dc5c310b628db50293e366c781aa243920864b \
-                    sha256  aa75edc10db0c1f388cb1ce93f680a75e3e4d8583cbdddc95c35521ab81f0610 \
-                    size    242120
+checksums           rmd160  f2ca6af48019df1390ea5e423bc5753be206de1e \
+                    sha256  111d6f058e6464b7485c018f89d0e1891fce0b968d9c6fba1bf254d612c7a4ab \
+                    size    250559
 
-patchfiles          Yahoo-JSON.patch
+#patchfiles          Yahoo-JSON.patch
 #                    Alphavantage-Currency.patch
 
 if {${perl5.major} != ""} {
