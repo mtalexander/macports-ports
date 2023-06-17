@@ -33,10 +33,10 @@ homepage            https://cmake.org
 platforms           darwin freebsd
 gitlab.instance     https://gitlab.kitware.com
 
-gitlab.setup        cmake   cmake 3.23.3 v
-checksums           rmd160  a72405e01cb11a81f873d204edeb09e2103896e4 \
-                    sha256  ae707045b932a5e91e20518f581d08ed3debd61235130115914099ff4fb4c19a \
-                    size    7652781
+gitlab.setup        cmake   cmake 3.24.2 v
+checksums           rmd160  5218b004d409726ea95889e83e8006d2344074b8 \
+                    sha256  9050ad210d07c6bf9097bbdf0fdca56d465083ba1e608bed33092662a5b89651 \
+                    size    7971174
 revision            0
 
 gitlab.livecheck.regex {([0-9.]+)}
