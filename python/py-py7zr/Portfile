@@ -4,25 +4,25 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-py7zr
-version             0.20.0
+version             0.20.5
 revision            0
 
-platforms           darwin
+platforms           {darwin any}
 supported_archs     noarch
 license             LGPL-2.1+
 maintainers         {@catap korins.ky:kirill} openmaintainer
 description         Pure python 7-zip library
-long_description    ${description}
+long_description    {*}${description}
 
 homepage            https://github.com/miurahr/py7zr
 
-checksums           rmd160  bbb217c0bbb2c96df13ccf96f90ec058ba2643f0 \
-                    sha256  2270f922f8d07bb8a83d28e1c57dd77570aea6bb876ed8eb4879a038c149ce5e \
-                    size    4981054
+checksums           rmd160  0521155fc61ac3d8e85c0a18421df2a9092f320b \
+                    sha256  6fb4889c0fa32581818a3366984083253585d6c794e82c3242b8a12d6aeaabd3 \
+                    size    4985655
 
 python.pep517       yes
 
-python.versions     38 39 310
+python.versions     38 39 310 311
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -53,6 +53,4 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-pytest-remotedata
 
     test.run        yes
-
-    livecheck.type  none
 }

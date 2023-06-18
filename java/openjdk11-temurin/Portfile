@@ -14,8 +14,8 @@ universal_variant no
 # https://adoptium.net/temurin/releases/
 supported_archs  x86_64 arm64
 
-version      11.0.16
-set build    8
+version      11.0.19
+set build    7
 revision     0
 
 description  Eclipse Temurin, based on OpenJDK 11
@@ -25,14 +25,14 @@ master_sites https://github.com/adoptium/temurin11-binaries/releases/download/jd
 
 if {${configure.build_arch} eq "x86_64"} {
     distname     OpenJDK11U-jdk_x64_mac_hotspot_${version}_${build}
-    checksums    rmd160  05d08b2b8756f032d44df0d8456301e94edf877d \
-                 sha256  8e9bd7669f5c59c60404cebf25c086e04623677e0f827ce85e3ecdbfb0581c3a \
-                 size    186325803
+    checksums    rmd160  c1ca32c99f7d71b7e644d1d197e1b6974fb60a3a \
+                 sha256  fc34c4f0e590071dcd65a0f93540913466ccac3aa8caa984826713b67afb696d \
+                 size    186680275
 } elseif {${configure.build_arch} eq "arm64"} {
     distname     OpenJDK11U-jdk_aarch64_mac_hotspot_${version}_${build}
-    checksums    rmd160  24a0a9df20c14e24edc8d661b5b21b21585cba37 \
-                 sha256  abf9365c07797133874e18bc5da86a42833ceee71986addb59877f5efd23739c \
-                 size    185078783
+    checksums    rmd160  c925feba4623cb6f05fe264410a60ae36be908ac \
+                 sha256  f3b416ecccf51f45cc8c986975eb7bd35e7e1ad953656ab0a807125963fcf73b \
+                 size    185411705
 }
 
 worksrcdir   jdk-${version}+${build}
@@ -49,7 +49,9 @@ if {${os.platform} eq "darwin" && ${os.major} < 16} {
 
 homepage     https://adoptium.net
 
-livecheck.type  none
+livecheck.type      regex
+livecheck.url       https://github.com/adoptium/temurin11-binaries/releases
+livecheck.regex     OpenJDK11U-jdk_.*_mac_hotspot_(\[0-9\.\]+)_\[0-9\]+.tar.gz
 
 use_configure    no
 build {}

@@ -5,7 +5,7 @@ PortGroup           cmake 1.1
 PortGroup           github 1.0
 PortGroup           compiler_blacklist_versions 1.0
 
-github.setup        ARMmbed mbedtls 2.28.1 mbedtls-
+github.setup        ARMmbed mbedtls 2.28.3 mbedtls-
 revision            0
 
 conflicts           mbedtls3
@@ -21,24 +21,24 @@ platforms           darwin
 homepage            https://tls.mbed.org
 github.tarball_from archive
 
-checksums           rmd160  29ea7f05a9833e0b4c68ec293417e6b14f325bdb \
-                    sha256  82ff5fda18ecbdee9053bdbeed6059c89e487f3024227131657d4c4536735ed1 \
-                    size    3914438
+checksums           rmd160  641feeb83ca164dd0a3a04b14bc00ba73824fb1c \
+                    sha256  1a21008fc93e7bdce2cb40a8f2d7c7b4034d9160035382c29cf91af8f96f2cd9 \
+                    size    3952712
 
-variant python38 conflicts python39 python310 description {Use Python 3.8} {}
-variant python39 conflicts python38 python310 description {Use Python 3.9} {}
-variant python310 conflicts python38 python39 description {Use Python 3.10} {}
+variant python38 conflicts python39 python310 python311 description {Use Python 3.8} {}
+variant python39 conflicts python38 python310 python311 description {Use Python 3.9} {}
+variant python310 conflicts python38 python39 python311 description {Use Python 3.10} {}
+variant python311 conflicts python38 python39 python310 description {Use Python 3.11} {}
 
-if {![variant_isset python38] && ![variant_isset python39]} {
-    default_variants +python310
+if {![variant_isset python38] && ![variant_isset python39] && ![variant_isset python310]} {
+    default_variants +python311
 }
 
-foreach pv {310 39 38} {
+foreach pv {311 310 39 38} {
     if {[variant_isset python${pv}]} {
         set python.branch "[string index ${pv} 0].[string range ${pv} 1 end]"
         depends_build-append \
                     port:python${pv}
-
         break
     }
 }

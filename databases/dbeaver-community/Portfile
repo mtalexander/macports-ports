@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        dbeaver dbeaver 22.1.4
+github.setup        dbeaver dbeaver 23.1.0
 github.tarball_from releases
 revision            0
 name                dbeaver-community
@@ -27,43 +27,34 @@ long_description    \
     Informix, etc.
 homepage            https://dbeaver.io/
 
-set arch ${build_arch}
+use_dmg             yes
 
-if {${build_arch} eq "arm64"} {
-    set arch "aarch64"
+switch ${build_arch} {
+    x86_64 {
+        distfiles           dbeaver-ce-${version}-macos-x86_64${extract.suffix}
+        checksums           rmd160  ebf2aa926ef41e686c66735c0728c321d1419b25 \
+                            sha256  ab37cb61e7340c6fc04aa679c3977b6341b85661b7f095e3a2f937852446d85e \
+                            size    120954550
+    }
+    arm64 {
+        distfiles           dbeaver-ce-${version}-macos-aarch64${extract.suffix}
+        checksums           rmd160  798091b04339e5f85166a5b84125a71a41882212 \
+                            sha256  f8917eb3d15889f76529cca743ad344f9d9aa1d5c1997d25c299d90280905612 \
+                            size    119821106
+    }
+    default {
+        known_fail  yes
+        pre-fetch {
+            ui_error "${subport} @ ${version} only supported for architectures ${supported_archs}"
+            return -code error "Unsupported architecture: ${build_arch}"
+        }
+    }
 }
-# uncomment for update checksums
-set arch "aarch64"
 
-distname            dbeaver-ce-${version}-macosx.cocoa.${arch}
-
-checksums           dbeaver-ce-${version}-macosx.cocoa.x86_64${extract.suffix} \
-                       rmd160  4f42acb462ac367f77339cc4ce8f47b5f48c6ce3 \
-                        sha256  39d4d86feaa92321840af4f3775979418d7cb00477429b1576cddd60c7b24141 \
-                        size    107994273 \
-                    dbeaver-ce-${version}-macosx.cocoa.aarch64${extract.suffix} \
-                        rmd160  fc129097d42f33fc13170a01bbda6df227b8f362 \
-                        sha256  3a39488f68ad63b0a1b90fb959b963136409c93c2204941f718090b704825c15 \
-                        size    108708528
-
-extract.mkdir       yes
 use_configure       no
-
-depends_run         port:openjdk18-temurin
-
-# Since the user in any case needs to have OpenJDK to run this port, it is
-# better to install OpenJDK from MacPorts, with which there is no issue like
-# https://trac.macports.org/ticket/64170
-patchfiles          patch-java-path.diff
-
-post-patch {
-    reinplace "s|@@JAVA_VERSION@@|openjdk18-temurin|g" \
-        ${worksrcpath}/DBeaver.app/Contents/Info.plist
-}
 
 build {}
 
 destroot {
-    delete ${worksrcpath}/DBeaver.app/Contents/Eclipse/jre
     copy ${worksrcpath}/DBeaver.app ${destroot}${applications_dir}
 }

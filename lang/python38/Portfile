@@ -7,15 +7,14 @@ name                python38
 
 epoch               1
 # Remember to keep py38-tkinter, py38-htmldocs, and py38-gdbm's versions sync'd with this
-version             3.8.13
-revision            2
+version             3.8.17
+revision            1
 
 set major           [lindex [split $version .] 0]
 set branch          [join [lrange [split ${version} .] 0 1] .]
 
 categories          lang
 license             PSF
-platforms           darwin
 maintainers         nomaintainer
 
 description         An interpreted, object-oriented programming language
@@ -28,9 +27,9 @@ master_sites        ${homepage}ftp/python/${version}/
 distname            Python-${version}
 use_xz              yes
 
-checksums           md5 c4b7100dcaace9d33ab1fda9a3a038d6 \
-                    rmd160 d5742f8b2e3d60cb2a867816a35fc23a29a4cfd3 \
-                    sha256 6f309077012040aa39fe8f0c61db8c0fa1c45136763299d375c9e5756f09cf57
+checksums           md5 70223497e664524303ca2364208647e1 \
+                    rmd160 73a4bed2f9fb3ab0a60839e1d24237b70e0e3822 \
+                    sha256 2e54b0c68191f16552f6de2e97a2396540572a219f6bbb28591a137cecc490a9
 
 patchfiles          patch-setup.py.diff \
                     patch-Lib-cgi.py.diff \
@@ -41,7 +40,7 @@ patchfiles          patch-setup.py.diff \
                     sysconfig.py.diff \
                     distutils_spawn.py.patch
 
-if {${os.platform} eq "darwin" && ${os.major} < 10} {
+if {${os.platform} eq "darwin" && ${os.major} <= 10} {
     # work around no copyfile and/or pthread_threadid_np on older systems
     patchfiles-append  patch-no-copyfile-on-Tiger.diff \
                        patch-threadid-older-systems.diff

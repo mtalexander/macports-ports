@@ -4,11 +4,12 @@ PortSystem  1.0
 PortGroup   compiler_blacklist_versions 1.0
 
 name        xorg-libX11
-version     1.8.1
+version     1.8.6
+revision    0
 
-checksums   rmd160  1826bebbea8568dd04ae02c1742388c9f3e04b3f \
-            sha256  1bc41aa1bbe01401f330d76dfa19f386b79c51881c7bbfee9eb4e27f22f2d9f7 \
-            size    1818460
+checksums   rmd160  6ff6889724516b6622b371fa4bcdf9da6a59628a \
+            sha256  59535b7cc6989ba806a022f7e8533b28c4397b9d86e9d07b6df0c0703fa25cc9 \
+            size    1859460
 
 categories  x11 devel
 license     X11
@@ -36,6 +37,8 @@ depends_lib     port:xorg-libXdmcp \
                 port:xorg-libXau \
                 port:xorg-libxcb \
                 port:xorg-xorgproto 
+
+configure.checks.implicit_function_declaration.whitelist-append strchr
 
 configure.env-append RAWCPP=${configure.cpp}
 

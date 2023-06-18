@@ -2,13 +2,14 @@
 
 PortSystem                  1.0
 PortGroup                   legacysupport 1.0
+PortGroup                   lua 1.0
 
 name                        lighttpd
-version                     1.4.66
+version                     1.4.71
 revision                    0
-checksums                   rmd160  c17cd736be60da4ff377a212d4a8f39c68b650ce \
-                            sha256  47ac6e60271aa0196e65472d02d019556dc7c6d09df3b65df2c1ab6866348e3b \
-                            size    1039520
+checksums                   rmd160  f5bc2f06b28ace577dc9b92cd1c4c3efdf78ec09 \
+                            sha256  b8b6915da20396fdc354df3324d5e440169b2e5ea7859e3a775213841325afac \
+                            size    1070904
 
 set branch                  [join [lrange [split ${version} .] 0 1] .]
 categories                  www
@@ -23,14 +24,13 @@ long_description            lighttpd is a secure, fast, compliant and very \
                             memory footprint compared to other web servers \
                             and takes care of CPU load.
 
-homepage                    http://www.lighttpd.net/
-master_sites                http://download.lighttpd.net/lighttpd/releases-${branch}.x/
+homepage                    https://www.lighttpd.net/
+master_sites                https://download.lighttpd.net/lighttpd/releases-${branch}.x/
 use_xz                      yes
 
 depends_build-append        port:pkgconfig
 
 depends_lib                 port:brotli \
-                            port:lua \
                             port:pcre2 \
                             port:spawn-fcgi \
                             port:xxhashlib \

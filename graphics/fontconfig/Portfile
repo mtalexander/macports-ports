@@ -4,11 +4,11 @@ PortSystem                  1.0
 PortGroup                   muniversal 1.0
 
 name                        fontconfig
-version                     2.14.0
+version                     2.14.2
 revision                    0
-checksums                   rmd160  5c28b8285625aec377bd13178c62a274e303330a \
-                            sha256  dcbeb84c9c74bbfdb133d535fe1c7bedc9f2221a8daf3914b984c44c520e9bac \
-                            size    1431056
+checksums                   rmd160  897005d7fc3791ea5f441be6101c811d7f3c98a7 \
+                            sha256  dba695b57bce15023d2ceedef82062c2b925e51f5d4cc4aef736cf13f60a468b \
+                            size    1440844
 
 categories                  graphics
 maintainers                 {ryandesign @ryandesign}

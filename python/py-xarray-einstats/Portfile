@@ -4,12 +4,13 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-xarray-einstats
-version             0.3.0
+version             0.5.1
 revision            0
 
 categories-append   math
 supported_archs     noarch
-license             Apache-2.0
+platforms           {darwin any}
+license             Apache-2
 maintainers         {reneeotten @reneeotten} openmaintainer
 
 description         Stats, linear algebra and einops for xarray
@@ -17,11 +18,11 @@ long_description    {*}${description}
 
 homepage            https://github.com/arviz-devs/xarray-einstats
 
-checksums           rmd160  b2d5a1f2a0dbce486742d88fe8c8065502325e0c \
-                    sha256  81217c145218479327469f1669f34763b7e149ed6789fd596cc90ff2d772098e \
-                    size    33682
+checksums           rmd160  a53018dd5fb5007aefcb569784dd1c1860ca2d46 \
+                    sha256  45283e8b471ac54ac2957bc14e311f681b84dabc50c85959b9931e6f5cc60bcb \
+                    size    27001
 
-python.versions     37 38 39 310
+python.versions     37 38 39 310 311
 python.pep517       yes
 python.pep517_backend flit
 

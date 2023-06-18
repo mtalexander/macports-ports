@@ -6,14 +6,13 @@ PortGroup           compiler_blacklist_versions  1.0
 PortGroup           active_variants              1.1
 PortGroup           conflicts_build              1.0
 PortGroup           xcode_workaround             1.0
-PortGroup           cltversion                   1.0
 
 epoch               3
 name                gcc9
 version             9.5.0
 revision            0
 subport             libgcc9 { revision 2 }
-platforms           darwin
+platforms           {darwin >= 10 < 15}
 categories          lang
 maintainers         nomaintainer
 # an exception in the license allows dependents to not be GPL
@@ -145,11 +144,9 @@ configure.env-append \
 
 # clang (as) from Xcode 12.5 has various problems with gcc build
 if { ${os.platform} eq "darwin" && \
-         ( [ vercmp ${xcodeversion} 12.5 ] >= 0 || [ vercmp ${cltversion} 12.5 ] >= 0 ) && \
-         ( [ vercmp ${xcodeversion} 13.0 ] < 0 ) && \
-         ( [ vercmp ${cltversion} 13.0 ] < 0 ) } {
+         ([vercmp ${xcodeversion} >= 12.5] || [vercmp ${xcodecltversion} >= 12.5]) } {
     pre-configure {
-        ui_warn "Applying '--without-build-config' workaround to Xcode ${xcodeversion} / CLT ${cltversion}"
+        ui_warn "Applying '--without-build-config' workaround to Xcode ${xcodeversion} / CLT ${xcodecltversion}"
         ui_warn "If versions > 12.5 please check if it is still required"
     }
     # gcc has build issues on macOS 11.3 with the use of Xcode clang as 'as'
@@ -199,15 +196,6 @@ use_parallel_build  yes
 
 destroot.target     install install-info-host
 
-# Is this gcc release supported here.
-if { ${os.major} < 10 || ${os.arch} eq "arm" || ${os.major} > 14 } {
-    known_fail  yes
-    pre-fetch {
-        ui_error "${name} ${version} is not supported on Darwin ${os.major} ${os.arch}"
-        return -code error "incompatible macOS version"
-    }
-}
-
 # gcc cannot build if libunwind-headers is active
 conflicts_build-append libunwind-headers
 
@@ -227,7 +215,7 @@ if {${subport} eq "libgcc9"} {
             # Extract the epoch of the installed libgcc8
             set _epoch [lindex $installed 5]
             # If < 4 need to deactivate
-            if {[vercmp $_epoch 4] < 0} {
+            if {[vercmp $_epoch < 4]} {
                 registry_deactivate_composite libgcc8 "" [list ports_nodepcheck 1]
             }
         }
@@ -235,7 +223,7 @@ if {${subport} eq "libgcc9"} {
             # Extract the epoch of the installed libgcc-devel
             set _epoch [lindex $installed 5]
             # If < 3 need to deactivate
-            if {[vercmp $_epoch 3] < 0} {
+            if {[vercmp $_epoch < 3]} {
                 registry_deactivate_composite libgcc-devel "" [list ports_nodepcheck 1]
             }
         }

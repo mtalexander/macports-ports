@@ -7,13 +7,13 @@ PortGroup           gobject_introspection 1.0
 
 # Please keep the harfbuzz and harfbuzz-devel ports as similar as possible.
 
-github.setup        harfbuzz harfbuzz 5.1.0
+github.setup        harfbuzz harfbuzz 7.3.0
 name                harfbuzz-devel
 conflicts           harfbuzz
 set my_name         harfbuzz
-checksums           rmd160  a28fd81d8206697e2c6f75e9dc3029b4c8161042 \
-                    sha256  2edb95db668781aaa8d60959d21be2ff80085f31b12053cdd660d9a50ce84f05 \
-                    size    15183424
+checksums           rmd160  9a3e311cb299949cf21b822d52d62039373ec387 \
+                    sha256  20770789749ac9ba846df33983dbda22db836c70d9f5d050cb9aa5347094a8fb \
+                    size    18867940
 
 categories          graphics
 maintainers         {ryandesign @ryandesign} {mascguy @mascguy} openmaintainer
@@ -111,7 +111,7 @@ subport harfbuzz-icu-devel {
 
     depends_lib-append \
                     port:harfbuzz-devel \
-                    port:icu
+                    path:lib/pkgconfig/icu-uc.pc:icu
 
     configure.args-append \
                     --without-cairo \

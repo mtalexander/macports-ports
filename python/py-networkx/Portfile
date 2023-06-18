@@ -4,13 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-networkx
-version             2.8.5
+version             3.1
 revision            0
 categories-append   science
 license             BSD
 supported_archs     noarch
+platforms           {darwin any}
 
-python.versions     27 37 38 39 310
+python.versions     27 37 38 39 310 311
 python.pep517       yes
 
 maintainers         {stromnov @stromnov} openmaintainer
@@ -23,9 +24,9 @@ long_description    NetworkX is a Python package for the creation, \
 
 homepage            https://networkx.github.io
 
-checksums           rmd160  142b778f200e1166c3d5afa82c5de4c42fd29383 \
-                    sha256  15a7b81a360791c458c55a417418ea136c13378cfdc06a2dcdc12bd2f9cf09c1 \
-                    size    1955125
+checksums           rmd160  4eccb241ab0007fdb2eaaab4e4bf04dbc39dc275 \
+                    sha256  de346335408f84de0eada6ff9fafafff9bcda11f0a0dfaa931133debb146ab61 \
+                    size    2021691
 
 if {${name} ne ${subport}} {
     depends_build-append \

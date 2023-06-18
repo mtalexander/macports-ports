@@ -6,7 +6,7 @@ PortGroup           java 1.0
 
 name                VisualVM
 
-github.setup        oracle visualvm 2.1.4
+github.setup        oracle visualvm 2.1.6
 github.tarball_from releases
 
 categories          java
@@ -24,9 +24,9 @@ homepage            https://visualvm.github.io
 distname            [strsed ${name}_${version} {g/[.]//}]
 use_dmg             yes
 
-checksums           rmd160  1593111a814b884a7c596712a3b821b75f830578 \
-                    sha256  699908db22c09378a27e03587c1d8b51e1c0138e0df3dcba823a66950b9f664d \
-                    size    21848190
+checksums           rmd160  3fbeef3833a9161fa66075616636b7cbc6ac180a \
+                    sha256  1cb186d6a1a6ca864b5ba12989a3419c6e0ee54e614ada10d0480317522c81a8 \
+                    size    22283987
 
 java.version        1.8+
 java.fallback       openjdk11

@@ -5,7 +5,7 @@ PortGroup       legacysupport 1.0
 PortGroup       compiler_blacklist_versions 1.0
 
 name            bind9
-version         9.18.5
+version         9.18.15
 categories      net
 maintainers     {geeklair.net:dluke @danielluke} {jmr @jmroot}
 platforms       darwin freebsd sunos
@@ -29,9 +29,9 @@ homepage        https://www.isc.org/
 distname        bind-${version}
 master_sites    isc:${name}/${version}
 
-checksums       rmd160    1f9f7876086b210cf91bc0e06b10fe734c39f3fd \
-                sha256    0cee078d74f0bdc4ec374435026b25de7892f26540a18b22a02ef728a11dcae7 \
-                size      5168224
+checksums       rmd160    651c6146c6d5468d54f7413a8d218d5d7a7075ac \
+                sha256    28ae8db14862801bc2bd4fd820db00667d3f1ff9ae9cc2d06a0ef7810fed7a4e \
+                size      5476876
 
 use_xz          yes
 
@@ -129,4 +129,4 @@ notes "******************************************************
 
 livecheck.type   regex
 livecheck.url    ${homepage}downloads/
-livecheck.regex  {BIND(\d+\.\d*[02468]\.\d+(?:-P\d+)?)\.tar\.[gx]z - tar\.[gx]z\s*</a>}
+livecheck.regex  {BIND(\d+\.\d*[02468]\.\d+(?:-P\d+)?)\.tar\.[gx]z</a>}

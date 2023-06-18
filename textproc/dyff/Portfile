@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/homeport/dyff 1.5.5 v
+go.setup            github.com/homeport/dyff 1.5.7 v
 github.tarball_from archive
 revision            0
 
@@ -16,9 +16,9 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  6bd7653630b8f4c2bd6ec9c96ccc3304cedfecc6 \
-                    sha256  bdf5c4fcf0bab2f06881805ec817e8e71a85facf7c3d711deb9d6c8ce90f8753 \
-                    size    1209063
+checksums           rmd160  d4eaebf8d8dab34da2432fc6ae4ea063794963ea \
+                    sha256  16652f850e050da7dbcc4e44bc8e854e81be5ef6a7579f62d3a3d96840f3a191 \
+                    size    1207318
 
 # Allow Go to fetch deps at build time
 build.env-delete    GO111MODULE=off GOPROXY=off

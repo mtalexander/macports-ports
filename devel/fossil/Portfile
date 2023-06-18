@@ -5,7 +5,7 @@ PortSystem          1.0
 PortGroup           openssl 1.0
 
 name                fossil
-version             2.19
+version             2.21
 revision            0
 epoch               20110901182519
 categories          devel
@@ -25,9 +25,9 @@ homepage            https://fossil-scm.org/home/
 
 master_sites        ${homepage}tarball/version-${version}/
 
-checksums           rmd160  a706ec7173dacbbbec75c297236e80e07ae9ac9d \
-                    sha256  459f7fedbe25449a855727d7c33bad3bc0bf3dae973f2c6dbe9a7b826106a23e \
-                    size    6435751
+checksums           rmd160  5671e04453fd7eaec5c9a4be4132cb1b5cb95a44 \
+                    sha256  c1feeca782124cde76992407c70f2cefffcbe1b78b66dc246890d83159ef8084 \
+                    size    6703304
 
 test.run            yes
 

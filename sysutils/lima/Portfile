@@ -3,9 +3,11 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/lima-vm/lima 0.11.3 v
+go.setup            github.com/lima-vm/lima 0.16.0 v
 github.tarball_from archive
 revision            0
+
+homepage            https://lima-vm.io
 
 description         Linux virtual machines
 
@@ -19,9 +21,9 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
 
 depends_run         port:qemu
 
-checksums           rmd160  7bfe31691a29dd25d53d10fc99275c11837ac992 \
-                    sha256  562166d1266013bd434444edb8c12b53a9fe7e4a36f5371ac9269d87b173adc1 \
-                    size    295705
+checksums           rmd160  cb518e371e3e5c87dd1c9c0ea0da555f499e851a \
+                    sha256  deb23bd5d913790943dfa4cee8a6d50629e031750da2a84006736e13240e3977 \
+                    size    365159
 
 # Allow Go to fetch dependencies at build time, re-enable GO111MODULES
 build.env-delete    GO111MODULE=off GOPROXY=off
@@ -55,3 +57,5 @@ destroot {
         {*}[glob ${worksrcpath}/_output/share/doc/lima/examples/*.yaml] \
         ${destroot}${prefix}/share/lima/examples
 }
+
+github.livecheck.regex {([0-9.]+)}

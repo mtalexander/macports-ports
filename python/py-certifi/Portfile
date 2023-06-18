@@ -4,14 +4,15 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-certifi
-version             2022.6.15
+version             2023.5.7
 set distversion     [regsub -all {(\.)0} ${version} {\1}]
 revision            0
 categories-append   devel net
 license             {MPL-1.1 GPL-2+ LGPL-2.1+}
 supported_archs     noarch
+platforms           {darwin any}
 
-python.versions     27 35 36 37 38 39 310
+python.versions     27 35 36 37 38 39 310 311
 python.pep517       yes
 
 maintainers         {stromnov @stromnov} openmaintainer
@@ -23,9 +24,9 @@ homepage            https://pypi.python.org/pypi/certifi
 
 distname            ${python.rootname}-${distversion}
 
-checksums           rmd160  08eb7e5adb60d3e83e2680b4caef33da52c69fca \
-                    sha256  84c85a9078b11105f04f3036a9482ae10e4621616db313fe045dd24743a0820d \
-                    size    161762
+checksums           rmd160  d789349a598201beb7b8d7723cdd08012fc746b6 \
+                    sha256  0f0d56dc5a6ad56fd4ba36484d6cc34451e1c6548c61daad8c320169f91eddc7 \
+                    size    158051
 
 if {${name} ne ${subport}} {
     if {${python.version} < 37} {

@@ -44,27 +44,21 @@ notes-append "\
 compiler.cxx_standard 2014
 
 if {${subport} eq ${name}} {
-    version         2.22.2
-    revision        1
+    version         2.24.1
+    revision        0
     conflicts       lilypond-devel
-    checksums       rmd160  571de8313f90be3a41b0f7f0bd82a48f67e4f245 \
-                    sha256  dde90854fa7de1012f4e1304a68617aea9ab322932ec0ce76984f60d26aa23be \
-                    size    18034586
-
+    checksums       rmd160  cceaf4ae4909d106086ae40e41de61c4f1ae59c2 \
+                    sha256  d5c59087564a5cd6f08a52ba80e7d6509b91c585e44385dcc0fa39265d181509 \
+                    size    19438552
 
     set livecheck_url "source.html"
-
-    # not needed for lilypond > 2.20.x ?
-    if {[string match *clang* ${configure.cxx}]} {
-        configure.ldflags-append -stdlib=${configure.cxx_stdlib}
-    }
 } else {
-    version         2.23.11
+    version         2.25.5
     revision        0
     conflicts       lilypond
-    checksums       rmd160  3d967a3e28de0402ac7b8ce3a308995b280d07a0 \
-                    sha256  e158dcb99bd19a93e6899e36cf293dc583e5b1237a904b014917b7d0ffab690f \
-                    size    19271435
+    checksums       rmd160  f5eacb5a95ae0d04043ac06808c1fed21f15dab1 \
+                    sha256  42014688d2aa7c2ed0ec4d3fca1b17170299a23fbfd3b7341b04cf5a20f3feee \
+                    size    18954996
 
     set livecheck_url "development.html"
 }
@@ -107,7 +101,7 @@ if {[variant_isset docs] && ![variant_isset mactex]} {
                     port:texlive-xetex
 }
 
-set py_ver          3.10
+set py_ver          3.11
 set py_ver_nodot    [string map {. {}} ${py_ver}]
 
 # Either 'pango' or 'pango-devel' will do, thus we depend on its
@@ -115,26 +109,19 @@ set py_ver_nodot    [string map {. {}} ${py_ver}]
 depends_lib-append  path:lib/pkgconfig/pango.pc:pango \
                     port:extractpdfmark \
                     port:ghostscript \
-                    port:python${py_ver_nodot}
-
-if {${subport} eq ${name}} {
-    depends_lib-append  port:guile18
-} else {
-    depends_lib-append  port:guile
-}
+                    port:python${py_ver_nodot} \
+                    port:guile
 
 build.type          gnu
 configure.cmd       autoconf -f && ./configure
 configure.python    ${prefix}/bin/python${py_ver}
 configure.perl      ${perl5.bin}
 
-if {${subport} ne ${name}} {
-    # These targets also build and install compiled Scheme files (with
-    # extension '.go').  This is essential to make LilyPond run with
-    # an acceptable speed while using Guile 2.2.
-    build.target        bytecode
-    destroot.target     install-bytecode
-}
+# These targets also build and install compiled Scheme files (with
+# extension '.go').  This is essential to make LilyPond run with
+# an acceptable speed while using Guile 2.2.
+build.target        bytecode
+destroot.target     install-bytecode
 
 set lilypond.texgyredir \
     "${prefix}/share/texmf-texlive/fonts/opentype/public/tex-gyre"
@@ -186,22 +173,15 @@ if {[variant_isset mactex]} {
 }
 
 if {[variant_isset docs]} {
-    if {${subport} ne ${name}} {
-        # Currently, +docs only builds the info files.  For a complete
-        # documentation build a texi2html 1.82 bundle is necessary,
-        # which doesn't exist yet in MacPorts.
-        configure.args-append   --disable-texi2html
-    }
+    # Currently, +docs only builds the info files.  For a complete
+    # documentation build a texi2html 1.82 bundle is necessary,
+    # which doesn't exist yet in MacPorts.
+    configure.args-append   --disable-texi2html
 } else {
     configure.args-append   --disable-documentation
 }
 configure.args-append   --with-urwotf-dir=${prefix}/share/fonts/urw-core35-fonts
 configure.args-append   --with-texgyre-dir=${lilypond.texgyredir}
-
-if {${subport} eq ${name}} {
-    configure.env-append    GUILE=${prefix}/bin/guile18
-    configure.env-append    GUILE_FLAVOR=guile-1.8
-}
 
 configure.env-append    PYTHON=${configure.python}
 build.env-append        PYTHON=${configure.python}
@@ -218,23 +198,10 @@ pre-patch {
     copy ${prefix}/include/FlexLexer.h ${worksrcpath}/flex/FlexLexer.h
 }
 
-patchfiles              patch-fix-missing-override.diff
-
-if {${subport} eq ${name}} {
-    patchfiles-append       patch-add-flex-to-include.diff
-} else {
-    patchfiles-append       patch-add-flex-to-include-devel.diff
-}
+patchfiles              patch-fix-missing-override.diff \
+                        patch-add-flex-to-include.diff
 
 post-patch {
-    if {${subport} eq ${name}} {
-        # Use guile18 header files.
-        reinplace -W ${worksrcpath} \
-            s|libguile\.h|libguile18.h|g \
-            configure.ac \
-            lily/include/lily-guile.hh
-    }
-
     # Correct mf2pt1 binary location.
     reinplace -W ${worksrcpath} \
         s|"-mem=mf2pt1"|"-mem=../../mf2pt1"|g \
@@ -245,11 +212,7 @@ post-patch {
         s|/usr/bin/(env\\\ )?python3?|${configure.python}|g \
         scripts/auxiliar/check_texi_refs.py \
         scripts/auxiliar/check_translation.py \
-        scripts/auxiliar/fixcc.py \
-        scripts/auxiliar/makelsr.py \
-        scripts/auxiliar/tely-gettext.py \
         scripts/auxiliar/texi-langutils.py \
-        scripts/auxiliar/translations-status.py \
         scripts/auxiliar/update-snippets.py
 
     # ImageMagick and xelatex (or pdflatex) are only needed for
@@ -265,17 +228,6 @@ post-patch {
         reinplace -W ${worksrcpath} \
             {s|if test "$TEX_FIKPARM" = ""|if false|g} \
             configure.ac
-    }
-
-    if {${subport} eq ${name}} {
-        # Currently, +docs only builds the info files.  For a complete
-        # documentation build a texi2html 1.82 bundle is necessary, which
-        # doesn't exist yet in MacPorts.
-        if {[variant_isset docs]} {
-            reinplace -W ${worksrcpath} \
-                {s|\(TEXI2HTML.*\), $DOCUMENTATION_REQUIRED,|\1, OPTIONAL,|g} \
-                configure.ac
-        }
     }
 }
 

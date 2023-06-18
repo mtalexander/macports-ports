@@ -5,11 +5,11 @@ PortGroup           compiler_blacklist_versions 1.0
 PortGroup           python 1.0
 
 name                py-astropy
-version             5.1
+version             5.3
 revision            0
-checksums           rmd160  1ed246f6ef06eeea3bd1431201340fe55389325a \
-                    sha256  1db1b2c7eddfc773ca66fa33bd07b25d5b9c3b5eee2b934e0ca277fa5b1b7b7e \
-                    size    7924234
+checksums           rmd160  4f826c63b7b26b1e9971b452d08f08700a95c5ba \
+                    sha256  1f694be1c2b32309aca15cf7b54aa17546e944135209394cdceebd7a7889e4e5 \
+                    size    7794677
 
 maintainers         {mps @Schamschula} openmaintainer
 categories-append   science
@@ -20,7 +20,7 @@ license             BSD
 
 homepage            http://www.astropy.org
 
-python.versions     37 38 39 310
+python.versions     37 38 39 310 311
 
 # see https://trac.macports.org/ticket/48941
 compiler.blacklist  {*llvm-gcc42}
@@ -28,6 +28,7 @@ compiler.blacklist  {*llvm-gcc42}
 if {${name} ne ${subport}} {
     depends_build-append \
                     port:pkgconfig \
+                    path:bin/cython-${python.branch}:py${python.version}-cython \
                     port:py${python.version}-extension-helpers \
                     port:py${python.version}-jinja2 \
                     port:py${python.version}-setuptools \
@@ -47,7 +48,6 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-pyerfa \
                     port:py${python.version}-pyobjc \
                     port:py${python.version}-pythran \
-                    port:py${python.version}-pytzdata \
                     port:py${python.version}-scipy \
                     port:py${python.version}-yaml \
                     port:wcslib
@@ -66,4 +66,6 @@ if {${name} ne ${subport}} {
 
     dist_subdir     ${name}/${version}
     distname        astropy-${version}
+
+    patchfiles      patch-pyproject.toml.diff
 }

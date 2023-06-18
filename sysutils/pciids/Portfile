@@ -3,17 +3,18 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        pciutils pciids 84f931c6a8d4807d7ebfb2aa777ef7507ffe2fee
-version             2022.07.17
+github.setup        pciutils pciids 1aeb6efd008233dcf436adc483c9cef91ee1182c
+version             2023.01.06
 revision            0
-checksums           rmd160  456f548d345654cd644cfc240ff78940601aa68b \
-                    sha256  96ecad8c97b3e9722d11a9e8fca685f0a1d0a627bd696f26afbd2a7561bfbeb2 \
-                    size    309777
+checksums           rmd160  db4552acdec1dd7a22a4eaf4d309a2ee7cd83ddd \
+                    sha256  4c383cf93b7ebad371d352f35b8eeacbf838fac9b609ddcd88f16ccc683127a1 \
+                    size    314091
 
 categories          sysutils
 license             {GPL-2+ BSD}
 maintainers         {i0ntempest @i0ntempest} openmaintainer
 supported_archs     noarch
+platforms           any
 
 homepage            https://pci-ids.ucw.cz
 

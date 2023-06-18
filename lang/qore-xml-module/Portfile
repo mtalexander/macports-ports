@@ -3,8 +3,10 @@
 PortSystem          1.0
 
 PortGroup           github 1.0
-github.setup        qorelanguage module-xml 1.6.1 v
+github.setup        qorelanguage module-xml 1.8.0 v
 github.tarball_from releases
+
+PortGroup           cmake 1.1
 
 name                qore-xml-module
 categories          lang
@@ -17,13 +19,10 @@ use_bzip2           yes
 platforms           darwin
 distname            qore-xml-module-${github.version}
 
-checksums           rmd160 c61a41b65df6bbd0170783626b96cb6a3fc79c28 \
-                    sha256 4a2b3206f4686e148076fa964d33ad4148f3d6765c97ed1bea63dc26601a0757 \
-                    size 2135923
+checksums           rmd160 4149e14ba369aed0b4393e14f5a751846c2d3b0e \
+                    sha256 9c2199d87b0c4ae933bead3103e7fbcae89ee7ccfc8de6419507318487dcbf6b \
+                    size 280525
 
 depends_lib         port:qore \
                     port:libxml2 \
                     path:lib/libssl.dylib:openssl
-
-configure.args      --disable-debug
-configure.ldflags-append -Wl,-undefined -Wl,dynamic_lookup

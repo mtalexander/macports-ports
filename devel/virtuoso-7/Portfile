@@ -6,8 +6,8 @@ PortGroup           openssl 1.0
 
 name                virtuoso-7
 set myname          virtuoso
-version             7.2.7
-revision            1
+version             7.2.9
+revision            0
 categories          devel
 maintainers         {snc @nerdling} openmaintainer
 license             GPL
@@ -19,9 +19,9 @@ homepage            http://${myname}.openlinksw.com/dataspace/dav/wiki/Main/
 master_sites        sourceforge:project/${myname}/${myname}/${version}
 distname            ${myname}-opensource-${version}
 
-checksums           rmd160  1e4c0924caaf755a945eed9562630116e067e628 \
-                    sha256  02480b930d5fb414cb328f10cfd200faa658adc10f9c68ef7034c6aa81a5a3a0 \
-                    size    121027377
+checksums           rmd160  d26efa288c7145eb1230e9e9eba8c74559f09db9 \
+                    sha256  be838c623aa6f8a2e2ab90005e63f0ff1363d6fa8fa64b811caab71e3125ba90 \
+                    size    121894413
 
 # https://trac.macports.org/ticket/61216
 patchfiles-append   patch-libsrc-Wi-numeric.c.diff

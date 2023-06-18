@@ -5,11 +5,11 @@ PortGroup               github 1.0
 PortGroup               cmake 1.1
 PortGroup               app 1.0
 
-github.setup            wesnoth wesnoth 1.16.5
+github.setup            wesnoth wesnoth 1.16.9
 revision                0
-checksums               rmd160  945423d02ddf0d55c41a5f07895acc112260bae4 \
-                        sha256  b0c6dffaa8a4a5a6534488dc6646520df73af2c8c40d4a18448bbd59978cff0a \
-                        size    475511378
+checksums               rmd160  215ecfb8384600be7e3a3aa4da57224b8bed7cc9 \
+                        sha256  3ded6938fb24100b9884ab5a902711f6c7a25cef65aafddb3e3b8a15b7652386 \
+                        size    476167874
 
 set branch              [join [lrange [split ${version} .] 0 1] .]
 categories              games

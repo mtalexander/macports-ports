@@ -10,9 +10,11 @@ name                    doxygen
 conflicts               doxygen-devel
 set my_name             doxygen
 
+
+# please don't update doxygen without first checking the build status of doxygen-devel
 version                 1.9.3
-revision                2
-epoch                   1
+revision                3
+epoch                   2
 checksums               rmd160  91d9ad3ed0f7262667bb2e9b6695ede1eaecd609 \
                         sha256  1a413e7122a0f9bb519697613ba05247afad1adc5699390b6e6ee387d42c0b2d \
                         size    5152094
@@ -52,7 +54,7 @@ installs_libs           no
 # 59037
 conflicts_build         libmd
 
-set py_ver              3.10
+set py_ver              3.11
 set py_ver_nodot        [string map {. {}} ${py_ver}]
 
 depends_build-append    bin:perl:perl5 \
@@ -130,12 +132,15 @@ post-extract {
 }
 
 set cxx_stdlibflags {}
-if {[string match *clang* ${configure.cxx}]} {
+if {[string match *clang* ${configure.cxx}] && ${configure.cxx_stdlib} ne ""} {
     set cxx_stdlibflags -stdlib=${configure.cxx_stdlib}
 }
 
 # build fails out of source :/
 cmake.out_of_source     no
+
+# https://trac.macports.org/ticket/65814 etc.
+legacysupport.redirect_bins doxygen
 
 test.run                yes
 

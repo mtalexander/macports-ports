@@ -4,12 +4,12 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-aesara
-# do not update without checking compatibility with py-pymc
-version             2.7.9
+version             2.9.0
 revision            0
 
 categories-append   devel
 supported_archs     noarch
+platforms           {darwin any}
 license             BSD
 maintainers         {reneeotten @reneeotten} openmaintainer
 
@@ -19,15 +19,17 @@ long_description    {*}${description}
 
 homepage            https://github.com/aesara-devs/aesara
 
-checksums           rmd160  c9b745261b6ae12e4efb1ea0c2c167f684f5f301 \
-                    sha256  c17348ac555b53fef8c2b6a2df5502bbb01228ae7e3e359338ef38ab53e46004 \
-                    size    7422318
+checksums           rmd160  a434dee41da5ba7d2fdaf006e2117a9b0861f792 \
+                    sha256  c20c03a178f9e4469ee653125c04c414fed0aef2e4062fa44c5393a0236a8ba1 \
+                    size    4421520
 
-python.versions     37 38 39 310
+python.versions     38 39 310 311
+python.pep517       yes
+python.pep517_backend   hatch
 
 if {${name} ne ${subport}} {
     depends_build-append \
-                    port:py${python.version}-setuptools
+                    port:py${python.version}-hatch-vcs
 
     depends_lib-append \
                     port:py${python.version}-numpy \
@@ -37,5 +39,11 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-logical-unification \
                     port:py${python.version}-minikanren \
                     port:py${python.version}-cons \
-                    port:py${python.version}-typing_extensions
+                    port:py${python.version}-typing_extensions \
+                    port:py${python.version}-setuptools
+
+    post-destroot {
+        file delete ${destroot}${python.pkgd}/bin/__init__.py
+        delete ${destroot}${python.pkgd}/bin/__pycache__
+    }
 }

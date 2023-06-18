@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-psycopg
-version             3.0.16
+version             3.1.9
 revision            0
 
 categories-append   databases
@@ -16,17 +16,15 @@ description         Psycopg 3 is a modern implementation of a PostgreSQL adapter
 
 long_description    ${description}
 
-python.versions     37 38 39 310
+python.versions     37 38 39 310 311
 
 homepage            https://www.psycopg.org
 
-checksums           rmd160  308863c1b672c606a7b59fdb554eb27c55c38ea1 \
-                    sha256  44ca63373c33957ca852fefa1940f8cc5d4c11493b7f6710b0ab250ff5abc50c \
-                    size    117836
+checksums           rmd160  9d68a7e07372085fe13b30ffffe966093d36d993 \
+                    sha256  ab400f207a8c120bafdd8077916d8f6c0106e809401378708485b016508c30c9 \
+                    size    138729
 
 if {${name} ne ${subport}} {
-    depends_lib-append  port:py${python.version}-colorama port:py${python.version}-importlib-metadata
-
     python.pep517 yes
 }
 

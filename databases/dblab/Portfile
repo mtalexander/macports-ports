@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/danvergara/dblab 0.15.0 v
+go.setup            github.com/danvergara/dblab 0.20.0 v
 github.tarball_from archive
 revision            0
 
@@ -22,9 +22,9 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  224cb0d2d2140004d7e58d7ee1d8fe9b4d7dc76d \
-                    sha256  02c0cba7947068e377399c4cf4f92bba873db5cd47319a7b305aa5a3f2ae9707 \
-                    size    1205989
+checksums           rmd160  c1b88508013041f23b2744e6f9c4c4315407887f \
+                    sha256  762b736513ae37f68ca711610cc373bbedaa143b43c1d92af7a190ba05be654f \
+                    size    1301351
 
 # Allow Go to fetch deps at build time
 build.env-delete    GO111MODULE=off GOPROXY=off
@@ -35,3 +35,5 @@ build.target        build
 destroot {
     xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
 }
+
+github.livecheck.regex  {([0-9.]+)}

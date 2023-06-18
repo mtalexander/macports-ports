@@ -36,7 +36,7 @@ platform darwin 8 {
 
 if {${os.platform} eq "darwin" && ${os.major} < 10} {
     # https://trac.macports.org/ticket/62994
-    patchfiles-append      patch-m4-confdir-error.diff
+    configure.args-append   gl_cv_func_getcwd_path_max=yes
 }
 
 patchfiles-append          patch-clang-before-34.diff
@@ -47,6 +47,8 @@ configure.args  --disable-silent-rules \
                 --with-packager-version="revision $revision" \
                 --with-packager-bug-reports=https://trac.macports.org/wiki/Tickets \
                 ac_cv_libsigsegv=no
+
+configure.checks.implicit_function_declaration.whitelist-append strchr
 
 # Fix for Rosetta: https://trac.macports.org/ticket/64487
 platform darwin {

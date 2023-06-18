@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/ankitpokhrel/jira-cli 1.0.0 v
+go.setup            github.com/ankitpokhrel/jira-cli 1.4.0 v
 github.tarball_from archive
 revision            0
 
@@ -21,9 +21,9 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  34b4a6c04016499bc25b4ae541013b4e577686aa \
-                    sha256  50b9d4f86d26d2f3eb43a0eaa400d22ada4cbb5fb742f0ea0a9283c41089799c \
-                    size    53263590
+checksums           rmd160  d039806436279dc7a81be9056fac7af5950c360f \
+                    sha256  84e3a45332c66052965deb2d90aee3930f61c93e4f23c951ac39526a419d81cd \
+                    size    53266703
 
 # Allow Go to fetch dependencies at build-time
 build.env-delete    GO111MODULE=off GOPROXY=off

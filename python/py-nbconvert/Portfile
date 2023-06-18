@@ -4,26 +4,73 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-nbconvert
-version             6.5.0
-revision            1
+version             7.2.9
+revision            0
 categories-append   textproc
 license             BSD
 supported_archs     noarch
+platforms           {darwin any}
 
-python.versions     37 38 39 310
+python.versions     37 38 39 310 311
+python.pep517       yes
+python.pep517_backend hatch
 
 maintainers         {stromnov @stromnov} openmaintainer
 
 description         Jupyter Notebooks converter.
-long_description    ${description}
+long_description    {*}${description}
 
 homepage            https://jupyter.org/
 
-checksums           rmd160  171648b1f6889ac6a7cad4105e4b2524da6c5803 \
-                    sha256  223e46e27abe8596b8aed54301fadbba433b7ffea8196a68fd7b1ff509eee99d \
-                    size    908377
+# Must remain in-sync with those in project build script.
+set style_css_ver   5.4.0
+set index_css_ver   3.1.11
+set light_css_ver   3.1.11
+set dark_css_ver    3.1.11
+
+set main_distfile   ${distfiles}
+set style_distfile  style-${style_css_ver}.css
+set index_distfile  index-${index_css_ver}.css
+set light_distfile  theme-light-${light_css_ver}.css
+set dark_distfile   theme-dark-${dark_css_ver}.css
+
+master_sites        ${master_sites}:main \
+                    https://cdn.jupyter.org/notebook/${style_css_ver}/style/style.min.css?dummy=:style \
+                    https://unpkg.com/@jupyterlab/nbconvert-css@${index_css_ver}/style/index.css?dummy=:index \
+                    https://unpkg.com/@jupyterlab/theme-light-extension@${light_css_ver}/style/variables.css?dummy=:light \
+                    https://unpkg.com/@jupyterlab/theme-dark-extension@${dark_css_ver}/style/variables.css?dummy=:dark
+
+distfiles           ${main_distfile}:main \
+                    ${style_distfile}:style \
+                    ${index_distfile}:index \
+                    ${light_distfile}:light \
+                    ${dark_distfile}:dark
+
+checksums           ${main_distfile} \
+                    rmd160  d821a832ca32047becb59e7ccdf6a5f59887a33b \
+                    sha256  a42c3ac137c64f70cbe4d763111bf358641ea53b37a01a5c202ed86374af5234 \
+                    size    870386 \
+                    ${style_distfile} \
+                    rmd160  05b48b82351654a627bb3a7815bd3808cacdc431 \
+                    sha256  5865a609f4437b0464bc121cd567b619074e540a0515a3b82f222f764eb51e01 \
+                    size    265101 \
+                    ${index_distfile} \
+                    rmd160  198fa6687d1d33e3a3236cb48c9c6d22ea4f48a1 \
+                    sha256  0a3fc632f155c2c3f3c4a40b5adc19b94369b4ba8a780df50c33d61449d12717 \
+                    size    552369 \
+                    ${light_distfile} \
+                    rmd160  e13be340c00a4f72eb2f378581621102d7bccd42 \
+                    sha256  f1f9c2f5232945d501c16737edece840b125eb9c256cf5a45892e4c051be06d7 \
+                    size    14606 \
+                    ${dark_distfile} \
+                    rmd160  5fc75bcb18325bff34e1b8ffd9585ac6a544d618 \
+                    sha256  2b194f360a7851ff4da5a6d3af8afa20c683c0e41e02a27b56ea00a912801051 \
+                    size    15702
 
 if {${name} ne ${subport}} {
+    patchfiles-append \
+                    patch-hatch_build-disable-download.diff
+
     depends_build-append \
                     port:py${python.version}-setuptools
 
@@ -45,20 +92,31 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-tinycss2 \
                     port:py${python.version}-traitlets
 
-    if {${python.version} < 38} {
+    if {${python.version} < 310} {
         depends_run-append \
                     port:py${python.version}-importlib-metadata
     }
 
+    extract.only    ${main_distfile}
+    post-extract {
+        set dir_ids [list classic [list style] lab [list index light dark]]
+        foreach {dir ids} ${dir_ids} {
+            set dir ${worksrcpath}/share/templates/${dir}/static
+            foreach id ${ids} {
+                set src ${distpath}/[set ${id}_distfile]
+                set dst ${dir}/[string map [list -[set ${id}_css_ver].css/ .css] [set ${id}_distfile]/]
+                ui_info "copying file: ${src} -> ${dst}"
+                copy -force ${src} ${dst}
+            }
+        }
+    }
+
     notes "
-To convert markdown to formats other than HTML, nbconvert uses pandoc.\
-Install it by running
-
-sudo port install pandoc
-
-To convert notebooks to PDF, nbconvert makes use of LaTeX and the XeTeX\
-as the rendering engine. Install it by running
-
-sudo port install texlive-xetex
+* To convert markdown to formats other than HTML, nbconvert uses pandoc.\
+Install it by running:
+  sudo port install pandoc
+* To convert notebooks to PDF, nbconvert makes use of LaTeX and the XeTeX\
+as the rendering engine. Install it by running:
+  sudo port install texlive-xetex
 "
 }

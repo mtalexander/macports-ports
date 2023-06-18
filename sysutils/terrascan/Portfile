@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/accurics/terrascan 1.15.2 v
+go.setup            github.com/accurics/terrascan 1.18.1 v
 github.tarball_from archive
 revision            0
 
@@ -28,9 +28,9 @@ build.env-delete    GO111MODULE=off GOPROXY=off
 build.cmd           make
 build.target        build
 
-checksums           rmd160  55c7b6e0a5be72a370f519c7f1d94935ff66c143 \
-                    sha256  348133d7285670b745a30609ab94c1d6de6079bf01ad48dbd2fc6c14b8be1513 \
-                    size    1982956
+checksums           rmd160  31c323bd0d4dce488c4127619426ca64e1905427 \
+                    sha256  6539b5c9cd3b6498deaa7d9f714ead3453f6ed7a510bef82a70b146fe5a3d97d \
+                    size    2001517
 
 destroot {
     xinstall -m 0755 ${worksrcpath}/bin/${name} ${destroot}${prefix}/bin/

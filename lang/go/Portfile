@@ -15,25 +15,29 @@ epoch               3
 # tested the candidate version using the `go-devel` port, to verify how it
 # builds against current and older versions of macOS.
 
-# Go 1.18 does not build on macOS 10.12 and older
+# Go 1.20 does not build on macOS 10.12 and older
 if {${os.platform} eq "darwin" && ${os.major} < 17} {
     version         1.17.13
     set unsupported_macos true
 } else {
-    version         1.19
+    version         1.20.5
     set unsupported_macos false
 }
 
 revision            0
 
+set legacy_build    false
+
 # Subport for Go Unstable Version
 subport ${name}-devel {
-    version         1.19
+    version         1.21rc1
     revision        0
     epoch           1
+
+    set legacy_build false
 }
 
-homepage            https://golang.org
+homepage            https://go.dev
 
 categories          lang
 platforms           darwin freebsd linux
@@ -62,17 +66,17 @@ livecheck.url       ${homepage}/dl/
 if {$subport eq "${name}-devel"} {
     # Go (DEVEL / UNSTABLE)
     checksums       ${go_src_dist} \
-                    rmd160  991f3cd6129bf9f27864f6b532e238e04715b1af \
-                    sha256  9419cc70dc5a2523f29a77053cafff658ed21ef3561d9b6b020280ebceab28b9 \
-                    size    26521849 \
+                    rmd160  9de07e7c03d3111587c9f6e91042f06accb0d00c \
+                    sha256  11831de22ad93b4b301bbe4b88f4ee3fc4450565c8583f3cf4537b3bb425e56e \
+                    size    26911655 \
                     ${go_armbin_dist} \
-                    rmd160  d5f9732c554aacc2239148c7be82b5389a23d9ad \
-                    sha256  859e0a54b7fcea89d9dd1ec52aab415ac8f169999e5fdfb0f0c15b577c4ead5e \
-                    size    145007626 \
+                    rmd160  82572caf35de008bb6f929adb6ec52c7c3bc591e \
+                    sha256  7d249c123d61df35354d8abf9820a0211d68b4e62ee29e73110a68c9a401032d \
+                    size    65340744 \
                     ${go_amdbin_dist} \
-                    rmd160  51174f0412cda22f1f6152b0172f50f7f8c34f63 \
-                    sha256  df6509885f65f0d7a4eaf3dfbe7dda327569787e8a0a31cbf99ae3a6e23e9ea8 \
-                    size    151196876
+                    rmd160  6913879b29e9ffc708fc5959d08bdea0413319ed \
+                    sha256  02b36b6d924dcf8d6cbe28899e24008e6cb1b387eb1962efe83e5acb1505494b \
+                    size    67513949
 
     livecheck.regex {go([0-9.A-z]+)\.src\.tar\.gz}
 } else {
@@ -94,22 +98,22 @@ if {$subport eq "${name}-devel"} {
                     size    137060546
 
         notes-append "
-            Please note: Go 1.18 does not build on macOS 10.12 and older, so Go ${version} has been installed.
+            Please note: Go 1.20 does not build on macOS 10.12 and older, so Go ${version} has been installed.
         "
     } else {
-        # 1.19
+        # 1.20
         checksums   ${go_src_dist} \
-                    rmd160  991f3cd6129bf9f27864f6b532e238e04715b1af \
-                    sha256  9419cc70dc5a2523f29a77053cafff658ed21ef3561d9b6b020280ebceab28b9 \
-                    size    26521849 \
+                    rmd160  8c06453e1cc9aa7391dbc255c3b09947da53bc19 \
+                    sha256  9a15c133ba2cfafe79652f4815b62e7cfc267f68df1b9454c6ab2a3ca8b96a88 \
+                    size    26192951 \
                     ${go_armbin_dist} \
-                    rmd160  d5f9732c554aacc2239148c7be82b5389a23d9ad \
-                    sha256  859e0a54b7fcea89d9dd1ec52aab415ac8f169999e5fdfb0f0c15b577c4ead5e \
-                    size    145007626 \
+                    rmd160  a7d3f40e8cb4c14e28cc9ba2c266bd3a447ca80c \
+                    sha256  94ad76b7e1593bb59df7fd35a738194643d6eed26a4181c94e3ee91381e40459 \
+                    size    96936413 \
                     ${go_amdbin_dist} \
-                    rmd160  51174f0412cda22f1f6152b0172f50f7f8c34f63 \
-                    sha256  df6509885f65f0d7a4eaf3dfbe7dda327569787e8a0a31cbf99ae3a6e23e9ea8 \
-                    size    151196876
+                    rmd160  a1bb3e46457659c549648004083d83bf1ea7dca4 \
+                    sha256  79715ca5b8becd120703ac9af5d1da749e095d2b9bf830c4f3af4b15b2cb049d \
+                    size    100202970
     }
 
     livecheck.regex {go([0-9.]+)\.src\.tar\.gz}
@@ -117,7 +121,7 @@ if {$subport eq "${name}-devel"} {
 
 master_sites        https://storage.googleapis.com/golang/
 distfiles           ${go_src_dist}
-worksrcdir          ${subport}
+worksrcdir          ${name}
 
 maintainers         {ciserlohn @ci42} \
                     {gmail.com:herby.gillot @herbygillot} \
@@ -164,9 +168,13 @@ if {${os.platform} eq "darwin" && ${os.major} <= ${legacysupport.newest_darwin_r
     # since go doesn't use the standard CFLAGS/CXXFLAGS.
     # We need to patch the build system and set up env variables manually.
 
+    if {[vercmp ${version} < 1.19]} {
     # Older compilers don't support the -Wno-nullability-completeness flag and if
     # that's the case, they won't need it anyway, so just patch it out.
+    # Upstream no longer uses the flag as of 1.19beta1.
+    # https://github.com/golang/go/commit/bf19163a545c3117ab3c309a691f32a42cf29efd
     patchfiles-append   patch-cgo-drop-no-nullability-completeness.diff
+    }
 
     # Fix building with the -x flag ("show all commands as they are executed"),
     # useful for debugging of the bootstrapping process.
@@ -229,7 +237,7 @@ if {${configure.build_arch} eq "arm64"} {
             "${extract.cmd} ${extract.pre_args} ${distpath}/${go_armbin_dist} ${extract.post_args}"
     }
 
-} elseif {${configure.build_arch} eq "x86_64" && ${os.major} >= 21} {
+} elseif {(${configure.build_arch} eq "x86_64" && ${os.major} >= 21) || !${legacy_build}} {
 
     # Use a temporary installation of the binary AMD64 Go distribution to
     # build Go for AMD64 on macOS 12 since go-1.4 fails to build

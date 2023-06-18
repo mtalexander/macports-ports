@@ -14,7 +14,7 @@ universal_variant no
 # https://github.com/corretto/corretto-17/releases
 supported_archs  x86_64 arm64
 
-version      17.0.4.8.1
+version      17.0.7.7.1
 revision     0
 
 description  Amazon Corretto OpenJDK 17 (Long Term Support)
@@ -24,31 +24,33 @@ master_sites https://corretto.aws/downloads/resources/${version}/
 
 if {${configure.build_arch} eq "x86_64"} {
     distname     amazon-corretto-${version}-macosx-x64
-    checksums    rmd160  b22c66ee913935f4c153cda188b481abcbe1caa3 \
-                 sha256  b2714d48df8d3d8f22fdfb88af548a11603b2c792f1c0c163f6fd39e555a342a \
-                 size    187773572
+    checksums    rmd160  bd162fbf90d70063bee180b86dc3bc0975398e75 \
+                 sha256  68e169404a1021d24f7c39b2fa2366d40075311377f9cbddd328f0aac6c2ea6c \
+                 size    188082617
 } elseif {${configure.build_arch} eq "arm64"} {
     distname     amazon-corretto-${version}-macosx-aarch64
-    checksums    rmd160  39d293da52ee850bf54b7274bcde64bdac2b6168 \
-                 sha256  6b7b85dcf4937777a32aed8f62af886b9e50804e238633871289b2b3bb7f53a3 \
-                 size    185883964
+    checksums    rmd160  ae628b5840f339e3d71d3c2527f8c61b056b6622 \
+                 sha256  d2410941ee1a8910412511c18a5ff954bc4bd1e4412cb4260a7f138be3a791dd \
+                 size    186100418
 }
 
 worksrcdir   amazon-corretto-17.jdk
 
 # https://trac.macports.org/wiki/PortfileRecipes#compare-osx-darwin-version
-if {${os.platform} eq "darwin" && ${os.major} < 19} {
-    # See https://github.com/corretto/corretto-17/blob/release-17.0.4.8.1/CHANGELOG.md
+if {${os.platform} eq "darwin" && ${os.major} < 20} {
+    # See https://github.com/corretto/corretto-17/blob/release-17.0.7.7.1/CHANGELOG.md
     known_fail yes
     pre-fetch {
-        ui_error "${name} ${version} is only supported on macOS 10.15 Catalina or later."
+        ui_error "${name} ${version} is only supported on macOS 11 Big Sur or later."
         return -code error
     }
 }
 
 homepage     https://aws.amazon.com/corretto/
 
-livecheck.type  none
+livecheck.type      regex
+livecheck.url       https://github.com/corretto/corretto-17/releases
+livecheck.regex     amazon-corretto-(17\.\[0-9\.\]+)-macosx-.*\.tar\.gz
 
 use_configure    no
 build {}

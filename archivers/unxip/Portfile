@@ -2,15 +2,15 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
-PortGroup           xcodeversion 1.0
+PortGroup           muniversal 1.1
 
-github.setup        saagarjha unxip 1.1.1 v
+github.setup        saagarjha unxip 2.1 v
 revision            0
 github.tarball_from archive
 
 categories          archivers sysutils
 license             LGPL-3
-maintainers         {i0ntempest @i0ntempest} openmaintainer
+maintainers         {i0ntempest @i0ntempest} {saagarjha.com:saagar @saagarjha} openmaintainer
 
 description         A fast signed archive extractor
 long_description    ${name} is a command-line tool designed for rapidly unarchiving Xcode \
@@ -18,11 +18,9 @@ long_description    ${name} is a command-line tool designed for rapidly unarchiv
                     outperform Bom (which powers xip and Archive Utility) in both performance \
                     and on-disk usage.
 
-checksums           rmd160  02da1ae52b2dc4cabebf634fa919737dc3ab6a24 \
-                    sha256  701119aae9d1678d891e7fbdac1f32aa7e897932ca77067d6672f39318bc6f3e \
-                    size    12864
-
-minimum_xcodeversions {21 13}
+checksums           rmd160  6435284b97e3bc38c856fdf7f37110003cdbea39 \
+                    sha256  3d13d7413e138810c65151d8b7574530cbbc5d2a18310f09ca0cdab3a4cbd6b4 \
+                    size    16128
 
 if {${os.platform} eq "darwin" && ${os.major} < 21} {
     known_fail yes
@@ -32,24 +30,20 @@ if {${os.platform} eq "darwin" && ${os.major} < 21} {
     }
 }
 
-patchfiles-append   patch-help_message.diff
-
 use_configure       no
 use_xcode           yes
+universal_variant   yes
 
-build.cmd           swift
-build.target        build
-build.args          --configuration release --disable-sandbox
+build.cmd           swiftc
+build.target        unxip.swift
+build.args          -O -parse-as-library
 
-set builtproductdir     ${worksrcpath}/.build/release
-
-variant universal {
-    PortGroup           conflicts_build 1.0
-    conflicts_build     libunwind
-    build.args-append   --arch x86_64 --arch arm64
-    set builtproductdir ${worksrcpath}/.build/apple/Products/Release
+if {${universal_possible} && [variant_isset universal]} {
+    foreach arch "${muniversal.architectures}" {
+        build.args.${arch}-append -target "${arch}-${triplet.vendor}-${triplet.os}"
+    }
 }
 
 destroot {
-    xinstall -m 755 ${builtproductdir}/${name} ${destroot}${prefix}/bin/
+    xinstall -m 755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
 }

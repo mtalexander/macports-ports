@@ -2,13 +2,12 @@
 
 PortSystem      1.0
 PortGroup       github 1.0
-PortGroup       java 1.0
 
-github.setup    micronaut-projects micronaut-starter 3.6.0 v
+github.setup    micronaut-projects micronaut-starter 3.9.3 v
 revision        0
 name            micronaut
 categories      java
-platforms       darwin
+platforms       {darwin any}
 maintainers     {breun.nl:nils @breun} openmaintainer
 license         Apache-2
 supported_archs x86_64
@@ -54,9 +53,9 @@ homepage        https://micronaut.io
 github.tarball_from releases
 distname        mn-darwin-amd64-v${version}
 
-checksums       rmd160  db1a3bbf2a1266523fafe93bb9ddbd7b267dff1c \
-                sha256  cbb2226375227a6917f46f10ac26b169362c69518221828b7c27fd9b9e579733 \
-                size    19795765
+checksums       rmd160  019a25aa40f10a43d3dfad6e9f4470a1897dbfda \
+                sha256  f45fcb2c25418711777719085ce17da6027cc25bd42a4a03d722117345fc6773 \
+                size    20262868
 
 use_zip         yes
 use_configure   no

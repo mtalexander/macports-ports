@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           java 1.0
 
 name                LanguageTool
-version             5.8
+version             6.1
 revision            0
 categories          aqua textproc java
 license             LGPL-2.1
@@ -19,9 +19,9 @@ platforms           darwin
 supported_archs     noarch
 master_sites        https://languagetool.org/download/
 
-checksums           rmd160  4196e8eef5b9e8df9be1c0efc5f898b99e15dad5 \
-                    sha256  20913a50eb4568fdc727066eee8aab833f52b626710fc9e0213c3f1098bfdee3 \
-                    size    227643900
+checksums           rmd160  b78e6b58fd8eec24d80e5e8710c525ea71572ccf \
+                    sha256  ea4d8bb3a92d109e63ab6d0ef6a1ef1b5b73f4dd16cdd7b2a7a02a0e74c7651d \
+                    size    230619934
 
 java.version        1.8+
 
@@ -43,6 +43,11 @@ destroot    {
     xinstall -m 0755 ${filespath}/${name}_cli_bin ${cli_bin}
     reinplace "s|@@JAR@@|${target_dir}/${name_lower}-commandline.jar|g" ${cli_bin}
 
+    # Server wrapper script
+    set server_bin ${destroot}${prefix}/bin/${name_lower}-server
+    xinstall -m 0755 ${filespath}/${name}_server_bin ${server_bin}
+    reinplace "s|@@JAR@@|${target_dir}/${name_lower}-server.jar|g" ${server_bin}
+
     set app ${destroot}${applications_dir}/${name}.app
     xinstall -d ${app}/Contents/MacOS
     xinstall -d ${app}/Contents/Resources
@@ -61,6 +66,9 @@ destroot    {
 }
 
 universal_variant   no
+
+startupitem.create  yes
+startupitem.executable ${prefix}/bin/languagetool-server --http --port 8081 --allow-origin "*"
 
 livecheck.type      regex
 livecheck.url       ${master_sites}

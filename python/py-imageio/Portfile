@@ -4,27 +4,28 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-imageio
-version             2.21.1
+version             2.31.0
 revision            0
 categories-append   graphics
 license             BSD
+platforms           {darwin any}
+supported_archs     noarch
 
-python.versions     37 38 39 310
+python.versions     37 38 39 310 311
 python.pep517       yes
 
 maintainers         {stromnov @stromnov} openmaintainer
 
 description         Easy interface to read and write a wide range of image data.
-long_description    ${description}
+long_description    {*}${description}
 
 homepage            https://imageio.github.io/
 
-checksums           rmd160  fc7cb05fe97b1c870d8a6e9a3e70a7bf36940d95 \
-                    sha256  5f0278217c1cf99d90ef855dab948f93d9fce0ab7ab388e13a597c706b7ec4e5 \
-                    size    3429194
+checksums           rmd160  4dab240756b3dfec85df8f6e78bbe3f3ed83ab6f \
+                    sha256  9e2d1dec1c74ba10d58856f2f02883b84f5cd5be937a1156cc238b539a6cf068 \
+                    size    386780
 
 if {${name} ne ${subport}} {
-    depends_lib-append  port:py${python.version}-setuptools \
-                        port:py${python.version}-numpy \
+    depends_lib-append  port:py${python.version}-numpy \
                         port:py${python.version}-Pillow
 }

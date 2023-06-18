@@ -3,9 +3,9 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/derailed/k9s 0.26.3 v
+go.setup            github.com/derailed/k9s 0.27.4 v
 github.tarball_from archive
-revision            1
+revision            0
 
 homepage            https://k9scli.io
 
@@ -25,9 +25,9 @@ maintainers         {breun.nl:nils @breun} \
                     {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  88964906a250efcbc2d03f2f2e9f206dab1d2e37 \
-                    sha256  30174fcfe4006230e5bbe523785537e89eb88fd38d6657b878f5b0e94635a8e3 \
-                    size    6396053
+checksums           rmd160  84d2f50a4b5bf47440e8ddfafb4f01b4fc0bb8e2 \
+                    sha256  4f2b42270bcbe37497c52c6c8fbd99e5b6e5333f1ab0b36dbdfeaccbc50a4ae1 \
+                    size    6400972
 
 # FIXME: This port currently can't be built without allowing go mod to fetch
 # dependencies during the build phase. See
@@ -36,7 +36,7 @@ build.env-delete    GOPROXY=off GO111MODULE=off
 
 build.cmd           make
 build.pre_args-append \
-                    GIT_REV="" DATE=""
+                    VERSION="${github.tag_prefix}${version}" GIT_REV="" DATE=""
 build.args          build
 
 destroot {

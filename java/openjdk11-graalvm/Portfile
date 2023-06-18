@@ -14,7 +14,13 @@ universal_variant no
 # https://github.com/graalvm/graalvm-ce-builds/releases
 supported_archs  x86_64 arm64
 
-version      22.2.0
+if {${configure.build_arch} eq "arm64"} {
+    # There is no macOS aarch64 build for 22.3.2
+    version 22.3.1
+} else {
+    version 22.3.2
+}
+
 revision     0
 
 description  GraalVM Community Edition based on OpenJDK 11
@@ -25,14 +31,14 @@ master_sites https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-$
 
 if {${configure.build_arch} eq "x86_64"} {
     distname     graalvm-ce-java11-darwin-amd64-${version}
-    checksums    rmd160  152b654b107058bb1e9a4b561210ed28f960d1d7 \
-                 sha256  3c6aca6faefa9e1f73de45fc56cc07d6f7864f63ce0b95148002dadb8f78cd86 \
-                 size    253271371
+    checksums    rmd160  31d6a6c00d2241775b1a54d9cc9ad6d0735a18e4 \
+                 sha256  da3c52cc68ce0fb4dcc27dba3c59beadafb7588fec9e9d2812f5bc7c7d00ab63 \
+                 size    254235978
 } elseif {${configure.build_arch} eq "arm64"} {
     distname     graalvm-ce-java11-darwin-aarch64-${version}
-    checksums    rmd160  99b80b02754a9ea7cd5bc5165150069272ffe656 \
-                 sha256  ee513cec2ef7b34ae6fbb8a3015c227ab2a24bfb2771c16152f15a1846df01f4 \
-                 size    248090327
+    checksums    rmd160  3421d1754a491b0cfa44d09df798ff5053fcefc8 \
+                 sha256  c59f32289d92671bea46a34f4227fef484a4aa9eeece159e59a486205aaa6c31 \
+                 size    249144742
 }
 
 worksrcdir   graalvm-ce-java11-${version}
@@ -86,3 +92,48 @@ by adding the following line to your shell profile:
 
     export JAVA_HOME=${target}/Contents/Home
 "
+
+subport ${name}-native-image {
+    depends_lib        port:${name}
+    description        Native Image component for GraalVM
+    long_description   ${description}
+
+    if {${configure.build_arch} eq "x86_64"} {
+        set jar_file native-image-installable-svm-java11-darwin-amd64-${version}.jar
+        distfiles    ${jar_file}
+        checksums    rmd160  f6ef5181f146264d198705ad88f0e2f9f7debf34 \
+                     sha256  ae542383b033576e26d0431b0b62b4f7c048fee3b209dad2a257c4ae6345f1fb \
+                     size    28458434
+    } elseif {${configure.build_arch} eq "arm64"} {
+        set jar_file native-image-installable-svm-java11-darwin-aarch64-${version}.jar
+        distfiles    ${jar_file}
+        checksums    rmd160  65a84d8dd894be0830673ffdf7e77a0ca19cf1ac \
+                     sha256  df923df186826dcb7cb0eac0f5e93c3e215584f0377bad0c76310e09d7dc58cd \
+                     size    28504616
+    }
+
+    set java_home ${target}/Contents/Home
+
+    extract {}
+
+    destroot {
+        xinstall -d -m 0755 ${destroot}${prefix}/share/java/${subport}
+        file copy ${distpath}/${jar_file} ${destroot}${prefix}/share/java/${subport}
+    }
+
+    post-activate {
+        # Graal Updater doesn't signal errors if the component is already installed.
+        # Unfortunately, we require root privileges to invoke Graal Updater.
+        system "sudo ${java_home}/bin/gu -L install ${prefix}/share/java/${subport}/${jar_file}"
+    }
+
+    post-deactivate {
+        # This helps prevent breakage if the user removed native-image themselves
+        # and wants to deactivate or uninstall this port.
+        if {[regexp {(?i)native-image} [exec ${java_home}/bin/gu list] match]} {
+            system "sudo ${java_home}/bin/gu remove native-image"
+        }
+    }
+
+    notes "The Native Image component of GraalVM has been installed for you"
+}

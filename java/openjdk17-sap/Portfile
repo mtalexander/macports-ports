@@ -14,7 +14,7 @@ universal_variant no
 # https://sap.github.io/SapMachine/latest/17
 supported_archs  x86_64 arm64
 
-version      17.0.4
+version      17.0.7
 revision     0
 
 description  OpenJDK 17 builds (Long Term Support) maintained and supported by SAP
@@ -24,20 +24,22 @@ master_sites https://github.com/SAP/SapMachine/releases/download/sapmachine-${ve
 
 if {${configure.build_arch} eq "x86_64"} {
     distname     sapmachine-jdk-${version}_macos-x64_bin
-    checksums    rmd160  004623d35e2dcf27bed87ee57d43a01387539954 \
-                 sha256  78dba5e09788d0e88f45d00fbab37b85c17af22bae7f404f6bae0252ba0b14d9 \
-                 size    179970289
+    checksums    rmd160  a320b141567ab7aba6f521f4002a4945852a415a \
+                 sha256  16b876049d34050d1442fe7971c70b581e70c1dec74c3755e2f53c1d04bd2ad0 \
+                 size    180385214
 } elseif {${configure.build_arch} eq "arm64"} {
     distname     sapmachine-jdk-${version}_macos-aarch64_bin
-    checksums    rmd160  08424961d82fb7566531892392e7c3e34dd19fb8 \
-                 sha256  e5bb306387a87af2140ece8d4100f8ff1610266ce1417c11e05ca887b38f6480 \
-                 size    177731278
+    checksums    rmd160  ab54760f972b274e9c6ca59076a4aa4cad46629f \
+                 sha256  3db9ccca0b5df89a10f53c566bc78f3fd5742d07c11044957996e13f2459c6f6 \
+                 size    178090814
 }
 worksrcdir   sapmachine-jdk-${version}.jdk
 
 homepage     https://sapmachine.io
 
-livecheck.type  none
+livecheck.type      regex
+livecheck.url       https://github.com/SAP/SapMachine/releases
+livecheck.regex     sapmachine-jdk-(17\.\[0-9\.\]+)_macos-.*_bin\.tar\.gz
 
 use_configure    no
 build {}

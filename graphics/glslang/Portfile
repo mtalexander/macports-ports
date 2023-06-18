@@ -3,8 +3,9 @@
 PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           cmake 1.1
+PortGroup           legacysupport 1.1
 
-github.setup        KhronosGroup glslang 11.11.0
+github.setup        KhronosGroup glslang 12.2.0
 github.tarball_from archive
 revision            0
 
@@ -12,16 +13,25 @@ categories          graphics devel
 license             {BSD Permissive}
 maintainers         {judaew @judaew} openmaintainer
 
-description         Shader compiler libraries & tools
-long_description    OpenGL and OpenGL ES reference compiler for shading languages
+description         OpenGL shader compiler libraries & tools
+long_description    Glslang is the official reference compiler for \
+                    the OpenGL and OpenGL ES shading languages.
 homepage            https://www.khronos.org/opengles/sdk/tools/Reference-Compiler/
 
-checksums           sha256  26c216c3062512c018cbdd752224b8dad703b7e5bb90bf338ba2dbb5d4f11438 \
-                    rmd160  701d680b944f7948165ab32bdb991b38eb0de36c \
-                    size    3542123
+checksums           sha256  870d17030fda7308c1521fb2e01a9e93cbe4b130bc8274e90d00e127432ab6f6 \
+                    rmd160  9d35c3144275ada8d42ec5b2022449126bb4ee33 \
+                    size    3706316
 
-compiler.cxx_standard 2011
+set py_ver          3.11
+set py_ver_nodot    [string map {. {}} ${py_ver}]
 
-depends_build-append port:python310
-configure.python ${prefix}/bin/python3.10
-configure.args-append -DPYTHON_EXECUTABLE:FILEPATH=${prefix}/bin/python3.10
+compiler.cxx_standard 2017
+
+# Apple Clang doesn't support C++17 on macOS 10.9 Mavericks and older
+legacysupport.newest_darwin_requires_legacy 13
+
+depends_build-append    port:python${py_ver_nodot}
+configure.python        ${prefix}/bin/python${py_ver}
+configure.args-append   -DPYTHON_EXECUTABLE:FILEPATH=${configure.python}
+
+configure.args-append   -DENABLE_GLSLANG_INSTALL=ON

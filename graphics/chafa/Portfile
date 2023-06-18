@@ -2,8 +2,9 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
+PortGroup           compiler_blacklist_versions 1.0
 
-github.setup        hpjansson chafa 1.12.3
+github.setup        hpjansson chafa 1.12.5
 github.tarball_from archive
 revision            0
 
@@ -25,9 +26,9 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 platforms           darwin linux
 
-checksums           rmd160  66f3208766c651a52b82cbe17279764e44b606dc \
-                    sha256  5694015defc5274e5f3b4c2788302536d7fb354da33c7d0e151f246c42efa221 \
-                    size    1506425
+checksums           rmd160  4e058c52b8bcb3509ebe6cb742daf38b1025ef4d \
+                    sha256  436b8d2ae8d6e6f5b49db9f72485ca15a579741512ecd149721560c0706fda3a \
+                    size    1781430
 
 depends_build-append \
                     port:autoconf   \
@@ -40,3 +41,7 @@ depends_lib-append  path:lib/pkgconfig/glib-2.0.pc:glib2 \
                     port:ImageMagick
 
 use_autoreconf      yes
+
+# https://trac.macports.org/ticket/66729
+compiler.blacklist-append \
+                    *gcc-4.* {clang < 400}

@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/xo/usql 0.12.0 v
+go.setup            github.com/xo/usql 0.14.8 v
 github.tarball_from archive
 revision            0
 
@@ -25,21 +25,19 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  d6671d28c4aaa6b1feb21b18c7f473c80a6a05ea \
-                    sha256  e81bb826f02fc52f3620f38f9d11fb2871ccbc5ac77e87fca075f7136fe9d12a \
-                    size    272774
+checksums           rmd160  a6c525203a1fc9907545288e4c10c11bf41b2331 \
+                    sha256  56e4a0c384a32abe61b7aa37fa5d72e830ed459757c06da9cc000333892f1094 \
+                    size    275187
 
 depends_build-append \
                     port:realpath
-depends_lib-append  port:icu
-
-patchfiles          patch-build-no-compress.diff
+depends_lib-append  path:lib/pkgconfig/icu-uc.pc:icu
 
 # Allow Go to download dependencies during build time
 build.env-delete    GO111MODULE=off GOPROXY=off
 
 build.cmd           ./build-release.sh
-build.args          -v ${github.tag_prefix}${version}
+build.args          -N -v ${github.tag_prefix}${version}
 
 destroot {
     xinstall -m 0755 \

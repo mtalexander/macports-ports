@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/cheat/cheat 4.3.1
+go.setup            github.com/cheat/cheat 4.4.0
 revision            0
 
 description         create and view interactive cheatsheets on the command-line
@@ -19,9 +19,9 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  1394d85d6fd07e58c4618112557d6ae221c789ab \
-                    sha256  e60d53cf629becac7e205a1073de8754eed3bb626be97b9841cd809a91c16411 \
-                    size    1691194
+checksums           rmd160  0e02d546080e94861f70a21e7651f6dc5e8bed4a \
+                    sha256  9913f7c4414b2f491a35cc82d7b8552109262913bd85a633609c9124960c8486 \
+                    size    2918729
 
 # This project uses vendored sources, which cannot be used with Go modules
 # turned off.  So remove the environment setting GO111MODULE=off.

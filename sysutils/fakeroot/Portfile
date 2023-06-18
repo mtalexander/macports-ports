@@ -3,11 +3,11 @@
 PortSystem          1.0
 
 name                fakeroot
-version             1.29
+version             1.31
 revision            0
-checksums           rmd160  5f219a49031eceda4d077e78acc1661736556b33 \
-                    sha256  8fbbafb780c9173e3ace4a04afbc1d900f337f3216883939f5c7db3431be7c20 \
-                    size    549383
+checksums           rmd160  3729032a09b06a0e0fede38653df1b0b62a1f715 \
+                    sha256  63886d41e11c56c7170b9d9331cca086421b350d257338ef14daad98f77e202f \
+                    size    551366
 
 categories          sysutils
 license             GPL-3+
@@ -25,17 +25,9 @@ master_sites        debian:f/${name}
 distname            ${name}_${version}.orig
 worksrcdir          ${name}-${version}
 
-patchfiles          patch-configure.ac.diff \
-                    patch-message.h.diff
+patchfiles          patch-message.h.diff
 
-# We are patching configure.ac
-use_autoreconf      yes
-autoreconf.cmd      ./bootstrap
-autoreconf.pre_args
-autoreconf.args
 configure.checks.implicit_function_declaration.whitelist-append strchr
-depends_build       port:autoconf port:automake port:libtool
-depends_skip_archcheck-append libtool
 
 configure.args      --disable-static
 

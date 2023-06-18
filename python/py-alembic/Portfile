@@ -4,37 +4,34 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-alembic
-version             1.8.1
+version             1.11.1
 revision            0
 categories-append   databases
 license             MIT
 supported_archs     noarch
+platforms           {darwin any}
 
-python.versions     37 38 39 310
+python.versions     37 38 39 310 311
 python.pep517       yes
 
 maintainers         {stromnov @stromnov} openmaintainer
 
 description         A database migration tool for SQLAlchemy.
-long_description    ${description}
+long_description    {*}${description}
 
 homepage            https://alembic.sqlalchemy.org/
 
-checksums           rmd160  576a3abfcb16284ea16b0ab0ace9cfd0b3fa0d77 \
-                    sha256  cd0b5e45b14b706426b833f06369b9a6d5ee03f826ec3238723ce8caaf6e5ffa \
-                    size    1255927
+checksums           rmd160  94d8a855dc5bea95f27c07a1bc5b269c07bb3967 \
+                    sha256  6a810a6b012c88b33458fceb869aef09ac75d6ace5291915ba7fae44de372c01 \
+                    size    1176522
 
 if {${name} ne ${subport}} {
-    if {${python.version} <= 38} {
-        depends_lib-append  port:py${python.version}-importlib-metadata
-    }
-    if {${python.version} <= 39} {
+    depends_lib-append  port:py${python.version}-sqlalchemy \
+                        port:py${python.version}-mako \
+                        port:py${python.version}-typing_extensions
+
+    if {${python.version} < 39} {
         depends_lib-append  port:py${python.version}-importlib-metadata \
                             port:py${python.version}-importlib-resources
     }
-
-    depends_lib-append  port:py${python.version}-setuptools \
-                        port:py${python.version}-sqlalchemy \
-                        port:py${python.version}-mako \
-                        port:py${python.version}-dateutil
 }

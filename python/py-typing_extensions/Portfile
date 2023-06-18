@@ -4,9 +4,10 @@ PortSystem 1.0
 PortGroup python 1.0
 
 name                py-typing_extensions
-version             4.3.0
+version             4.6.3
 license             PSF
 supported_archs     noarch
+platforms           {darwin any}
 maintainers         {toby @tobypeterson} openmaintainer
 description         Backported and Experimental Type Hints for Python
 long_description    The typing module was added to the standard library in Python 3.5 \
@@ -20,11 +21,11 @@ long_description    The typing module was added to the standard library in Pytho
 
 homepage            https://github.com/python/typing_extensions
 
-checksums           rmd160  6094cd8676de2e9585f904d196b52421aaff48a1 \
-                    sha256  e6d2677a32f47fc7eb2795db1dd15c1f34eff616bcaf2cfb5e997f854fa1c4a6 \
-                    size    47430
+checksums           rmd160  74239285a10e7ab0b24b52974fb1264210493429 \
+                    sha256  d91d5919357fe7f681a9f2b5b4cb2a5f1ef0a1e9f59c4d8ff0d3491e05c0ffd5 \
+                    size    65757
 
-python.versions     36 37 38 39 310
+python.versions     36 37 38 39 310 311
 
 python.pep517       yes
 

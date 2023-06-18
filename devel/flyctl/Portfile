@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/superfly/flyctl 0.0.363 v
+go.setup            github.com/superfly/flyctl 0.1.36 v
 github.tarball_from archive
 revision            0
 
@@ -19,9 +19,9 @@ long_description    ${name} is a command-line interface for fly.io.
 
 homepage            https://fly.io
 
-checksums           rmd160  c87b8951ff8c8675e5a62b9bcbfa8e42ca8f72c2 \
-                    sha256  59ac030488bf323a72f0879c2054fe9cbdd49850f984910bbce0e506818f76f8 \
-                    size    1486665
+checksums           rmd160  a80560889c23fd4ebf2af53d03f02c8a139d34b6 \
+                    sha256  6296a6079bc508bb1c73b19e22be0507d067a1630bb774c16fd2b7d88fb0987d \
+                    size    1685355
 
 # Allow Go to download dependencies at runtime
 build.env-delete    GO111MODULE=off GOPROXY=off
@@ -47,9 +47,12 @@ destroot {
     xinstall -d "${destroot}${prefix}/etc/bash_completion.d"
     xinstall -d "${destroot}${prefix}/share/zsh/site-functions"
     xinstall -d "${destroot}${prefix}/share/fish/completions"
-    system "${destroot}${prefix}/bin/${name} completion bash > ${destroot}${prefix}/etc/bash_completion.d/${name}"
-    system "${destroot}${prefix}/bin/${name} completion zsh > ${destroot}${prefix}/share/zsh/site-functions/_${name}"
-    system "${destroot}${prefix}/bin/${name} completion fish > ${destroot}${prefix}/share/fish/completions/${name}.fish"
+    system "${destroot}${prefix}/bin/${name} completion bash > \\
+        ${destroot}${prefix}/etc/bash_completion.d/${name}"
+    system "${destroot}${prefix}/bin/${name} completion zsh >  \\
+        ${destroot}${prefix}/share/zsh/site-functions/_${name}"
+    system "${destroot}${prefix}/bin/${name} completion fish > \\
+        ${destroot}${prefix}/share/fish/completions/${name}.fish"
 }
 
 # Only match releases. Pre-releaes have a "-pre-N" suffix

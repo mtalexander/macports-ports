@@ -3,14 +3,14 @@
 PortSystem              1.0
 PortGroup               github 1.0
 
-github.setup            tj git-extras 6.4.0
+github.setup            tj git-extras 7.0.0
 
-checksums               rmd160  c9ddca421f9040bd911b149d04476d1fad0e893f \
-                        sha256  3d21a227195a5cf4111a3429e702eb25f48d4a3b02d279b5c8c07fa4863c9f23 \
-                        size    163556
+checksums               rmd160  ef55391e632c6dca00e8530b8e8f2663c19e8e2c \
+                        sha256  21e16f38121e83ddde7b82a96e2944f699b4ead8e087d7b4f3b86e222c30a52a \
+                        size    169208
 
 maintainers             {grimreaper @grimreaper} openmaintainer
-platforms               darwin
+platforms               any
 categories              devel
 supported_archs         noarch
 

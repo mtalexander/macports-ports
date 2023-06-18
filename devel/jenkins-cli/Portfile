@@ -3,8 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/jenkins-zh/jenkins-cli 0.0.39 v
-set git_commit      1332ed9
+go.setup            github.com/jenkins-zh/jenkins-cli 0.0.42 v
+set git_commit      c4a03f2
 categories          devel
 license             MIT
 
@@ -20,9 +20,9 @@ set short           jcli
 homepage            https://${short}.jenkins-zh.cn
 
 checksums           ${distname}${extract.suffix} \
-                        rmd160  6efc8f29a69a3be072e34933446bc0d0742b3d3a \
-                        sha256  82cf23bd879427a3734b3f9767c78d1c903b750998b1574ddc5a7dfebf405327 \
-                        size    223208
+                        rmd160  eb4c76c68d879ff97056c91a19197fc5adb94c0a \
+                        sha256  3b4cca2ebc76931d8464a2aef1590f989d03fa49ae04ed7072330ce298bf4d65 \
+                        size    223113
 
 
 # Allows for version number, last commit and build date in `jcli version`

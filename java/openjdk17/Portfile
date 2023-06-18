@@ -4,11 +4,10 @@ PortSystem          1.0
 
 name                openjdk17
 # https://github.com/openjdk/jdk17u/tags
-version             17.0.4
-set build 8
+version             17.0.8
+set build 3
 revision            0
 categories          java devel
-platforms           darwin
 supported_archs     x86_64 arm64
 license             GPL-2+
 maintainers         {outlook.com:usersword123 @usersxx} openmaintainer
@@ -18,16 +17,19 @@ long_description    JDK 17 builds of OpenJDK, the Open-Source implementation \
 homepage            https://openjdk.java.net/
 master_sites        https://git.openjdk.java.net/jdk17u/archive/refs/tags
 distname            jdk-${version}+${build}
+worksrcdir          jdk17u-[string map {+ -} ${distname}]
 
-checksums           rmd160  d0a70d2e3cf7fa70ef9e5a2ac2551e0b605fb595 \
-                    sha256  b10b80aa96ac43c75163c1888bb42b66e1eeaecb02412d30de5369df7337ac8f \
-                    size    104904275
+checksums           rmd160  a842cc00e74064faf239d0df710b1ef0a0f2a1e2 \
+                    sha256  1547e64f8818de595b228f46454390669aa4bd2850ea53da27f0189ccbdf0e10 \
+                    size    105731315
 
 depends_lib         port:freetype
-depends_build       port:autoconf \
+depends_build       port:openjdk17-bootstrap \
+                    port:autoconf \
                     port:gmake \
-                    port:bash \
-                    port:openjdk17-bootstrap
+                    port:bash
+
+patchfiles          8305995-Footprint-regression-from-JDK-8224957.patch
 
 pre-patch {
     reinplace "s|libffi.so.?|libffi.?.dylib|g" ${worksrcpath}/make/autoconf/lib-ffi.m4
@@ -52,10 +54,10 @@ configure.args      --with-debug-level=release \
                     --with-freetype=system \
                     --with-freetype-include=${prefix}/include/freetype2 \
                     --with-freetype-lib=${prefix}/lib \
-                    --disable-precompiled-headers \
                     --disable-warnings-as-errors \
-                    --with-vendor-name="OpenJDK Porters Group" \
-                    --with-vendor-url="${homepage}" \
+                    --disable-precompiled-headers \
+                    --with-vendor-name="MacPorts" \
+                    --with-vendor-url="https://www.macports.org" \
                     --with-vendor-bug-url="${bug_url}" \
                     --with-vendor-vm-bug-url="${bug_url}" \
                     --with-conf-name=release
@@ -147,3 +149,6 @@ If you want to make ${name} the default JDK, add this to shell profile:
 export JAVA_HOME=${pathb}/Contents/Home
 "
     
+livecheck.type      regex
+livecheck.url       https://github.com/openjdk/jdk17u/tags
+livecheck.regex     jdk-(17\.\[0-9.\]+)-ga

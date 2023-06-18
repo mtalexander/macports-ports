@@ -4,13 +4,13 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-regex
-version             2022.07.25
+version             2023.06.03
 set distversion     [regsub -all {(\.)0} ${version} {\1}]
 revision            0
 categories-append   devel
 license             PSF
 
-python.versions     37 38 39 310
+python.versions     37 38 39 310 311
 python.pep517       yes
 
 maintainers         {stromnov @stromnov} openmaintainer
@@ -22,9 +22,9 @@ homepage            https://github.com/mrabarnett/mrab-regex
 
 distname            ${python.rootname}-${distversion}
 
-checksums           rmd160  30527a96c269e348a3478fcbc246b32f900762d5 \
-                    sha256  bd0883e86964cd61360ffc36dbebbc49b928e92a306f886eab02c11dfde5b7aa \
-                    size    385022
+checksums           rmd160  4c3e4ec341144de22f836a5b935688b2f87ff689 \
+                    sha256  72d1a25bf36d2050ceb35b517afe13864865268dfb45910e2e17a84be6cbfeb0 \
+                    size    392247
 
 if {${name} eq ${subport}} {
     livecheck.version   ${distversion}

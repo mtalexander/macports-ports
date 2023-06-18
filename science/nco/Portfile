@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           compilers 1.0
 PortGroup           github 1.0
 
-github.setup        nco nco 5.1.0
+github.setup        nco nco 5.1.6
 revision            0
 platforms           darwin
 maintainers         {takeshi @tenomoto} \
@@ -21,9 +21,9 @@ if {${os.major} > 12} {
     compilers.setup -clang33 -clang34
 }
 
-checksums           rmd160  569d2309a9ea5b0af6f4ef2526052f9fabb7ba89 \
-                    sha256  bdc497d9bdf6bb48fb14cf90d6c52abf7585eea03a093243f68b8c4cb713e9c1 \
-                    size    6359009
+checksums           rmd160  7b8e220e2a4f3f8d672540a3c360dec18b43657a \
+                    sha256  446dd96dbe0a4e9055f6d477c0551d6973a88b669b3519f68e4f96d640684037 \
+                    size    6463847
 
 homepage            http://nco.sourceforge.net/
 long_description \

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           active_variants 1.1
 
 name                macos-fortress
-version             2021.12.26
+version             2023.03.04
 revision            0
 
 categories          net security
@@ -18,6 +18,10 @@ if {${subport} ne "${name}-easylistpac"} {
     distfiles
     extract.only
 }
+
+# This stack-based x86_64 binary runs on arm64 under Rosetta
+depends_skip_archcheck \
+                    adblock2privoxy
 
 use_configure       no
 build               {}

@@ -3,7 +3,10 @@
 PortSystem          1.0
 
 name                mupdf
-version             1.19.1
+
+# Keep synchronized with port:py-mupdf.
+version             1.22.0
+
 revision            0
 categories          graphics
 platforms           darwin
@@ -31,9 +34,9 @@ homepage            https://www.mupdf.com/
 master_sites        ${homepage}downloads/archive/
 distname            ${name}-${version}-source
 
-checksums           rmd160  a6e91c264749cbc1587d9d3356dc13f604d0b6c0 \
-                    sha256  9f56a3b04cf477c9d042d4cd3c8b28a5383e75a1dbf1828e16e606dc9586d0ce \
-                    size    91675366
+checksums           rmd160  aa407171cbe14125dc233cebe7e7133cddb4a6e9 \
+                    sha256  5cae91c6332fa6cb08f1258addd27b736c4663f92698c8897b382c453534ee60 \
+                    size    55043552
 
 depends_build       port:pkgconfig
 
@@ -61,6 +64,8 @@ build.args-append   CC=${configure.cc} \
                     build=release \
                     verbose=yes \
                     shared
+
+use_parallel_build  no
 
 destroot.destdir    prefix=${destroot}${prefix}
 destroot.args-append \

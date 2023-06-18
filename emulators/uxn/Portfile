@@ -5,13 +5,13 @@ PortGroup               sourcehut 1.0
 PortGroup               compiler_blacklist_versions 1.0
 
 name                    uxn
-sourcehut.setup         rabbits uxn 4d7f35df6f6e5a05ba7910e053acc1aad31fcca7
-version                 20220802
+sourcehut.setup         rabbits uxn f07775a9a2e9c8f7dd0b78a1404ac67aaa3d697a
+version                 20230217
 revision                0
 
 categories              emulators
 license                 MIT
-maintainers             {@aeiouaeiouaeiouaeiouaeiouaeiou outlook.com:aeioudev} openmaintainer
+maintainers             nomaintainer
 
 description             An assembler and emulator for the Uxn \
                         stack-machine, written in ANSI C.
@@ -23,9 +23,9 @@ long_description        Uxn is a virtual machine with 32 instructions. \
 
 homepage                https://100r.co/site/uxn.html
 
-checksums               rmd160  ef3555003dbc9179d237cce39229040544359d65 \
-                        sha256  232d87252d4374bf8a6e54cd813142b7e302aa3435ab0aeae7a3072b13ce0d6e \
-                        size    286974
+checksums               rmd160  859c5a4503d9519f39ea51231b3aafc9eff25eba \
+                        sha256  1ad8913c583162a9ab4a5d36a48cc27e4d68912c876e48d81e5cf8b177bf81ae \
+                        size    285968
 
 depends_lib             port:libsdl2
 
@@ -43,7 +43,9 @@ compiler.blacklist-append \
 
 build.cmd               ${worksrcpath}/build.sh
 build.args              --no-run
-build.env               CC=${configure.cc}
+build.env               CC=${configure.cc} \
+                        "CFLAGS=${configure.cflags} [get_canonical_archflags cc]" \
+                        "LDFLAGS=${configure.ldflags} [get_canonical_archflags ld]"
 
 destroot {
     set demos_dir       ${destroot}${prefix}/share/examples/${name}/demos

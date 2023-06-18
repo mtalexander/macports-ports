@@ -6,13 +6,13 @@ PortGroup           legacysupport 1.1
 
 name                py-zmq
 
-version             23.2.0
-checksums           rmd160  74e963382eb5decd95c3f788670d5924b38e7e48 \
-                    sha256  a51f12a8719aad9dcfb55d456022f16b90abc8dde7d3ca93ce3120b40e3fa169 \
-                    size    1216729
+version             24.0.1
+checksums           rmd160  0ac801641ec647e106f6d42f985bb14cdd780cd0 \
+                    sha256  216f5d7dbb67166759e59b0479bca82b8acf9bed6015b526b8eb10143fb08e77 \
+                    size    1219822
 revision            0
 
-python.versions     27 35 36 37 38 39 310
+python.versions     27 35 36 37 38 39 310 311
 
 maintainers         {gmail.com:jrjsmrtn @jrjsmrtn} {michaelld @michaelld} openmaintainer
 

@@ -6,11 +6,11 @@ PortGroup           xcodeversion 1.0
 
 
 if {${os.major} > 17} {
-    version             3.4.16
+    version             3.4.19
     revision            0
-    checksums           rmd160  7373f5ac1d71efaa92cdacfd7685c97764421a76 \
-                        sha256  486b9428c2f549ce3291c6fc4baec3cd7ddce7c7d082918c4bce1ad7713b2c23 \
-                        size    29064807
+    checksums           rmd160  58f0ef9570d94a9940c3dddc8f7f972c657ed941 \
+                        sha256  5316d5bf3d83614b5c29026ece6cc6be56bd93d55490105e0921ceeebbf0a025 \
+                        size    28768995
     patchfiles          patch-Makefile-XC10.diff \
                         patch-remove-sparkle-3.4.diff \
                         patch-nsur.diff
@@ -49,13 +49,14 @@ long_description    \
 
 homepage            https://iterm2.com/
 
-github.livecheck.regex {(\d+(?:\.\d+)*)}
+livecheck.url       https://raw.githubusercontent.com/gnachman/iterm2-website/master/source/appcasts/final_modern.xml
+livecheck.regex     {sparkle:version="([\d\.]+)"}
 
 post-patch {
     # patch the python script out since it does not set the correct version and may cause trouble
     reinplace "s|exec tools/updateVersion.py|exec /usr/bin/true|g" ${worksrcpath}/iTerm2.xcodeproj/project.pbxproj
     # macOS 13/Xcode 14 seems to be requiring code signing
-    if {[vercmp ${xcodeversion} 14] >= 0} {
+    if {${os.major} >= 22} {
         reinplace "s|CODE_SIGN_IDENTITY = \".*\";|CODE_SIGN_IDENTITY = \"-\";|g" ${worksrcpath}/iTerm2.xcodeproj/project.pbxproj
     } else {
         reinplace "s|CODE_SIGN_IDENTITY = \".*\";|CODE_SIGN_IDENTITY = \"\";|g" ${worksrcpath}/iTerm2.xcodeproj/project.pbxproj

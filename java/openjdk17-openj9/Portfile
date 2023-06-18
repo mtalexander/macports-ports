@@ -14,11 +14,11 @@ universal_variant no
 # https://developer.ibm.com/languages/java/semeru-runtimes/downloads?os=macOS
 supported_archs  x86_64 arm64
 
-version      17.0.4
+version      17.0.7
 revision     0
 
-set build    8
-set openj9_version 0.33.0
+set build    7
+set openj9_version 0.38.0
 
 description  IBM Semeru with Eclipse OpenJ9 VM distribution, based on OpenJDK 17
 long_description The IBM Semeru Runtimes are free production-ready open source binaries to run your Java applications\
@@ -28,21 +28,23 @@ master_sites https://github.com/ibmruntimes/semeru17-binaries/releases/download/
 
 if {${configure.build_arch} eq "x86_64"} {
     distname     ibm-semeru-open-jdk_x64_mac_${version}_${build}_openj9-${openj9_version}
-    checksums    rmd160  77c206691f73d594a074fea444896fc7352322af \
-                 sha256  a935f20564e347a9292955c04eb57e51efdb1853ae7f0b4fe759b22c9fe248be \
-                 size    209040959
+    checksums    rmd160  526ca24a7d89b1d5105c802892d245c6c808bc0d \
+                 sha256  47021dbc5f9f1796479bfa350356dbf17082f6baace42543914dbbecce54e9ee \
+                 size    209975983
 } elseif {${configure.build_arch} eq "arm64"} {
     distname     ibm-semeru-open-jdk_aarch64_mac_${version}_${build}_openj9-${openj9_version}
-    checksums    rmd160  aa2b62c4e835a229182cb18e10a6b7545af36181 \
-                 sha256  bf22628b54115dff9939b94751531544ab735b7cbbc8d6ddfe83d1b04df3a532 \
-                 size    202269399
+    checksums    rmd160  e057aa4a352e349dd9f3c68f837f4f4bc9014351 \
+                 sha256  da95343f2cc6ec7e4bd6ed720183b6e9e8d6639df15b2e49ff15a2b5a3780cd7 \
+                 size    203142333
 }
 
 worksrcdir   jdk-${version}+${build}
 
 homepage     https://developer.ibm.com/languages/java/semeru-runtimes/
 
-livecheck.type  none
+livecheck.type      regex
+livecheck.url       https://github.com/ibmruntimes/semeru17-binaries/releases/
+livecheck.regex     ibm-semeru-open-jdk_.*_mac_(17\.\[0-9\.\]+)_\[0-9\]+_openj9-\[0-9\.\]+\.tar\.gz
 
 use_configure    no
 build {}

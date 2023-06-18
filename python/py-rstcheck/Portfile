@@ -4,10 +4,11 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-rstcheck
-version             6.0.0.post1
+version             6.1.2
 revision            0
 
 categories-append   devel
+platforms           {darwin any}
 supported_archs     noarch
 license             MIT
 maintainers         {reneeotten @reneeotten} openmaintainer
@@ -17,11 +18,11 @@ long_description    ${description}
 
 homepage            https://github.com/myint/rstcheck
 
-checksums           rmd160  d1da23c8ffeb185cbfd11bb77ee6221edf7e5a5e \
-                    sha256  2f69b972c682fbb6618e969273962f77c4307d6900e013b4d74f674f13fc81cb \
-                    size    17665
+checksums           rmd160  7c7399ed09984c17f19ef7be92edf4d5a721872d \
+                    sha256  f9cb07a72ef9a81d1e32187eae29b00a89421ccba1bde0b1652a08ed0923f61b \
+                    size    16570
 
-python.versions     37 38 39 310
+python.versions     37 38 39 310 311
 python.pep517       yes
 python.pep517_backend poetry
 

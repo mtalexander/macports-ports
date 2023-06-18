@@ -5,10 +5,11 @@ PortGroup           python 1.0
 PortGroup           select 1.0
 
 name                py-python-lsp-server
-version             1.5.0
+version             1.7.3
 revision            0
 
 categories-append   devel
+platforms           {darwin any}
 supported_archs     noarch
 license             MIT
 maintainers         {reneeotten @reneeotten} openmaintainer
@@ -17,13 +18,13 @@ description         A Python implementation of the Language Server Protocol
 long_description    Fork of the python-language-server project, maintained by the Spyder \
                     IDE team and the community.
 
-checksums           rmd160  e9b6a248f71d17ab0de330f31fe782d852678f7e \
-                    sha256  e5c094c19925022a27c4068f414b2bb653243f8fb0d768e39735289d7a89380d \
-                    size    82371
+checksums           rmd160  9213a327989a1d0981fd0ce8959432c7ad624813 \
+                    sha256  a31b0525be6ec831c7d2b476b744e5aa5074633e1d1b77ee97f332cde15983ea \
+                    size    97336
 
 homepage            https://github.com/python-lsp/python-lsp-server/
 
-python.versions     37 38 39 310
+python.versions     37 38 39 310 311
 python.pep517       yes
 
 if {${subport} ne ${name}} {
@@ -33,6 +34,7 @@ if {${subport} ne ${name}} {
     depends_lib-append \
                     port:py${python.version}-autopep8 \
                     port:py${python.version}-codestyle \
+                    port:py${python.version}-docstring-to-markdown \
                     port:py${python.version}-docstyle \
                     port:py${python.version}-flake8 \
                     port:py${python.version}-flake8-mccabe \
@@ -47,8 +49,7 @@ if {${subport} ne ${name}} {
                     port:py${python.version}-yapf
 
     patchfiles-append   patch-pylsp_plugins_flake8_lint.py.diff \
-                        patch-test_plugins_flake8_lint.py.diff \
-                        patch-pyproject.toml.diff
+                        patch-test_plugins_flake8_lint.py.diff
 
     post-patch {
         reinplace "s|@@FLAKE8_BIN@@|flake8-${python.branch}|g" ${worksrcpath}/pylsp/plugins/flake8_lint.py

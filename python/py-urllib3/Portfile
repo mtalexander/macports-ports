@@ -4,14 +4,15 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-urllib3
-version             1.26.11
+version             1.26.15
 revision            0
 categories-append   devel net
-platforms           darwin
+platforms           {darwin any}
 supported_archs     noarch
 license             MIT
 
-python.versions     27 35 36 37 38 39 310
+python.versions     27 35 36 37 38 39 310 311
+python.pep517       yes
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -20,13 +21,17 @@ long_description    ${description}
 
 homepage            https://urllib3.readthedocs.io/
 
-checksums           rmd160  b9c8ab4c75cc59e2e60807af175e6fb9e368006a \
-                    sha256  ea6e8fb210b19d950fab93b60c9009226c63a28808bc8386e05301e25883ac0a \
-                    size    299255
+checksums           rmd160  84aa9f5e76f4e59a13e6cde842f8675fa2e0b65c \
+                    sha256  8a388717b9476f934a21484e8c8e61875ab60644d29b9b39e11e4b9dc1c6b305 \
+                    size    301444
 
 if {${name} ne ${subport}} {
-    depends_build-append \
-                        port:py${python.version}-setuptools
+    if {${python.version} < 37} {
+        python.pep517       no
+        depends_build-append \
+                            port:py${python.version}-setuptools
+    }
+
     depends_lib-append  port:py${python.version}-certifi
 
     if {${python.version} eq 27} {

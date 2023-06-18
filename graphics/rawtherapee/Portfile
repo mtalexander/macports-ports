@@ -8,7 +8,7 @@ PortGroup           app 1.0
 name                rawtherapee
 app.name            RawTherapee
 version             5.8
-revision            3
+revision            4
 categories          graphics
 supported_archs     x86_64 arm64
 license             GPL-3
@@ -65,6 +65,17 @@ if {${build_arch} eq "x86_64"} {
                             -DPROC_LABEL="generic processor"
 } elseif {${build_arch} eq "arm64"} {
     configure.args-append   -DPROC_TARGET_NUMBER=2
+}
+
+
+if {[variant_isset debug]} {
+    cmake.build_type    Debug
+    configure.optflags  -O0
+} else {
+    cmake.build_type    RelWithDebInfo
+
+    # Clear optflags for non-debug build; controlled by project
+    configure.optflags
 }
 
 app.executable      ${build.dir}/rtgui/${name}

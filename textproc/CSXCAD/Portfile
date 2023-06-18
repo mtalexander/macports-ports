@@ -5,12 +5,12 @@ PortGroup           github 1.0
 PortGroup           cmake 1.1
 PortGroup           boost 1.0
 
-github.setup        thliebig CSXCAD cd9decb4d9cebe3c8bf115e2c0ee73f730f22da1
-version             20220518-[string range ${github.version} 0 7]
-checksums           rmd160  e0cce1a1b9741caaff305dbcecd1f0602ecc1360 \
-                    sha256  44679ecd6d37603625a943f7d535e7cda9ce00c208a16a72b3cc89bbc58a9c7d \
-                    size    169571
-revision            0
+github.setup        thliebig CSXCAD c29742ba2cdec54de149c3deea268be1437aba8d
+version             20230102-[string range ${github.version} 0 7]
+checksums           rmd160  febc0095c9f8f4685c7e23b8626326fbd026da93 \
+                    sha256  58b95b7d1667c1567d184adcb1c118ce8d123f2cdabc63d9574a358e5eba196c \
+                    size    169859
+revision            1
 
 platforms           darwin macosx
 categories          textproc
@@ -21,13 +21,11 @@ description         ${name} is a C++ library to describe geometrical objects and
                     physical or non-physical properties
 long_description    {*}${description}
 
-boost.version       1.71
-
 compiler.cxx_standard 2011
 
 # remove when upstream
 patchfiles-append \
-    cmake-boost.patch
+    clocale_fix.patch
 
 depends_build-append \
     port:pkgconfig

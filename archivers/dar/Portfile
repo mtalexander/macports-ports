@@ -3,11 +3,11 @@
 PortSystem          1.0
 
 name                dar
-version             2.7.7
+version             2.7.9
 revision            0
-checksums           rmd160  6e547cbf8fd3fffc9a9fac9d6cd47b7f46f8f6f4 \
-                    sha256  c03e2f52efd65a2f047b60bbeda2460cb525165e1be32f110b60e0cece3f2cc9 \
-                    size    2410835
+checksums           rmd160  a66ab8b51b75a93f2672ef84e333a19084fb5951 \
+                    sha256  1c609f691f99e6a868c0a6fcf70d2f5d2adee5dc3c0cbf374e69983129677df5 \
+                    size    2418755
 
 categories          archivers
 maintainers         {ryandesign @ryandesign} openmaintainer

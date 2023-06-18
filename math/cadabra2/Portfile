@@ -5,8 +5,8 @@ PortGroup           cmake 1.1
 PortGroup           github 1.0
 PortGroup           boost 1.0
 
-github.setup        kpeeters cadabra2 2.3.9.3
-revision            0
+github.setup        kpeeters cadabra2 2.4.3.2
+revision            1
 
 categories          math
 platforms           darwin
@@ -23,15 +23,15 @@ long_description    Cadabra is a computer algebra system for the \
                     philosophy differ substantially from other computer \
                     algebra systems.
 
-homepage            http://cadabra.phi-sci.com/
+homepage            https://cadabra.science/index.html
 
-checksums           rmd160  b188538adf5942345a1182ec3e3eba3f47908e59 \
-                    sha256  de7014b518b3dc404ffb0a54f337229e821c0a8bfaa1a9005b319378d56b828d \
-                    size    24687958
+checksums           rmd160  b7f670693d1bc2e76964a4a4caf790a7ae3d04a7 \
+                    sha256  8cce723f7f95a0072ba5292bdce320cde46af1cd91123f286f06cc107321d1f4 \
+                    size    25161710
 
 compiler.cxx_standard 2017
 
-set python.version  310
+set python.version  311
 set python.branch   [string index ${python.version} 0].[string range ${python.version} 1 end]
 
 depends_build-append \
