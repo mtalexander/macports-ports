@@ -45,7 +45,7 @@ compiler.cxx_standard 2014
 
 if {${subport} eq ${name}} {
     version         2.24.1
-    revision        0
+    revision        1
     conflicts       lilypond-devel
     checksums       rmd160  cceaf4ae4909d106086ae40e41de61c4f1ae59c2 \
                     sha256  d5c59087564a5cd6f08a52ba80e7d6509b91c585e44385dcc0fa39265d181509 \
@@ -53,12 +53,12 @@ if {${subport} eq ${name}} {
 
     set livecheck_url "source.html"
 } else {
-    version         2.25.5
-    revision        0
+    version         2.25.6
+    revision        1
     conflicts       lilypond
-    checksums       rmd160  f5eacb5a95ae0d04043ac06808c1fed21f15dab1 \
-                    sha256  42014688d2aa7c2ed0ec4d3fca1b17170299a23fbfd3b7341b04cf5a20f3feee \
-                    size    18954996
+    checksums       rmd160  e0ac58f99bab3c45b1fb9aadf37e62fe92fed438 \
+                    sha256  6ae0e401225082ae3e61cea316f27cad4bd544c9fa9ddaf609deb2ccaef98ab9 \
+                    size    18974080
 
     set livecheck_url "development.html"
 }

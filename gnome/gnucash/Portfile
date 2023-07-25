@@ -9,8 +9,7 @@ PortGroup         active_variants 1.1
 name              gnucash
 conflicts         gnucash gnucash-devel
 conflicts-delete  ${subport}
-version           5.0
-revision          1
+version           5.3
 perl5.branches    5.34
 categories        gnome x11
 license           GPL-2+
@@ -37,9 +36,9 @@ use_bzip2         yes
 distname          ${name}-${version}
 worksrcdir        ${name}-${version}
 
-checksums           rmd160  75aba37909f10e2c83c3bdd35a3d5349b53d24d1 \
-                    sha256  cfc13bab31aed8e4962805ef56530f9772889604910b5678cb5c79c283138824 \
-                    size    14762814
+checksums         rmd160  69166028a746b4414a7f53a3487ef8df1623acc4 \
+                  sha256  1458cb08c585eae9d724bec6f2812bcc03bbe83ed294a46a7897aaab01a6f15a \
+                  size    14928584
 
 #patchfiles-append patch-gnucash-remove-test-failing-to-build.diff
 post-patch {
@@ -63,7 +62,7 @@ boost.version               1.71
 
 compiler.cxx_standard       2017
 
-set py_ver                  3.10
+set py_ver                  3.11
 set py_ver_nodot            [string map {. {}} ${py_ver}]
 
 configure.cppflags-delete   -I${prefix}/include

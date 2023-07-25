@@ -6,8 +6,8 @@ PortGroup               github 1.0
 PortGroup               legacysupport 1.1
 PortGroup               openssl 1.0
 
-github.setup            RetroShare libretroshare 5a62112f7c529916da59632c96104c15873c9756
-version                 2023.06.13
+github.setup            RetroShare libretroshare c7318d850206bebd690ed0b242577e9ffeed25c2
+version                 2023.07.18
 revision                0
 categories              net devel
 maintainers             {@barracuda156 gmail.com:vital.had} openmaintainer
@@ -17,9 +17,9 @@ long_description        {*}${description} RetroShare functionalities (file shari
                         are implemented under the hood by libretroshare which offer a documented C++ and JSON API. \
                         While RetroShare is an application on its own, libretroshare is meant to be used as part of other programs.
 homepage                https://retroshare.cc
-checksums               rmd160  5861edca5d486c0e6e6575de694577c2a012e48c \
-                        sha256  e6561164798591641d9b7027253995c45fa4cdcad55ad7fad4dea2b8b01036e9 \
-                        size    1921151
+checksums               rmd160  4c552b3612530f4708edf09066bdb62449bc47bc \
+                        sha256  ae500462edaeb358554878d87661fc7932ceff959fd34fe3ac16c2d0884eeaa5 \
+                        size    1922267
 
 # getline, strnlen
 # On <10.15 built-in libc++ has no support for std::filesystem

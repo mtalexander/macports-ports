@@ -6,7 +6,7 @@ name                postgis3
 categories          databases gis
 license             GPL-2+
 version             3.3.3
-revision            0
+revision            1
 platforms           darwin
 maintainers         {vince @Veence} openmaintainer
 
@@ -120,6 +120,8 @@ eval ${projdf}
 default_variants            +raster +topology
 
 # Port phases
+
+compiler.thread_local_storage yes
 
 configure.cflags-append \
     -Diconv=libiconv -Diconv_open=libiconv_open -Diconv_close=libiconv_close

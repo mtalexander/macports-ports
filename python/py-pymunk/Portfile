@@ -4,13 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-pymunk
-version             6.1.0
+version             6.5.0
 revision            0
 categories-append   devel
 license             MIT
 supported_archs     i386 x86_64
 
-python.versions     37 38 39
+python.versions     37 38 39 310 311
+python.pep517       yes
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -21,12 +22,11 @@ homepage            http://www.pymunk.org/
 
 use_zip             yes
 
-checksums           rmd160  b0b146a9660406f2e6eaef9dac1fa55205839c4e \
-                    sha256  5483396684b63445de6c83c36c02869f92570504a29da8eaca6e73af756636cc \
-                    size    7048487
+checksums           rmd160  56b32e805bf2146341bd4e01bcede1888fef3ff1 \
+                    sha256  ba919bec6d87c85a0c0a151e42500c44022a736279da29ecbcc168b755ba3c16 \
+                    size    8098941
 
 if {${name} ne ${subport}} {
     depends_build-append \
-                        port:py${python.version}-setuptools \
                         port:py${python.version}-cffi
 }

@@ -18,13 +18,13 @@ checksums                   rmd160  b73fbb7e3cc532545100412415bcb602414f7656 \
                             size    2305267
 
 subport kokkos-devel {
-    github.setup            kokkos kokkos 3163aefc027b7bad62367eadd9602e5fd56ebbcd
-    version                 2023.06.15
+    github.setup            kokkos kokkos 11ce288cdd44c305f7499568be889b8034115bab
+    version                 2023.07.17
     conflicts               kokkos
     maintainers-append      {@barracuda156 gmail.com:vital.had}
-    checksums               rmd160  c392dde84df9addbfdc8ff38a0f8cf0655d74c11 \
-                            sha256  5714c1244aabde1033ff3f9dbfcf3192635fba967ba25466dafdb5a0374f864f \
-                            size    2326967
+    checksums               rmd160  226b5910edf760938a7a9827602937bcbc44a06c \
+                            sha256  507880a3fa8eef899e63df99b1dc78a8a777dd6fcd487c146f0c7e221c7a17a1 \
+                            size    2333182
     git.branch              develop
     github.tarball_from     archive
     # 32-bit support added in: https://github.com/kokkos/kokkos/pull/5916

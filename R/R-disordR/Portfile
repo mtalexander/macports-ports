@@ -3,16 +3,17 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github RobinHankin disordR 0.9-5
+# Revert to GitHub once updated there.
+R.setup             cran RobinHankin disordR 0.9-8.1
 revision            0
 categories-append   math
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             GPL-2+
 description         Non-ordered vectors
 long_description    {*}${description}
-checksums           rmd160  760460383ab12fd66cccbd7fd8512c3968a36271 \
-                    sha256  0c0d7d7868c1b018c9f4f2982575760e86ca958bff92c35c31a65e5e5d6a51f0 \
-                    size    61552
+checksums           rmd160  17b95f60369fd68efda2c0280f00ad2dea5792bf \
+                    sha256  3f0574643d8e1d86a03decd984c4af830d69654335b3e16c033bbca2b860ecd4 \
+                    size    608080
 supported_archs     noarch
 
 depends_lib-append  port:R-digest

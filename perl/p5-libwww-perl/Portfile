@@ -4,12 +4,12 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 
 perl5.branches      5.28 5.30 5.32 5.34
-perl5.setup         libwww-perl 6.70 ../../authors/id/S/SI/SIMBABQUE
+perl5.setup         libwww-perl 6.72 ../../authors/id/O/OA/OALDERS
 revision            0
 maintainers         nomaintainer
 license             {Artistic-1 GPL}
 
-homepage            https://metacpan.org/release/SIMBABQUE/${perl5.module}-${perl5.moduleversion}
+homepage            https://metacpan.org/pod/LWP
 
 description         The World-Wide Web library for Perl
 long_description    The libwww-perl collection is a set of Perl \
@@ -22,12 +22,12 @@ long_description    The libwww-perl collection is a set of Perl \
                     and even classes that help you implement \
                     simple HTTP servers.
 
-checksums           rmd160  ceb3e8a98dca8f6e62173c42698bd4e397ea8bdf \
-                    sha256  34f00d2344757b9c0b55ad35808d53e93d7d92f7a464ec837fe6a73c51fb5969 \
-                    size    184130
-
 platforms           {darwin any}
 supported_archs     noarch
+
+checksums           rmd160  2eaa64a647b91d621bac2afaf968383964b723ff \
+                    sha256  e9b8354fd5e20be207afe23ddd584fcd59bf82998dc077decf684ba1dae5a05d \
+                    size    184644
 
 if {${perl5.major} != ""} {
     depends_build-append \
@@ -64,7 +64,3 @@ if {${perl5.major} != ""} {
             ${destroot}${prefix}/share/doc/${subport}
     }
 }
-
-livecheck.type      regex
-livecheck.url       https://cpan.metacpan.org/authors/id/S/SI/SIMBABQUE
-livecheck.regex     "${perl5.module}-(\\d+(?:\\.\\d+)*)"

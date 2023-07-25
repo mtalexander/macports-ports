@@ -29,11 +29,11 @@ use_xz              yes
 
 livecheck.type      none
 if {${os.platform} ne "darwin" || ${os.major} >= 19} {
-    version         76.0
+    version         78.0
     revision        0
-    checksums       rmd160  d0ba9825793ab9501e424308cfca8a0bccf91f29 \
-                    sha256  6ace661b61a49d1026b1a97336051d7aa85d56fb34527f2ca97d8933f7efe90d \
-                    size    11021180
+    checksums       rmd160  fba277ad2177e7a16dbd90083fba7e8a238409d4 \
+                    sha256  6a50fce8c66c55410e0df2a6952f0bab7a3c92914db7feb285b9f1bb03fcd0d3 \
+                    size    11047092
 
     livecheck.type  regex
     livecheck.url   [lindex ${master_sites} 0]

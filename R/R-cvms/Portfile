@@ -3,15 +3,16 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github ludvigolsen cvms 1.4.1 v
+R.setup             github ludvigolsen cvms 1.6.0 v
 revision            0
+categories-append   math
 maintainers         nomaintainer
 license             MIT
 description         Cross-validation for model selection
 long_description    {*}${description}
-checksums           rmd160  5c74f331df9acfb5c3c2688c48540394cbb074e4 \
-                    sha256  9ad51935e8c1404089c4b60af5ddd2dbd826b8206b8d8f0b1530c033509ffe89 \
-                    size    2978648
+checksums           rmd160  7b428748f4b2d738b4ed5e250b95fc312f72d547 \
+                    sha256  67118120c69c5a19596df9cde9194de7387a228fe90793dd01bd077950af31bc \
+                    size    3013996
 supported_archs     noarch
 
 depends_lib-append  port:R-checkmate \

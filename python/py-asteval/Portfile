@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-asteval
-version             0.9.29
+version             0.9.31
 revision            0
 
 categories-append   math
@@ -23,9 +23,9 @@ long_description    ASTEVAL is a safe(ish) evaluator of Python expressions and \
 
 homepage            https://github.com/newville/asteval
 
-checksums           rmd160  927af7b7c2a075c2926a2cbef5f4a9515b6349b4 \
-                    sha256  ab98c61ba9394149c774ae7861497e9c32580301aa693ca19746997216c31fab \
-                    size    42424
+checksums           rmd160  9df656d5ca8435b6f92695165038da6fb229cafe \
+                    sha256  a2da066b6696dba9835c5f7dec63e0ffb5bd2b4e3bb5f0b9a604aeafb17d833d \
+                    size    57410
 
 python.versions     37 38 39 310 311
 python.pep517       yes

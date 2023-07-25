@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           legacysupport 1.1
 
 name                got
-version             0.89
+version             0.91
 revision            0
 distname            ${name}-portable-${version}
 categories          devel
@@ -20,9 +20,9 @@ long_description    Game of Trees is a version control system which \
                     repository.
 homepage            https://gameoftrees.org/
 master_sites        ${homepage}releases/portable/
-checksums           rmd160 179123d7d7a462dce67610ce20d899fa73a88f71 \
-                    sha256 27404932c07713400124c15e318417385411b7a1fe7ee534e48f2b9e4f096d8c \
-                    size 1049166
+checksums           rmd160 c1e1a71c65dccd932c0ce2a2ea1081faa92a8016 \
+                    sha256 79b15eb508601018f2ddaab74df2bdbde79ebdb992004bfd91a52886c9ecae55 \
+                    size 1146628
 depends_lib         path:lib/libssl.dylib:openssl \
                     port:ncurses \
                     port:ossp-uuid \

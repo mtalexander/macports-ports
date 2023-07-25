@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-sphinx-autodoc-typehints
-version             1.23.2
+version             1.24.0
 revision            0
 
 categories-append   textproc devel
@@ -21,9 +21,9 @@ homepage            https://github.com/agronholm/sphinx-autodoc-typehints
 
 distname            sphinx_autodoc_typehints-${version}
 
-checksums           rmd160  542736d2f08b45f3d0065474cb6b30e4cb4d07b2 \
-                    sha256  dd8e999eb7d31643d42eb7d4673e0551c44af31a9e0fc07ddbc893b063d88658 \
-                    size    36198
+checksums           rmd160  d94f27deaec43126d29393dd1ccc96cef1fe4bdf \
+                    sha256  94e440066941bb237704bb880785e2d05e8ae5406c88674feefbb938ad0dc6af \
+                    size    36127
 
 python.versions     37 38 39 310 311
 python.pep517       yes

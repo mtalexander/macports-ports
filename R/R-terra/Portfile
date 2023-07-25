@@ -3,19 +3,17 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-# https://github.com/rspatial/terra/issues/1131
-R.setup             github rspatial terra f511ea5ac254acbb668704852a9ba72b1b792717
-version             1.7-30
-revision            3
+R.setup             cran rspatial terra 1.7-39
+revision            1
 categories-append   math
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             GPL-3+
 description         Spatial data analysis
 long_description    {*}${description}
 homepage            https://rspatial.org/terra
-checksums           rmd160  5dd636e1c8a1cbbd72dcf1235f28bd1557a6adf0 \
-                    sha256  b9f9462ffe8a3b2108943fff1661a5b9b677655f67eb33b623bfff2ec87a94c1 \
-                    size    833182
+checksums           rmd160  263ab5eccc11a15bc6e68f2ee4839454dd0116d6 \
+                    sha256  b43859be4bad5e094d07e872f9606bc610ed03088176874181d80c9150156c0e \
+                    size    815403
 
 depends_build-append \
                     port:pkgconfig
@@ -30,6 +28,8 @@ if {${build_arch} in [list i386 ppc]} {
     patchfiles      patch-32-bit.diff
 }
 
+compiler.cxx_standard 2017
+
 destroot.pre_args-append \
                     --configure-args=' \
                         --with-proj-include=${prefix}/lib/proj5/include \
@@ -37,3 +37,13 @@ destroot.pre_args-append \
                         --with-proj-share=${prefix}/lib/proj5/share/proj \
                         --with-proj-api=yes \
                         '
+
+depends_test-append port:R-deldir \
+                    port:R-htmlwidgets \
+                    port:R-ncdf4 \
+                    port:R-sf \
+                    port:R-tinytest \
+                    port:R-XML
+
+# For now, not enabled:
+test.run            no
