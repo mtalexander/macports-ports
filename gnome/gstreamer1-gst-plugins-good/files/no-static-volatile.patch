@@ -1,0 +1,418 @@
+--- ext/qt/gstqsgtexture.cc	2019-04-19 05:16:25.000000000 -0400
++++ ext/qt/gstqsgtexture.cc	2023-07-31 00:15:40.000000000 -0400
+@@ -35,7 +35,7 @@
+ 
+ GstQSGTexture::GstQSGTexture ()
+ {
+-  static volatile gsize _debug;
++  static gsize _debug;
+ 
+   initializeOpenGLFunctions();
+ 
+--- ext/qt/gstqtglutility.cc	2019-04-19 05:16:25.000000000 -0400
++++ ext/qt/gstqtglutility.cc	2023-07-31 00:16:21.000000000 -0400
+@@ -58,7 +58,7 @@
+ {
+   GstGLDisplay *display = NULL;
+   QGuiApplication *app = static_cast<QGuiApplication *> (QCoreApplication::instance ());
+-  static volatile gsize _debug;
++  static gsize _debug;
+ 
+   g_assert (app != NULL);
+ 
+--- ext/qt/qtitem.cc	2019-04-19 05:16:25.000000000 -0400
++++ ext/qt/qtitem.cc	2023-07-31 00:17:49.000000000 -0400
+@@ -102,7 +102,7 @@
+ 
+ QtGLVideoItem::QtGLVideoItem()
+ {
+-  static volatile gsize _debug;
++  static gsize _debug;
+ 
+   if (g_once_init_enter (&_debug)) {
+     GST_DEBUG_CATEGORY_INIT (GST_CAT_DEFAULT, "qtglwidget", 0, "Qt GL Widget");
+--- ext/qt/qtwindow.cc	2019-04-19 05:16:25.000000000 -0400
++++ ext/qt/qtwindow.cc	2023-07-31 00:19:07.000000000 -0400
+@@ -103,7 +103,7 @@
+   QQuickWindow( parent ), source (src)
+ {
+   QGuiApplication *app = static_cast<QGuiApplication *> (QCoreApplication::instance ());
+-  static volatile gsize _debug;
++  static gsize _debug;
+ 
+   g_assert (app != NULL);
+ 
+@@ -152,7 +152,7 @@
+ 
+   g_mutex_lock (&this->priv->lock);
+ 
+-  static volatile gsize once = 0;
++  static gsize once = 0;
+   if (g_once_init_enter(&once)) {
+     this->priv->start = QDateTime::currentDateTime().toMSecsSinceEpoch();
+     g_once_init_leave(&once,1);
+--- ext/vpx/gstvpxdec.c	2019-04-19 05:16:25.000000000 -0400
++++ ext/vpx/gstvpxdec.c	2023-07-31 00:20:35.000000000 -0400
+@@ -79,7 +79,7 @@
+     {C_FLAGS (VP8_MFQE), "Multi-frame quality enhancement", "mfqe"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+--- ext/vpx/gstvpxenc.c	2019-04-19 05:16:25.000000000 -0400
++++ ext/vpx/gstvpxenc.c	2023-07-31 00:22:59.000000000 -0400
+@@ -159,7 +159,7 @@
+     {VPX_CQ, "Constant Quality Mode (CQ) mode", "cq"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+@@ -182,7 +182,7 @@
+     {VPX_RC_LAST_PASS, "Last pass of multipass encoding", "last-pass"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+@@ -204,7 +204,7 @@
+     {VPX_KF_DISABLED, "Don't automatically place keyframes", "disabled"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+@@ -226,7 +226,7 @@
+     {VP8_TUNE_SSIM, "Tune for SSIM", "ssim"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+@@ -250,7 +250,7 @@
+     {VP8E_ONETWO, "1:2", "1:2"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+@@ -274,7 +274,7 @@
+     {VP8_EIGHT_TOKENPARTITION, "Eight token partitions", "8"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+@@ -297,7 +297,7 @@
+         "Allow partitions to be decoded independently", "partitions"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+--- gst/audiofx/audiopanoramaorc-dist.c	2019-12-03 06:06:38.000000000 -0500
++++ gst/audiofx/audiopanoramaorc-dist.c	2023-07-31 00:28:35.000000000 -0400
+@@ -251,7 +251,7 @@
+     const gint16 * ORC_RESTRICT s1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -377,7 +377,7 @@
+     const gfloat * ORC_RESTRICT s1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -489,7 +489,7 @@
+     const gint16 * ORC_RESTRICT s1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -601,7 +601,7 @@
+     const gfloat * ORC_RESTRICT s1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -829,7 +829,7 @@
+     const gint16 * ORC_RESTRICT s1, float p1, float p2, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -1040,7 +1040,7 @@
+     const gfloat * ORC_RESTRICT s1, float p1, float p2, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -1342,7 +1342,7 @@
+     const gint16 * ORC_RESTRICT s1, float p1, float p2, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -1662,7 +1662,7 @@
+     const gint16 * ORC_RESTRICT s1, float p1, float p2, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -1932,7 +1932,7 @@
+     const gfloat * ORC_RESTRICT s1, float p1, float p2, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -2192,7 +2192,7 @@
+     const gfloat * ORC_RESTRICT s1, float p1, float p2, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -2420,7 +2420,7 @@
+     const gint16 * ORC_RESTRICT s1, float p1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -2642,7 +2642,7 @@
+     const gint16 * ORC_RESTRICT s1, float p1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -2896,7 +2896,7 @@
+     const gint16 * ORC_RESTRICT s1, float p1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -3155,7 +3155,7 @@
+     const gint16 * ORC_RESTRICT s1, float p1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -3342,7 +3342,7 @@
+     const gfloat * ORC_RESTRICT s1, float p1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -3516,7 +3516,7 @@
+     const gfloat * ORC_RESTRICT s1, float p1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -3712,7 +3712,7 @@
+     const gfloat * ORC_RESTRICT s1, float p1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -3910,7 +3910,7 @@
+     const gfloat * ORC_RESTRICT s1, float p1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+--- gst/deinterlace/tvtime-dist.c	2019-12-03 06:06:39.000000000 -0500
++++ gst/deinterlace/tvtime-dist.c	2023-07-31 00:29:38.000000000 -0400
+@@ -346,7 +346,7 @@
+     const guint8 * ORC_RESTRICT s4, const guint8 * ORC_RESTRICT s5, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -508,7 +508,7 @@
+     const guint8 * ORC_RESTRICT s1, const guint8 * ORC_RESTRICT s2, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -700,7 +700,7 @@
+     const guint8 * ORC_RESTRICT s3, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -998,7 +998,7 @@
+     int p1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+--- gst/videobox/gstvideoboxorc-dist.c	2019-12-03 06:06:43.000000000 -0500
++++ gst/videobox/gstvideoboxorc-dist.c	2023-07-31 00:30:13.000000000 -0400
+@@ -194,7 +194,7 @@
+ video_box_orc_splat_u32 (guint32 * ORC_RESTRICT d1, int p1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+--- gst/videomixer/videomixerorc-dist.c	2019-12-03 06:06:43.000000000 -0500
++++ gst/videomixer/videomixerorc-dist.c	2023-07-31 00:31:28.000000000 -0400
+@@ -206,7 +206,7 @@
+ video_mixer_orc_splat_u32 (guint32 * ORC_RESTRICT d1, int p1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -312,7 +312,7 @@
+     const guint32 * ORC_RESTRICT s1, int n)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -479,7 +479,7 @@
+     const guint8 * ORC_RESTRICT s1, int s1_stride, int p1, int n, int m)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -809,7 +809,7 @@
+     const guint8 * ORC_RESTRICT s1, int s1_stride, int p1, int n, int m)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -1173,7 +1173,7 @@
+     const guint8 * ORC_RESTRICT s1, int s1_stride, int p1, int n, int m)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -1700,7 +1700,7 @@
+     const guint8 * ORC_RESTRICT s1, int s1_stride, int p1, int n, int m)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+@@ -2270,7 +2270,7 @@
+     const guint8 * ORC_RESTRICT s1, int s1_stride, int p1, int n, int m)
+ {
+   OrcExecutor _ex, *ex = &_ex;
+-  static volatile int p_inited = 0;
++  static int p_inited = 0;
+   static OrcCode *c = 0;
+   void (*func) (OrcExecutor *);
+ 
+--- sys/ximage/ximageutil.c	2019-04-19 05:16:25.000000000 -0400
++++ sys/ximage/ximageutil.c	2023-07-31 00:32:37.000000000 -0400
+@@ -26,7 +26,7 @@
+ GType
+ gst_meta_ximage_api_get_type (void)
+ {
+-  static volatile GType type;
++  static GType type;
+   static const gchar *tags[] = { "memory", NULL };
+ 
+   if (g_once_init_enter (&type)) {

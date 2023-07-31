@@ -11,6 +11,7 @@ name                gstreamer1-gst-plugins-good
 set my_name         gst-plugins-good
 # please only commit stable updates (even numbered releases)
 version             1.16.2
+# If revision changes ee if no-static-volatile.patch is still needed
 revision            5
 description         A set of good-quality plug-ins for GStreamer under GStreamer's preferred \
                     license, LGPL.
@@ -51,6 +52,8 @@ depends_lib         port:gstreamer1-gst-plugins-base \
                     port:taglib \
                     port:twolame \
                     port:wavpack
+
+patchfiles no-static-volatile.patch
 
 platform darwin {
     if {${os.major} < 11} {
