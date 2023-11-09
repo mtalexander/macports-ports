@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/tailscale/tailscale 1.46.0 v
+go.setup            github.com/tailscale/tailscale 1.52.0 v
 go.package          tailscale.com
 github.tarball_from archive
 revision            0
@@ -22,16 +22,16 @@ license             BSD
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  47ac3533ebda47cdf582f8ebd8cc55d56cf8e76d \
-                    sha256  9b04eb41ac02c8a63c086b416a3daa6faf817a16f353043605010878ae565f66 \
-                    size    1822063
+checksums           rmd160  d4fd036837db3f23fb24bc9d827bc10243b407c2 \
+                    sha256  8545b5121cb94bc84119b32623a6c513860f759ae96dcff8f404f81151999e06 \
+                    size    2086175
 
 startupitem.create  yes
 startupitem.executable \
                     ${prefix}/bin/${name}d
 
 # Allow Go to fetch deps at build time
-build.env-delete    GO111MODULE=off GOPROXY=off
+go.offline_build no
 
 build.pre_args-append \
     -ldflags \" \

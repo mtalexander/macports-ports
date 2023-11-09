@@ -3,15 +3,15 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran cran miscFuncs 1.5-4
+R.setup             cran benjamin.taylor.software miscFuncs 1.5-7
 revision            0
 maintainers         nomaintainer
 license             GPL-3
 description         Miscellaneous useful functions including LaTeX tables, Kalman filtering and development tools
 long_description    {*}${description}
-checksums           rmd160  f714314f90c7392abcf4907605cb3b8fc5eeba28 \
-                    sha256  b1aab57ea81872043dee103727ab0ec6a40f2ec3c0c8c21c9f71aa093891c78b \
-                    size    84946
+checksums           rmd160  5f49a5724c1af072ae8fb60810f30c3a1dba1b1c \
+                    sha256  d7434ee266ee6f8c9cfacc2cf4f25872df37105ec2b2a1a0c8fbc5ec2d217b0a \
+                    size    87768
 supported_archs     noarch
 
 depends_lib-append  port:R-mvtnorm \

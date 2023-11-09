@@ -3,16 +3,16 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github Bioconductor Biostrings 03aa8dfa7e3eb6e025fb49ae675821d58e48f587
-version             2.69.1
+R.setup             github Bioconductor Biostrings 35181af7b71c742ec60d36c617328c6e88aa89c4
+version             2.71.1
 revision            0
 maintainers         nomaintainer
 license             Artistic-2
 description         Efficient manipulation of biological strings
 long_description    {*}${description}
-checksums           rmd160  bebacb41aaaf1cfa0baee01467862afdb5d38616 \
-                    sha256  d1b50a0a847c6c8af36850d3adf9568be175bd179a1ac2fd549f85411b5bef03 \
-                    size    11734536
+checksums           rmd160  7e55bdfab5687aad3ace94ce4efcb85512b4f050 \
+                    sha256  e863408472ce37c572d7a4878c90acb9ce32d31c03d80f185e17a8d6659a3bd6 \
+                    size    11736826
 
 depends_lib-append  port:R-BiocGenerics \
                     port:R-crayon \

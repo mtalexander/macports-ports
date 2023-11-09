@@ -2,9 +2,9 @@
 
 PortSystem          1.0
 PortGroup           github 1.0
-PortGroup           legacysupport 1.0
+PortGroup           legacysupport 1.1
 
-github.setup        nghttp2 nghttp2 1.55.1 v
+github.setup        nghttp2 nghttp2 1.58.0 v
 revision            0
 categories          www
 maintainers         {mps @Schamschula} openmaintainer
@@ -18,9 +18,9 @@ homepage            https://${name}.org
 github.tarball_from releases
 use_xz              yes
 
-checksums           rmd160  12bde72f3ce46626267d18612893b469f381c67c \
-                    sha256  19490b7c8c2ded1cf7c3e3a54ef4304e3a7876ae2d950d60a81d0dc6053be419 \
-                    size    1541884
+checksums           rmd160  1846a6be97f4e4c8055892dd66b6e6935bbd6525 \
+                    sha256  4a68a3040da92fd9872c056d0f6b0cd60de8410de10b578f8ade9ecc14d297e0 \
+                    size    1546332
 
 depends_build       port:pkgconfig
 
@@ -47,7 +47,7 @@ if {${subport} eq ${name}} {
 }
 
 subport nghttp2-tools {
-    incr revision
+    revision            2
     description         Tools for nghttp2, an implementation of HTTP/2 in C.
     long_description    HTTP/2 client, server and proxy tools, as well as a \
                         load test and benchmarking tool for HTTP/2.
@@ -62,6 +62,7 @@ subport nghttp2-tools {
                         port:libev \
                         port:libevent \
                         port:libxml2 \
+                        port:ngtcp2 \
                         path:lib/libssl.dylib:openssl \
                         port:zlib
 

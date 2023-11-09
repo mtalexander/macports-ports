@@ -3,15 +3,15 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             bioconductor Bioconductor ComplexHeatmap 2.14.0
-revision            1
+R.setup             bioconductor Bioconductor ComplexHeatmap 2.18.0
+revision            0
 maintainers         nomaintainer
 license             MIT
 description         Complex heatmaps
 long_description    {*}${description}
-checksums           rmd160  a48d344e4f4c7c4b26f010391fdba3090b47fc86 \
-                    sha256  47a475eaddb85fdf67cb2d9d260a79eb359eac8c48eaa04793a7d430a480c0d5 \
-                    size    1458689
+checksums           rmd160  fcc131c93dcb8fc3ee91e59d0762a9536185cd0b \
+                    sha256  8eb9912d9897c3914fadeb002bab1dff16a059db4d99b2fd754eb512d904f77f \
+                    size    1455170
 supported_archs     noarch
 
 depends_lib-append  port:R-circlize \

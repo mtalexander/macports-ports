@@ -1,14 +1,16 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-PortGroup           active_variants 1.1
 PortGroup           boost 1.0
 PortGroup           cmake 1.1
+PortGroup           compilers 1.0
 PortGroup           github 1.0
 PortGroup           legacysupport 1.1
 
-github.setup        m-a-d-n-e-s-s madness c8617518a5386423938f3faedd70121963215b23
-version             2023.07.17
+boost.version       1.81
+
+github.setup        m-a-d-n-e-s-s madness 4f7d30b0a738621037b96bb5b820029835753667
+version             2023.10.26
 revision            0
 categories          science math
 license             GPL-2
@@ -18,9 +20,10 @@ long_description    MADNESS provides a high-level environment for the solution \
                     of integral and differential equations in many dimensions \
                     using adaptive, fast methods with guaranteed precision \
                     based on multi-resolution analysis and novel separated representations.
-checksums           rmd160  14bfbcdc56f460fa96b03a4d2c6ec1395351486d \
-                    sha256  1a8b598bdd5e093173c6ed6342a52bdc359a252737e49f6023a47d3d1e7661ac \
-                    size    29147705
+checksums           rmd160  da4b3d7b08d4e7f6ca8206a435edc91cdb145ecb \
+                    sha256  c1d076c62bb20cc9ada2a795cc59b906386cb3d764f42fa9d30f5e1608774620 \
+                    size    36734117
+github.tarball_from archive
 
 set py_ver          3.11
 set py_ver_nodot    [string map {. {}} ${py_ver}]
@@ -33,6 +36,8 @@ configure.python    ${prefix}/bin/python${py_ver}
 depends_lib-append  path:lib/libopenblas.dylib:OpenBLAS
 require_active_variants \
                     path:lib/libopenblas.dylib:OpenBLAS lapack
+
+depends_lib-append  port:gperftools
 
 patch.pre_args      -p1
 # Temporarily avoid building chemistry part:
@@ -53,12 +58,12 @@ post-patch {
                     {*}[glob ${worksrcpath}/src/apps/znemo/*.py]
 }
 
-compiler.cxx_standard 2017
-compiler.thread_local_storage yes
+compiler.cxx_standard           2017
+compiler.thread_local_storage   yes
+compilers.setup                 require_fortran
 
 configure.pre_args-append \
-                    -DBLAS_LIBRARIES=${prefix}/lib/libopenblas.dylib \
-                    -DLAPACK_LIBRARIES=${prefix}/lib/libopenblas.dylib
+                    -DBLA_VENDOR=OpenBLAS
 
 # oneTBB task backend not yet fixed: https://github.com/m-a-d-n-e-s-s/madness/issues/366
 # It is unclear whether MPI works, therefore disabling for now.
@@ -70,7 +75,7 @@ configure.args-append \
                     -DENABLE_BOOST=ON \
                     -DENABLE_ELEMENTAL=OFF \
                     -DENABLE_GENTENSOR=OFF \
-                    -DENABLE_GPERFTOOLS=OFF \
+                    -DENABLE_GPERFTOOLS=ON \
                     -DENABLE_LIBUNWIND=OFF \
                     -DENABLE_LIBXC=OFF \
                     -DENABLE_MKL=OFF \
@@ -84,11 +89,7 @@ configure.args-append \
                     -DMADNESS_TASK_BACKEND="Pthreads"
 
 legacysupport.newest_darwin_requires_legacy 16
-
-if {[string match *clang* ${configure.compiler}]} {
-    # Don’t use libcxx with gcc.
-    legacysupport.use_mp_libcxx yes
-}
+legacysupport.use_mp_libcxx yes
 
 platform darwin {
     # dqueue.h:221:17: error: aligned deallocation function

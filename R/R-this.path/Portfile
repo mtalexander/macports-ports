@@ -3,25 +3,27 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran ArcadeAntics this.path 1.4.0
+R.setup             cran ArcadeAntics this.path 2.2.0
 revision            0
 categories-append   sysutils
 maintainers         nomaintainer
 license             MIT
 description         Determine the path of the executing script
 long_description    {*}${description}
-checksums           rmd160  81f6ae1d4a62c69451254d7f67ed52f85707e15b \
-                    sha256  73899e5551b807b86cd8541bcad32a7f2f850f663a7ef7061eac1f8cc6ab4a85 \
-                    size    322020
-
-depends_lib-append  port:R-microbenchmark
+checksums           rmd160  3ae44d3abd934a805430aa15bbf8ced1efc45cc6 \
+                    sha256  166e881d0612802406aa239e83187ca55badc124d95af0a3fa89dc38efb7b5b6 \
+                    size    384658
 
 depends_test-append port:R-box \
                     port:R-IRkernel \
                     port:R-jsonlite \
                     port:R-knitr \
+                    port:R-microbenchmark \
+                    port:R-plumber \
                     port:R-rprojroot \
                     port:R-rstudioapi \
+                    port:R-shiny \
+                    port:R-targets \
                     port:R-testthat
 
 test.run            yes

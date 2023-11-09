@@ -213,9 +213,7 @@ proc muniversal::cpu64bit_capable {} {
 proc muniversal::get_triplets {arch} {
     global triplet.add_host triplet.add_build os.arch os.cpu64bit_capable
 
-    if { [file tail [option configure.cmd]] eq "cmake" }  { return "" }
-
-    if { [file tail [option configure.cmd]] eq "meson" }  { return "" }
+    if { [file tail [option configure.cmd]] in [list cmake meson printenv] }  { return "" }
 
     set ret ""
 
@@ -319,18 +317,12 @@ proc muniversal::strip_arch_flags {dir1 dir2 dir fl} {
     copy ${dir1}/${fl} ${tempfile1}
     copy ${dir2}/${fl} ${tempfile2}
 
-    reinplace -q -E {s:-arch +[0-9a-zA-Z_]+::g} ${tempfile1} ${tempfile2}
-    reinplace -q {s:-m32::g} ${tempfile1} ${tempfile2}
-    reinplace -q {s:-m64::g} ${tempfile1} ${tempfile2}
-
-    # also strip out host information and stray space runs
-    reinplace -q -E {s:--host=[^ ]+::g}     ${tempfile1} ${tempfile2}
-    reinplace -q -E {s:host_alias=[^ ]+::g} ${tempfile1} ${tempfile2}
-    reinplace -q -E {s:  +: :g}             ${tempfile1} ${tempfile2}
+    set re {(-m32|-m64|-arch +[0-9a-zA-Z_]+|(--host|host_alias)=[0-9a-zA-Z_.-]+)}
+    reinplace -q -E "s: *(${re}|'${re}'|\"${re}\")::g" ${tempfile1} ${tempfile2}
 
     if { ! [catch {system "/usr/bin/cmp -s \"${tempfile1}\" \"${tempfile2}\""}] } {
         # modified files are identical
-        ui_debug "universal: merge: ${fl} differs in ${dir1} and ${dir2} but are the same when stripping out -m32, -m64, and -arch XXX"
+        ui_debug "universal: merge: ${fl} differs in ${dir1} and ${dir2} but are the same when stripping out -m32, -m64, -arch *, --host=*, and host_alias=*"
         copy ${tempfile1} ${dir}/${fl}
         delete ${tempfile1} ${tempfile2} ${tempdir}
     } else {

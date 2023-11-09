@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-aesara
-version             2.9.1
+version             2.9.3
 revision            0
 
 categories-append   devel
@@ -19,9 +19,9 @@ long_description    {*}${description}
 
 homepage            https://github.com/aesara-devs/aesara
 
-checksums           rmd160  6dcd387595587630a0761f079b04c7bc52e45c95 \
-                    sha256  8afefce30eb733975085e5903ef47dbbca5642e6cf0ae78fa31fb6f41eebd3a4 \
-                    size    4423120
+checksums           rmd160  486ed9d4c820332712d9856416f1a5fda12d3a55 \
+                    sha256  843397fe0fdce64ad8c22ec212e480681da8bce43dd5257196cc202d4fbda416 \
+                    size    4424476
 
 python.versions     38 39 310 311
 python.pep517       yes

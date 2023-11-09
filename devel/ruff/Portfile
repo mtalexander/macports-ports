@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cargo   1.0
 PortGroup           github  1.0
 
-github.setup        charliermarsh ruff 0.0.280 v
+github.setup        charliermarsh ruff 0.0.292 v
 github.tarball_from archive
 revision            0
 
@@ -27,9 +27,9 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  f6c4e77f5829d0f61bdd9669cb8915b7a6c1495c \
-                    sha256  9ea57a4dbad87afabe4af6e2022ac09f23ee46eb24c7cb39ac36a52cd6350419 \
-                    size    2579958
+checksums           rmd160  aa6240fcca17a09a391b232853f5f6e43079af92 \
+                    sha256  901d418e195e035fe38641c22400df09ef4712ff4ef1dd872951323eb0e0b59d \
+                    size    3153481
 
 build.pre_args-delete \
                     --frozen

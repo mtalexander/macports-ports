@@ -3,16 +3,16 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran cran CIfinder 1.0.0
+R.setup             cran cran CIfinder 1.0.2
 revision            0
 categories-append   math
 maintainers         nomaintainer
 license             GPL-3+
 description         Estimate confidence intervals for predictive values
 long_description    {*}${description}
-checksums           rmd160  97eca1dd9a79d8b7f5c43c89eb38b1ab1acdd4cd \
-                    sha256  b0bd723a1f9234106022761cf72a3069f3cd86196d645aaeb8f81ecdae64b11f \
-                    size    75487
+checksums           rmd160  365fd1c80f3a9eab17d36fb0c6334b63ec0080f8 \
+                    sha256  684b2b18de08daf9a026ac9bb3313c6c4081cc841fbcf7c0ef6de4579e96c345 \
+                    size    76492
 supported_archs     noarch
 
 depends_lib-append  port:R-kableExtra \

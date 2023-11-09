@@ -3,16 +3,17 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github m-Py anticlust 0.7.0 v
+# Revert to GitHub once updated there.
+R.setup             cran m-Py anticlust 0.8.0-1 v
 revision            0
 categories-append   math
 maintainers         nomaintainer
 license             MIT
 description         Subset partitioning via anticlustering
 long_description    {*}${description}
-checksums           rmd160  423baf00c863861a15438e455324a6346362d6e7 \
-                    sha256  468c05ffd8ce72c39732db3c4512e6fb03bb782daa1913db0bcc06576403e5bb \
-                    size    332632
+checksums           rmd160  6083cf7f29bd326b82408977689b1831dccb6795 \
+                    sha256  0d483f5af30609781e7eb65d842398029f9a400e9cdf38f45ed074cf96b3c1e9 \
+                    size    401977
 
 depends_lib-append  port:R-RANN
 

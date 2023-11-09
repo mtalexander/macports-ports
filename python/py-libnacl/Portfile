@@ -5,7 +5,7 @@ PortGroup           github 1.0
 PortGroup           python 1.0
 
 github.setup        saltstack libnacl 1.7.1 v
-revision            0
+revision            1
 name                py-libnacl
 
 categories-append   net
@@ -38,9 +38,8 @@ if {${name} ne ${subport}} {
     }
 
     test.run        yes
+    python.test_framework
     test.cmd        ${python.bin} tests/runtests.py
-    test.target
-    test.env        PYTHONPATH=${worksrcpath}/build/lib
 
     post-destroot {
         set docdir ${prefix}/share/doc/${subport}

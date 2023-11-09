@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           python 1.0
 
-github.setup        randy3k radian 0.6.6 v
+github.setup        randy3k radian 0.6.8 v
 revision            0
 categories          math python R
 license             MIT
@@ -13,9 +13,10 @@ description         A XXI century R console
 long_description    radian is an alternative console for the R program with multiline editing and rich syntax highlight. \
                     One would consider radian as a ipython clone for R, though its design is more aligned to Julia.
 
-checksums           rmd160  e1e37bce9bf8aa71aef5fa4e5c6f5012d189238a \
-                    sha256  3ac223bce3a4ab622510eef05a151e890679ab605a129d843bda4f1df1e9a982 \
-                    size    74973
+checksums           rmd160  2941bf8b05ee433ec5bb145ad06a5d3a8d0d4b84 \
+                    sha256  2f1a9527f1d94ff2819185fa9022bdb2f896ac424bbb116c2314274f99d9e617 \
+                    size    75077
+github.tarball_from archive
 supported_archs     noarch
 
 python.default_version 311

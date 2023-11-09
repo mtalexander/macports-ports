@@ -5,7 +5,7 @@ PortGroup           perl5 1.0
 
 perl5.branches      5.28 5.30 5.32 5.34
 perl5.setup         Finance-Quote 1.58 ../../authors/id/B/BP/BPSCHUCK
-revision            0
+revision            1
 license             GPL-2+
 maintainers         nomaintainer
 description         Perl module that allows for grabbing stock quotes.
@@ -33,7 +33,6 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-test-simple
 
     depends_lib-append  \
-                    port:p${perl5.major}-date-manip \
                     port:p${perl5.major}-datetime \
                     port:p${perl5.major}-datetime-format-strptime \
                     port:p${perl5.major}-encode \
@@ -41,6 +40,7 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-html-tableextract \
                     port:p${perl5.major}-html-tokeparser-simple \
                     port:p${perl5.major}-html-tree \
+                    port:p${perl5.major}-http-cookiejar \
                     port:p${perl5.major}-http-cookies \
                     port:p${perl5.major}-http-message \
                     port:p${perl5.major}-io-string \

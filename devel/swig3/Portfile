@@ -95,6 +95,12 @@ foreach lang [lsort [array names bindings]] {
     }
 }
 
+subport swig3-d {
+    # MacPorts has DMD at which supports macOS up to 12
+    # See: https://forum.dlang.org/thread/yrmpzhhpuwdgnfaldstz@forum.dlang.org
+    platforms               {darwin <= 21}
+}
+
 subport swig3-java {
     PortGroup               java 1.0
 
@@ -172,6 +178,9 @@ subport swig3-php {
 }
 
 subport swig3-gcj {
+    # gcc4x is supported up to 10.6
+    platforms               {darwin <= 10}
+
     variant gcc43 conflicts gcc44 gcc45 gcc47 gcc48 description {build using GCJ 4.3} {
         depends_lib-delete port:gcc47
         depends_lib-append port:gcc43
@@ -214,6 +223,13 @@ subport swig3-gcj {
         ui_error "\n\nA +gcc4X variant must be selected; the variant '-gcc47' cannot be used alone.\n"
         return -code error "Invalid variant selection"
     }
+}
+
+subport swig3-pike {
+    # See:
+    #  - https://trac.macports.org/ticket/31384
+    #  - https://trac.macports.org/ticket/68011
+    known_fail              yes
 }
 
 subport swig3-ruby {

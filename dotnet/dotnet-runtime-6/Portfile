@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                dotnet-runtime-6
-version             6.0.20
+version             6.0.24
 revision            0
 categories          dotnet
 license             MIT
@@ -25,15 +25,15 @@ supported_archs     x86_64 arm64
 switch ${build_arch} {
     x86_64 {
         distname            dotnet-runtime-${version}-osx-x64
-        checksums           rmd160  a8634ed5e4c8dfdeaa515e98dcc51809ded433c8 \
-                            sha256  8ad3f80ab38fbbde45c5170336a0498054c5dd7f807dbcfa3c28f0300ea0daa3 \
-                            size    30082764
+        checksums           rmd160  cdce41af33fd88db1468e374cf538506fec9ef71 \
+                            sha256  94213d2b89e5234bd4210ad07b50dade5b4a5737e0d901b56f57f0458a7a4f6c \
+                            size    30083412
     }
     arm64 {
         distname            dotnet-runtime-${version}-osx-arm64
-        checksums           rmd160  186a98508493607f0a48d0a1b5f7cad1b5721c81 \
-                            sha256  5c8f49c8b3d06fe48ca3264b4f95fc043e2b0fb3377098c311db906071abe59d \
-                            size    28191930
+        checksums           rmd160  101d92eb03a44e99db347e5d4ed7c390434f4e2c \
+                            sha256  712c0f81315116654de5bcbfb57a716b0dcfc29c90cdc3e03a493fdaf01d956e \
+                            size    28191808
     }
     default {
         known_fail yes
@@ -57,9 +57,12 @@ build {}
 
 destroot {
     set dotnet_home ${prefix}/share/dotnet
+    set hostfxr_dir /host/fxr
     set runtime_dir /shared/Microsoft.NETCore.App
+    xinstall -d ${destroot}${dotnet_home}${hostfxr_dir}
     xinstall -d ${destroot}${dotnet_home}${runtime_dir}
 
+    move ${worksrcpath}${hostfxr_dir}/${version} ${destroot}${dotnet_home}${hostfxr_dir}
     move ${worksrcpath}${runtime_dir}/${version} ${destroot}${dotnet_home}${runtime_dir}
 }
 

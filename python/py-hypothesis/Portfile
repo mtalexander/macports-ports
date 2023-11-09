@@ -4,14 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-hypothesis
-version             6.80.0
+version             6.88.1
 revision            0
 categories-append   devel
 platforms           {darwin any}
 supported_archs     noarch
 license             MPL-2
 
-python.versions     27 35 36 37 38 39 310 311
+python.versions     27 35 36 37 38 39 310 311 312
 
 maintainers         {khindenburg @kurthindenburg} \
                     {@catap korins.ky:kirill} \
@@ -26,9 +26,9 @@ long_description \
 
 homepage            https://pypi.python.org/pypi/hypothesis
 
-checksums           rmd160  c418f4d27f1b06534e74f0a9b68c1f3f453f32ac \
-                    sha256  75d74da36fd3837b5b3fe15211dabc7389e78d882bf2c91bab2184ccf91fe64c \
-                    size    352808
+checksums           rmd160  ee87bfe7a9126af631523d66b8b9bc5b0bb6dff9 \
+                    sha256  f4c2c004b9ec3e0e25332ad2cb6b91eba477a855557a7b5c6e79068809ff8b51 \
+                    size    359984
 
 if {${name} ne ${subport}} {
     depends_build-append  port:py${python.version}-setuptools
@@ -75,6 +75,16 @@ if {${name} ne ${subport}} {
         checksums           rmd160  8b7784dd3cc735560db395c9f3bc272ad037db48 \
                             sha256  e9a9ff3dc3f3eebbf214d6852882ac96ad72023f0e9770139fd3d3c1b87673e2 \
                             size    355439
+
+        livecheck.type none
+    }
+
+    if {${python.version} == 38} {
+        version             6.80.0
+        revision            0
+        checksums           rmd160  c418f4d27f1b06534e74f0a9b68c1f3f453f32ac \
+                            sha256  75d74da36fd3837b5b3fe15211dabc7389e78d882bf2c91bab2184ccf91fe64c \
+                            size    352808
 
         livecheck.type none
     }

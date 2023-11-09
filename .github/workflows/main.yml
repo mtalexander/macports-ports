@@ -27,15 +27,17 @@ jobs:
 
     steps:
       - name: Checkout ports
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 64
           path: ports
+          show-progress: false
       - name: Checkout mpbb
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: macports/mpbb
           path: mpbb
+          show-progress: false
       - name: Bootstrap MacPorts
         run: . ports/.github/workflows/bootstrap.sh
       - name: Determine list of changed ports
@@ -68,23 +70,21 @@ jobs:
           echo "#### Changed Ports" >> $GITHUB_STEP_SUMMARY
 
           subportlist=""
-          for port in $portlist; do
-            echo "::group::Listing subports for ${port}"
-            new_subports=$(mpbb \
-                --work-dir /tmp/mpbb \
-                list-subports \
-                --archive-site= \
-                --archive-site-private= \
-                --include-deps=no \
-                "$port" \
+          echo "::group::Listing subports"
+          new_subports=$(mpbb \
+              --work-dir /tmp/mpbb \
+              list-subports \
+              --archive-site= \
+              --archive-site-private= \
+              --include-deps=no \
+              $portlist \
               | tr '\n' ' ')
-            for subport in $new_subports; do
-              echo "$subport"
-              echo "- ${subport}" >> $GITHUB_STEP_SUMMARY
-              subportlist="$subportlist $subport"
-            done
-            echo "::endgroup::"
+          for subport in $new_subports; do
+            echo "$subport"
+            echo "- ${subport}" >> $GITHUB_STEP_SUMMARY
+            subportlist="$subportlist $subport"
           done
+          echo "::endgroup::"
 
           echo "subportlist=${subportlist}" >> $GITHUB_OUTPUT
         env:

@@ -2,7 +2,7 @@
 
 PortSystem          1.0
 
-version             5.5.7
+version             5.6.2
 revision            0
 
 if {${os.major} >= 17} {
@@ -32,21 +32,21 @@ long_description    The Symfony CLI tool is a must-have tool when developing \
 
 categories          devel
 installs_libs       no
-license             AGPL-3.0
+license             AGPL-3+
 maintainers         {@antalaron antalaron.hu:antalaron} \
                     openmaintainer
 
 if ${source_build} {
     # Allow Go to fetch dependencies at build time
-    build.env-delete    GO111MODULE=off GOPROXY=off
+    go.offline_build no
     build.env           CGO_ENABLED=0
     build.args          -o ${workpath}/symfony -trimpath -ldflags="-s -w -X 'main.version=${version}' -X 'main.channel=stable'"
 
     use_parallel_build  no
 
-    checksums           rmd160  16700dbd2b6ca67569663125e444ed61a34b5a3c \
-                        sha256  881fe138f5ffc67db7a36f9fe66a730a23fa6013a2169f1a797e18a034540022 \
-                        size    252755
+    checksums           rmd160  8871ad7d98656bcb2dfccc9d198bcb1772cc572e \
+                        sha256  923e5dfe19764fd5bca4358ad4e5438aaf4284da6b257cd11dae297b3ea3c068 \
+                        size    256823
 
     github.tarball_from archive
 } else {
@@ -54,9 +54,9 @@ if ${source_build} {
 
     distname            symfony-cli_darwin_all
 
-    checksums           rmd160  fb3f36ae4463fdd0337e599861e6fc22d168e00c \
-                        sha256  a82ba6fdc8649930464147db9a46fa8ded5a07a91690435e84eec9335f3b91d1 \
-                        size    11014539
+    checksums           rmd160  977c0afe47618ff3978d8e601b9712d65e458fd2 \
+                        sha256  75693146f61548f4cf0bfba2ce79b0fb2933c4ce663c63b1610859c42183c14c \
+                        size    11132370
 
     github.tarball_from releases
 

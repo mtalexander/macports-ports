@@ -19,7 +19,14 @@ long_description    This extension can communicate with any AMQP spec 0-9-1 \
                     and queues, as well as publish to any exchange and \
                     consume from any queue.
 
-if {[vercmp ${php.branch} 5.6] >= 0} {
+if {[vercmp ${php.branch} >= 7.4]} {
+    epoch           1
+    version         2.1.1
+    revision        0
+    checksums       rmd160  ee3216c09bba2c1c8b5835e4ab5d2ecdb50bae34 \
+                    sha256  c9b36f10c2e7b7da472440e21c35655c3bf41983b99bf1e438eac7d5bb1c2b45 \
+                    size    118194
+} elseif {[vercmp ${php.branch} >= 5.6]} {
     epoch           1
     version         1.11.0
     revision        0

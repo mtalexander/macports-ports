@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/go-delve/delve 1.21.0 v
+go.setup            github.com/go-delve/delve 1.21.2 v
 github.tarball_from archive
 revision            0
 
@@ -23,9 +23,9 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  5f6f8be537533ccd90c7fc995478a0cc9be0f05e \
-                    sha256  f00321e9333a61cb10c18141484c44ed55b1da1c4239a3f4faf2100b64613199 \
-                    size    9222801
+checksums           rmd160  979904d94823b8f616f7682739f98a0b53f0df5b \
+                    sha256  41f104a562d79fa47aa025b5f94e1302279805c148c0e57fd3ed3ae075656bb5 \
+                    size    9430716
 
 # The build process requires Go modules.  So remove the environment setting
 # GO111MODULE=off:

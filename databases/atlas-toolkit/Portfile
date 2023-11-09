@@ -3,8 +3,9 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/ariga/atlas 0.12.0 v
+go.setup            github.com/ariga/atlas 0.15.0 v
 go.package          ariga.io/atlas
+go.offline_build    no
 github.tarball_from archive
 name                atlas-toolkit
 revision            0
@@ -28,12 +29,9 @@ license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  b67364adebe7a0b25a6e1a88cd0ede75c5595321 \
-                    sha256  739bcf579be963e02df59061f41e2a98e00b48895bb2a35d98b10ec67499d5fa \
-                    size    1443518
-
-# Allow Go to fetch deps at build-time
-build.env-delete    GO111MODULE=off GOPROXY=off
+checksums           rmd160  e8e2cd3e006ffd01399fad15339c888ef47dab85 \
+                    sha256  ee8ed6f61abd0e4ba0ea2e0db72f90b6eabc0bdcb318d589d17c7c2c80412d67 \
+                    size    1729332
 
 build.dir           ${worksrcpath}/cmd/atlas
 build.cmd           "${go.bin} generate ./... && ${go.bin} build"

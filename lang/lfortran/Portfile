@@ -2,10 +2,11 @@
 
 PortSystem              1.0
 PortGroup               cmake 1.1
+PortGroup               compiler_blacklist_versions 1.0
 PortGroup               github 1.0
 
-github.setup            lfortran lfortran 0.19.0 v
-revision                1
+github.setup            lfortran lfortran 0.28.0 v
+revision                0
 categories              lang fortran
 maintainers             {@barracuda156 gmail.com:vital.had} openmaintainer
 license                 BSD
@@ -16,11 +17,15 @@ long_description        LFortran is a modern open-source interactive Fortran com
                         with the goal to run user’s code on modern architectures such as multi-core CPUs and GPUs.
 homepage                https://lfortran.org
 
+checksums               rmd160  1718333a074337aa4ea389230a3417b0f515c127 \
+                        sha256  664811b1fee5a7d1699d3f634b2f8350a7b1d5ce9bfbdd9dd4cb5f2559b1949d \
+                        size    2423681
+github.tarball_from     archive
+
 # Build system is a bit handicapped.
-fetch.type              git
 cmake.out_of_source     no
 
-set port_libfmt         libfmt9
+set port_libfmt         libfmt10
 cmake.module_path-append \
                         ${prefix}/lib/${port_libfmt}/cmake
 
@@ -35,16 +40,23 @@ set py_ver              3.11
 set py_ver_nodot        [string map {. {}} ${py_ver}]
 depends_lib-append      port:python${py_ver_nodot}
 
+# Install into meaningful locations:
+patchfiles-append       patch-use-sane-install-dirs.diff \
+                        patch-version.diff
+# TODO: add CMake config files.
+
 configure.python        ${prefix}/bin/python${py_ver}
 
-patchfiles              patch-ppc.diff
-
 post-patch {
+    reinplace "s|@VERSION@|${version}|" ${worksrcpath}/ci/version.sh
     reinplace "s|python src|${configure.python} src|g" ${worksrcpath}/build0.sh
     reinplace "s|/usr/bin/env python|${configure.python}|" ${worksrcpath}/run_tests.py
 }
 
+# FIXME: this is likely wrong: https://github.com/lfortran/lfortran/issues/2689
 compiler.cxx_standard   2017
+# Use LLVM clangs
+compiler.blacklist-append {clang}
 
 configure.args-append   -DLFORTRAN_BUILD_ALL=YES \
                         -DLFORTRAN_STATIC_BIN=NO \
@@ -54,4 +66,20 @@ configure.args-append   -DLFORTRAN_BUILD_ALL=YES \
                         -DWITH_RUNTIME_LIBRARY=YES \
                         -DWITH_ZLIB=YES
 
+if {${configure.build_arch} ni [list ppc ppc64]} {
+    set llvm_version    16
+    set llvm_prefix     ${prefix}/libexec/llvm-${llvm_version}
+    set llvm_bin        ${llvm_prefix}/bin
+
+    cmake.module_path-append \
+                        ${llvm_prefix}/lib/cmake/llvm
+    depends_lib-append  port:llvm-${llvm_version}
+    configure.args-append \
+                        -DLLVM_ROOT:PATH=${llvm_prefix}
+    configure.args-replace \
+                        -DWITH_LLVM=NO -DWITH_LLVM=YES
+}
+
 cmake.build_type        Release
+
+test.run                yes

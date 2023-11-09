@@ -2,49 +2,46 @@
 
 PortSystem 1.0
 PortGroup clang_dependency 1.0
+PortGroup github 1.0
 PortGroup muniversal 1.0
 
-name             libarchive
+github.setup    libarchive libarchive 3.7.2 v
+github.tarball_from releases
 
-categories       archivers
-license          BSD
-maintainers      {toby @tobypeterson} openmaintainer
-description      functions for reading and writing streaming archives
+categories      archivers
+license         BSD
+maintainers     {toby @tobypeterson} openmaintainer
+description     functions for reading and writing streaming archives
 long_description \
     Libarchive is a programming library that can create and \
     read several different streaming archive formats, including \
     most popular tar variants, several cpio formats, 7zip and rar. It can \
     also write shar archives.
 
-version          3.7.0
-revision         0
+use_xz          yes
+checksums       rmd160 d50be9e63483a8f3068e9642538d71ca59910601 \
+                sha256 04357661e6717b6941682cde02ad741ae4819c67a260593dfb2431861b251acb \
+                size   5237056
 
-checksums        rmd160  14d2fa5007e6fcf69a1edfa8fd95f3177f237c9f \
-                 sha256  d937886a14b48c4287c4d343644feb294a14b31b7926ba9a4f1777123ce7c2cc \
-                 size    7462563
+homepage        https://libarchive.org/
 
-homepage         https://libarchive.org/
-master_sites     ${homepage}downloads/
+depends_lib     port:bzip2 port:zlib port:libxml2 port:xz \
+                port:lzo2 port:libiconv \
+                port:lz4 port:zstd \
+                port:libb2
 
-depends_lib      port:bzip2 port:zlib port:libxml2 port:xz \
-                 port:lzo2 port:libiconv \
-                 port:lz4 port:zstd \
-                 port:libb2
-
-patchfiles       patch-libarchive__archive_read_support_format_lha.c.diff \
-                 fix_pc_file.patch \
-                 bsdunzip-time.diff \
-                 getline.patch
+patchfiles      fix_pc_file.patch
 
 platform darwin 8 {
-    patchfiles-append patch-libarchive-3.5-fix-tests-tiger.diff
+    patchfiles-append   patch-libarchive-3.5-fix-tests-tiger.diff \
+                        STAILQ_FOREACH.patch
 }
 
 depends_build    port:pkgconfig port:gawk
 
-configure.args   --enable-bsdtar=shared --enable-bsdcpio=shared \
-                 --disable-silent-rules --without-nettle \
-                 --without-openssl --with-lzo2 --with-zstd
+configure.args  --enable-bsdtar=shared --enable-bsdcpio=shared \
+                --disable-silent-rules --without-nettle \
+                --without-openssl --with-lzo2 --with-zstd
 
 configure.checks.implicit_function_declaration.whitelist-append strchr
 
@@ -55,8 +52,5 @@ post-destroot {
     }
 }
 
-test.run yes
-test.target check
-
-livecheck.type  regex
-livecheck.regex libarchive-(\[0-9.\]+)\\.tar.gz
+test.run        yes
+test.target     check

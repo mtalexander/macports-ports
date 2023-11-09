@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-wheel
-version             0.40.0
+version             0.41.3
 revision            0
 license             MIT
 maintainers         {mps @Schamschula} openmaintainer
@@ -14,15 +14,15 @@ long_description    {*}${description}
 
 homepage            https://github.com/pypa/wheel/
 
-checksums           rmd160  1df635f1a5dc250e096385eca68f0b8c6e5b3472 \
-                    sha256  cd1196f3faee2b31968d626e1731c94f99cbdb67cf5a46e4f5656cbee7738873 \
-                    size    96226
+checksums           rmd160  38197ae71f03654435ccca13e15a14cf336ad15d \
+                    sha256  4d4987ce51a49370ea65c0bfd2234e8ce80a12780820d9dc462597a6e60d0841 \
+                    size    98880
 
 supported_archs     noarch
 platforms           {darwin any}
 
 # leave the EOL PY34 subport here as it is an indirect dependency of py34-virtualenv
-python.versions     27 34 35 36 37 38 39 310 311
+python.versions     27 34 35 36 37 38 39 310 311 312
 
 if {${name} ne ${subport}} {
     if {${python.version} == 34} {
