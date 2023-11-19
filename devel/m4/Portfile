@@ -41,12 +41,28 @@ if {${os.platform} eq "darwin" && ${os.major} < 10} {
 
 patchfiles-append          patch-clang-before-34.diff
 
+platform arm {
+    set merger_configure_args(arm64)   --host=aarch64-apple-darwin
+    set merger_configure_args(x86_64)  --host=x86_64-apple-darwin
+    set merger_configure_env(arm64)    CC_FOR_BUILD=${configure.cc}
+    set merger_configure_env(x86_64)   CC_FOR_BUILD=${configure.cc}
+}
+
 configure.args  --disable-silent-rules \
                 --program-prefix=g \
                 --with-packager=MacPorts \
                 --with-packager-version="revision $revision" \
                 --with-packager-bug-reports=https://trac.macports.org/wiki/Tickets \
                 ac_cv_libsigsegv=no
+
+platform darwin {
+    if {${os.major} >= 13 && ${build_arch} eq "x86_64"} {
+        configure.args-append --host=x86_64-apple-darwin
+    }
+    if {${os.major} >= 13 && ${build_arch} eq "arm64"} {
+        configure.args-append --host=aarch64-apple-darwin
+    }
+}
 
 configure.checks.implicit_function_declaration.whitelist-append strchr
 
