@@ -7,6 +7,7 @@ name                python311
 
 # Remember to keep py311-tkinter and py311-gdbm's versions sync'd with this
 version             3.11.6
+revision            1
 
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          lang
@@ -73,7 +74,6 @@ configure.args      --enable-framework=${frameworks_dir} \
                     --enable-ipv6 \
                     --enable-loadable-sqlite-extensions \
                     --with-computed-gotos \
-                    --with-ensurepip=no \
                     --with-readline=editline \
                     --with-system-expat \
                     --with-system-ffi
