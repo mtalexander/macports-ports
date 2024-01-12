@@ -35,6 +35,8 @@ depends_lib         port:nspr \
                     port:xorg-libX11 \
                     port:xorg-libXt
 
+supported_archs x86_64
+
 # requires C++14 compiler to build
 compiler.cxx_standard 2014
 compiler.blacklist  *gcc-3.* *gcc-4.* {clang < 700}
