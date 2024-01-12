@@ -29,9 +29,9 @@ homepage            https://rsync.samba.org
 master_sites        https://download.samba.org/pub/rsync/src/
 
 compiler.blacklist  clang
-compiler.whitelist  macports-clang-11
+# compiler.whitelist  macports-clang-11
 
-depends_build       port:autoconf
+# depends_build       port:autoconf
 
 depends_lib         port:popt \
                     port:libiconv \
