@@ -61,6 +61,13 @@ if {(!${universal_possible} || ![variant_isset universal]) && [info exists merge
     configure.args-append $merger_configure_args(${build_arch})
 }
 
+pre-configure {
+    if {${build_arch} ne ${os_arch}} {
+        configure.args-append --host=${build_arch}-apple-darwin${os.major}
+        configure.args-append --build=${os_arch}-apple-darwin${os.major}
+    }
+}
+
 test.run            yes
 test.target         check
 test.env            DYLD_LIBRARY_PATH=../.lib
