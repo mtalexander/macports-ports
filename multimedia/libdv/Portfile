@@ -34,6 +34,13 @@ platform darwin i386 {
     configure.args-append   --disable-asm
 }
 
+platform darwin {
+    if {${build_arch} ne ${os_arch}} {
+        # It can't do cross platform assembly even if arch is set correctly
+        configure.args-append --disable-asm
+    }
+}
+
 variant sdl {
     configure.args-append   --enable-sdl
         depends_lib-append  port:libsdl
