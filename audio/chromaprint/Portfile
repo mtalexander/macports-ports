@@ -35,6 +35,8 @@ cmake.out_of_source yes
 
 configure.args-append -DCMAKE_BUILD_TYPE=Release -DBUILD_TOOLS=ON
 
+configure.env FFMPEG_DIR=$prefix
+
 variant tests description {Enable tests} {
     configure.args-append \
                             -DBUILD_TESTS=ON \
