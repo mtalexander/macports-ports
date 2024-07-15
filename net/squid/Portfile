@@ -3,7 +3,7 @@
 PortSystem 1.0
 
 name            squid
-version         6.3
+version         6.10
 categories      net
 license         GPL-2+
 maintainers     {jmr @jmroot} openmaintainer
@@ -27,14 +27,15 @@ master_sites    https://mirror.aarnet.edu.au/pub/squid/squid/ \
                 ftp://ftp.squid-cache.org/pub/squid/
 
 use_xz          yes
-checksums       md5 2512b5d27856e6f91a97719784506893 \
-                sha1 7bd74034015c6a4d345a4d277a431908bed2ec4a \
-                rmd160 cbe988eefe584fa1dd94472323dd3525c7fefb99 \
-                sha256 74a0f5586a7a5d89573d502708d5e1d66ddf0430cf4802cc7261b765653248fa
+checksums       md5 86deefa7282c4388be95260aa4d4cf6a \
+                sha1 70e90865df0e4e9ba7765b622da40bda9bb8fc5d \
+                rmd160 35cbc5fd37ef6ba6f62cdf387ef0ef43b81e2591 \
+                sha256 0b07b187e723f04770dd25beb89aec12030a158696aa8892d87c8b26853408a7
 
 patchfiles      patch-compat_types.h.diff \
                 patch-basic_pam_auth.cc.diff \
-                kerberos_ldap_group_Makefile.in.diff
+                kerberos_ldap_group_Makefile.in.diff \
+                ltdl-lib.patch
 
 platform darwin {
     if {${os.major} == 10} {
@@ -51,7 +52,7 @@ platform darwin {
 }
 
 depends_build   port:pkgconfig
-depends_lib     port:expat port:zlib
+depends_lib     port:libtool port:zlib
 
 conflicts       squid2 squid3 squid5
 
@@ -64,6 +65,8 @@ configure.args  --mandir=${prefix}/share/man \
                 --libexecdir=${prefix}/libexec/squid \
                 --with-swapdir=${prefix}/var/squid/cache \
                 --with-pidfile=${prefix}/var/run/squid/squid.pid \
+                --with-ltdl-include=${prefix}/include \
+                --with-ltdl-lib=${prefix}/lib \
                 --disable-strict-error-checking \
                 --disable-arch-native \
                 --without-cppunit \

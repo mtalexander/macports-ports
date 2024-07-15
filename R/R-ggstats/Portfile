@@ -3,17 +3,18 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github larmarange ggstats 0.5.0 v
-revision            0
+R.setup             github larmarange ggstats 0.6.0 v
+revision            1
 maintainers         nomaintainer
 license             GPL-3
 description         Extension to ggplot2 for plotting stats
 long_description    {*}${description}
 homepage            https://larmarange.github.io/ggstats
-checksums           rmd160  d2a29c342512a7e5b5e564cb116f21db6dc5ac91 \
-                    sha256  fdeb43f233ca753ff46ca2dc57f4770d4b0a759ee1f4e4b6828fa64a1a12a265 \
-                    size    238670
+checksums           rmd160  395b2622b7487068d6c769755c1ff9b525a589bb \
+                    sha256  81535c89fd4c73c41dceebb838077674824a83c420a550e6c9c370a2c8a9a204 \
+                    size    243799
 supported_archs     noarch
+platforms           {darwin any}
 
 depends_lib-append  port:R-broom.helpers \
                     port:R-cli \

@@ -3,16 +3,17 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github SebKrantz collapse 2.0.3 v
+R.setup             github SebKrantz collapse 2.0.15 v
 revision            0
 categories-append   economics math
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             GPL-2+
 description         Advanced and fast data transformation
 long_description    {*}${description}
-checksums           rmd160  9601bbe8b180d20b666067db48839f8b56d2a82a \
-                    sha256  07c0d1ce0e72de18950b7db2d2cbf48c946b7c2476f9d5e983973ca5fc84f826 \
-                    size    19135419
+checksums           rmd160  363c5430b0d8e392c0825157ebf171bc9b19fe8c \
+                    sha256  be0bafe27b458598599e928b91e4894aa5c053b68eef624b40606c4298c1e727 \
+                    size    21772606
+github.tarball_from archive
 
 depends_lib-append  port:R-Rcpp
 

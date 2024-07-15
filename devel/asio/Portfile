@@ -2,18 +2,21 @@
 
 PortSystem                  1.0
 PortGroup                   compiler_blacklist_versions 1.0
-PortGroup                   openssl 1.0
-PortGroup                   muniversal 1.0
 PortGroup                   github 1.0
+PortGroup                   muniversal 1.0
+PortGroup                   openssl 1.0
 
-github.setup                chriskohlhoff asio 1-28-1 asio-
+github.setup                chriskohlhoff asio 1-30-2 asio-
 version                     [string map {- .} ${github.version}]
 revision                    0
-checksums                   rmd160  1e13792b96daee0f3c0343f3e336c10216011367 \
-                            sha256  601993a40b89fe1d29a0caeeac1c76fb0da8ab13e2e5e54cabb533ba4966fc3b \
-                            size    2971813
+checksums                   rmd160  79515608bed4541fed8a87556afed673b73818c5 \
+                            sha256  755bd7f85a4b269c67ae0ea254907c078d408cce8e1a352ad2ed664d233780e8 \
+                            size    2840595
+github.tarball_from         archive
 
 license                     Boost-1
+platforms                   any
+supported_archs             noarch
 description                 Asio C++ Library.
 long_description            Asio is a cross-platform C++ library for network \
                             and low-level I/O programming that provides developers \

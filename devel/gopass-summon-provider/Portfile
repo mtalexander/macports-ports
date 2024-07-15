@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/gopasspw/gopass-summon-provider 1.15.8 v
+go.setup            github.com/gopasspw/gopass-summon-provider 1.15.13 v
 go.offline_build    no
 github.tarball_from archive
 revision            0
@@ -17,10 +17,11 @@ description         Gopass Summon Provider
 
 long_description    Use gopass as secret provider for summon.
 
-checksums           rmd160  5c4d77325283896786dccf9fc8f6cac19149d069 \
-                    sha256  c36474a1a2927c9f76a8911de5dc15432ae81e13feb773dcd72c9ace4ceafe86 \
-                    size    20690
+checksums           rmd160  7b7b993181958e39cc15ddb2108fe8efc45cad9d \
+                    sha256  5a459d36a67a54ed8f8b4bdf735739a9b7b26d08477dfdaf1d50f78e8fe3b80a \
+                    size    16086
 
+build.cmd           ${go.bin} mod tidy \&\& ${go.bin} build
 build.args          -o ${worksrcpath}/${name} \
                     -trimpath \
                     -ldflags \" \

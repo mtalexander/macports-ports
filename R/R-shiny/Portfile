@@ -3,17 +3,18 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran rstudio shiny 1.7.5.1
-revision            0
+R.setup             cran rstudio shiny 1.8.1.1
+revision            1
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             GPL-3
 description         Web application framework for R
 long_description    {*}${description}
 homepage            https://shiny.posit.co
-checksums           rmd160  2ce5408ea952e32936236d21001f1463d6927adc \
-                    sha256  2023d91cc8039580752f6ecc5010d4419b7d928724ce5b10b93a3b48e1e6fb46 \
-                    size    2708575
+checksums           rmd160  5ba86a1333607ecb495819cde518fa2aa927446c \
+                    sha256  a38d5fb5d750e2c2091ce9101f138c1f9bc7009bbb195227a3519c5d97e36753 \
+                    size    3049516
 supported_archs     noarch
+platforms           {darwin any}
 
 depends_lib-append  port:R-bslib \
                     port:R-cachem \
@@ -37,6 +38,7 @@ depends_lib-append  port:R-bslib \
                     port:R-xtable
 
 depends_test-append port:R-Cairo \
+                    port:R-DT \
                     port:R-dygraphs \
                     port:R-future \
                     port:R-ggplot2 \

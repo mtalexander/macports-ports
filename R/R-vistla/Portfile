@@ -3,16 +3,16 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran cran vistla 2.0.0
+R.setup             cran mbq.me vistla 2.0.2
 revision            0
 categories-append   math
 maintainers         nomaintainer
 license             GPL-3+
 description         Detect influence paths with information theory
 long_description    {*}${description}
-checksums           rmd160  ed6314439045e4d5c1439f1137dcea368308eed6 \
-                    sha256  b6e615ac9b383e7c6665f3562ebfb65892c5ffa4921d33511d447ed07999d5b0 \
-                    size    33652
+checksums           rmd160  f5e5e646a801194e3775cff2b4c51a9ec9376907 \
+                    sha256  b98edb33c56a190f7f3c64539c3188fd1f626ddbf11e75d4e0ee0f0c40fdb21a \
+                    size    42203
 
 depends_test-append port:R-testthat
 

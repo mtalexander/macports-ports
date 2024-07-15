@@ -4,16 +4,18 @@ PortSystem          1.0
 PortGroup           R 1.0
 
 # GitHub version is old.
-R.setup             cran andrea-luciani bimets 3.0.1
+R.setup             cran andrea-luciani bimets 4.0.1
 revision            0
-categories-append   math
+categories-append   economics
+platforms           {darwin any}
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             GPL-3
-description         Time series and econometric modeling
+description         Time series and econometric modelling
 long_description    {*}${description}
-checksums           rmd160  b13376062cf68e6ca3fc320b1dfb803e2eedfe43 \
-                    sha256  a7649f0e29ad2c006307783cb532253b02914690571135b66197d1f0eadce00d \
-                    size    1221477
+homepage            https://github.com/andrea-luciani/bimets
+checksums           rmd160  56e4f57077fb553132ca1df8ad06a585bbe4cddd \
+                    sha256  75d37b920eccc72a116c4a5306a3d2e2d6f7596a031393115509bcb92f0e45a6 \
+                    size    3427641
 supported_archs     noarch
 
 depends_lib-append  port:R-xts \

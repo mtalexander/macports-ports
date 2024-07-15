@@ -3,18 +3,19 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran cran chisquare 0.6
-revision            0
+R.setup             cran gianmarcoalberti chisquare 0.9
+revision            1
 categories-append   math
 maintainers         nomaintainer
 license             GPL-2+
 description         Chi-Square and g-square test of independence, residual analysis \
                     and measures of categorical association
 long_description    {*}${description}
-checksums           rmd160  ace3352d256c2b068adf7d1947560d802d9cc678 \
-                    sha256  675097c731b5e3106df04aa33391894475e13c23fd15317d7597eb577b07f64b \
-                    size    22432
+checksums           rmd160  6712836e037469594882a60ee2052361b27bbead \
+                    sha256  10a3891f90808cdea78844c631db105c82ab484776aa9fb7cc1ce36acdbefe86 \
+                    size    33770
 supported_archs     noarch
+platforms           {darwin any}
 
 depends_lib-append  port:R-gt
 

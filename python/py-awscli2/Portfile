@@ -6,11 +6,12 @@ PortGroup           select 1.0
 PortGroup           github 1.0
 
 name                py-awscli2
-github.setup        aws aws-cli 2.13.30
+github.setup        aws aws-cli 2.17.13
 revision            0
 
 categories          python devel
-platforms           darwin
+platforms           {darwin any}
+supported_archs     noarch
 license             Apache-2
 maintainers         {gmail.com:davidgilman1 @dgilman} openmaintainer
 
@@ -19,20 +20,20 @@ long_description    {*}${description}
 
 homepage            https://aws.amazon.com/cli/
 
-checksums           rmd160  4fb891f1063aa2a3ad537eb5e56cf4fbf406d1bf \
-                    sha256  d4fee899c989434295d4a48318f8dc95c3d8941ce5151bbcc874ffbc0d6ace3b \
-                    size    13976842
+checksums           rmd160  2c39e6120f7c9ca91a237d971bc05309028f616d \
+                    sha256  fd11b2463d0074ffc30ff2d9124f5b891def2b75908676b967a4a0bfe06d32bb \
+                    size    14835395
 
-python.versions     38 39 310 311
+python.versions     39 310 311
 python.pep517       yes
 python.pep517_backend \
                     flit
 
 if {${name} ne ${subport}} {
-    if {${os.platform} eq "darwin" && ${os.major} <= 15} {
+    if {${os.platform} eq "darwin" && ${os.major} <= 18} {
         known_fail      yes
         pre-fetch {
-            ui_error "${name} @${version} requires macOS 10.12 or later."
+            ui_error "${name} @${version} requires macOS 10.15 or later."
             return -code error "incompatible macOS version"
         }
     }
@@ -63,7 +64,7 @@ if {${name} ne ${subport}} {
         copy -force ${filespath}/awscli2 ${worksrcpath}/py${python.version}-awscli2
     }
 
-    patch.pre_args      -p1
+    patch.pre_args-replace  -p0 -p1
     patchfiles          patch-requirements.diff
 
     post-patch {

@@ -6,7 +6,7 @@ PortGroup           python 1.0
 PortGroup           compiler_blacklist_versions 1.0
 
 name                py-pikepdf
-github.setup        pikepdf pikepdf 8.6.0 v
+github.setup        pikepdf pikepdf 9.0.0 v
 revision            0
 categories-append   graphics
 license             MPL-2
@@ -15,25 +15,13 @@ description         pikepdf is based on QPDF, a powerful PDF manipulation and re
                     library.
 long_description    {*}${description}
 
-python.versions     37 38 39 310 311
+python.versions     38 39 310 311 312
 
-checksums           rmd160  afbbb7c3aa24561580010c74400e1dd084fff60b \
-                    sha256  b77d54dafc473123d9a2d11368fbb2f663afc1633dafcb0cb4693cd228be6b4c \
-                    size    2912047
+checksums           rmd160  55189549289688ee2dfa66b74b7ac09eb76764d3 \
+                    sha256  82ca46ce85d3b68a5a7a2e045116334b2ebd9ff428c929fd1b7b13b988e447bb \
+                    size    2923634
 
 if {${name} ne ${subport}} {
-    if {${python.version} == 37} {
-        github.setup ${github.author} ${github.project} 6.2.9 v
-        revision    2
-
-        # Stealth Update!
-        dist_subdir ${name}/${version}_1
-
-        checksums   rmd160  038686b84614d58392cd8d90581fe1094d38118e \
-                    sha256  e11b9bf95cfd5fe2574cc30c5fc091940c65779582227ebb56bbfa51943c1744 \
-                    size    2906108
-    }
-
     depends_build-append \
                     port:py${python.version}-setuptools_scm \
                     port:py${python.version}-setuptools_scm_git_archive \
@@ -41,7 +29,7 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-wheel
 
     depends_lib-append  \
-                    port:py${python.version}-deprecation \
+                    port:py${python.version}-deprecated \
                     port:py${python.version}-lxml \
                     port:py${python.version}-packaging \
                     port:py${python.version}-Pillow \

@@ -3,7 +3,7 @@
 PortSystem                  1.0
 PortGroup                   golang 1.0
 
-go.setup                    github.com/influxdata/telegraf 1.27.2 v
+go.setup                    github.com/influxdata/telegraf 1.30.2 v
 github.tarball_from         archive
 revision                    0
 
@@ -26,9 +26,9 @@ license                     MIT
 maintainers                 {gmail.com:herby.gillot @herbygillot} \
                             openmaintainer
 
-checksums                   rmd160  b82c80804e82ee801d8d1218df9e8bcfa40d58b0 \
-                            sha256  e3e1c42f334a3ada14c1f12538bd2f651ab2518e9eb0906f7edb51e49ac0f49c \
-                            size    4037544
+checksums                   rmd160  e9f164ee6453c837c1f73a651c681395468d81d1 \
+                            sha256  3514d870fe1899f20c5d1f1545233413cbe11061b23a0cafbd44b861a9295dc6 \
+                            size    4410274
 
 set telegraf_user           ${name}
 set telegraf_conf_dir       ${prefix}/etc/${name}

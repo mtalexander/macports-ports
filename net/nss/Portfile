@@ -5,7 +5,7 @@ PortGroup           muniversal 1.0
 PortGroup           compiler_blacklist_versions 1.0
 
 name                nss
-version             3.94
+version             3.102
 revision            0
 set NSS_VMAJOR      [lindex [split ${version} .] 0]
 set NSS_VMINOR      [lindex [split ${version} .] 1]
@@ -23,14 +23,14 @@ long_description    {*}${description}
 use_configure       no
 homepage            https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS
 
-set my_release      NSS_[strsed ${version} {g/\./_/}]_RTM
+set my_release      NSS_[string map {. _} ${version}]_RTM
 
 master_sites        https://ftp.mozilla.org/pub/security/nss/releases/${my_release}/src/ \
                     ftp://ftp.mozilla.org/pub/security/nss/releases/${my_release}/src/
 
-checksums           rmd160  aacd67c8d92922bf27363d25aef7683cee75f9c4 \
-                    sha256  463ae180ee9e5ee9e3ad4f629326657e236780cc865572a930a16520abad9dd8 \
-                    size    76580364
+checksums           rmd160  c64c679310cdf9bd89eb962579d3e042fa0f80d8 \
+                    sha256  c29b03f24856db18a34fbcde737fcca6407c27b5f3f60baba5111460e6cb307b \
+                    size    76455599
 
 # build fails with gcc-4.2 on Intel, but succeeds with gcc-4.2 on PPC
 # cc1: error: unrecognized command line option "-mpclmul"
@@ -38,6 +38,8 @@ checksums           rmd160  aacd67c8d92922bf27363d25aef7683cee75f9c4 \
 if {${configure.build_arch} in [list i386 x86_64]} {
     compiler.blacklist-append *gcc-4.* *gcc-3.*
 }
+
+patchfiles          undef-prefix.patch
 
 # VSX and Crypto have to be disabled, since they belong to post-G5 ISA.
 # See: https://bugzilla.mozilla.org/show_bug.cgi?id=1687164

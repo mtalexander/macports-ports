@@ -15,7 +15,7 @@ universal_variant no
 # https://adoptium.net/temurin/releases/
 supported_archs  x86_64
 
-version      8u392
+version      8u412
 set build    08
 revision     0
 
@@ -26,9 +26,9 @@ master_sites https://github.com/adoptium/temurin8-binaries/releases/download/jdk
 distname     OpenJDK8U-jdk_x64_mac_hotspot_${version}b${build}
 worksrcdir   jdk${version}-b${build}
 
-checksums    rmd160  d31bab8af590c3260da5d78b4955de549469388e \
-             sha256  d152f5b2ed8473ee0eb29c7ee134958d75ea86c8ccbafb5ee04a5545dd76108f \
-             size    109468323
+checksums    rmd160  321d80d13a7c3f871846aa17864b5b372c8ab814 \
+             sha256  fd62491f7634c1cbed7557d6b21db7ef4818fbc0e63e678110d9d92cbea4ad8c \
+             size    109506799
 
 homepage     https://adoptium.net
 

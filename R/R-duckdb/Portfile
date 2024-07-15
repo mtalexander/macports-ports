@@ -2,8 +2,12 @@
 
 PortSystem          1.0
 PortGroup           R 1.0
+PortGroup           legacysupport 1.1
 
-R.setup             cran duckdb duckdb 0.9.1-1
+# _SC_PHYS_PAGES
+legacysupport.newest_darwin_requires_legacy 15
+
+R.setup             cran duckdb duckdb 1.0.0-1
 revision            0
 categories-append   databases
 maintainers         nomaintainer
@@ -11,27 +15,43 @@ license             MIT
 description         DBI package for the DuckDB database management system
 long_description    {*}${description}
 homepage            https://github.com/duckdb/duckdb-r
-checksums           rmd160  0da7d329c5360b570495040eca68ac17701a210c \
-                    sha256  1e6970446253ff3a25e7d0038cdc632f25ee5d45de1d9e3fa4026f1c65141967 \
-                    size    3759217
+checksums           rmd160  eb62a83d8e04c981bf7e779fddd9cf833480ca0f \
+                    sha256  987edcdcae91dcbc9d554f039425cd23b6e5787e7681f311c9966926744d4ca9 \
+                    size    4400667
 
 depends_lib-append  port:R-DBI
 
 compiler.cxx_standard 2017
 
-# Until this is resolved: https://github.com/r-dbi/DBItest/issues/299
-patchfiles          patch-no-DBItest.diff
+if {${os.platform} eq "darwin" && ${os.major} < 16} {
+    patchfiles-append   patch-Makevars.diff
 
-# https://github.com/duckdb/duckdb/issues/7009
-if {[string match macports-gcc* ${configure.compiler}] && (${configure.build_arch} in [list i386 ppc])} {
-    patchfiles-append \
-                    patch-libatomic.diff
+    post-patch {
+        # https://github.com/duckdb/duckdb/issues/7009
+        if {[string match macports-gcc* ${configure.compiler}] && (${configure.build_arch} in [list i386 ppc])} {
+            reinplace "s|@ATOMIC@|-latomic|" ${worksrcpath}/src/Makevars
+        } else {
+            reinplace "s|@ATOMIC@||" ${worksrcpath}/src/Makevars
+        }
+
+        # https://trac.macports.org/ticket/69902
+        # On 10.6 and earlier LegacySupport is already used,
+        # no need in duplicate flags.
+        if {${os.major} > 10} {
+            reinplace "s|@LEGACY_INC@|-isystem${prefix}/include/LegacySupport|" ${worksrcpath}/src/Makevars
+            reinplace "s|@LEGACY_LFLAG@|-L${prefix}/lib -lMacportsLegacySupport|" ${worksrcpath}/src/Makevars
+        } else {
+            reinplace "s|@LEGACY_INC@||" ${worksrcpath}/src/Makevars
+            reinplace "s|@LEGACY_LFLAG@||" ${worksrcpath}/src/Makevars
+        }
+    }
 }
 
 depends_test-append port:R-adbcdrivermanager \
                     port:R-arrow \
                     port:R-bit64 \
                     port:R-callr \
+                    port:R-DBItest \
                     port:R-dbplyr \
                     port:R-dplyr \
                     port:R-rlang \
@@ -42,4 +62,5 @@ depends_test-append port:R-adbcdrivermanager \
 
 # FIXME: some functionality for Big-endian platforms is missing, see:
 # https://github.com/duckdblabs/duckplyr/issues/51
-test.run            no
+# Upstream not interested to fix it: https://github.com/duckdb/duckdb/issues/9714
+test.run            yes

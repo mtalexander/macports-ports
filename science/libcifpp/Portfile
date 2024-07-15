@@ -6,7 +6,7 @@ PortGroup           cmake 1.1
 PortGroup           compiler_blacklist_versions 1.0
 PortGroup           legacysupport 1.1
 
-github.setup        PDB-REDO libcifpp 5.2.2 v
+github.setup        PDB-REDO libcifpp 7.0.0 v
 github.tarball_from archive
 revision            0
 
@@ -17,9 +17,9 @@ maintainers         {reneeotten @reneeotten} openmaintainer
 description         Library containing code to manipulate mmCIF and PDB files
 long_description    {*}${description}
 
-checksums           rmd160  3a239ec4454f206c862c0dc7d74b6f768d18865e \
-                    sha256  a00e239fb04a3f1b5c13a0d397a68d5c1c408d3ab3580f8f7d94369c7b55ca98 \
-                    size    2277238
+checksums           rmd160  9bb4651883583e500eb7b9fd79c8d6fc59b5aacb \
+                    sha256  af44e3b577563468b9273b47868e4d1afbaa89676c1b1c7b9d4b410632bf2968 \
+                    size    2600059
 
 # Needed for std::filesystem
 legacysupport.newest_darwin_requires_legacy 18

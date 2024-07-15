@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                CImg
-version             3.3.1
+version             3.3.5
 categories          devel
 platforms           any
 maintainers         yandex.com:bstj openmaintainer
@@ -21,9 +21,9 @@ use_zip             yes
 
 distfiles           CImg_${version}.zip
 
-checksums           rmd160  2fb6f7e8769b93eb97557135f2ee766917c430dd \
-                    sha256  a0a6a8ea14c27edce0ac6571d94fa06f9d2b81e3b8774c4acc906d139f157280 \
-                    size    3278025
+checksums           rmd160  d7d657c63a967005478cf8559afe0168bfe3e0e8 \
+                    sha256  c7268c270e3b93730a3eaf5738250a1b1efb0866bd57409786d750f7f4be7705 \
+                    size    3283026
 
 use_configure       no
 

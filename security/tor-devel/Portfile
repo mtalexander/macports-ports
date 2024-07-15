@@ -6,7 +6,7 @@ PortGroup           openssl 1.0
 
 name                tor-devel
 conflicts           tor
-version             0.4.8.7
+version             0.4.8.11
 revision            0
 categories          security net
 maintainers         nomaintainer
@@ -27,9 +27,9 @@ master_sites        https://dist.torproject.org/
 set real_name       tor
 
 distname            ${real_name}-${version}
-checksums           rmd160  1ba0490fbb453e18ae6aad7a7ef7fd5587b12a43 \
-                    sha256  b20d2b9c74db28a00c07f090ee5b0241b2b684f3afdecccc6b8008931c557491 \
-                    size    8322562
+checksums           rmd160  ab765e465a833cf91b50244928b059e7de65b2f8 \
+                    sha256  8f2bdf90e63380781235aa7d604e159570f283ecee674670873d8bb7052c8e07 \
+                    size    9690074
 
 depends_lib-append  port:libevent \
                     port:zlib

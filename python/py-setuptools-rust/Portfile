@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-setuptools-rust
-version             1.8.0
+version             1.9.0
 revision            0
 categories-append   devel
 license             MIT
@@ -21,9 +21,9 @@ long_description    {*}${description}
 
 homepage            https://github.com/PyO3/setuptools-rust
 
-checksums           rmd160  45ed7796b700e4b5289c39959e89958a4608e9c0 \
-                    sha256  5e02b7a80058853bf64127314f6b97d0efed11e08b94c88ca639a20976f6adc4 \
-                    size    311435
+checksums           rmd160  beb5e144f28cfdd406e08f7dd0801a642e3ae13a \
+                    sha256  704df0948f2e4cc60c2596ad6e840ea679f4f43e58ed4ad0c1857807240eab96 \
+                    size    311733
 
 if {${name} ne ${subport}} {
 

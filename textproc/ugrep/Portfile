@@ -5,7 +5,7 @@ PortGroup           github 1.0
 PortGroup           compiler_blacklist_versions 1.0
 PortGroup           legacysupport 1.1
 
-github.setup        Genivia ugrep 4.3.1 v
+github.setup        Genivia ugrep 6.2.0 v
 github.tarball_from archive
 revision            0
 
@@ -14,13 +14,13 @@ license             BSD
 maintainers         {reneeotten @reneeotten} openmaintainer
 
 description         ultra fast grep with interactive query UI and fuzzy search
-long_description    ${description}: search file systems, source code, text, \
+long_description    {*}${description}: search file systems, source code, text, \
                     binary files, archives (cpio/tar/pax/zip), compressed files \
                     (gz/Z/bz2/lzma/xz/lz4/zstd), documents and more.
 
-checksums           rmd160  f8f6c8c103d03bd1e3b74df14b8cba6b7ddd5ec0 \
-                    sha256  eaefcf39954626702503c22c436c2938ba5ca4ec74c569ea8c72e72e5ffb45fe \
-                    size    4573441
+checksums           rmd160  1efa08302b515a88200edb365b67adabb6216dbb \
+                    sha256  e7b54e8e7d2d9058167269673fd783651071ba1ace547cf6c926b833607d2e1b \
+                    size    7024025
 
 compiler.cxx_standard 2011
 
@@ -47,13 +47,15 @@ configure.args      --disable-silent-rules \
                     --with-lzma=${prefix} \
                     --with-lz4=${prefix} \
                     --with-zstd=${prefix} \
-                    --disable-avx \
+                    --without-brotli \
+                    --without-bzip3 \
+                    --disable-avx2 \
                     --disable-sse2 \
                     --disable-neon
 
 variant native description {Enable CPU-specific optimizations} {
     configure.args-delete \
-                    --disable-avx \
+                    --disable-avx2 \
                     --disable-sse2 \
                     --disable-neon
 }

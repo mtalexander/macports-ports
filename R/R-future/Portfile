@@ -3,18 +3,19 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github HenrikBengtsson future 1.33.0
-revision            0
-categories-append   devel
+R.setup             github HenrikBengtsson future 1.33.2
+revision            1
+categories-append   devel parallel
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
-license             {LGPL-2.1 LGPL-3}
-description         Unified parallel and distributed processing in R for everyone.
-long_description    {*}${description}
+license             LGPL-2.1+
+description         Unified parallel and distributed processing in R
+long_description    {*}${description} for everyone.
 homepage            https://future.futureverse.org
-checksums           rmd160  b7c32b620a964b985976c71cdcc368a14b859395 \
-                    sha256  cf3add660b3dacf9ba7d839cb47a8f6a8854c0482ca5501562ca9aebafc3db04 \
-                    size    426768
+checksums           rmd160  e9f4c175f112a5aedc8d16f77da22e9369664311 \
+                    sha256  0e95f6ffd5bbea792d01de9a63589f3ec85ddc1e9261727b0c1d160450e4c654 \
+                    size    427944
 supported_archs     noarch
+platforms           {darwin any}
 
 depends_lib-append  port:R-digest \
                     port:R-globals \

@@ -10,12 +10,12 @@ PortGroup           openssl 1.0
 
 boost.version       1.81
 
-github.setup        facebook fb303 2023.05.15.00 v
+github.setup        facebook fb303 2024.06.03.00 v
 epoch               1
-revision            2
-checksums           rmd160  b85ccd3043de74b3486e3c1d7c86f9834ec8db10 \
-                    sha256  8aba581414461149e5be21f2d7ee40f7e6c62922a23c73524bf2e7d677aac355 \
-                    size    243377
+revision            0
+checksums           rmd160  97aa489c1b4ceb3372946e589dc1058c788133ec \
+                    sha256  a77a002183576d7255fc6e6f3a55df4eaf7ae0ea5a4065a241e20f30d3708fcd \
+                    size    283872
 
 categories          devel
 license             Apache-2
@@ -27,7 +27,7 @@ long_description    {*}${description}
 
 github.tarball_from archive
 
-set port_libfmt     libfmt9
+set port_libfmt     libfmt10
 cmake.module_path-append \
                     ${prefix}/lib/${port_libfmt}/cmake
 
@@ -67,16 +67,20 @@ if {[string match *clang* ${configure.compiler}]} {
     legacysupport.use_mp_libcxx yes
 }
 
-platform darwin {
-    if {[string match *gcc* ${configure.compiler}]} {
-        configure.ldflags-append \
-                            -latomic
-    }
+# platform darwin {
+    # The following does not seem to be needed anymore.
+    # Possibly, has been fixed in GCC. Yet, retain the block for now.
     # Fixes alignment-related static assert failures on PPC:
-    if {${build_arch} in [list ppc ppc64]} {
-        configure.cflags-append \
-                            -malign-natural
-        configure.cxxflags-append \
-                            -malign-natural
-    }
+    #   if {${build_arch} in [list ppc ppc64]} {
+    #       configure.cflags-append \
+    #                       -malign-natural
+    #       configure.cxxflags-append \
+    #                       -malign-natural
+    #   }
+# }
+
+if {[string match *gcc* ${configure.compiler}] \
+    && (${configure.build_arch} in [list i386 ppc])} {
+    configure.ldflags-append \
+                            -latomic
 }

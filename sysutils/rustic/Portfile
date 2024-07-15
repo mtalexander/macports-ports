@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cargo   1.0
 PortGroup           github  1.0
 
-github.setup        rustic-rs rustic 0.6.0 v
+github.setup        rustic-rs rustic 0.7.0 v
 github.tarball_from archive
 revision            0
 
@@ -23,9 +23,9 @@ maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
 checksums           ${distname}${extract.suffix} \
-                    rmd160  40f983c4d3e6608021986e89d10cfc0973e8091e \
-                    sha256  923089989f471a42ce2da787c3c766c2d8408c534fed89242f7ac082bd46e438 \
-                    size    127012
+                    rmd160  cb3f933b1cdd8ed1fec2da8de4061b44a640c41c \
+                    sha256  8fb1d80cc3333376a85f79d062bdc0e074e2f50e0b2e89c95907102100f0d277 \
+                    size    141415
 
 build.pre_args-delete \
                     --offline --frozen

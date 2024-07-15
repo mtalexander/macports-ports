@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github r-dbi RSQLite 2.3.2.9005 v
+R.setup             github r-dbi RSQLite 2.3.7.9005 v
 revision            0
 categories-append   databases
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
@@ -11,9 +11,10 @@ license             LGPL-2.1+
 description         SQLite interface for R
 long_description    {*}${description}
 homepage            https://rsqlite.r-dbi.org
-checksums           rmd160  0414ece570caa274c9a5c12d6dfe43e794791f5d \
-                    sha256  9b5a1913d44a85a4eff8ffa8bf6f3ee1126dcaf9acf1742d07f1fac7e072dabc \
-                    size    4160168
+checksums           rmd160  a707be52ab022ce193f316f086eca93e61dce3a4 \
+                    sha256  b484ad44bbbd2189e280c8bababc531d752f0c04a28bf220951c0c97886c548d \
+                    size    4232093
+github.tarball_from archive
 
 depends_lib-append  port:R-bit64 \
                     port:R-blob \
@@ -23,9 +24,8 @@ depends_lib-append  port:R-bit64 \
                     port:R-pkgconfig \
                     port:R-plogr
 
-patchfiles          patch-no-DBItest.diff
-
 depends_test-append port:R-callr \
+                    port:R-DBItest \
                     port:R-gert \
                     port:R-gh \
                     port:R-hms \
@@ -37,8 +37,4 @@ depends_test-append port:R-callr \
                     port:R-withr \
                     port:R-xml2
 
-# Notice that tests will fail now due to missing R-DBItest,
-# which in turn depends on a broken package.
-# See: https://github.com/r-dbi/DBItest/issues/299
-# Code from vignettes runs fine.
 test.run            yes

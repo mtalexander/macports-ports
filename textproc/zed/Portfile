@@ -3,7 +3,8 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/brimdata/zed 1.10.0 v
+go.setup            github.com/brimdata/zed 1.16.0 v
+go.offline_build    no
 github.tarball_from archive
 revision            0
 
@@ -27,12 +28,9 @@ license             BSD
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  754eef5782c15254f160912a3e7bd5af0f85eb3d \
-                    sha256  2b34c83f2a032caf9eaead4f1d6013f0a5ecf40593fa70ebaed9e7390f0873a3 \
-                    size    6209372
-
-# Allow Go to fetch dependencies at build time
-go.offline_build no
+checksums           rmd160  9cdc859931b76a457bb23dab0b6d34b0fe392fdf \
+                    sha256  2e36050fceea6a6c86271289dd35af49c09d3570a9f6dd8f516d474dd3e1b9b3 \
+                    size    6180692
 
 build.cmd           make
 build.pre_args-append \

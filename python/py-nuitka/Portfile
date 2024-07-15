@@ -5,15 +5,14 @@ PortGroup           python 1.0
 
 name                py-nuitka
 python.rootname     Nuitka
-version             1.7.9
+version             2.3.6
 revision            0
 categories-append   devel
 platforms           {darwin any}
 license             Apache-2
 supported_archs     noarch
 
-python.versions     37 38 39 310 311
-python.pep517       yes
+python.versions     38 39 310 311
 
 maintainers         {stromnov @stromnov} openmaintainer
 
@@ -22,6 +21,11 @@ long_description    ${description}
 
 homepage            http://nuitka.net/
 
-checksums           rmd160  b83d1206a6501b5901136564c4ae9ffba5507dfb \
-                    sha256  f910c95bb3406930b8ccbc3eba6a7874a0d4fdfe05adccbaa130ef82efeafbb1 \
-                    size    4288768
+checksums           rmd160  fc34fa89294021d6f656b690da930616354af144 \
+                    sha256  6aeb3a7f3e4a972ec7f1c1bc80ef6fd0914a81a8f7027cb21f9b9ef46d6d4be8 \
+                    size    3700433
+
+if {${name} ne ${subport}} {
+    depends_lib-append  port:py${python.version}-ordered-set \
+                        port:py${python.version}-zstd
+}

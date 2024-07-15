@@ -4,11 +4,11 @@ PortSystem          1.0
 PortGroup           apache2 1.0
 
 name                apache2
-version             2.4.58
+version             2.4.61
 revision            0
-checksums           rmd160  0d12a1750b92fbae503f19e6644b3edf0f6a29ec \
-                    sha256  fa16d72a078210a54c47dd5bef2f8b9b8a01d94909a51453956b3ec6442ea4c5 \
-                    size    7485817
+checksums           rmd160  f4871417ef33c6493c031a0a2671b2c6609fca44 \
+                    sha256  ea8ba86fd95bd594d15e46d25ac5bbda82ae0c9122ad93998cc539c133eaceb6 \
+                    size    7512908
 
 categories          www
 maintainers         {ryandesign @ryandesign} {mps @Schamschula} openmaintainer
@@ -35,7 +35,7 @@ depends_lib         port:apr \
                     port:perl5 \
                     port:zlib
 
-patch.pre_args      -p1
+patch.pre_args-replace  -p0 -p1
 patchfiles          patch-build-rules.mk.in.diff \
                     patch-config.layout.diff \
                     patch-support-apxs.in.diff \

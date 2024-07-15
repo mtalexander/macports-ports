@@ -3,19 +3,19 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-# Revert to GitHub once updated there.
-R.setup             cran paul-buerkner brms 2.20.4
-revision            0
+R.setup             cran paul-buerkner brms 2.21.0
+revision            1
 categories-append   math economics
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             GPL-2
 description         Bayesian applied regression modeling via Stan
 long_description    {*}${description}
 homepage            https://paul-buerkner.github.io/brms
-checksums           rmd160  ad6e6b9aecc2fea1b8c14d06180ba77edae81f8e \
-                    sha256  00a6f3ea690c4e6b3e645e0a366d8a93c9bd51151b9376d01011ab95e332072f \
-                    size    4652657
+checksums           rmd160  bb6b34df7ec7062f2ce212852aa59fe04da9ecec \
+                    sha256  7289ff33c2a4b83584b7fece0a6aa53fd14b5881a467d417fbca5dbf62ec5d58 \
+                    size    4922418
 supported_archs     noarch
+platforms           {darwin any}
 
 depends_lib-append  port:R-abind \
                     port:R-backports \
@@ -23,6 +23,7 @@ depends_lib-append  port:R-abind \
                     port:R-bridgesampling \
                     port:R-coda \
                     port:R-future \
+                    port:R-future.apply \
                     port:R-ggplot2 \
                     port:R-glue \
                     port:R-loo \

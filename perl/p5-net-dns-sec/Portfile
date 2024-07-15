@@ -4,8 +4,8 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 
 perl5.branches      5.28 5.30 5.32 5.34
-perl5.setup         Net-DNS-SEC 1.22 ../../authors/id/N/NL/NLNETLABS
-revision            1
+perl5.setup         Net-DNS-SEC 1.24 ../../authors/id/N/NL/NLNETLABS
+revision            0
 license             MIT
 maintainers         {devans @dbevans} openmaintainer
 description         Perl interface for DNSSEC resource records
@@ -17,9 +17,9 @@ long_description    The Net::DSN::SEC suite provides the resource records \
 
 platforms           darwin
 
-checksums           rmd160  dbee1556b886cb27965fd0bfaa15ab13fa217e35 \
-                    sha256  b64641a8eca72ee1866a1ebb5f9a001508268501a7c821addb0322f2a7afa9b0 \
-                    size    44899
+checksums           rmd160  497b3282a5028bc764cc5aab28c737329b0570b3 \
+                    sha256  e700e785b1d12426c30a0eb54ba5a51204676468f5e85244001d7dcad70bb41e \
+                    size    45765
 
 if {${perl5.major} != ""} {
     depends_lib-append \

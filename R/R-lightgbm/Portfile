@@ -3,16 +3,17 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran Microsoft lightgbm 3.3.5
+R.setup             cran Microsoft lightgbm 4.4.0
 revision            0
 categories-append   math
 maintainers         nomaintainer
 license             MIT
 description         Light Gradient Boosting Machine
 long_description    {*}${description}
-checksums           rmd160  e327edb8dff2089cde7b80a300ec62f7eab13473 \
-                    sha256  309f7d1575ec1f935ecd2716b3541dbc993357b51ffee65c685322a2e27bdfae \
-                    size    1487860
+homepage            https://github.com/Microsoft/LightGBM
+checksums           rmd160  952f9d3ecf5c420e70eb79fbee92fa0ae46fe9d2 \
+                    sha256  c1e91202a1b5eb2088c54382bb1a89d7901d6ddad4fca1448926c43946ae5d20 \
+                    size    1723281
 
 # OpenMP detected is broken: https://github.com/fabsig/GPBoost/issues/95
 # Also it uses an outdated Eigen with yet unfixed Altivec headers.
@@ -24,7 +25,12 @@ depends_lib-append  port:R-data.table \
                     port:R-jsonlite \
                     port:R-R6
 
-depends_test-append port:R-testthat
+compiler.cxx_standard 2017
+
+depends_test-append port:R-knitr \
+                    port:R-RhpcBLASctl \
+                    port:R-rmarkdown \
+                    port:R-testthat
 
 test.run            yes
 

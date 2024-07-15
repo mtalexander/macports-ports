@@ -3,16 +3,18 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran kaifenglu eventPred 0.2.1
-revision            0
+R.setup             cran kaifenglu eventPred 0.2.5
+revision            1
 maintainers         nomaintainer
 license             GPL-2+
 description         Event Prediction
 long_description    {*}${description}
-checksums           rmd160  adebcb066c3a7fb70176fc2a7593064dfe3d291f \
-                    sha256  f1c12951ca9b10af44c3e60825e2b7834662ec85d3071902a5c95d2f1619407d \
-                    size    52025
+homepage            https://github.com/kaifenglu/eventPred
+checksums           rmd160  ee0ae2299db12d12654979c0b48fc4baf8a3fb2d \
+                    sha256  8eedf99e4a44de6ff4e9eb9d7b689dba16499424898aaa76b777a8a91230f4fe \
+                    size    382638
 supported_archs     noarch
+platforms           {darwin any}
 
 depends_lib-append  port:R-dplyr \
                     port:R-erify \
@@ -22,6 +24,11 @@ depends_lib-append  port:R-dplyr \
                     port:R-plotly \
                     port:R-rlang \
                     port:R-rstpm2 \
+                    port:R-shiny \
                     port:R-tmvtnsim
+
+depends_test-append port:R-knitr \
+                    port:R-rmarkdown \
+                    port:R-testthat 
 
 test.run            yes

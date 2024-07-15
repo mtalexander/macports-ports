@@ -3,17 +3,19 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-# Revert to GitHub once updated there.
-R.setup             cran r-lib evaluate 0.22
+R.setup             github r-lib evaluate 0.24.0 v
 revision            0
 categories-append   devel
+platforms           {darwin any}
 maintainers         nomaintainer
 license             MIT
-description         A version of eval for R that returns more information about what happened
+description         A version of eval for R that returns \
+                    more information about what happened
 long_description    {*}${description}
-checksums           rmd160  6e22cbac5655f7170fbf33aa0d55832b53ef117b \
-                    sha256  9047d8732f14677b512d2b00dc6afbdfd579e3735f35ae746a2b2ff26bfce46b \
-                    size    35644
+homepage            https://evaluate.r-lib.org
+checksums           rmd160  ee5d83ecf27c67e168a0a54feac8409117005bc5 \
+                    sha256  edda9120f680953bd9530cc1ed322bbd37043878e330ec85e4725b238e7f823e \
+                    size    33060
 supported_archs     noarch
 
 depends_test-append port:R-covr \

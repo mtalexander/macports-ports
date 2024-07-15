@@ -3,20 +3,22 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran cran SparseM 1.81
-revision            1
-categories-append   math
+R.setup             cran rkoenker SparseM 1.84
+revision            0
+categories-append   math economics
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
-license             {GPL-2 GPL-3}
+license             GPL-2+
 description         Sparse Linear Algebra
 long_description    Some basic linear algebra functionality for sparse matrices \
                     is provided: including Cholesky decomposition and backsolving \
                     as well as standard R subsetting and Kronecker products.
 homepage            http://www.econ.uiuc.edu/~roger/research/sparse/sparse.html
-checksums           rmd160  009c27b4a622bff3ea5a282bd92c7deaa70bcbcf \
-                    sha256  bd838f381ace680fa38508ff70b3d83cb9ffa28ac1ab568509249bca53c34b33 \
-                    size    735100
+checksums           rmd160  25cb0e457a78fa6563f9b305e1159e00759bd412 \
+                    sha256  76f996e070415d0490dd1d2160dca14827d22ceb77c06435ad3ab5404d90fd16 \
+                    size    607201
 
 compilers.setup     require_fortran
+
+depends_test-append port:R-knitr
 
 test.run            yes

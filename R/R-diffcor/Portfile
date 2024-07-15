@@ -3,16 +3,17 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran cran diffcor 0.8.1
+R.setup             cran c.bloetner diffcor 0.8.3
 revision            0
 categories-append   math
 maintainers         nomaintainer
 license             GPL-2+
 description         Fisher’s z-tests concerning difference of correlations
 long_description    {*}${description}
-checksums           rmd160  417bca1ed91142ca6f5bd995ffded488baf81119 \
-                    sha256  d460e353637117e7e4d1a3b6550388c2ae138a222515d822e993f59e9f4da192 \
-                    size    7834
+checksums           rmd160  c986c5d178dd88b0f6172248290f17634b6e96e6 \
+                    sha256  455e2c42dc325dbf09132ae0ec68948d1612437256f49688f83015880a60b064 \
+                    size    8644
 supported_archs     noarch
+platforms           {darwin any}
 
 test.run            yes

@@ -9,18 +9,18 @@ PortGroup           legacysupport 1.1
 # strndup
 legacysupport.newest_darwin_requires_legacy 10
 
-github.setup        Softmotions iowow 0195d5e8e39fbb521e532c68166f1addc2c21c66
-version             2023.10.26
+github.setup        Softmotions iowow 1.4.18 v
 revision            0
+epoch               1
 categories          databases devel
 license             MIT
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 description         C11 utility library and persistent key/value storage engine
 long_description    {*}${description}
 homepage            https://iowow.softmotions.com
-checksums           rmd160  bb469fad1eec277a1a0d58f2ed1df58f95ca683f \
-                    sha256  72c960b72c4e11237685cb5dd89580dd6bba29d80a36464b90ac9a3d0e62313c \
-                    size    623635
+checksums           rmd160  82f5e5fa0af526b153bbe38af9ad570219e86001 \
+                    sha256  ef4ee56dd77ce326fff25b6f41e7d78303322cca3f11cf5683ce9abfda34faf9 \
+                    size    629208
 github.tarball_from archive
 
 depends_build-append \
@@ -34,7 +34,7 @@ configure.args-append \
                     -DBUILD_TESTS:BOOL=ON
 
 # https://github.com/Softmotions/iowow/issues/53
-if {[string match *gcc* ${configure.compiler}]} {
+if {[string match *gcc* ${configure.compiler}] && ${configure.build_arch} in [list arm i386 ppc]} {
     configure.ldflags-append \
                     -latomic
 }

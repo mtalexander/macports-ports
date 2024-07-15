@@ -5,8 +5,8 @@ PortGroup                       cmake 1.1
 PortGroup                       github 1.0
 PortGroup                       muniversal 1.1
 
-github.setup                    ampl asl e8dbf110a1f0f4241e0e5480071b3e3d830a723a
-version                         20230901
+github.setup                    ampl asl 2473f4e3906d5028f3632d518280c190ae131a10
+version                         20231117
 revision                        0
 
 categories                      math
@@ -17,9 +17,9 @@ license                         BSD
 description                     ASL is A Modeling Language for Mathematical Programming (AMPL) Solver Library
 long_description                {*}${description}.
 
-checksums                       rmd160  c97f710f86a40b811ee4225b1104a2432873ac66 \
-                                sha256  06cb981da223ce84fbfb1f509ac62af65c65abc8c197af7065f8ef1ca698d20f \
-                                size    1575917
+checksums                       rmd160  fe02259972520f928352f4b52044e9c106054994 \
+                                sha256  406e2ece81ed9648e7a5e7e1886d9c366ef0edc28e1359d95825992eb11df5c7 \
+                                size    1614668
 
 configure.args-append           -DBUILD_SHARED_LIBS=ON \
                                 -DBUILD_CPP=ON

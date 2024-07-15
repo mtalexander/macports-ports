@@ -6,9 +6,9 @@ name             openjdk21-corretto
 categories       java devel
 maintainers      {breun.nl:nils @breun} openmaintainer
 
-# See https://github.com/corretto/corretto-21/blob/release-21.0.1.12.1/CHANGELOG.md
+# See https://aws.amazon.com/corretto/faqs/#Using_Amazon_Corretto
 # and https://trac.macports.org/wiki/PortfileRecipes#compare-osx-darwin-version
-platforms        {darwin any} {darwin >= 20}
+platforms        {darwin any} {darwin >= 21}
 
 # This port uses prebuilt binaries; 'NoMirror' makes sure MacPorts doesn't mirror/distribute these third-party binaries
 license          GPL-2 NoMirror
@@ -19,7 +19,7 @@ universal_variant no
 supported_archs  x86_64 arm64
 
 # https://github.com/corretto/corretto-21/releases
-version      21.0.1.12.1
+version      21.0.3.9.1
 revision     0
 
 description  Amazon Corretto OpenJDK 21 (Long Term Support)
@@ -29,14 +29,14 @@ master_sites https://corretto.aws/downloads/resources/${version}/
 
 if {${configure.build_arch} eq "x86_64"} {
     distname     amazon-corretto-${version}-macosx-x64
-    checksums    rmd160  191a6fcd2423674560c580a343472fcf19ee8d2a \
-                 sha256  cafff566097c6f440afe5aac6e268073d8b5ceadcf7898eeb364753d00743074 \
-                 size    202914841
+    checksums    rmd160  1860b8b8a6a9f7dd4a24378a8e6428b73635e880 \
+                 sha256  2c6497ced7b926d584243d512b3732a345eb1b5afefd416e6588c33a43c0fa70 \
+                 size    203301232
 } elseif {${configure.build_arch} eq "arm64"} {
     distname     amazon-corretto-${version}-macosx-aarch64
-    checksums    rmd160  0f0628ac3cc80773524b600784634d3416a52844 \
-                 sha256  0c4e08fc4b7c0c887651a97f315d6995eeac38627eb7bca0cb3c698d21af349f \
-                 size    200716011
+    checksums    rmd160  f027aa44a007636b82502abc8fd94aebf96e626f \
+                 sha256  db1df7a3fe5d481a2ec52ea3c12b51ba7e9121cdb3dd39e0cf7bc77fba88cd98 \
+                 size    201107917
 }
 
 worksrcdir   amazon-corretto-21.jdk

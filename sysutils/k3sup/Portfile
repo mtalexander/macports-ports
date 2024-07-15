@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/alexellis/k3sup 0.13.3
+go.setup            github.com/alexellis/k3sup 0.13.6
 go.offline_build    no
 github.tarball_from archive
 revision            0
@@ -23,9 +23,9 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  74e07cb9b8002555a23e3dc11636d2639d61565b \
-                    sha256  1dc2bc4be04454a42f775929fbcd2e49c5b0478b3336b86ad906323154fae46d \
-                    size    2791922
+checksums           rmd160  8be33d194d82743391a318dc6832faaa5727bcc9 \
+                    sha256  59df97a81aba5bf13836b543497722d9a89a07dd906c831d86d6feaa2174a5eb \
+                    size    2774354
 
 patchfiles          patch-Makefile.diff
 

@@ -3,17 +3,19 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github spsanderson TidyDensity 1.2.6 v
+R.setup             github spsanderson TidyDensity 1.5.0 v
 revision            0
 categories-append   math
 maintainers         nomaintainer
 license             MIT
 description         Functions for tidy analysis and generation of random data
 long_description    {*}${description}
-checksums           rmd160  3b3557a0575de7f0e130c14f39681ffd9cd21520 \
-                    sha256  667dd7033c4892ed560b51c42aa394d3e46b1619062022553475f1976a0fee71 \
-                    size    11243591
+checksums           rmd160  245868b6dd2186a0df258aad13a85c770c5e9a4c \
+                    sha256  9d0df8df23a49df4e6b104236171953a63e8a244f2d50f6913e96a06fda63a5b \
+                    size    16211936
+github.tarball_from archive
 supported_archs     noarch
+platforms           {darwin any}
 
 depends_lib-append  port:R-actuar \
                     port:R-broom \
@@ -31,7 +33,6 @@ depends_lib-append  port:R-actuar \
 
 depends_test-append port:R-EnvStats \
                     port:R-knitr \
-                    port:R-rmarkdown \
-                    port:R-roxygen2
+                    port:R-rmarkdown
 
 test.run            yes

@@ -4,8 +4,8 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 
 perl5.branches      5.28 5.30 5.32 5.34
-perl5.setup         Finance-Quote 1.60 ../../authors/id/B/BP/BPSCHUCK
-revision            1
+perl5.setup         Finance-Quote 1.62 ../../authors/id/B/BP/BPSCHUCK
+revision            0
 license             GPL-2+
 maintainers         nomaintainer
 description         Perl module that allows for grabbing stock quotes.
@@ -16,11 +16,9 @@ long_description    Finance::Quote is a perl module which can be used to \
 platforms           {darwin any}
 supported_archs     noarch
 
-checksums           rmd160  9ee60f61fdd4b0de1db4b43b10f62a7447b1e1e8 \
-                    sha256  517ad840dbce8737558e7331349fdf6bb279bbbb0ca1b57edd237b4f98d5c37e \
-                    size    267746
-
-# patchfiles          yahooweb.patch
+checksums           rmd160  bc992ec360db9d01efb57d8bf24993adbca755ac \
+                    sha256  0d3133b0bf3d779582c566850d577f2bbe8e1acbd11497831cd43d8f31606482 \
+                    size    267597
 
 if {${perl5.major} != ""} {
     depends_build-append  \
@@ -56,4 +54,6 @@ if {${perl5.major} != ""} {
                     port:p${perl5.major}-try-tiny \
                     port:p${perl5.major}-web-scraper \
                     port:p${perl5.major}-xml-libxml
+
+    test.env-append ONLINE_TEST=1
 }

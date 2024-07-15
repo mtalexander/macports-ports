@@ -3,17 +3,17 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran JosephPark rEDM 1.15.0
-revision            0
+R.setup             cran JosephPark rEDM 1.15.4
+revision            1
 categories-append   math
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             BSD
 description         Empirical Dynamic Modelling
 long_description    An implementation of EDM algorithms based on research software \
                     developed for internal use at the Sugihara Lab.
-checksums           rmd160  eea388f0e86865eba04e54dad0850492af1a0129 \
-                    sha256  8e1227a719b3f3c32926b784deb98f5162a095aa30e437652bd2468a1d5776d5 \
-                    size    2012114
+checksums           rmd160  7a857d04526d0fca804c9fdd339a1da51319c8b6 \
+                    sha256  5317ba1ed09f03293e9ce6fb48445931b6bfc6f9f613f8a5392983538d6a55c0 \
+                    size    2014570
 
 depends_lib-append  port:R-Rcpp \
                     port:R-RcppThread

@@ -3,8 +3,9 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/zricethezav/gitleaks 8.18.0 v
+go.setup            github.com/zricethezav/gitleaks 8.18.4 v
 go.package          github.com/zricethezav/gitleaks/v8
+go.offline_build    no
 github.tarball_from archive
 revision            0
 epoch               1
@@ -24,12 +25,9 @@ license             MIT
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  dc4a17c1b266c09ab9392454944035ecd85a874e \
-                    sha256  dedbfd01223d162c62fb1f271cd25cf48869ea40adcc12b90fc2939d55b27612 \
-                    size    135754
-
-# allow Go to fetch dependencies at build time
-go.offline_build no
+checksums           rmd160  cd7e5574361393c96618acb67e4af1c251034f52 \
+                    sha256  68829e1dcb6bf412f04354070187947896af78c1f0fbe7f697eda18417f214ad \
+                    size    164813
 
 build.cmd           make
 build.pre_args-append \

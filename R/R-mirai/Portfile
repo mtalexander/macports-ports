@@ -3,22 +3,25 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github shikokuchuo mirai 0.11.0 v
+R.setup             github shikokuchuo mirai 1.1.1 v
 revision            0
 categories-append   devel
+platforms           {darwin any}
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             GPL-3+
 description         Minimalist async evaluation framework for R
 long_description    {*}${description}
 homepage            https://shikokuchuo.net/mirai
-checksums           rmd160  03a4201ba4723349bb5cf3e4ff3bf6891edc53eb \
-                    sha256  63f8afeca7dd491bc2e57ab34cb4844781a332725830928f54ff48e182404de5 \
-                    size    133082
+checksums           rmd160  8c35bc2f9ecd560b18e61a87b6d4cc748216ea6f \
+                    sha256  e2abd3ec53ca9eb8f9560ce969dc73d9556f2ce89b9d9382a8e68c21ada9e120 \
+                    size    170428
+github.tarball_from archive
 supported_archs     noarch
 
 depends_lib-append  port:R-nanonext
 
 depends_test-append port:R-knitr \
-                    port:R-rmarkdown
+                    port:R-markdown \
+                    port:R-promises
 
 test.run            yes

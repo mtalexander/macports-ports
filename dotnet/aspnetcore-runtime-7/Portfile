@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                aspnetcore-runtime-7
-version             7.0.13
+version             7.0.20
 revision            0
 categories          dotnet
 license             MIT
@@ -20,21 +20,21 @@ long_description    .NET is a free, cross-platform, open source developer platfo
                     to build for web, mobile, desktop, games, and IoT.
 
 homepage            https://dotnet.microsoft.com/
-platforms           darwin
+platforms           {darwin any} {darwin >= 19}
 supported_archs     x86_64 arm64
 
 switch ${build_arch} {
     x86_64 {
         distname            aspnetcore-runtime-${version}-osx-x64
-        checksums           rmd160  90a6c10cb32f4997696409c5bf94185d79c44481 \
-                            sha256  57bbc50410abbf7410d256490b7e5fb73400ba1273a977d1504db75492146048 \
-                            size    40581403
+        checksums           rmd160  3d4748945ead60e1599f10c1a193d6dd5f8120a4 \
+                            sha256  121651b2f1693dd6788b97b6b7add947340a5789ee54b007c1325c469ba997ac \
+                            size    40585609
     }
     arm64 {
         distname            aspnetcore-runtime-${version}-osx-arm64
-        checksums           rmd160  c37b43bf82b9f65222f50a2b7cc82a79abc15fb2 \
-                            sha256  05ac90128eb39a25f6e4dba0ccea97a19b819c095d158eea46ae5ee2d94c6636 \
-                            size    38653000
+        checksums           rmd160  3d0128b50fcf35557df6afebfad1f20ec2804fe2 \
+                            sha256  d51b63897bf785b6a511dc2fc1c9f7e580a4ab3ed401b482c7859b1ab0da0f09 \
+                            size    38659431
     }
     default {
         known_fail yes

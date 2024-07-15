@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                logtalk
-version             3.71.0
+version             3.80.0
 revision            0
 
 categories          lang
@@ -31,9 +31,9 @@ long_description    Logtalk is an object-oriented logic programming language tha
 homepage            https://logtalk.org/
 master_sites        ${homepage}files/
 
-checksums           rmd160  aa211edea6febecb2a69f1b13a20efbcfc3dde6d \
-                    sha256  8cbf6402fdb5c9ef05b291cc9a15303a2b4d04c8c9f0e5baccd43f7c4b142be7 \
-                    size    14715423
+checksums           rmd160  aba3d969ce9829eb538229dc9f0c98604478a939 \
+                    sha256  d08ecaaf4a310b64df2e01fe6f9462d1aba6c39e794c440a192288b431608c3c \
+                    size    17792316
 
 use_bzip2           yes
 
@@ -67,7 +67,7 @@ post-activate {
     ui_msg "* back-end Prolog compilers (which must be properly installed for running"
     ui_msg "* the scripts!):"
     ui_msg "*"
-    ui_msg "* B-Prolog (8.1 or later):           bplgt"
+    ui_msg "* B-Prolog (8.1 or later):           bplgt       (experimental)"
     ui_msg "* Ciao Prolog (1.22.0 or later):     ciaolgt     (experimental; first run may require sudo)"
     ui_msg "* CxProlog (0.98.1 or later):        cxlgt"
     ui_msg "* ECLiPSe (6.1#143 or later):        eclipselgt"

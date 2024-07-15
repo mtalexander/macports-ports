@@ -9,8 +9,8 @@ PortGroup           legacysupport 1.1
 
 boost.version       1.81
 
-github.setup        m-a-d-n-e-s-s madness 4f7d30b0a738621037b96bb5b820029835753667
-version             2023.10.26
+github.setup        m-a-d-n-e-s-s madness ede1667fefffc2e1d6e76a15895820c247531198
+version             2024.06.27
 revision            0
 categories          science math
 license             GPL-2
@@ -20,26 +20,33 @@ long_description    MADNESS provides a high-level environment for the solution \
                     of integral and differential equations in many dimensions \
                     using adaptive, fast methods with guaranteed precision \
                     based on multi-resolution analysis and novel separated representations.
-checksums           rmd160  da4b3d7b08d4e7f6ca8206a435edc91cdb145ecb \
-                    sha256  c1d076c62bb20cc9ada2a795cc59b906386cb3d764f42fa9d30f5e1608774620 \
-                    size    36734117
+checksums           rmd160  1689838da6e097d2bd4df1d1e8f7f10382b0868b \
+                    sha256  3b7bea52d12efb74311a3744a23431a836378d1f0762ef79337418530307c5b0 \
+                    size    36804651
 github.tarball_from archive
 
-set py_ver          3.11
+set py_ver          3.12
 set py_ver_nodot    [string map {. {}} ${py_ver}]
 depends_build-append \
                     port:python${py_ver_nodot}
 configure.python    ${prefix}/bin/python${py_ver}
 
-# For now, using OpenBLAS instead of PG choice, due to this:
-# https://github.com/m-a-d-n-e-s-s/madness/issues/458
-depends_lib-append  path:lib/libopenblas.dylib:OpenBLAS
-require_active_variants \
+# On new systems finding OpenBLAS is broken with this port for some reason recently,
+# so let them use Accelerate. On non-Darwin OSs there is no Accelerate: OpenBLAS is the only option.
+if {(${os.platform} eq "darwin" && ${os.major} < 20) || ${os.platform} ne "darwin"} {
+    # For now, using OpenBLAS instead of PG choice, due to this:
+    # https://github.com/m-a-d-n-e-s-s/madness/issues/458
+    depends_lib-append \
+                    path:lib/libopenblas.dylib:OpenBLAS
+    require_active_variants \
                     path:lib/libopenblas.dylib:OpenBLAS lapack
 
-depends_lib-append  port:gperftools
+    # We need LAPACK_LIBRARIES to be set: https://trac.macports.org/ticket/68721
+    configure.pre_args-append \
+                    -DLAPACK_LIBRARIES=OpenBLAS
+}
 
-patch.pre_args      -p1
+patch.pre_args-replace  -p0 -p1
 # Temporarily avoid building chemistry part:
 # https://github.com/m-a-d-n-e-s-s/madness/issues/459
 patchfiles          0001-CMakeLists-support-ppc.patch \
@@ -62,9 +69,6 @@ compiler.cxx_standard           2017
 compiler.thread_local_storage   yes
 compilers.setup                 require_fortran
 
-configure.pre_args-append \
-                    -DBLA_VENDOR=OpenBLAS
-
 # oneTBB task backend not yet fixed: https://github.com/m-a-d-n-e-s-s/madness/issues/366
 # It is unclear whether MPI works, therefore disabling for now.
 # Please do not enable without testing, and do not enable by default on PPC.
@@ -75,7 +79,7 @@ configure.args-append \
                     -DENABLE_BOOST=ON \
                     -DENABLE_ELEMENTAL=OFF \
                     -DENABLE_GENTENSOR=OFF \
-                    -DENABLE_GPERFTOOLS=ON \
+                    -DENABLE_GPERFTOOLS=OFF \
                     -DENABLE_LIBUNWIND=OFF \
                     -DENABLE_LIBXC=OFF \
                     -DENABLE_MKL=OFF \
@@ -86,7 +90,8 @@ configure.args-append \
                     -DENABLE_SPINLOCKS=ON \
                     -DENABLE_TCMALLOC_MINIMAL=OFF \
                     -DFORTRAN_INTEGER_SIZE=4 \
-                    -DMADNESS_TASK_BACKEND="Pthreads"
+                    -DMADNESS_TASK_BACKEND="Pthreads" \
+                    -DPython3_EXECUTABLE=${configure.python}
 
 legacysupport.newest_darwin_requires_legacy 16
 legacysupport.use_mp_libcxx yes
@@ -116,6 +121,14 @@ if {![option configure.ccache]} {
     configure.env-append   CCACHE_DIR=${workpath}/.ccache
     build.env-append       CCACHE_DIR=${workpath}/.ccache
     destroot.env-append    CCACHE_DIR=${workpath}/.ccache
+}
+
+# Make this a variant due to: https://trac.macports.org/ticket/68775
+variant gperftools description "Build with gperftools support" {
+    depends_lib-append \
+                    port:gperftools
+    configure.args-replace \
+                    -DENABLE_GPERFTOOLS=OFF -DENABLE_GPERFTOOLS=ON
 }
 
 variant tests description "Build and run tests" {

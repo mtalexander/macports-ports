@@ -7,20 +7,26 @@ PortGroup           compiler_blacklist_versions 1.0
 PortGroup           boost 1.0
 PortGroup           active_variants   1.1
 
-github.setup        remotesensinginfo rsgislib 5.0.16
+# Fails to build with gcc and old Boost.
+# Same std::__and_ error as in: https://trac.macports.org/ticket/68014
+boost.version       1.81
+
+github.setup        remotesensinginfo rsgislib 5.1.6
 revision            0
 categories          gis
 license             GPL-3
-maintainers         {vince @Veence}
+maintainers         {vince @Veence} {yahoo.com:n_larsson @nilason} openmaintainer
 description         RSGISlib - Remote Sensing and GIS Library
 long_description    The {*}${description} provides a lot of advanced tools \
                     to perform image analysis and feature detection in \
                     remote sensing and GIS applications.
 homepage            http://www.rsgislib.org
 
-checksums           rmd160  1c81b8af9f2c76633c72100671267f0145a44d2b \
-                    sha256  ede2b987dfeb3c838152ad0400edec9440d4a10d28af6e77ea775c67fd4f30ec \
-                    size    125924395
+github.tarball_from archive
+
+checksums           rmd160  6a948eda0c7f13d2cbf163b4599a122e398a3190 \
+                    sha256  9547c0b00f963dcd9babaf679dc356a36e05c179f82bb55aa1e45268ce2bd1a4 \
+                    size    126188294
 
 depends_lib-append  port:gdal
 depends_lib-append  port:gsl
@@ -82,7 +88,7 @@ if {${name} eq ${subport}} {
 }
 
 # create Python subports
-set python_versions {38 39 310 311}
+set python_versions {38 39 310 311 312}
 foreach v ${python_versions} {
     subport py${v}-${github.project} {
         PortGroup           python 1.0
@@ -108,7 +114,7 @@ foreach v ${python_versions} {
 # Python bindings for supported Python versions
 if {[string match "py*" ${subport}]} {
 
-    description     "Python ${python.branch} bindings for {*}${description}"
+    description     Python ${python.branch} bindings for {*}${description}
     long_description\
                     This package provides Python ${python.branch}\
                     bindings, modules, and scripts.

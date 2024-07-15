@@ -4,16 +4,18 @@ PortSystem          1.0
 PortGroup           R 1.0
 
 # GitHub version lags behind.
-R.setup             cran myles-lewis nestedcv 0.7.0
+R.setup             cran myles-lewis nestedcv 0.7.9
 revision            0
 categories-append   math
+platforms           {darwin any}
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             MIT
 description         Nested cross-validation with R-glmnet and R-caret
 long_description    {*}${description}
-checksums           rmd160  d80def789f620e018f6a511977792f499d866aea \
-                    sha256  5a7f431443204f6d90badee58a8616175a757a4863ce89b0fbd1471b6824ef4a \
-                    size    2448967
+homepage            https://github.com/myles-lewis/nestedcv
+checksums           rmd160  352ec8de8a0a0acc147ea55f5ea85ff2d1fb88c1 \
+                    sha256  2d53a180ac1dce983efc30a9381314d5fd98a0905fde27fd775564738876bd08 \
+                    size    2381141
 supported_archs     noarch
 
 depends_lib-append  port:R-caret \
@@ -22,15 +24,17 @@ depends_lib-append  port:R-caret \
                     port:R-foreach \
                     port:R-ggplot2 \
                     port:R-glmnet \
+                    port:R-magrittr \
                     port:R-matrixStats \
                     port:R-matrixTests \
                     port:R-pROC \
                     port:R-Rfast \
-                    port:R-rlang
+                    port:R-RhpcBLASctl \
+                    port:R-rlang \
+                    port:R-ROCR
 
-patchfiles          patch-no-Boruta.diff
-
-depends_test-append port:R-CORElearn \
+depends_test-append port:R-Boruta \
+                    port:R-CORElearn \
                     port:R-fastshap \
                     port:R-gbm \
                     port:R-ggbeeswarm \
@@ -40,6 +44,7 @@ depends_test-append port:R-CORElearn \
                     port:R-mda \
                     port:R-mlbench \
                     port:R-pbapply \
+                    port:R-pls \
                     port:R-randomForest \
                     port:R-ranger \
                     port:R-RcppEigen \

@@ -3,18 +3,19 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github waldronlab MultiAssayExperiment a04fa9191a6939f5a77f1cccc66ae89242a431af
-version             1.29.0
+R.setup             bioconductor waldronlab MultiAssayExperiment 1.30.2
 revision            0
+categories-append   bioconductor
 maintainers         nomaintainer
 license             Artistic-2
-description         Software for the integration of multi-omics experiments in Bioconductor
-long_description    {*}${description}
+description         Software for the integration of multi-omics experiments
+long_description    {*}${description} in Bioconductor.
 homepage            https://waldronlab.io/MultiAssayExperiment
-checksums           rmd160  a7027d102fad926bb74c16c7a33adf035f43d138 \
-                    sha256  4cb01076ed5fcfb243132d20195dd8394cd485deb3f81c7bd5d61720da27e83d \
-                    size    373682
+checksums           rmd160  9a41930940356342a3d499e49e8ac84cac73c0af \
+                    sha256  5ffa2a920e8d3f247d1b2d2523c482c6ad5edb554e32e2b404ae8b4f01c5e4c8 \
+                    size    1181694
 supported_archs     noarch
+platforms           {darwin any}
 
 depends_lib-append  port:R-Biobase \
                     port:R-BiocBaseUtils \
@@ -26,8 +27,7 @@ depends_lib-append  port:R-Biobase \
                     port:R-SummarizedExperiment \
                     port:R-tidyr
 
-patchfiles          patch-no-maftools.diff
-
+# Some optional deps are omitted.
 depends_test-append port:R-BiocStyle \
                     port:R-HDF5Array \
                     port:R-knitr \

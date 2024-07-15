@@ -5,11 +5,11 @@ PortGroup           compiler_blacklist_versions 1.0
 
 name                freetds
 epoch               1
-version             1.4.5
+version             1.4.17
 revision            0
-checksums           rmd160  ae176b9f2fc6dca46de73862de0b417ffee66aba \
-                    sha256  16c411772bea227b4dd99aa513ff87fc09ee23a2ff8ec7851e5b3ad73227bc2f \
-                    size    2394540
+checksums           rmd160  e15129691503b94f6ab9d3ee4e7ca16537732acc \
+                    sha256  3f70a8455eb3a2902d4039ad91b934a348ca1eee23a4a92a3de0824905a7d1a2 \
+                    size    2401147
 
 categories          databases
 maintainers         {ryandesign @ryandesign} openmaintainer
@@ -62,6 +62,12 @@ configure.args      --disable-odbc \
                     ac_cv_prog_DOXYGEN=
 
 use_parallel_build  yes
+
+# The test suite cannot be run without a configured database.
+# https://github.com/FreeTDS/freetds/issues/542
+# https://www.freetds.org/userguide/ConfirmInstall.html#Tests
+test.run            no
+test.target         check
 
 post-destroot {
     # rename the freetds conf files so we don't clobber any existing ones

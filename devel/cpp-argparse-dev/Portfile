@@ -5,19 +5,22 @@ PortSystem              1.0
 PortGroup               github 1.0
 PortGroup               cmake 1.1
 
-github.setup            rue-ryuzaki argparse 1.8.2 v
+github.setup            rue-ryuzaki argparse 1.9.2 v
 github.tarball_from     archive
 revision                0
 name                    cpp-argparse-dev
 categories              devel
 license                 MIT
-maintainers             {gmail.com:golubchikov.mihail @rue-ryuzaki}
+platforms               any
+supported_archs         noarch
+maintainers             {gmail.com:golubchikov.mihail @rue-ryuzaki} \
+                        openmaintainer
 description             C++ argument parser.
 long_description        Python-like header-only argument parser for C++ projects.
 
-checksums               rmd160  e5ed2470d7b67592fe4532a74b39f8754f6cf826 \
-                        sha256  cd35430da871f467ad550eb28ae7abec3f1869d871132fffd5443cb4dd9e3559 \
-                        size    431438
+checksums               rmd160  85c2f04711e5fec2776f99096abda8318fff13e4 \
+                        sha256  3afdc4f83be5c26258fe86b74605528c8f253131e165c2727f695086999a1f00 \
+                        size    436918
 
 compiler.cxx_standard   2011
 

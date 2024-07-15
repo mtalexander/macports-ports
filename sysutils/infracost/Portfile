@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/infracost/infracost 0.10.29 v
+go.setup            github.com/infracost/infracost 0.10.37 v
 github.tarball_from archive
 revision            0
 
@@ -22,9 +22,9 @@ license             Apache-2
 maintainers         {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
-checksums           rmd160  8aecffa5087d1915b59fe27727f843fe6a1ea166 \
-                    sha256  d74e32dd75b132d27d3d42ce345caf020c6a6e7e061c72f479d52307bd21d691 \
-                    size    1551227
+checksums           rmd160  69e7d4aee8d7324df5182fff31b785a4150401da \
+                    sha256  1e96a2e37548e13206acc4532e52ce0eafd9aec2f8635814706199d22778dd99 \
+                    size    1730336
 
 # Allow Go to fetch deps at build time
 go.offline_build no

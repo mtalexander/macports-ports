@@ -3,9 +3,8 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             github r-lib ps 357f9c01f5db95b67ce9e230282391bc835afca4
-version             1.7.5.9000
-revision            1
+R.setup             github r-lib ps 1.7.7 v
+revision            0
 categories-append   sysutils
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             MIT
@@ -13,14 +12,10 @@ description         R package to query, list and manipulate system processes
 long_description    ps implements an API to query and manipulate system processes. \
                     Most of its code is based on the psutil Python package.
 homepage            https://ps.r-lib.org
-checksums           rmd160  63f8cfe40f15e94a232ddcc0b3f841bce3388d63 \
-                    sha256  0475be42b8f727ef93c73e8fc2a589d8b0f138278e179a26405cc8dbe2bb0a5c \
-                    size    131854
-
-# Something went wrong with macports_distfiles here: https://trac.macports.org/ticket/68293
-# Switch to commit-based GitHub version for now.
-# Drop dist_subdir with the next version update.
-dist_subdir         ${name}/${version}_1
+checksums           rmd160  b573682b7770099aa335c6deaba65f133cd1bd6e \
+                    sha256  acbc68887f0db137bdec29badb3fcc2a4c8a183141dc007e70f522813d82aa88 \
+                    size    133007
+github.tarball_from archive
 
 configure.env-append \
                     RBIN=${r.cmd}

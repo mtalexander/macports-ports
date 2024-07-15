@@ -3,8 +3,8 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-# GitHub version lags behind.
-R.setup             cran USDAForestService gdalraster 1.6.0
+# Revert to GitHub once updated there.
+R.setup             cran USDAForestService gdalraster 1.11.1 v
 revision            0
 categories-append   gis
 maintainers         nomaintainer
@@ -12,23 +12,30 @@ license             MIT
 description         Bindings to the Geospatial Data Abstraction Library Raster API
 long_description    {*}${description}
 homepage            https://usdaforestservice.github.io/gdalraster
-checksums           rmd160  e09e46cef78ed295000bfe662e71251c43062d34 \
-                    sha256  e8f64442f50e1c77ead2ba4e2e4f7fdb100d90dbcc22a9ba9219d2f3f99869a5 \
-                    size    1532553
+checksums           rmd160  806238d3bf20cfd6babc9b5c3a62d4f0fb12e8ff \
+                    sha256  37ec1c17741d128683a5ee573c67efff7e1faeaacb15b142228e605f5a44c26d \
+                    size    1898531
+# github.tarball_from archive
 
-depends_lib-append  path:lib/proj5/lib/pkgconfig/proj.pc:proj \
-                    port:gdal \
+set proj_v          proj9
+
+depends_build-append \
+                    port:pkgconfig
+depends_lib-append  port:gdal \
+                    port:libxml2 \
+                    path:lib/${proj_v}/lib/pkgconfig/proj.pc:${proj_v} \
+                    port:R-bit64 \
                     port:R-Rcpp \
+                    port:R-RcppInt64 \
                     port:R-xml2 \
                     port:sqlite3
 
-destroot.pre_args-append \
-                    --configure-args=' \
-                        --with-proj-include=${prefix}/lib/proj5/include \
-                        --with-proj-lib=${prefix}/lib/proj5/lib \
-                        --with-proj-share=${prefix}/lib/proj5/share/proj \
-                        --with-proj-api=yes \
-                        '
+# https://github.com/USDAForestService/gdalraster/issues/259
+build.env-append    CPPFLAGS=-I${prefix}/lib/${proj_v}/include
+
+build.args-append   --configure-args="--with-proj-include=${prefix}/lib/${proj_v}/include \
+                        --with-proj-lib=${prefix}/lib/${proj_v}/lib \
+                        --with-proj-data=${prefix}/lib/${proj_v}/share/proj"
 
 depends_test-append port:R-gt \
                     port:R-knitr \

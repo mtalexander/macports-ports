@@ -15,7 +15,7 @@ universal_variant no
 # https://www.oracle.com/java/technologies/downloads/#graalvmjava21-mac
 supported_archs  x86_64 arm64
 
-version     21.0.1
+version     21.0.3
 revision    0
 
 master_sites https://download.oracle.com/graalvm/21/archive/
@@ -33,17 +33,17 @@ long_description Oracle GraalVM for JDK 21 compiles your Java applications ahead
 
 if {${configure.build_arch} eq "x86_64"} {
     distname     graalvm-jdk-${version}_macos-x64_bin
-    checksums    rmd160  e2ecd742af1fac4d0811a96b4fbd6fb078613415 \
-                 sha256  0647d57ec98d7aa19d2801b3ec58697d7eb44a408df511bd49d39f0150a08f87 \
-                 size    316619362
+    checksums    rmd160  3fc32a68c1aed57d2898f09b2df22dff3061f715 \
+                 sha256  6d29cacd2e3b46ee33d573757f1098fec5b487a89a98f68a5315d45a4f89a1bb \
+                 size    313490466
 } elseif {${configure.build_arch} eq "arm64"} {
     distname     graalvm-jdk-${version}_macos-aarch64_bin
-    checksums    rmd160  7e8696ef1a8d8d5e89da7ed8b35195ee8b56df50 \
-                 sha256  4b5ddffad649b3e64853ba230b6e8f7acd65322bb8f11852e0521ab1bb4d8b03 \
-                 size    329260794
+    checksums    rmd160  11bae340ae9c1478561e200732edb18c8c1e6c63 \
+                 sha256  501b3163e663f154bd816fa889810f94004530e6fcef62e6e87554247d0952c0 \
+                 size    326113782
 }
 
-worksrcdir   graalvm-jdk-${version}+12.1
+worksrcdir   graalvm-jdk-${version}+7.1
 
 variant Applets \
     description { Advertise the JVM capability "Applets".} {}

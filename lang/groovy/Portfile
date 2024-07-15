@@ -4,7 +4,7 @@ PortSystem      1.0
 PortGroup       java 1.0
 
 name            groovy
-version         4.0.15
+version         4.0.22
 revision        0
 
 categories      lang java
@@ -41,16 +41,16 @@ master_sites    https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zi
 distname        apache-${name}-binary-${version}
 use_zip         yes
 
-checksums       rmd160  efe927010c6fe07db8956a01d30c19a16ff0c290 \
-                sha256  31d96c1e1cf75c7e8173cdcef9bed1e3edd4e87e6400400584220e0bb42892e5 \
-                size    29698122
+checksums       rmd160  3d0a5466a09f1116195c5a35ea791c5682136dbd \
+                sha256  d91a3ddfe353871d4c2656d3d0a05c828bc3ff36e9d49dbdbec13dcd98f05877 \
+                size    29863966
 
 worksrcdir      ${name}-${version}
 
 use_configure   no
 
 java.version    1.8+
-java.fallback   openjdk17
+java.fallback   openjdk21
 
 build {}
 

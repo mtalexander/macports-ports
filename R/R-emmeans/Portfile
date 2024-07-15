@@ -3,16 +3,18 @@
 PortSystem          1.0
 PortGroup           R 1.0
 
-R.setup             cran rvlenth emmeans 1.8.9
+R.setup             cran rvlenth emmeans 1.10.3
 revision            0
 categories-append   math
+platforms           {darwin any}
 maintainers         {@barracuda156 gmail.com:vital.had} openmaintainer
 license             {GPL-2 GPL-3}
 description         Estimated marginal means, aka least-squares means
 long_description    {*}${description}
-checksums           rmd160  699cf82432f2293a4c3d665d60b10607398d9d0d \
-                    sha256  8a0cf0a1fd1d69fe7642644181b943bcf38db6cb1cbbb8b2282e7a1b11d2ffc6 \
-                    size    1485477
+homepage            https://github.com/rvlenth/emmeans
+checksums           rmd160  fae1f9c6094bda05591d08881af1955cedbc5230 \
+                    sha256  7b2a307d9588425882f8530a0e2b5ddfaf2105757e26428b73999ab126688205 \
+                    size    1518766
 supported_archs     noarch
 
 depends_lib-append  port:R-estimability \

@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           golang 1.0
 
-go.setup            github.com/walles/moar 1.18.2 v
+go.setup            github.com/walles/moar 1.24.6 v
 go.offline_build    no
 github.tarball_from archive
 revision            0
@@ -18,9 +18,9 @@ long_description    Moar should work as a drop-in replacement for Less. \
                     support, incremental search and automatic decompression, \
                     among others.
 
-checksums           rmd160  6def480c476b26c34b50a4cde8b15c40760e6021 \
-                    sha256  eb1d63f9fc5ddcc493bf03622572499ecdcac9f9da81b5be2e9ab3740310de9b \
-                    size    2784141
+checksums           rmd160  e7c00f72d2c884dc935bc3d7f8895b7e4f3f6479 \
+                    sha256  d3debd13771a5f9417ee5fa8ba0a8c110d249e8fa615b53ea2b0c4cdacf33f6c \
+                    size    2806800
 
 categories          textproc
 installs_libs       no
@@ -29,10 +29,28 @@ maintainers         {gmail.com:j.lopez.r @jlopezr} \
                     {gmail.com:herby.gillot @herbygillot} \
                     openmaintainer
 
+set install_name ${name}
+
+variant pager description {Install as moar-pager} {
+    set install_name ${name}-pager
+
+    conflicts-delete MoarVM
+    patchfiles       patch-moar-1.diff
+}
+
+build.pre_args-append \
+    -ldflags \"-X main.versionString=${version}\"
+
 destroot {
-    xinstall -m 0755 ${worksrcpath}/${name} ${destroot}${prefix}/bin/
+    xinstall -m 0755 ${worksrcpath}/${name} \
+        ${destroot}${prefix}/bin/${install_name}
 
     xinstall -d ${destroot}${prefix}/share/man/man1
     xinstall -m 0644 \
-        ${worksrcpath}/${name}.1 ${destroot}${prefix}/share/man/man1/
+        ${worksrcpath}/${name}.1 \
+        ${destroot}${prefix}/share/man/man1/${install_name}.1
+}
+
+notes {
+    The pager variant is compatible with MoarVM for raku and nqp development.
 }
